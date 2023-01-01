@@ -6,8 +6,9 @@
   @vite('resources/css/app.css')
 </head>
 <body>
-  <h1 class="text-3xl font-bold underline bg-pink-400">
+  <h1 class="bg-pink-200 font-bold underline">
     Hello world!
   </h1>
+  <x-navbar/>
 </body>
 </html>
