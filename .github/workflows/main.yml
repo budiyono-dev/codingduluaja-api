@@ -17,4 +17,4 @@ jobs:
         server: ${{ secrets.FTP_SERVER_CDA }}
         username: ${{ secrets.FTP_USERNAME_CDA }}
         password: ${{ secrets.FTP_PASSWORD_CDA }}
-        dry-run: true
+        dry-run: false
