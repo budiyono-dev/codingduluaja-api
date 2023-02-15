@@ -18,3 +18,4 @@ jobs:
         username: ${{ secrets.FTP_USERNAME_CDA }}
         password: ${{ secrets.FTP_PASSWORD_CDA }}
         dry-run: false
+        local-dir: ./
