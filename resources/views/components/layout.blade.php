@@ -10,5 +10,6 @@
   </head>
   <body>
     {{ $slot }}
+    <script type="text/javascript" src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
   </body>
 </html>
