@@ -13,7 +13,20 @@ class SideBar extends Component
      */
     public function __construct()
     {
-        //
+        $menu = array(
+            'Menu Pertama' => [
+                'Sub Menu Pertama',
+                'Sub Menu Kedua',
+                'Sub Menu Ketiga'
+
+            ],
+            'Menu Kedua' => [
+                'Sub Menu Pertama',
+                'Sub Menu Kedua',
+                'Sub Menu Ketiga'
+
+            ], 
+        );
     }
 
     /**
