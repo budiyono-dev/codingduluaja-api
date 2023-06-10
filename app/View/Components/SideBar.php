@@ -8,22 +8,27 @@ use Illuminate\View\Component;
 
 class SideBar extends Component
 {
-    /**
-     * Create a new component instance.
-     */
+    public array $menu;
+
     public function __construct()
     {
-        $menu = array(
-            'Menu Pertama' => [
-                'Sub Menu Pertama',
-                'Sub Menu Kedua',
-                'Sub Menu Ketiga'
+        $this->menu = array(
+             [ 
+                'menuName' => 'Menu Pertama',
+                'subMenu' => [
+                    'Sub Menu Pertama',
+                    'Sub Menu Kedua',
+                    'Sub Menu Ketiga'
+                ]
 
             ],
-            'Menu Kedua' => [
-                'Sub Menu Pertama',
-                'Sub Menu Kedua',
-                'Sub Menu Ketiga'
+            [ 
+                'menuName' => 'Menu Kedua',
+                'subMenu' => [
+                    'Sub Menu Pertama',
+                    'Sub Menu Kedua',
+                    'Sub Menu Ketiga'
+                ]
 
             ], 
         );

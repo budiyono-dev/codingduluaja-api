@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <style>
     </style>
+    @stack('styles')
 </head>
 
 <body>
