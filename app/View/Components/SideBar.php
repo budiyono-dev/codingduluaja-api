@@ -5,9 +5,12 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use App\Traits\Component\ToCamel;
 
 class SideBar extends Component
 {
+    use ToCamel;
+
     public array $menu;
 
     public function __construct()
@@ -40,5 +43,10 @@ class SideBar extends Component
     public function render(): View|Closure|string
     {
         return view('components.side-bar');
+    }
+
+    public function hello(): string
+    {
+        return 'hello';
     }
 }

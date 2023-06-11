@@ -2,11 +2,13 @@
   <ul class="list-unstyled ps-0">
     @foreach ($menu as $m)
       <x-side-bar.menu-group>
-        <x-menu-item target="#orders-collapse2">
+        <x-side-bar.menu-item target="{{ '#'.$toCamel($m['menuName']) }}">
           {{ $m['menuName'] }}
-        </x-menu-item>
-        <x-side-bar.sub-menu-group id="orders-collapse2">
-          <x-side-bar.sub-menu-item :items="$m['subMenu']"/>
+        </x-side-bar.menu-item>
+        <x-side-bar.sub-menu-group id="{{ $toCamel($m['menuName']) }}">
+            @foreach($m['subMenu'] as $i => $item)
+              <x-side-bar.sub-menu-item> {{ ($i+1).'. '.$item }} </x-side-bar.sub-menu-item>
+            @endforeach
         </x-side-bar.sub-menu-group>
       </x-side-bar.menu-group>
     @endforeach
