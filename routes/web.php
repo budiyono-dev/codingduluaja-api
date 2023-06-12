@@ -17,3 +17,5 @@ Route::get('/navbar', function () {
 Route::get('/get-data', function () {
     return 'ini data yang di return';
 });
+
+Route::view('/login', 'page.login');
