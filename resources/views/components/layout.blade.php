@@ -18,6 +18,7 @@
     {{ $slot }}
     <script type="text/javascript" src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     @stack('script')
+    @stack('addEventListener')
 </body>
 
 </html>
