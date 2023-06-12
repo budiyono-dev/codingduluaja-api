@@ -1,5 +1,5 @@
 <li>
   <a href="#" class="link-dark rounded">
-    {{ $slot }}
+    {{ $subMenuName }}
   </a>
 </li>

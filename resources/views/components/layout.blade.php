@@ -7,6 +7,9 @@
     <title>Bootstrap demo</title>
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <style>
+        /*html,body {
+          height: 100%;
+        }*/
     </style>
     @stack('styles')
 </head>
@@ -14,6 +17,7 @@
 <body>
     {{ $slot }}
     <script type="text/javascript" src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    @stack('script')
 </body>
 
 </html>
