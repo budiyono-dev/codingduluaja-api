@@ -64,18 +64,22 @@
 @endpush
 
 <div class="flex-shrink-0 p-3 bg-white left-sidebar" style="//width: 280px;" id="sidebar">
-    <ul class="list-unstyled ps-0">
-        @foreach ($menu as $m)
-            <x-sidebar.menu-group>
-                <x-sidebar.menu-item target="{{ '#' . $toCamel($m['menuName']) }}" menuName="{{ $m['menuName'] }}" />
-                <x-sidebar.sub-menu-group id="{{ $toCamel($m['menuName']) }}">
-                    @foreach ($m['subMenu'] as $i => $item)
-                        <x-sidebar.sub-menu-item subMenuName="{{ ($i+1).'. '.$item }}" />
-                    @endforeach
-                </x-sidebar.sub-menu-group>
-            </x-sidebar.menu-group>
-        @endforeach
-    </ul>
+  <div class="border-bottom text-center pb-2 mx-auto">
+    <!-- <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg> -->
+    <span class="fs-5 fw-semibold">Codingduluaja</span>
+  </div>
+  <ul class="list-unstyled ps-0">
+      @foreach ($menu as $m)
+          <x-sidebar.menu-group>
+              <x-sidebar.menu-item target="{{ '#' . $toCamel($m['menuName']) }}" menuName="{{ $m['menuName'] }}" />
+              <x-sidebar.sub-menu-group id="{{ $toCamel($m['menuName']) }}">
+                  @foreach ($m['subMenu'] as $i => $item)
+                      <x-sidebar.sub-menu-item subMenuName="{{ ($i+1).'. '.$item }}" />
+                  @endforeach
+              </x-sidebar.sub-menu-group>
+          </x-sidebar.menu-group>
+      @endforeach
+  </ul>
 </div>
 
 @push('script')
