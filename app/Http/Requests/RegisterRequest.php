@@ -18,8 +18,15 @@ class RegisterRequest extends FormRequest
             'first_name' => 'required|min:3|max:50',
             'last_name' => 'nullable',
             'email' => 'required|email|uniqie:users,email|max:50'
+            'sex' =>  'nullable|in:male,female',
+            'password' => 'required|min:8'
 
-            //
+        ];
+    }
+
+    public function message(): string
+    {
+        return [
         ];
     }
 }
