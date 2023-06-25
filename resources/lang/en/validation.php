@@ -1,6 +1,8 @@
 <?php
 
 return [
-	'required' => ':field is required',
+	'required' => ':attribute is required',
+    'min' => ':attribute cannot be less than :min characters',
+    'max' => ':attribute cannot be more than :max characters',
 	
 ];

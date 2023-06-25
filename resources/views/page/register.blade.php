@@ -4,6 +4,12 @@
     <div class="row justify-content-center mt-2">
       <div class="col-lg-6">
         <h2 class="text-center mb-4">Registration</h2>
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                {{ $error }} <br/>
+            @endforeach
+        @endif
+            {{ __('validation.required', ['field' => 'first name', 's' => 'skdjbfksjd']) }}
         <form method="POST" action="/register">
           @csrf
           <div class="mb-3">
