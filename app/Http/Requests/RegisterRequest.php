@@ -16,15 +16,16 @@ class RegisterRequest extends FormRequest
     {
         return [
             'first_name' => 'required|min:3|max:50',
-            'last_name' => 'nullable',
-            'email' => 'required|email|uniqie:users,email|max:50',
-            'sex' =>  'nullable|in:male,female',
+            'last_name' => 'nullable|min:3|max:50',
+            'email' => 'required|email|unique:users,email|max:50',
+            'sex' => 'nullable|in:male,female',
             'password' => 'required|min:8'
 
         ];
     }
 
-    public function attributes(){
+    public function attributes(): array
+    {
         return [
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
@@ -32,7 +33,6 @@ class RegisterRequest extends FormRequest
             'password' => 'Password',
         ];
     }
-    
 
 
     public function messages(): array
@@ -41,7 +41,16 @@ class RegisterRequest extends FormRequest
             'first_name.required' => __('validation.required'),
             'first_name.min' => __('validation.min'),
             'first_name.max' => __('validation.max'),
-            
+            'last_name.min' => __('validation.min'),
+            'last_name.max' => __('validation.max'),
+            'email.required' => __('validation.required'),
+            'email.email' => __('validation.email'),
+            'email.unique' => __('validation.unique'),
+            'email.max' => __('validation.max'),
+            'sex.in' => __('validation.in'),
+            'password.required' => __('validation.required'),
+            'password.min' => __('validation.min')
+
         ];
     }
 }
