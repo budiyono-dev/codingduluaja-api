@@ -27,6 +27,16 @@
                                    placeholder="Enter your email">
                         </div>
                         <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                   placeholder="Enter your Password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                                   placeholder="Re-type your Password">
+                        </div>
+                        <div class="mb-3">
                             <label for="sex" class="form-label">Sex</label>
                             <select class="form-select" id="sex" name="sex">
                                 <option value="">Select sex</option>
@@ -35,17 +45,13 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="photo" class="form-label">Photo</label>
-                            <input type="file" class="form-control" id="photo" name="photo">
-                        </div>
-                        <div class="mb-3">
                             <label for="phone" class="form-label">Phone</label>
                             <div class="input-group">
                                 <input type="tel" class="form-control" id="phone" name="phone"
                                        placeholder="Enter your phone number">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
                 </div>
             </div>
