@@ -6,6 +6,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Log;
+use App\Models\Models\User;
 
 class AuthController extends BaseController
 {
@@ -13,7 +15,11 @@ class AuthController extends BaseController
 
     public function register(RegisterRequest $req) : View 
     {
-        dd($req->all());
+        log.info('registering user');
+        $user = new User;
+        $user->
+
+
 
     } 
 }
