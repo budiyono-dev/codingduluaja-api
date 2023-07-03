@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
+use App\Models\Models\User;
 
 class AuthController extends BaseController
 {
@@ -16,6 +18,9 @@ class AuthController extends BaseController
     public function register(RegisterRequest $req): View
     {
         DB::transaction(function () use ($req) {
+            Log::info('registering user');
+            $user = new User;
+//            $user
             dd($req->all());
 
         });
