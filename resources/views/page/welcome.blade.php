@@ -1,9 +1,10 @@
-<x-layout.main title="Home">
-  <x-side-bar />
+<x-layout.main-sidebar title="Home">
+    <x-side-bar />
+
   <div id="main" class="main-content">
     <div class="row">
       <div class="col text-center border border-dark">
-        <x-nav-bar />         
+        <x-nav-bar />
       </div>
     </div>
     <div class="row">
@@ -14,7 +15,7 @@
   </div>
 
 @push('styles')
-  <style type="text/css">
+  <style>
     .main-content {
       /* margin-left: 250px; */
       transition: all 0.3s ease-out;
@@ -23,9 +24,9 @@
     .toggle-main-content {
       margin-left: 250px
     }
-  </style>  
+  </style>
 @endpush
 
-</x-layout.main>
+</x-layout.main-sidebar>
 
 

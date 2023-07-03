@@ -1,5 +1,5 @@
 @push('styles')
-    <style type="text/css">
+    <style>
         .left-sidebar {
             background: #fff;
             width: 235px;
