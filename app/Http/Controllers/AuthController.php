@@ -20,7 +20,7 @@ class AuthController extends BaseController
     {
         DB::transaction(function () use ($req) {
             $userReq = $req->validated();
-            Log::info('registering user');
+            Log::info('registering user :' . $userReq['email']);
             User::create([
                 'username' => Str::uuid()->toString(),
                 'first_name' => $userReq['first_name'],
@@ -30,7 +30,12 @@ class AuthController extends BaseController
                 'password' => bcrypt($userReq['password'])
             ]);
         });
-        return view('page.welcome');
+        return view('page.login');
+    }
+
+    public function doLogin()
+    {
+
     }
     /**
      *             $table->string('username')->unique();
