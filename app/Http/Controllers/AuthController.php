@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -33,8 +34,10 @@ class AuthController extends BaseController
         return view('page.login');
     }
 
-    public function doLogin()
+    public function doLogin(LoginRequest $req)
     {
+        $validated = $req->validated();
+        dd($validated);
 
     }
     /**

@@ -22,4 +22,4 @@ Route::get('/get-data', function () {
 Route::view('/login', 'page.login');
 Route::view('/register', 'page.register');
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'doLogin']);
+Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
