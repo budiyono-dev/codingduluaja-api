@@ -40,6 +40,20 @@ class AuthController extends BaseController
         dd($validated);
 
     }
+
+    public function checkUsername(string $username): string
+    {
+        if (blank($username)) {
+            return response()->json('username not found', 404);
+        }
+
+        $count = User::where('username', $username)->count();
+        if ($count > 0) {
+            return response()->json('username already exist',200);
+        }
+
+        return response()->json('username not found', 404);
+    }
     /**
      *             $table->string('username')->unique();
      * $table->string('first_name', 50);

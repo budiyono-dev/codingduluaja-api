@@ -23,3 +23,4 @@ Route::view('/login', 'page.login');
 Route::view('/register', 'page.register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
+Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');

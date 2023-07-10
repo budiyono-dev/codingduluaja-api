@@ -22,6 +22,14 @@
                                    placeholder="Enter your last name">
                         </div>
                         <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="username" name="username"
+                                   placeholder="Enter your username">
+                                <span class="input-group-text" id="btnCheckUserName">check</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="email" name="email"
                                    placeholder="Enter your email">
@@ -57,4 +65,12 @@
             </div>
         </div>
     </div>
+<script>
+const checkUsername = () => {
+    let url = {!! json_encode(route('checkUsername')) !!} + '/' + document.getElementById('username').value;
+    console.log('checkusername', url);
+}
+document.getElementById('btnCheckUserName').addEventListener('click', checkUsername);
+
+</script>
 </x-layout.main>
