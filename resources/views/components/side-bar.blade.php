@@ -82,7 +82,7 @@
   </ul>
 </div>
 
-@push('script')
+
     <script type="text/javascript">
         const toggleSidebar = () => {
             console.log('toggle')

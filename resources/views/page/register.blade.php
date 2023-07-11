@@ -23,9 +23,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
+                            <div class="spinner-grow spinner-grow-sm text-primary d-none" role="status" id="loading-check-username">
+{{--                                <span class="sr-only">Loading...</span>--}}
+                            </div>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="username" name="username"
-                                   placeholder="Enter your username">
+                                       placeholder="Enter your username">
                                 <span class="input-group-text" id="btnCheckUserName">check</span>
                             </div>
                         </div>
@@ -41,7 +44,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Password Confirmation</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                            <input type="password" class="form-control" id="password_confirmation"
+                                   name="password_confirmation"
                                    placeholder="Re-type your Password">
                         </div>
                         <div class="mb-3">
@@ -59,18 +63,57 @@
                                        placeholder="Enter your phone number">
                             </div>
                         </div>
-                            <button type="submit" class="btn btn-primary w-100">Register</button>
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-<script>
-const checkUsername = () => {
-    let url = {!! json_encode(route('checkUsername')) !!} + '/' + document.getElementById('username').value;
-    console.log('checkusername', url);
-}
-document.getElementById('btnCheckUserName').addEventListener('click', checkUsername);
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" id="myToast">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+{{--                <img src="..." class="rounded me-2" alt="...">--}}
+                <strong class="me-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
+    </div>
+    @push('script')
+    <script>
+        const checkUsername = () => {
+            {{--    let url = {!! json_encode(route('checkUsername')) !!} + '/' + document.getElementById('username').value;--}}
+            console.log('checkusername', "url");
+        }
+        let typingTimer;
+        const checkUsernameOnKeyup = () => {
+            clearTimeout(typingTimer);
+                    let loading = document.getElementById("loading-check-username");
+                    loading.classList.toggle("d-none");
+            typingTimer = setTimeout(
+                () => {
+                    let url = {!! json_encode(route('checkUsername', ['username'=>':username'], false)) !!};
+                    let url2 = {!! json_encode(route('checkUsername', ['username'=>':username'])) !!};
+                    console.log('checkusername', url);
+                    console.log('checkusername', url2);
+                    console.log(url2.replace(':username', document.getElementById('username').value))
+                    loading.classList.toggle("d-none");
 
-</script>
+                }, 3000);
+        }
+        document.getElementById('btnCheckUserName').addEventListener('click', checkUsername);
+        document.getElementById('email').addEventListener('keyup', checkUsernameOnKeyup);
+        let myToastEl = document.getElementById('myToast')
+        console.log(myToastEl)
+        console.log(bootstrap)
+            let myToast = bootstrap.Toast.getOrCreateInstance(myToastEl) // R
+        console.log(myToast)
+        myToast.show()
+
+
+    </script>
+        @endpush
 </x-layout.main>
