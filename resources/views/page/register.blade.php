@@ -69,18 +69,17 @@
             </div>
         </div>
     </div>
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" id="myToast">
-        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-{{--                <img src="..." class="rounded me-2" alt="...">--}}
-                <strong class="me-auto">Bootstrap</strong>
-                <small>11 mins ago</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                Hello, world! This is a toast message.
-            </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Bootstrap</strong>
+          <small>11 mins ago</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
+        <div class="toast-body">
+          Hello, world! This is a toast message.
+        </div>
+      </div>
     </div>
     @push('script')
     <script>
@@ -106,14 +105,15 @@
         }
         document.getElementById('btnCheckUserName').addEventListener('click', checkUsername);
         document.getElementById('email').addEventListener('keyup', checkUsernameOnKeyup);
-        let myToastEl = document.getElementById('myToast')
-        console.log(myToastEl)
-        console.log(bootstrap)
-            let myToast = bootstrap.Toast.getOrCreateInstance(myToastEl) // R
-        console.log(myToast)
-        myToast.show()
 
+        const toastElList = document.querySelectorAll('.toast')
+        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
+        console.log(toastList);
 
+        const toastLiveExample = document.getElementById('liveToast')
+
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+            toastBootstrap.show()
     </script>
-        @endpush
+    @endpush
 </x-layout.main>
