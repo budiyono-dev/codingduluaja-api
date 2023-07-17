@@ -24,7 +24,6 @@
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <div class="spinner-grow spinner-grow-sm text-primary d-none" role="status" id="loading-check-username">
-{{--                                <span class="sr-only">Loading...</span>--}}
                             </div>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="username" name="username"
@@ -69,18 +68,6 @@
             </div>
         </div>
     </div>
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <strong class="me-auto">Bootstrap</strong>
-          <small>11 mins ago</small>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-          Hello, world! This is a toast message.
-        </div>
-      </div>
-    </div>
     @push('script')
     <script>
         const checkUsername = () => {
@@ -101,19 +88,20 @@
                     console.log(url2.replace(':username', document.getElementById('username').value))
                     loading.classList.toggle("d-none");
 
+                    showToast('mytoast');
                 }, 3000);
         }
         document.getElementById('btnCheckUserName').addEventListener('click', checkUsername);
         document.getElementById('email').addEventListener('keyup', checkUsernameOnKeyup);
 
-        const toastElList = document.querySelectorAll('.toast')
-        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
-        console.log(toastList);
+//        const toastElList = document.querySelectorAll('.toast')
+//        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
+//        console.log(toastList);
 
-        const toastLiveExample = document.getElementById('liveToast')
+//        const toastLiveExample = document.getElementById('liveToast')
 
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-            toastBootstrap.show()
+//        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+//            toastBootstrap.show()
     </script>
     @endpush
 </x-layout.main>
