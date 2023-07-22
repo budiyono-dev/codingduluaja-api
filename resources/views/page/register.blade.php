@@ -25,11 +25,8 @@
                             <label for="username" class="form-label">Username</label>
                             <div class="spinner-grow spinner-grow-sm text-primary d-none" role="status" id="loading-check-username">
                             </div>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="username" name="username"
+                            <input type="text" class="form-control" id="username" name="username"
                                        placeholder="Enter your username">
-                                <span class="input-group-text" id="btnCheckUserName">check</span>
-                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
@@ -70,38 +67,44 @@
     </div>
     @push('script')
     <script>
+        const txtUsername = document.getElementById('username');
         const checkUsername = () => {
             {{--    let url = {!! json_encode(route('checkUsername')) !!} + '/' + document.getElementById('username').value;--}}
             console.log('checkusername', "url");
         }
         let typingTimer;
         const checkUsernameOnKeyup = () => {
+            if (txtUsername.value.length < 3) {
+                return;
+            }
+            
             clearTimeout(typingTimer);
-                    let loading = document.getElementById("loading-check-username");
-                    loading.classList.toggle("d-none");
+            
+            let loading = document.getElementById("loading-check-username");
+            loading.classList.remove("d-none");
+            
             typingTimer = setTimeout(
                 () => {
-                    let url = {!! json_encode(route('checkUsername', ['username'=>':username'], false)) !!};
-                    let url2 = {!! json_encode(route('checkUsername', ['username'=>':username'])) !!};
-                    console.log('checkusername', url);
-                    console.log('checkusername', url2);
-                    console.log(url2.replace(':username', document.getElementById('username').value))
-                    loading.classList.toggle("d-none");
-
-                    showToast('mytoast');
+                    let url = {!! json_encode(route('checkUsername', ['username'=>':username'])) !!};
+                    url = url.replace(':username', txtUsername.value);
+                    fetch(url)
+                        .then(res => {
+                            console.log(res.status);
+                            if (res.status === 200) {
+                                showSimpleToast('username is not available')
+                            }
+                        })
+                        .catch(() => showSimpleToast('opps something wrong...', 'info'))
+                        .finally(() => loading.classList.add("d-none"));
                 }, 3000);
         }
-        document.getElementById('btnCheckUserName').addEventListener('click', checkUsername);
-        document.getElementById('email').addEventListener('keyup', checkUsernameOnKeyup);
 
-//        const toastElList = document.querySelectorAll('.toast')
-//        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
-//        console.log(toastList);
-
-//        const toastLiveExample = document.getElementById('liveToast')
-
-//        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-//            toastBootstrap.show()
+    </script>
+    @endpush
+    @push('addEventListener')
+    <script>
+     //   document.getElementById('btnCheckUserName').addEventListener('click', checkUsername);
+        txtUsername.addEventListener('keyup', checkUsernameOnKeyup);
     </script>
     @endpush
 </x-layout.main>

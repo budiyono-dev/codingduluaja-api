@@ -41,7 +41,7 @@ class AuthController extends BaseController
 
     }
 
-    public function checkUsername(string $username): string
+    public function checkUsername(string $username)
     {
         if (blank($username)) {
             return response()->json('username not found', 404);
@@ -52,7 +52,8 @@ class AuthController extends BaseController
             return response()->json('username already exist',200);
         }
 
-        return response()->json('username not found', 404);
+        return response()->json('username not found',404);
+
     }
     /**
      *             $table->string('username')->unique();
