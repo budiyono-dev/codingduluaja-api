@@ -4,11 +4,6 @@
             <div class="row justify-content-center mt-2">
                 <div class="col-lg-6">
                     <h2 class="text-center mb-4">Registration</h2>
-                    @if($errors->any())
-                        @foreach($errors->all() as $error)
-                            {{ $error }} <br/>
-                        @endforeach
-                    @endif
                     <form method="POST" action="/register">
                         @csrf
                         <div class="mb-3">
@@ -68,6 +63,11 @@
     @push('script')
     <script>
         const txtUsername = document.getElementById('username');
+        const errRegister = {!! json_encode($errors->all()) !!};
+        console.log(errRegister);
+        if (errRegister.length > 0) {
+            showSimpleToast(errRegister.join('<br>'));
+        }
         const checkUsername = () => {
             {{--    let url = {!! json_encode(route('checkUsername')) !!} + '/' + document.getElementById('username').value;--}}
             console.log('checkusername', "url");
@@ -84,18 +84,20 @@
             loading.classList.remove("d-none");
             
             typingTimer = setTimeout(
-                () => {
-                    let url = {!! json_encode(route('checkUsername', ['username'=>':username'])) !!};
-                    url = url.replace(':username', txtUsername.value);
-                    fetch(url)
-                        .then(res => {
-                            console.log(res.status);
-                            if (res.status === 200) {
-                                showSimpleToast('username is not available')
-                            }
-                        })
-                        .catch(() => showSimpleToast('opps something wrong...', 'info'))
-                        .finally(() => loading.classList.add("d-none"));
+                async () => {
+                    try { 
+                        let url = {!! json_encode(route('checkUsername', ['username'=>':username'])) !!};
+                        url = url.replace(':username', txtUsername.value);
+                        const res = await fetch(url);
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.is_exist) showSimpleToast('username is not available');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                    } finally {
+                         loading.classList.add("d-none")
+                    }
                 }, 3000);
         }
 

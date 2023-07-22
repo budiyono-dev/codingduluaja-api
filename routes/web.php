@@ -19,7 +19,7 @@ Route::get('/get-data', function () {
     return trans('validation.required', ['field' => 'first name', 's' => 'skdjbfksjd']);
 });
 
-Route::view('/login', 'page.login');
+Route::view('/login', 'page.login')->name('login');
 Route::view('/register', 'page.register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');

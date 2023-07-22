@@ -12,18 +12,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class AuthController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function register(RegisterRequest $req): View
+    public function register(RegisterRequest $req): RedirectResponse
     {
         DB::transaction(function () use ($req) {
             $userReq = $req->validated();
             Log::info('registering user :' . $userReq['email']);
             User::create([
-                'username' => Str::uuid()->toString(),
+                'username' => $userReq['username'],
                 'first_name' => $userReq['first_name'],
                 'last_name' => $userReq['last_name'],
                 'sex' => $userReq['sex'],
@@ -31,7 +33,7 @@ class AuthController extends BaseController
                 'password' => bcrypt($userReq['password'])
             ]);
         });
-        return view('page.login');
+        return redirect()->route('login');
     }
 
     public function doLogin(LoginRequest $req)
@@ -41,18 +43,19 @@ class AuthController extends BaseController
 
     }
 
-    public function checkUsername(string $username)
+    public function checkUsername(string $username): JsonResponse
     {
+        $isExist = false;
         if (blank($username)) {
             return response()->json('username not found', 404);
         }
 
         $count = User::where('username', $username)->count();
         if ($count > 0) {
-            return response()->json('username already exist',200);
+            $isExist = true;
         }
 
-        return response()->json('username not found',404);
+        return response()->json(['is_exist'=> $isExist]);
 
     }
     /**
