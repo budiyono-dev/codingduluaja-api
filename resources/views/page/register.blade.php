@@ -8,36 +8,47 @@
                         @csrf
                         <div class="mb-3">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="first_name"
-                                   placeholder="Enter your first name">
+                            <input type="text" class="form-control form-control-sm" id="firstName" name="first_name"
+                                placeholder="Enter your first name">
                         </div>
                         <div class="mb-3">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="last_name"
-                                   placeholder="Enter your last name">
+                            <input type="text" class="form-control form-control-sm" id="lastName" name="last_name"
+                                placeholder="Enter your last name">
                         </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
-                            <div class="spinner-grow spinner-grow-sm text-primary d-none" role="status" id="loading-check-username">
+                            <div class="spinner-grow spinner-grow-sm text-primary d-none" role="status"
+                                id="loading-check-username">
                             </div>
-                            <input type="text" class="form-control" id="username" name="username"
-                                       placeholder="Enter your username">
+                            <input type="text" class="form-control form-control-sm" id="username" name="username"
+                                placeholder="Enter your username">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                   placeholder="Enter your email">
+                            <input type="email" class="form-control form-control-sm" id="email" name="email"
+                                placeholder="Enter your email">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                   placeholder="Enter your Password">
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="password" class="form-control form-control-sm" id="password" name="password"
+                                placeholder="Enter your Password"  aria-describedby="inputGroup-sizing-sm">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill"
+                                    viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                </svg>
+                                </span>
+                            </div>
+
+                            
                         </div>
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Password Confirmation</label>
-                            <input type="password" class="form-control" id="password_confirmation"
-                                   name="password_confirmation"
-                                   placeholder="Re-type your Password">
+                            <input type="password" class="form-control form-control-sm" id="password_confirmation"
+                                name="password_confirmation" placeholder="Re-type your Password">
                         </div>
                         <div class="mb-3">
                             <label for="sex" class="form-label">Sex</label>
@@ -50,8 +61,8 @@
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone</label>
                             <div class="input-group">
-                                <input type="tel" class="form-control" id="phone" name="phone"
-                                       placeholder="Enter your phone number">
+                                <input type="tel" class="form-control form-control-sm" id="phone" name="phone"
+                                    placeholder="Enter your phone number">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Register</button>
@@ -61,43 +72,42 @@
         </div>
     </div>
     @push('script')
-    <script>
-        const txtUsername = document.getElementById('username');
+        <script>
+            const txtUsername = document.getElementById('username');
 
-        let typingTimer;
-        const checkUsernameOnKeyup = () => {
-            if (txtUsername.value.length < 3) {
-                return;
-            }
-            
-            clearTimeout(typingTimer);
-            
-            let loading = document.getElementById("loading-check-username");
-            loading.classList.remove("d-none");
-            
-            typingTimer = setTimeout(
-                async () => {
-                    try { 
-                        let url = {!! json_encode(route('checkUsername', ['username'=>':username'])) !!};
-                        url = url.replace(':username', txtUsername.value);
-                        const res = await fetch(url);
-                        if (res.ok) {
-                            const data = await res.json();
-                            if (data.is_exist) showSimpleToast('username is not available');
+            let typingTimer;
+            const checkUsernameOnKeyup = () => {
+                if (txtUsername.value.length < 3) {
+                    return;
+                }
+
+                clearTimeout(typingTimer);
+
+                let loading = document.getElementById("loading-check-username");
+                loading.classList.remove("d-none");
+
+                typingTimer = setTimeout(
+                    async () => {
+                        try {
+                            let url = {!! json_encode(route('checkUsername', ['username' => ':username'])) !!};
+                            url = url.replace(':username', txtUsername.value);
+                            const res = await fetch(url);
+                            if (res.ok) {
+                                const data = await res.json();
+                                if (data.is_exist) showSimpleToast('username is not available');
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        } finally {
+                            loading.classList.add("d-none")
                         }
-                    } catch (err) {
-                        console.error(err);
-                    } finally {
-                         loading.classList.add("d-none")
-                    }
-                }, 3000);
-        }
-
-    </script>
+                    }, 3000);
+            }
+        </script>
     @endpush
     @push('addEventListener')
-    <script>
-        txtUsername.addEventListener('keyup', checkUsernameOnKeyup);
-    </script>
+        <script>
+            txtUsername.addEventListener('keyup', checkUsernameOnKeyup);
+        </script>
     @endpush
 </x-layout.main>

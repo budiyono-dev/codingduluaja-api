@@ -46,9 +46,6 @@ class AuthController extends BaseController
     public function checkUsername(string $username): JsonResponse
     {
         $isExist = false;
-        if (blank($username)) {
-            return response()->json('username not found', 404);
-        }
 
         $count = User::where('username', $username)->count();
         if ($count > 0) {
@@ -58,15 +55,4 @@ class AuthController extends BaseController
         return response()->json(['is_exist'=> $isExist]);
 
     }
-    /**
-     *             $table->string('username')->unique();
-     * $table->string('first_name', 50);
-     * $table->string('last_name', 50)->nullable()->default(null);
-     * $table->string('sex')->nullable();
-     * $table->string('email', 50)->unique();
-     * $table->string('password', 50);
-     * $table->timestamp('email_verified_at')->nullable();
-     * $table->rememberToken();
-     * $table->timestamps();
-     */
 }
