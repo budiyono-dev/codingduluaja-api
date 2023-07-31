@@ -38,37 +38,36 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script>
-
-//        const myToast = document.getElementById('liveToast');
-      //  new bootstrap.Toast(myToast);
-
       const toastLiveExample = document.getElementById('liveToast')
       const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
       const simpleToast = document.getElementById('simple-toast');
       const toastSimpleB  = bootstrap.Toast.getOrCreateInstance(simpleToast)
-    //        toastBootstrap.show()
-//        myToast.show();
+          
+      // ============= GLOBAL FUNCTION =================
+      
+      // show simple toas
       const showSimpleToast = (msg = 'nofitication', type) => {
-      //  const simpleToast = document.getElementById('simple-toast');
-        let bgColour = 'text-bg-danger';
-        if (type === 'info') {
-            bgColour = 'text-bg-primary';
-        }
-        simpleToast.classList.forEach(className => {
-            if (className.includes('text-bg')) {
-                simpleToast.classList.remove(className);
-            }  
-        });
-        simpleToast.classList.add(bgColour);
-        document.getElementById('simple-toast-msg').innerHTML = msg;
-        toastSimpleB.show();
-    }
-    const showToast = (msg) => {
-//      const toastLiveExample = document.getElementById('liveToast')
-   //     toastBootstrap.show();
-      //  showSimpleToast();
-    }
+          let bgColour = 'text-bg-danger';
+          if (type === 'info') {
+              bgColour = 'text-bg-primary';
+          }
+          simpleToast.classList.forEach(className => {
+          if (className.includes('text-bg')) {
+              simpleToast.classList.remove(className);
+          }  
+          });
+          simpleToast.classList.add(bgColour);
+          document.getElementById('simple-toast-msg').innerHTML = msg;
+          toastSimpleB.show();
+      }
 
+      // ============== Document Ready Function ================
+      
+      // show error if exist     
+      const errMsg = {!! json_encode($errors->all()) !!};
+      if (errMsg.length > 0) {
+          showSimpleToast(errMsg.join('<br>'));
+      }
     </script>
     @stack('script')
     @stack('addEventListener')

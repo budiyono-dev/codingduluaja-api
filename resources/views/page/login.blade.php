@@ -3,11 +3,6 @@
         <div class="card m-5 p-5">
             <div class="col-lg-4">
                 <h2 class="text-center mb-4">Login</h2>
-                @if($errors->any())
-                    @foreach($errors->all() as $error)
-                        {{ $error }} <br/>
-                    @endforeach
-                @endif
                 <form action="{{ route('doLogin') }}" method="post">
                     @csrf
                     <div class="mb-3">

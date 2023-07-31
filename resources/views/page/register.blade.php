@@ -63,15 +63,7 @@
     @push('script')
     <script>
         const txtUsername = document.getElementById('username');
-        const errRegister = {!! json_encode($errors->all()) !!};
-        console.log(errRegister);
-        if (errRegister.length > 0) {
-            showSimpleToast(errRegister.join('<br>'));
-        }
-        const checkUsername = () => {
-            {{--    let url = {!! json_encode(route('checkUsername')) !!} + '/' + document.getElementById('username').value;--}}
-            console.log('checkusername', "url");
-        }
+
         let typingTimer;
         const checkUsernameOnKeyup = () => {
             if (txtUsername.value.length < 3) {
@@ -105,7 +97,6 @@
     @endpush
     @push('addEventListener')
     <script>
-     //   document.getElementById('btnCheckUserName').addEventListener('click', checkUsername);
         txtUsername.addEventListener('keyup', checkUsernameOnKeyup);
     </script>
     @endpush
