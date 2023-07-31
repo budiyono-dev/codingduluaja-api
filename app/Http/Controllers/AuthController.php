@@ -14,6 +14,10 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use function Symfony\Component\VarDumper\Dumper\esc;
 
 class AuthController extends BaseController
 {
@@ -33,14 +37,28 @@ class AuthController extends BaseController
                 'password' => bcrypt($userReq['password'])
             ]);
         });
-        return redirect()->route('login');
+        return redirect()->route('page.login');
     }
 
-    public function doLogin(LoginRequest $req)
+    public function logout(Request $request) : RedirectResponse {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('page.login');
+    }
+
+    public function login(LoginRequest $req)
     {
         $validated = $req->validated();
-        dd($validated);
+        Log::info('LOGIN '.$validated['email']);
+        if (Auth::attempt($validated)) {
+            request()->session()->regenerate();
+            return redirect()->route('page.dashboard');
+        } 
 
+        return back()->withErrors([
+            'error' => 'Invalid Email or Password',
+        ]);
     }
 
     public function checkUsername(string $username): JsonResponse
