@@ -11,7 +11,11 @@
       </div>
     </div>
   </div> --}}
-
+<form action="{{ route('do.createToken') }}">
+  <button type="submit">
+    Create Token
+  </button>
+</form>
 
 
 </x-layout.main-sidebar>
