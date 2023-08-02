@@ -18,10 +18,10 @@ Add Your Application
                           =
  List Resource            = List Aplication
  1. Resource A            = 1. App 1 (delete app)
-    > App 1               = 2. App 2 (delete app)
-    > App 2               = 3. App 3 (delete app)
- 2. Resource B            = 4. App 4 (delete app)
-    > App 1               =
+    > App 1               =   > Resouce A
+    > App 2               =   > Resouce B
+ 2. Resource B            = 2. App 2 (delete app)
+    > App 1               = 3. App 3 (delete app)
     > App 2               =
     > App 3               =
                           =

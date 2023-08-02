@@ -11,6 +11,8 @@
       </div>
     </div>
   </div> --}}
+  Add Resource
+  
 <form action="{{ route('do.createToken') }}">
   <button type="submit">
     Create Token
