@@ -47,7 +47,7 @@ class AuthController extends BaseController
         return redirect()->route('page.login');
     }
 
-    public function login(LoginRequest $req)
+    public function login(LoginRequest $req): RedirectResponse
     {
         $validated = $req->validated();
         if (Auth::attempt($validated)) {
@@ -72,5 +72,10 @@ class AuthController extends BaseController
 
         return response()->json(['is_exist'=> $isExist]);
 
+    }
+
+    public function createToken(): JsonResponse
+    {
+        return response()->json(['token' => 'ini value token']);
     }
 }

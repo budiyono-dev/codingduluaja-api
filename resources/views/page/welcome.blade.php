@@ -13,13 +13,32 @@
   </div> --}}
   Add Resource
   
-<form action="{{ route('do.createToken') }}">
-  <button type="submit">
+  <button type="button" class="btn btn-primary btn-lg" id="btnCreateToken">
     Create Token
   </button>
-</form>
+
+@push('script')
+<script>
+// <form action="{{ route('do.createToken') }}">
+const createToken = async (el) => {
+try {
+    const res = await fetch("{{ route('do.createToken') }}");
+    console.log(res);
+} catch (e) {
+    log.error('error', e);
+}
+    console.log(el);
+    console.log(el.target);
+}
 
 
+</script>
+@endpush
+@push('addEventListener')
+    <script type="text/javascript">
+        document.getElementById('btnCreateToken').addEventListener('click', createToken);
+    </script>
+@endpush
 </x-layout.main-sidebar>
 
 
