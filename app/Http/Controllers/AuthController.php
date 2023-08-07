@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Http\Requests\RegisterRequest;
+use App\Jwt\JwtHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -22,6 +23,11 @@ use function Symfony\Component\VarDumper\Dumper\esc;
 class AuthController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    public function __construct(
+        protected JwtHelper $jwtHelper
+    ) {
+    }
 
     public function register(RegisterRequest $req): RedirectResponse
     {
@@ -76,6 +82,7 @@ class AuthController extends BaseController
 
     public function createToken(): JsonResponse
     {
-        return response()->json(['token' => 'ini value token']);
+        
+        return response()->json(['token' => $this->jwtHelper->createToken()]);
     }
 }
