@@ -119,7 +119,6 @@
             }
 
             const ShowPassword = () => {
-                console.log('show password');
                 const txtPassword = document.getElementById('password');
                 const eyeShow = document.querySelector('.bi-eye-fill');
 
