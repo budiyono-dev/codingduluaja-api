@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTokenRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -46,7 +47,8 @@ class AuthController extends BaseController
         return redirect()->route('page.login');
     }
 
-    public function logout(Request $request) : RedirectResponse {
+    public function logout(Request $request): RedirectResponse
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -57,10 +59,10 @@ class AuthController extends BaseController
     {
         $validated = $req->validated();
         if (Auth::attempt($validated)) {
-            Log::info('LOGIN '.$validated['email']);
+            Log::info('LOGIN ' . $validated['email']);
             request()->session()->regenerate();
             return redirect()->route('page.dashboard');
-        } 
+        }
 
         return back()->withErrors([
             'error' => 'Invalid Email or Password',
@@ -76,13 +78,18 @@ class AuthController extends BaseController
             $isExist = true;
         }
 
-        return response()->json(['is_exist'=> $isExist]);
-
+        return response()->json(['is_exist' => $isExist]);
     }
 
-    public function createToken(): JsonResponse
+    public function createToken(CreateTokenRequest $request): JsonResponse
     {
+
+        // craete token for user with expired
+        $user = Auth::user();
+        $username = $user->username;
+        $applicationId = $request->validated()['applicationId'];
         
+        dd($username, $applicationId);
         return response()->json(['token' => $this->jwtHelper->createToken()]);
     }
 }

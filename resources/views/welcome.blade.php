@@ -3,7 +3,7 @@
   <div id="main" class="main-content">
     <div class="row">
       <div class="col text-center border border-dark">
-        <x-nav-bar />         
+        <x-nav-bar />
       </div>
     </div>
     <div class="row">
@@ -23,7 +23,7 @@
     .toggle-main-content {
       margin-left: 250px
     }
-  </style>  
+  </style>
 @endpush
 
 </x-layout>

@@ -18,7 +18,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
-    Route::get('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
+    Route::post('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
 });
 
 Route::middleware('non-auth')->group(function () {
