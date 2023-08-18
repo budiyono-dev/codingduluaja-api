@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AppClientController;
 
 Route::middleware('auth')->group(function () {
     Route::view('/', 'page.welcome')->middleware('auth')->name('page.dashboard');
@@ -19,6 +20,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
     Route::post('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
+
+    Route::post('create-app', [AppClientController::class, 'createApp'])->name('do.createApp');
 });
 
 Route::middleware('non-auth')->group(function () {

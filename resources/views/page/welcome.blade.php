@@ -5,6 +5,7 @@
         Create Token
     </button>
 
+
     @push('script')
         <script>
             const createToken = async (el) => {
