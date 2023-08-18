@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('non-auth')->group(function () {
     Route::view('/login', 'page.login')->name('page.login');
-    Route::view('/register', 'page.register');
+    Route::view('/register', 'page.register')->name('page.register');
     Route::post('/register', [AuthController::class, 'register'])->name('do.register');
     Route::post('/login', [AuthController::class, 'login'])->name('do.login');
 });

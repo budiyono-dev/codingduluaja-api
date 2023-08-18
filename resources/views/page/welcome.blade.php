@@ -4,7 +4,8 @@
     <button type="button" class="btn btn-primary btn-lg" id="btnCreateToken">
         Create Token
     </button>
-
+    <form method="POST" action="{{ route('do.createApp') }}">
+    </form>
 
     @push('script')
         <script>

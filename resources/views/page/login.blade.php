@@ -19,6 +19,9 @@
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-block btn-sm">Login</button>
                         </div>
+                        <div class="mt-2 text-end">
+                            <h6><a href="{{ route('page.register') }}">Register</a></h6>
+                        </div>
                     </form>
                 </div>
             </div>
