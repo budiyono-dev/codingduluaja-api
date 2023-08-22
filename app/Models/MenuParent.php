@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ExpiredAppToken extends Model
+class MenuParent extends Model
 {
     use HasFactory;
-    protected $table = 'expired_app_token';
+    protected $table = 'menu_parent';
 }
