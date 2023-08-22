@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('menu_parent', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
-            $table->string('page', 30);
+            $table->string('route', 30);
         });
     }
 
