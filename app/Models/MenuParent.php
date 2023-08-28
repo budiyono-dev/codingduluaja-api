@@ -9,4 +9,12 @@ class MenuParent extends Model
 {
     use HasFactory;
     protected $table = 'menu_parent';
+    protected $fillable = [
+        'name', 'page'
+    ];
+
+    public function menuItem()
+    {
+        return $this->hasMany(MenuItem::class);
+    }
 }

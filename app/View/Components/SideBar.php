@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use App\Traits\Component\ToCamel;
+use App\Models\MenuParent;
 
 class SideBar extends Component
 {
@@ -15,6 +16,8 @@ class SideBar extends Component
 
     public function __construct()
     {
+        $menuParent = MenuParent::with('menuItem')->get();
+        dd($menuParent);
         $this->menu = array(
              [ 
                 'menuName' => 'Menu Pertama',
