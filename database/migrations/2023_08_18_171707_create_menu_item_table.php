@@ -13,7 +13,8 @@ return new class extends Migration
             $table->unsignedBiginteger('menu_parent_id');
             $table->string('name', 50);
             $table->string('page', 30);
-            $table->timestamps();
+            $table->integer('sequence');
+            $table->unique(['menu_parent_id', 'sequence']);
         });
     }
 

@@ -10,6 +10,5 @@ class AppClientController extends Controller
     public function createApp(CreateAppClientRequest $req)
     {
         dd($req);
-
     }
 }
