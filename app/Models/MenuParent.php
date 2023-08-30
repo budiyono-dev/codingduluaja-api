@@ -10,7 +10,7 @@ class MenuParent extends Model
     use HasFactory;
     protected $table = 'menu_parent';
     protected $fillable = [
-        'name', 'page'
+        'name', 'sequence'
     ];
 
     public function menuItem()

@@ -13,6 +13,9 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->integer('sequence')->unique();
+            $table->timestamps();
+            
+            $table->index('sequence');
         });
     }
 

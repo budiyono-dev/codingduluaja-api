@@ -10,35 +10,40 @@ return new class extends Migration
 
     public function up(): void
     {
-        $menuAppResource = new MenuParent(
+        $menuApplication = new MenuParent(
             [
-                'name' => 'menu.parent.app_resource',
-                'page' => 'page.appResource'
+                'name' => 'menu.parent.application',
+                'sequence' => 1
             ]
         );
 
-        $menuAppResource->save();
+        $menuApplication->save();
 
-        $menuItemAppResource = new MenuItem(
+        $itemAppResource = new MenuItem(
             [
-                'menu_parent_id' => $menuAppResource['id'],
-                'name' => 'menu.item.create_app_resource',
-                'page' => 'page.AppResource'
+                'menu_parent_id' => $menuApplication->id,
+                'name' => 'menu.item.app_resource',
+                'page' => 'page.appReource',
+                'sequence' => 1
             ]
         );
 
-        $menuItemAppResource->save();
+        $itemAppResource->save();
 
-        $menuAppClient = new MenuParent(
+        $itemAppClient = new MenuItem(
             [
-                'name' => 'menu.parent.app_client',
-                'page' => 'page.clientApp'
+                'menu_parent_id' => $menuApplication->id,
+                'name' => 'menu.item.app_client',
+                'page' => 'page.appClient',
+                'sequence' => 2
             ]
         );
+
+        $itemAppClient->save();
     }
 
     public function down(): void
     {
-        DB::table('users')->where('username', 'adminTest')->delete();
+        MenuParent::where()
     }
 };

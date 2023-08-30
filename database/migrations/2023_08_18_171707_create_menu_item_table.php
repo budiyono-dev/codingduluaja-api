@@ -14,6 +14,9 @@ return new class extends Migration
             $table->string('name', 50);
             $table->string('page', 30);
             $table->integer('sequence');
+            $table->timestamps();
+            
+            $table->index('sequence');
             $table->unique(['menu_parent_id', 'sequence']);
         });
     }
