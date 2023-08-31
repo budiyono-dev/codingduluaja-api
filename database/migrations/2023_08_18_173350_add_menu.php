@@ -44,6 +44,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        MenuParent::where()
+        $menu1 = MenuParent::where('sequence', 1)->first();
+        $subMenus = MenuItem::where('menu_parent_id', $menu1->id)->get();
     }
 };
