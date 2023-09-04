@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use App\Traits\Component\ToCamel;
 use App\Models\MenuParent;
+use App\Models\MenuItem;
 
 class SideBar extends Component
 {
@@ -19,35 +20,24 @@ class SideBar extends Component
         $menuParent = MenuParent::with('menuItem')->get();
         $menuCollection = collect();
         // dd($menuParent->toArray());
-        $menuParent->map();
-        foreach ($menuParent as $parent) {
-            dd($parent->menuItem);
-        }
-        $this->menu = array(
-             [ 
-                'menuName' => 'Menu Pertama',
-                'subMenu' => [
-                    'Sub Menu Pertama',
-                    'Sub Menu Kedua',
-                    'Sub Menu Ketiga'
-                ]
+        $menu = $menuParent->map(function(MenuParent $parent) {
+            $menuItem = $parent->menuItem->map(function(MenuItem $mitem) {
+                return [
+                    'seq' => $mitem->sequence,
+                    'name'=> $mitem->name,
+                    'page'=> $mitem->page
+                ];
+            })->toArray();
 
-            ],
-            [ 
-                'menuName' => 'Menu Kedua',
-                'subMenu' => [
-                    'Sub Menu Pertama',
-                    'Sub Menu Kedua',
-                    'Sub Menu Ketiga'
-                ]
-
-            ], 
-        );
+            return [
+                'seq' => $parent->sequence,
+                'menuName' => $parent->name,
+                'subMenu' => $menuItem
+            ];
+        })->toArray();
+        $this->menu = $menu; 
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View|Closure|string
     {
         return view('components.side-bar');

@@ -71,10 +71,10 @@
   <ul class="list-unstyled ps-0">
       @foreach ($menu as $m)
           <x-sidebar.menu-group>
-              <x-sidebar.menu-item target="{{ '#' . $toCamel($m['menuName']) }}" menuName="{{ $m['menuName'] }}" />
-              <x-sidebar.sub-menu-group id="{{ $toCamel($m['menuName']) }}">
-                  @foreach ($m['subMenu'] as $i => $item)
-                      <x-sidebar.sub-menu-item subMenuName="{{ ($i+1).'. '.$item }}" />
+              <x-sidebar.menu-item target="{{ '#' . $m['seq'] }}" menuName="{{ __($m['menuName']) }}" />
+              <x-sidebar.sub-menu-group id="{{ $m['seq'] }}">
+                  @foreach ($m['subMenu'] as $subMenu)
+                      <x-sidebar.sub-menu-item subMenuName="{{ $subMenu['seq'].'. '.__($subMenu['name']) }}" />
                   @endforeach
               </x-sidebar.sub-menu-group>
           </x-sidebar.menu-group>
