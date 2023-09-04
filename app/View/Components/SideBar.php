@@ -17,7 +17,12 @@ class SideBar extends Component
     public function __construct()
     {
         $menuParent = MenuParent::with('menuItem')->get();
-        dd($menuParent);
+        $menuCollection = collect();
+        // dd($menuParent->toArray());
+        $menuParent->map();
+        foreach ($menuParent as $parent) {
+            dd($parent->menuItem);
+        }
         $this->menu = array(
              [ 
                 'menuName' => 'Menu Pertama',

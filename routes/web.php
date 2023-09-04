@@ -33,3 +33,10 @@ Route::middleware('non-auth')->group(function () {
 
 
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
+Route::get('do-something', function(){
+        $menu1 = \App\Models\MenuParent::where('sequence', 1)->first();
+        
+        $subMenus = \App\Models\MenuItem::where('menu_parent_id', $menu1->id);
+        $subMenus->delete();
+    return "OK";
+});
