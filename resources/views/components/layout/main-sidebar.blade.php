@@ -21,11 +21,7 @@
                 <x-nav-bar />
             </div>
         </div>
-        <div class="row">
-            <div class="col text-center">
-                {{ $slot }}
-            </div>
-        </div>
+        {{ $slot }}
     </div>
     {{-- ============ Component HTML END ======== --}}
 

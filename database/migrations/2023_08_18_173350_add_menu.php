@@ -23,7 +23,7 @@ return new class extends Migration
             [
                 'menu_parent_id' => $menuApplication->id,
                 'name' => 'menu.item.app_resource',
-                'page' => 'page.appReource',
+                'page' => 'page.appResource',
                 'sequence' => 1
             ]
         );

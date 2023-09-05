@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AppClientController;
 
 Route::middleware('auth')->group(function () {
-    Route::view('/', 'page.welcome')->middleware('auth')->name('page.dashboard');
+    Route::view('/', 'page.welcome')->name('page.dashboard');
     Route::get('/home', function () {
         return 'this is home route';
     });
@@ -22,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
 
     Route::post('create-app', [AppClientController::class, 'createApp'])->name('do.createApp');
+
+    Route::get('/app-resource', [AppClientController::class, 'indpex'])->name('page.appResource');
+    Route::get('/app-client', [AppClientController::class, 'index'])->name('page.appClient');
 });
 
 Route::middleware('non-auth')->group(function () {

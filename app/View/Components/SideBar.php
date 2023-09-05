@@ -5,37 +5,17 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Traits\Component\ToCamel;
 use App\Models\MenuParent;
-use App\Models\MenuItem;
+use Illuminate\Support\Collection;
 
 class SideBar extends Component
 {
-    use ToCamel;
-
-    public array $menu;
-
-    public function __construct()
+    public function __construct
+    (
+        public Collection $menu
+    )
     {
-        $menuParent = MenuParent::with('menuItem')->get();
-        $menuCollection = collect();
-        // dd($menuParent->toArray());
-        $menu = $menuParent->map(function(MenuParent $parent) {
-            $menuItem = $parent->menuItem->map(function(MenuItem $mitem) {
-                return [
-                    'seq' => $mitem->sequence,
-                    'name'=> $mitem->name,
-                    'page'=> $mitem->page
-                ];
-            })->toArray();
-
-            return [
-                'seq' => $parent->sequence,
-                'menuName' => $parent->name,
-                'subMenu' => $menuItem
-            ];
-        })->toArray();
-        $this->menu = $menu; 
+        $this->menu = MenuParent::with('menuItem')->get();
     }
 
     public function render(): View|Closure|string

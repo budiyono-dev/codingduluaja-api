@@ -1,5 +1,5 @@
 <li>
-  <a href="#" class="link-dark">
-    {{ $subMenuName }}
+  <a href="{{ $href }}" class="link-dark">
+      {{ $subMenuName }}
   </a>
 </li>

@@ -63,21 +63,23 @@
     </style>
 @endpush
 
-<div class="flex-shrink-0 p-3 bg-white left-sidebar" style="//width: 280px;" id="sidebar">
+<div class="flex-shrink-0 p-3 bg-white left-sidebar" id="sidebar">
   <div class="border-bottom text-center pb-2 mx-auto">
-    {{-- <!-- <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg> --> --}}
     <span class="fs-5 fw-semibold">😎 Happy Coding 😎</span>
   </div>
   <ul class="list-unstyled ps-0">
       @foreach ($menu as $m)
           <x-sidebar.menu-group>
-              <x-sidebar.menu-item target="{{ '#' . $m['seq'] }}" menuName="{{ __($m['menuName']) }}" />
-              <x-sidebar.sub-menu-group id="{{ $m['seq'] }}">
-                  @foreach ($m['subMenu'] as $subMenu)
-                      <x-sidebar.sub-menu-item subMenuName="{{ $subMenu['seq'].'. '.__($subMenu['name']) }}" />
+              <x-sidebar.menu-item target="{{ '#' . $m->sequence }}" menuName="{{ __($m->name) }}" />
+              <x-sidebar.sub-menu-group id="{{ $m->sequence }}">
+                  @foreach ($m->menuItem as $item)
+                      <x-sidebar.sub-menu-item
+                        subMenuName="{{ $item->sequence.'. '.__($item->name) }}"
+                        href="{{ route($item->page) }}"
+                      />
                   @endforeach
               </x-sidebar.sub-menu-group>
           </x-sidebar.menu-group>
-      @endforeach
+    @endforeach
   </ul>
 </div>
