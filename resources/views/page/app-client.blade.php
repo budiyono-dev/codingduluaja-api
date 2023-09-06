@@ -22,7 +22,9 @@
                             </td>
                         </tr>
                     @empty
-                        <h5> No data Found </h5>
+                        <tr>
+                           <td colspan="4">No Data....</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
