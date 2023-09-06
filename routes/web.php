@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
     Route::post('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
 
-    Route::post('create-app', [AppClientController::class, 'createApp'])->name('do.createApp');
+    Route::post('/create-app', [AppClientController::class, 'createApp'])->name('do.createApp');
 
     Route::get('/app-resource', [AppClientController::class, 'indpex'])->name('page.appResource');
     Route::get('/app-client', [AppClientController::class, 'index'])->name('page.appClient');
