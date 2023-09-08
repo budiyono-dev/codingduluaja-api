@@ -43,4 +43,10 @@ class AppClientController extends Controller
 
         return redirect()->route('page.appClient');
     }
+    public function delete(int $id): RedirectResponse
+    {
+        $appClient = AppClient::find($id);
+        $appClient->delete();
+        return redirect()->route('page.appClient');
+    }
 }

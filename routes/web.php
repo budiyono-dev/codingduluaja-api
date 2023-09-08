@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/app-resource', [AppClientController::class, 'indpex'])->name('page.appResource');
     Route::get('/app-client', [AppClientController::class, 'index'])->name('page.appClient');
+    Route::post('/app-client/delete/{id}', [AppClientController::class, 'delete'])->name('do.deleteAppClient');
 });
 
 Route::middleware('non-auth')->group(function () {

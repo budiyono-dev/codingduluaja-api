@@ -4,7 +4,7 @@
             <div class="pt-4 pb-4">
                 <h4>Your Client Application</h4>
             </div>
-            <div class="text-end pb-2">
+            <div class="text-end mb-2">
                 <button type="button" class="btn btn-sm btn-primary px-3"
                  data-bs-toggle="modal" data-bs-target="#modalCreateNewApp">
                  Create New App
@@ -30,7 +30,7 @@
                                 <td class="text-start">{{ $appClient->name }}</td>
                                 <td class="text-start">{{ $appClient->created_at }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger">
+                                    <button type="button" class="btn btn-danger" onclick="deleteAooClient({{ $appClient->id  }})">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
@@ -112,6 +112,7 @@
     </div>
     @push('script')
     <script type="text/javascript">
+        var resolveGlobal;
         const myModalAlternative = new bootstrap.Modal('#modals', {
             keyboard: false
         });
@@ -121,19 +122,55 @@
         const submitCreateAppForm = () => {
             document.createApp.submit();
         }
-        const confirmationYes = () => {
-            alert('YESY');
-        }
-        const modalsFunc = () => {
-            console.log('askjdfhksjadhbf');
+        const deleteAooClient = (id) => {
+            console.log('id to delete',id);
+            deleteConfirmation(
+                    async () => {
+                        try {
+                            let url = {!! json_encode(route('do.deleteAppClient', ['id' => ':id'])) !!};
+                            url = url.replace(':id', id);
+                            const res = await fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-Token': csrfToken
+                                },
+                            });
+                            if (res.ok) {
+                                const data = await res.json();
+                                console.log(data);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        } finally {
+                        }
+                    }
+            );
         }
         const shomodals = () => {
             console.log('show modals');
             myModalAlternative.show();
         }
-        const deleteConfirmation = (msg = 'Are you sure?', buttonType ) => {
-            document.getElementById('btnConfirmYes').innerHTML = msg;
-            myModalAlternative.show();
+        const deleteConfirmation = (callback, msg = 'Are you sure?', buttonType) => {
+            let promise = new Promise(function(resolve, reject) {
+                        let confirmValue = true;
+                        resolveGlobal = resolve;
+                        document.getElementById('confirmationMsg').innerHTML = msg;
+                        document.getElementById('btnConfirmYes').innerHTML = msg;
+                        myModalAlternative.show();
+                    });
+            promise.then(data => {
+                if (data) {
+                    callback();
+                }
+            });
+        }
+        const modalsFunc = () => {
+            console.log('modals ditutup');
+            resolveGlobal(false);
+        }
+        const confirmationYes = () => {
+            resolveGlobal(true);
         }
     </script>
     @endpush
@@ -141,8 +178,8 @@
         <script type="text/javascript">
             document.getElementById('modalCreateNewApp').addEventListener('hide.bs.modal', resetModalCreateNewApp);
             document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
-            // document.getElementById('btnConfirmYes').addEventListener('click', confirmationYes);
-            document.getElementById('modals').addEventListener('show.bs.modal', modalsFunc);
+            document.getElementById('btnConfirmYes').addEventListener('click', confirmationYes);
+            document.getElementById('modals').addEventListener('hide.bs.modal', modalsFunc);
         </script>
     @endpush
 </x-layout.main-sidebar>
