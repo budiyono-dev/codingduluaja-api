@@ -9,7 +9,7 @@
                  data-bs-toggle="modal" data-bs-target="#modalCreateNewApp">
                  Create New App
                 </button>
-                <button type="button" class="btn btn-sm btn-primary px-3" onclick="shomodals">
+                <button type="button" class="btn btn-sm btn-primary px-3" onclick="shomodals()">
                  xxxxxx
                 </button>
             </div>
@@ -101,21 +101,20 @@
                 <div class="modal-header w-100">
                     <h1 class="modal-title fs-5 m-auto" id="staticBackdropLabel">Confirmation</h1>
                 </div>
-                <div class="modal-body">
-                    asdasd
+                <div class="modal-body d-flex align-items-center">
+                    <p class="mb-0" id="confirmationMsg">????</p>
                 </div>
                 <div class="modal-footer w-100">
-                    <button type="submit" id="btnConfirmYes" class="btn btn-primary btn-sm w-100">Save</button>
+                    <button type="submit" id="btnConfirmYes" class="btn btn-danger w-100">OK!</button>
                 </div>
-            </div>
+            </>
         </div>
     </div>
     @push('script')
     <script type="text/javascript">
-        const myModalAlternative = new bootstrap.Modal('#modals', , {
+        const myModalAlternative = new bootstrap.Modal('#modals', {
             keyboard: false
         });
-        
         const resetModalCreateNewApp = () => {
             document.getElementById('createApp').reset();
         }
@@ -129,7 +128,12 @@
             console.log('askjdfhksjadhbf');
         }
         const shomodals = () => {
-
+            console.log('show modals');
+            myModalAlternative.show();
+        }
+        const deleteConfirmation = (msg = 'Are you sure?', buttonType ) => {
+            document.getElementById('btnConfirmYes').innerHTML = msg;
+            myModalAlternative.show();
         }
     </script>
     @endpush
