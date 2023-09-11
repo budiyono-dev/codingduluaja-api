@@ -9,9 +9,6 @@
                  data-bs-toggle="modal" data-bs-target="#modalCreateNewApp">
                  Create New App
                 </button>
-                <button type="button" class="btn btn-sm btn-primary px-3" onclick="shomodals()">
-                 xxxxxx
-                </button>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm  table-hover">
@@ -30,8 +27,9 @@
                                 <td class="text-start">{{ $appClient->name }}</td>
                                 <td class="text-start">{{ $appClient->created_at }}</td>
                                 <td>
-                                    <form method="post" action="{{ route('do.deleteAppClient', ['id' => $appClient->id]))  }}"> 
-                                        <button type="button" class="btn btn-danger" onclick="deleteAppClient()">
+                                    <form method="post" action="{{ route('do.deleteAppClient', ['id' => $appClient->id])  }}">
+                                        @csrf
+                                        <button type="button" class="btn btn-danger" onclick="deleteAppClient(this)">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 width="16"
@@ -89,32 +87,9 @@
         </div>
         </div>
     </div>
-    {{-- <!-- Modal --> --}}
-    <div
-        class="modal fade"
-        id="modals"
-        {{-- data-bs-backdrop="static" --}}
-        data-bs-keyboard="false"
-        tabindex="-1"
-        {{-- aria-labelledby="staticBackdropLabel" --}}
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content d-flex justify-content-center align-items-center">
-                <div class="modal-header w-100">
-                    <h1 class="modal-title fs-5 m-auto" id="staticBackdropLabel">Confirmation</h1>
-                </div>
-                <div class="modal-body d-flex align-items-center">
-                    <p class="mb-0" id="confirmationMsg">????</p>
-                </div>
-                <div class="modal-footer w-100">
-                    <button type="submit" id="btnConfirmYes" class="btn btn-danger w-100">OK!</button>
-                </div>
-            </>
-        </div>
-    </div>
+
     @push('script')
     <script type="text/javascript">
-        var resolveGlobal;
         const myModalAlternative = new bootstrap.Modal('#modals', {
             keyboard: false
         });
@@ -125,55 +100,7 @@
             document.createApp.submit();
         }
         const deleteAppClient = (e) => {
-            e.preventDefault();
-            console.log('delete app client', e.target.value);
-            deleteConfirmation(
-                    async () => {
-                        try {
-                            let url = {!! json_encode(route('do.deleteAppClient', ['id' => ':id'])) !!};
-                            url = url.replace(':id', id);
-                            const res = await fetch(url, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-Token': csrfToken
-                                },
-                            });
-                            if (res.ok) {
-                                const data = await res.json();
-                                console.log(data);
-                            }
-                        } catch (err) {
-                            console.error(err);
-                        } finally {
-                        }
-                    }
-            );
-        }
-        const shomodals = () => {
-            console.log('show modals');
-            myModalAlternative.show();
-        }
-        const deleteConfirmation = (callback, msg = 'Are you sure?', buttonType) => {
-            let promise = new Promise(function(resolve, reject) {
-                        let confirmValue = true;
-                        resolveGlobal = resolve;
-                        document.getElementById('confirmationMsg').innerHTML = msg;
-                        document.getElementById('btnConfirmYes').innerHTML = msg;
-                        myModalAlternative.show();
-                    });
-            promise.then(data => {
-                if (data) {
-                    callback();
-                }
-            });
-        }
-        const modalsFunc = () => {
-            console.log('modals ditutup');
-            resolveGlobal(false);
-        }
-        const confirmationYes = () => {
-            resolveGlobal(true);
+            deleteConfirmation(() => e.parentElement.submit());
         }
     </script>
     @endpush
@@ -181,8 +108,6 @@
         <script type="text/javascript">
             document.getElementById('modalCreateNewApp').addEventListener('hide.bs.modal', resetModalCreateNewApp);
             document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
-            document.getElementById('btnConfirmYes').addEventListener('click', confirmationYes);
-            document.getElementById('modals').addEventListener('hide.bs.modal', modalsFunc);
         </script>
     @endpush
 </x-layout.main-sidebar>

@@ -32,6 +32,29 @@
         </div>
     </div>
 
+    <div
+        class="modal fade"
+        id="modals"
+        {{-- data-bs-backdrop="static" --}}
+        data-bs-keyboard="false"
+        tabindex="-1"
+        {{-- aria-labelledby="staticBackdropLabel" --}}
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content d-flex justify-content-center align-items-center">
+                <div class="modal-header w-100">
+                    <h1 class="modal-title fs-5 m-auto" id="staticBackdropLabel">Confirmation</h1>
+                </div>
+                <div class="modal-body d-flex align-items-center">
+                    <p class="mb-0" id="confirmationMsg">????</p>
+                </div>
+                <div class="modal-footer w-100">
+                    <button type="submit" id="btnConfirmYes" class="btn btn-danger w-100">OK!</button>
+                </div>
+            </>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
@@ -39,6 +62,7 @@
         const simpleToast = document.getElementById('simple-toast');
         const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast)
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        let resolveGlobal;
 
 
         // ============= GLOBAL FUNCTION =================
@@ -59,6 +83,27 @@
             toastSimpleB.show();
         }
 
+        const deleteConfirmation = (callback, msg = 'Are you sure?', buttonType) => {
+            let promise = new Promise(function(resolve, reject) {
+                        let confirmValue = true;
+                        resolveGlobal = resolve;
+                        document.getElementById('confirmationMsg').innerHTML = msg;
+                        document.getElementById('btnConfirmYes').innerHTML = 'YES';
+                        myModalAlternative.show();
+                    });
+            promise.then(data => {
+                if (data) {
+                    callback();
+                }
+            });
+        }
+        const modalsFunc = () => {
+            resolveGlobal(false);
+        }
+        const confirmationYes = () => {
+            resolveGlobal(true);
+        }
+
         // ============== Document Ready Function ================
 
         // show error if exist     
@@ -66,6 +111,11 @@
         if (errMsg.length > 0) {
             showSimpleToast(errMsg.join('<br>'));
         }
+
+        // ============== Global Event Listener ================
+        document.getElementById('modals').addEventListener('hide.bs.modal', modalsFunc);
+        document.getElementById('btnConfirmYes').addEventListener('click', confirmationYes);
+
     </script>
     @stack('script')
     @stack('addEventListener')
