@@ -2,12 +2,12 @@
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="pt-4 pb-4">
-                <h4>Your Client Application</h4>
+                <h4>Your Resources Application</h4>
             </div>
             <div class="text-end mb-2">
                 <button type="button" class="btn btn-sm btn-primary px-3"
                  data-bs-toggle="modal" data-bs-target="#modalCreateNewApp">
-                 Create New App
+                    Add New Resource
                 </button>
             </div>
             <div class="table-responsive">
@@ -45,10 +45,12 @@
             <div class="modal-body">
                 <form name="createApp" id="createApp" action="{{ route('do.createApp') }}" method="post">
                     @csrf
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="txtName" name="name" placeholder="my-app">
-                        <label for="txtName">Name</label>
-                      </div>
+                        <select class="form-select" aria-label="Default select example">
+                          <option selected value="">Open this select menu</option>
+                          @foreach ($masterResource as $mRes)
+                              <option value="{{  $mRes->id  }}">{{  $mRes->name  }}</option>
+                          @endforeach
+                        </select>
                 </form>
             </div>
             <div class="modal-footer">
