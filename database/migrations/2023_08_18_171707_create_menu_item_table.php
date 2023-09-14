@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\TableNameConstant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('menu_item', function (Blueprint $table) {
+        Schema::create(TableNameConstant::MENU_ITEM, function (Blueprint $table) {
             $table->id();
             $table->unsignedBiginteger('menu_parent_id');
             $table->string('name', 50);
@@ -23,6 +24,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('menu_item');
+        Schema::dropIfExists(TableNameConstant::MENU_ITEM);
     }
 };

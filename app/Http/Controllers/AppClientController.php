@@ -23,16 +23,16 @@ class AppClientController extends Controller
 
         // dd($listAppClient);
 
-        return view('page.app-client', ['listAppClient'=> $listAppClient]);
+        return view('page.app-client', ['listAppClient' => $listAppClient]);
     }
 
     public function createApp(CreateAppClientRequest $req): RedirectResponse
     {
         DB::transaction(function () use ($req) {
             $validated = $req->validated();
-            
+
             $userId = Auth::user()->id;
-            
+
             $c = new AppClient();
             $c->user_id = $userId;
             $c->name = $validated['name'];
@@ -43,10 +43,13 @@ class AppClientController extends Controller
 
         return redirect()->route('page.appClient');
     }
+
     public function delete(int $id): RedirectResponse
     {
-        $appClient = AppClient::find($id);
-        $appClient->delete();
+        DB::transaction(function () use ($id) {
+            $appClient = AppClient::find($id);
+            $appClient->delete();
+        });
         return redirect()->route('page.appClient');
     }
 }

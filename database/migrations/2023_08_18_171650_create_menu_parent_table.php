@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\TableNameConstant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,7 +10,7 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('menu_parent', function (Blueprint $table) {
+        Schema::create(TableNameConstant::MENU_PARENT, function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
             $table->integer('sequence')->unique();
@@ -21,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('menu_parent');
+        Schema::dropIfExists(TableNameConstant::MENU_PARENT);
     }
 };

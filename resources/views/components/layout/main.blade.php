@@ -62,6 +62,9 @@
         const simpleToast = document.getElementById('simple-toast');
         const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast)
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const myModalAlternative = new bootstrap.Modal('#modals', { keyboard: false });
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
         let resolveGlobal;
 
 
@@ -103,6 +106,7 @@
         const confirmationYes = () => {
             resolveGlobal(true);
         }
+        
 
         // ============== Document Ready Function ================
 

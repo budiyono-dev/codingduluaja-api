@@ -56,43 +56,19 @@
         </div>
     </div>
     {{-- <!-- Modal --> --}}
-    <div
-        class="modal fade"
-        id="modalCreateNewApp"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create New App</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form name="createApp" id="createApp" action="{{ route('do.createApp') }}" method="post">
-                    @csrf
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="txtName" name="name" placeholder="my-app">
-                        <label for="txtName">Name</label>
-                      </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="d-flex w-100">
-                    <button type="submit" id="btnSubmitCreateApp" class="btn btn-primary btn-sm w-100">Save</button>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
+    <x-modals.form-modal titleModal="Add New App" id="modalCreateNewApp"
+        idModalBtnSubmit="btnSubmitCreateApp" >
+        <form name="createApp" id="createApp" action="{{ route('do.createApp') }}" method="post">
+            @csrf
+            <div class="form-floating">
+                <input type="text" class="form-control" id="txtName" name="name" placeholder="my-app">
+                <label for="txtName">Name</label>
+              </div>
+        </form>
+    </x-modals.form-modal>
 
     @push('script')
     <script type="text/javascript">
-        const myModalAlternative = new bootstrap.Modal('#modals', {
-            keyboard: false
-        });
         const resetModalCreateNewApp = () => {
             document.getElementById('createApp').reset();
         }

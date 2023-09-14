@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/create-app', [AppClientController::class, 'createApp'])->name('do.createApp');
 
     Route::get('/app-resource', [AppResourceController::class, 'index'])->name('page.appResource');
+    Route::post('/app-resource', [AppResourceController::class, 'addResource'])->name('do.addResource');
+
+
     Route::get('/app-client', [AppClientController::class, 'index'])->name('page.appClient');
     Route::post('/app-client/delete/{id}', [AppClientController::class, 'delete'])->name('do.deleteAppClient');
 });

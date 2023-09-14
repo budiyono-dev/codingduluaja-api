@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Constants\TableNameConstant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\belonngsTo;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class MenuItem extends Model
 {
     use HasFactory;
-    protected $table = 'menu_item';
+    protected $table = TableNameConstant::MENU_ITEM;
     protected $fillable = [
         'menu_parent_id', 'name', 'page', 'sequence'
     ];

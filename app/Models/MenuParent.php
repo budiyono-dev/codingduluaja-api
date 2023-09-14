@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\TableNameConstant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class MenuParent extends Model
 {
     use HasFactory;
-    protected $table = 'menu_parent';
+    protected $table = TableNameConstant::MENU_PARENT;
     protected $fillable = [
         'name', 'sequence'
     ];
