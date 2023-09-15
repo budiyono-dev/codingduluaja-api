@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\TableNameConstant;
 use App\Http\Requests\AddResourceRequest;
 use App\Models\AppClient;
 use App\Models\ClientResource;
@@ -12,12 +11,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-use function PHPSTORM_META\map;
 
 class AppResourceController extends Controller
 {
     public function index(): View
     {
+
+        $idResource = ClientResource::select('master_resource_id')->where('user_id',  Auth::user()->id)->get()->toArray();
         $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
         // dd($listResource);
         
@@ -35,8 +35,14 @@ class AppResourceController extends Controller
                 'connectedApp' => $connectedApp
             ];
         });
-        // dd($mapped);
-        $masterResource = MasterResource::all();
+
+        $masterResource = '';
+        if (!empty($idResource)) {
+            $masterResource = MasterResource::whereNotIn('id', $idResource)->get();
+        } else {
+            $masterResource = MasterResource::all();
+        }
+
         return view(
             'page.app-resource',
             [

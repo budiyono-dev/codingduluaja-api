@@ -1,3 +1,3 @@
-<button {{ $attributes->class(['btn', 'd-flex', 'align-items-center' ]) }} {{ $attributes->merge() }}>
+<button {{ $attributes->class(['btn']) }} {{ $attributes->merge() }}>
     {{ $slot }}
 </button>

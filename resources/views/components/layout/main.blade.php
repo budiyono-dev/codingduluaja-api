@@ -13,6 +13,10 @@
         body {
             height: 100%;
         }
+
+        .cursor-pointer {
+            cursor: pointer;
+        }
     </style>
     @stack('styles')
 </head>
@@ -49,7 +53,9 @@
                     <p class="mb-0" id="confirmationMsg">????</p>
                 </div>
                 <div class="modal-footer w-100">
-                    <button type="submit" id="btnConfirmYes" class="btn btn-danger w-100">OK!</button>
+                    <x-button type="submit" class="btn-danger w-100" id="btnConfirmYes">
+                        OK!
+                    </x-button>
                 </div>
             </>
         </div>

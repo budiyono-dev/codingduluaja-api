@@ -5,10 +5,10 @@
                 <h4>Your Client Application</h4>
             </div>
             <div class="text-end mb-2">
-                <button type="button" class="btn btn-sm btn-primary px-3"
-                 data-bs-toggle="modal" data-bs-target="#modalCreateNewApp">
-                 Create New App
-                </button>
+                <x-button type="button" class="btn-sm btn-primary px-3" data-bs-toggle="modal"
+                    data-bs-target="#modalCreateNewApp">
+                    Create New App
+                </x-button>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm  table-hover">
@@ -27,27 +27,19 @@
                                 <td class="text-start">{{ $appClient->name }}</td>
                                 <td class="text-start">{{ $appClient->created_at }}</td>
                                 <td>
-                                    <form method="post" action="{{ route('do.deleteAppClient', ['id' => $appClient->id])  }}">
+                                    <form method="post"
+                                        action="{{ route('do.deleteAppClient', ['id' => $appClient->id]) }}">
                                         @csrf
-                                        <button type="button" class="btn btn-danger" onclick="deleteAppClient(this)">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="16"
-                                                height="16"
-                                                fill="currentColor"
-                                                class="bi bi-trash"
-                                                viewBox="0 0 16 16">
-                                            <path
-                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
-                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
-                                          </svg>
-                                        </button>
+                                        <x-button-icon type="button" class="btn-danger"
+                                            onclick="deleteAppClient(this)">
+                                            <x-icon.bi-trash></x-icon.bi-trash>
+                                        </x-button-icon>
                                     </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                               <td colspan="4">No Data....</td>
+                                <td colspan="4">No Data....</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -56,29 +48,28 @@
         </div>
     </div>
     {{-- <!-- Modal --> --}}
-    <x-modals.form-modal titleModal="Add New App" id="modalCreateNewApp"
-        idModalBtnSubmit="btnSubmitCreateApp" >
+    <x-modals.form-modal titleModal="Add New App" id="modalCreateNewApp" idModalBtnSubmit="btnSubmitCreateApp">
         <form name="createApp" id="createApp" action="{{ route('do.createApp') }}" method="post">
             @csrf
             <div class="form-floating">
                 <input type="text" class="form-control" id="txtName" name="name" placeholder="my-app">
                 <label for="txtName">Name</label>
-              </div>
+            </div>
         </form>
     </x-modals.form-modal>
 
     @push('script')
-    <script type="text/javascript">
-        const resetModalCreateNewApp = () => {
-            document.getElementById('createApp').reset();
-        }
-        const submitCreateAppForm = () => {
-            document.createApp.submit();
-        }
-        const deleteAppClient = (e) => {
-            deleteConfirmation(() => e.parentElement.submit());
-        }
-    </script>
+        <script type="text/javascript">
+            const resetModalCreateNewApp = () => {
+                document.getElementById('createApp').reset();
+            }
+            const submitCreateAppForm = () => {
+                document.createApp.submit();
+            }
+            const deleteAppClient = (e) => {
+                deleteConfirmation(() => e.parentElement.submit());
+            }
+        </script>
     @endpush
     @push('addEventListener')
         <script type="text/javascript">
