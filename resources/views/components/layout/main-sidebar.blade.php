@@ -5,6 +5,7 @@
                 /* margin-left: 250px; */
                 transition: all 0.3s ease-out;
                 /* padding: 20px; */
+                width: 100%
             }
 
             .toggle-main-content {

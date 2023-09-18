@@ -12,6 +12,11 @@
         html,
         body {
             height: 100%;
+            min-height: 100%;
+            margin:0;
+            box-sizing: border-box;
+            padding:0;
+
         }
 
         .cursor-pointer {
@@ -53,11 +58,11 @@
                     <p class="mb-0" id="confirmationMsg">????</p>
                 </div>
                 <div class="modal-footer w-100">
-                    <x-button type="submit" class="btn-danger w-100" id="btnConfirmYes">
+                    <x-button type="submit" class="btn-outline-danger w-100" id="btnConfirmYes">
                         OK!
                     </x-button>
                 </div>
-            </>
+            </div>
         </div>
     </div>
 

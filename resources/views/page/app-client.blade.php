@@ -5,7 +5,7 @@
                 <h4>Your Client Application</h4>
             </div>
             <div class="text-end mb-2">
-                <x-button type="button" class="btn-sm btn-primary px-3" data-bs-toggle="modal"
+                <x-button type="button" class="btn-sm btn-outline-primary px-3" data-bs-toggle="modal"
                     data-bs-target="#modalCreateNewApp">
                     Create New App
                 </x-button>
@@ -30,7 +30,7 @@
                                     <form method="post"
                                         action="{{ route('do.deleteAppClient', ['id' => $appClient->id]) }}">
                                         @csrf
-                                        <x-button-icon type="button" class="btn-danger"
+                                        <x-button-icon type="button" class="btn-outline-danger"
                                             onclick="deleteAppClient(this)">
                                             <x-icon.bi-trash></x-icon.bi-trash>
                                         </x-button-icon>

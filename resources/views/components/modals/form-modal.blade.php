@@ -11,7 +11,7 @@
             </div>
             <div class="modal-footer">
                 <div class="d-flex w-100">
-                    <x-button type="submit" class="btn-primary btn-sm w-100" id="{{ $idModalBtnSubmit }}">
+                    <x-button type="submit" class="btn-outline-primary btn-sm w-100" id="{{ $idModalBtnSubmit }}">
                         {{ $btnText ?? 'Save' }}
                     </x-button>
                 </div>
