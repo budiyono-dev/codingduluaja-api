@@ -76,4 +76,22 @@ class AppResourceController extends Controller
         });
         return redirect()->route('page.appResource');
     }
+
+    public function connectClient(int $id): RedirectResponse
+    {
+        DB::transaction(function () use ($id) {
+            $appClient = ClientResource::find($id);
+            $appClient->delete();
+        });
+        return redirect()->route('page.appResource');
+    }
+
+    public function disconnectClient(int $id): RedirectResponse
+    {
+        DB::transaction(function () use ($id) {
+            $appClient = ClientResource::find($id);
+            $appClient->delete();
+        });
+        return redirect()->route('page.appResource');
+    }
 }

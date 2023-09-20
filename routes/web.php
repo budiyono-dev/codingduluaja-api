@@ -22,13 +22,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
     Route::post('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
 
-    Route::post('/create-app', [AppClientController::class, 'createApp'])->name('do.createApp');
-
     Route::get('/app-resource', [AppResourceController::class, 'index'])->name('page.appResource');
     Route::post('/app-resource', [AppResourceController::class, 'addResource'])->name('do.addResource');
-
-
+    Route::post('/app-resource/delete/{id}', [AppResourceController::class, 'delete'])->name('do.deleteResource');
+    Route::post('/app-resource/connect/{id}', [AppResourceController::class, 'connectClient'])->name('do.connectClient');
+    Route::post('/app-resource/disconnect/{id}', [AppResourceController::class, 'disconnectClient'])->name('do.disconnectClient');
+        
     Route::get('/app-client', [AppClientController::class, 'index'])->name('page.appClient');
+    Route::post('/app-client', [AppClientController::class, 'createApp'])->name('do.createApp');
     Route::post('/app-client/delete/{id}', [AppClientController::class, 'delete'])->name('do.deleteAppClient');
 });
 

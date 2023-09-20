@@ -90,8 +90,8 @@
     </x-modals.form-modal>
 
     {{-- <!-- Modal --> --}}
-    <x-modals.form-modal titleModal="Connect Client Resource" id="modalsAddReouce" idModalBtnSubmit="btnSubmitResource">
-        <form name="addResource" id="addResource" action="{{ route('do.addResource') }}" method="post">
+    <x-modals.form-modal titleModal="Connect Client Resource" id="modalConnectClient" idModalBtnSubmit="btnSbConnectClient">
+        <form name="connectClient" id="connectClient" action="{{ route('do.connectClient') }}" method="post">
             @csrf
             <select class="form-select" name="sel-master-resource" id="selResource">
                 @forelse ($masterResource as $key => $mRes)
