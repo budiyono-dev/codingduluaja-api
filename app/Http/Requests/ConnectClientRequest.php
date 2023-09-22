@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class AddResourceRequest extends FormRequest
+class ConnectClientRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,7 +15,7 @@ class AddResourceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sel_m_resource' => 'required|integer|min:1',
+            //
         ];
     }
 }

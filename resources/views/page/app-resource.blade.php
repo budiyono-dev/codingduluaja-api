@@ -76,7 +76,7 @@
     <x-modals.form-modal titleModal="Add Resource" id="modalsAddReouce" idModalBtnSubmit="btnSubmitResource">
         <form name="addResource" id="addResource" action="{{ route('do.addResource') }}" method="post">
             @csrf
-            <select class="form-select" name="sel-master-resource" id="selResource">
+            <select class="form-select" name="sel_m_resource" id="selResource">
                 @forelse ($masterResource as $key => $mRes)
                     @if ($key == 0)
                         <option selected value="">-- Select Resource --</option>
@@ -91,23 +91,27 @@
 
     {{-- <!-- Modal --> --}}
     <x-modals.form-modal titleModal="Connect Client Resource" id="modalConnectClient" idModalBtnSubmit="btnSbConnectClient">
-        <form name="connectClient" id="connectClient" action="{{ route('do.connectClient') }}" method="post">
+        <form name="connectClient" id="connectClient" method="post">
             @csrf
-            <select class="form-select" name="sel-master-resource" id="selResource">
-                @forelse ($masterResource as $key => $mRes)
+            <select class="form-select" id="selClientNotConnected">
+                {{-- @forelse ($masterResource as $key => $mRes)
                     @if ($key == 0)
                         <option selected value="">-- Select Resource --</option>
                     @endif
                     <option value="{{ $mRes->id }}">{{ $mRes->name }}</option>
                 @empty
                     <option selected value="">-- No Resource Found --</option>
-                @endforelse
+                @endforelse --}}
             </select>
         </form>
     </x-modals.form-modal>
 
     @push('script')
         <script type="text/javascript">
+            const modalConnectClient = new bootstrap.Modal('#modalConnectClient', { });
+            const listAppClient = {!! json_encode($listAppClient) !!}
+            console.log(listAppClient);
+            
             const resetModalAddResource = () => {
                 document.getElementById('addResource').reset();
             }
@@ -116,6 +120,22 @@
             }
             const deleteResource = (e) => {
                 deleteConfirmation(() => e.parentElement.submit());
+            }
+            const createSellAppClient = (appList) => {
+                const selClientNotConnected = document.getElementById('selClientNotConnected');
+                const mapAppList = new Map(appList.map(el => [el.id, el]));
+                let selAppClient = listAppClient.filter(app => mapAppList.get(app.id) ? false : true);
+                selClientNotConnected.innerHTML = '';
+
+                if (selAppClient.length > 0) {
+                    console.log(selAppClient);
+                    selClientNotConnected.add(new Option('-- Select Client --', '-'));
+                    for (const el of selAppClient) {
+                        selClientNotConnected.add(new Option(el.name, el.id));
+                    }
+                } else {
+                    selClientNotConnected.add(new Option('Not Found', '-'));
+                }
             }
             const showConnectedApp = (e) => {
                 const appList = JSON.parse(e.dataset.connectedApp);
@@ -158,8 +178,9 @@
                     c1.innerText = 'No App Connected';
                     c1.classList.add('text-center');
                 }
-
+                createSellAppClient(appList);
             }
+            
 
             document.getElementById('btnSubmitResource').disabled = true;
 
@@ -174,6 +195,7 @@
 
             const addApp = (e) => {
                 console.log("add app to resource");
+                modalConnectClient.show();
             }
 
             // ================ onload =============

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\TableNameConstant;
 use App\Http\Requests\AddResourceRequest;
+use App\Http\Requests\ConnectClientRequest;
 use App\Models\AppClient;
 use App\Models\ClientResource;
 use Illuminate\Contracts\View\View;
@@ -16,9 +18,21 @@ class AppResourceController extends Controller
 {
     public function index(): View
     {
+        $tbConnClient = TableNameConstant::CONNECTED_APP;
+        $tbAppClient = TableNameConstant::APP_CLIENT;
+        $userId = Auth::user()->id;
 
-        $idResource = ClientResource::select('master_resource_id')->where('user_id',  Auth::user()->id)->get()->toArray();
+        $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
         $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
+        // $listAppClient = DB::table($tbAppClient)
+        //     ->join($tbConnClient, $tbConnClient.'.app_client_id', '=', $tbAppClient.'.id')
+        //     ->select($tbAppClient.'.id', $tbAppClient.'.name')
+        //     ->where($tbAppClient.'.user_id', $userId)
+        //     ->get();
+        $listAppClient = AppClient::select('id', 'name')->where('user_id', $userId)->get();
+            
+        // dd($listAppClient);
+
         // dd($listResource);
         
         $mapped = $listResource->map(function(ClientResource $r){
@@ -47,7 +61,8 @@ class AppResourceController extends Controller
             'page.app-resource',
             [
                 'listResource' => $mapped,
-                'masterResource' => $masterResource
+                'masterResource' => $masterResource,
+                'listAppClient' => $listAppClient
             ]
         );
     }
@@ -60,7 +75,7 @@ class AppResourceController extends Controller
 
             $c = new ClientResource();
             $c->user_id = $userId;
-            $c->master_resource_id = $validated['sel-master-resource'];
+            $c->master_resource_id = $validated['sel_m_resource'];
 
             $c->save();
         });
@@ -77,9 +92,9 @@ class AppResourceController extends Controller
         return redirect()->route('page.appResource');
     }
 
-    public function connectClient(int $id): RedirectResponse
+    public function connectClient(int $id, ConnectClientRequest $req): RedirectResponse
     {
-        DB::transaction(function () use ($id) {
+        DB::transaction(function () use ($id, $req) {
             $appClient = ClientResource::find($id);
             $appClient->delete();
         });
