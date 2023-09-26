@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\RegexConstant;
+use App\Rules\LetterAndSpace;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +17,7 @@ class CreateAppClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|alpha:ascii',
+            'name' => 'required|regex:'.RegexConstant::LETTER_SPACE,
         ];
     }
 }

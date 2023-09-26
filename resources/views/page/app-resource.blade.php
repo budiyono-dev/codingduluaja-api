@@ -38,6 +38,7 @@
                                     @forelse ($listResource as $key => $resource)
                                         <tr onclick="showConnectedApp(this)"
                                             data-connected-app="{{ $resource->connectedApp }}" class="cursor-pointer"
+                                            data-id-resource="{{ $resource->id }}"
                                             @if ($key == 0) id="firstResource" @endif>
                                             <td class="text-center">{{ $key + 1 }}</th>
                                             <td class="text-start">{{ $resource->name }}</td>
@@ -93,15 +94,7 @@
     <x-modals.form-modal titleModal="Connect Client Resource" id="modalConnectClient" idModalBtnSubmit="btnSbConnectClient">
         <form name="connectClient" id="connectClient" method="post">
             @csrf
-            <select class="form-select" id="selClientNotConnected">
-                {{-- @forelse ($masterResource as $key => $mRes)
-                    @if ($key == 0)
-                        <option selected value="">-- Select Resource --</option>
-                    @endif
-                    <option value="{{ $mRes->id }}">{{ $mRes->name }}</option>
-                @empty
-                    <option selected value="">-- No Resource Found --</option>
-                @endforelse --}}
+            <select class="form-select" id="selClientNotConnected" name="sel_client">
             </select>
         </form>
     </x-modals.form-modal>
@@ -110,13 +103,20 @@
         <script type="text/javascript">
             const modalConnectClient = new bootstrap.Modal('#modalConnectClient', { });
             const listAppClient = {!! json_encode($listAppClient) !!}
+            let idResource;
             console.log(listAppClient);
             
             const resetModalAddResource = () => {
-                document.getElementById('addResource').reset();
+                document.addResource.reset();
+            }
+            const resetModalConnectClient = () => {
+                document.connectClient.reset();
             }
             const sumbitAddResource = () => {
                 document.addResource.submit();
+            }
+            const submitConnectClient = () => {
+                document.connectClient.submit();
             }
             const deleteResource = (e) => {
                 deleteConfirmation(() => e.parentElement.submit());
@@ -139,6 +139,7 @@
             }
             const showConnectedApp = (e) => {
                 const appList = JSON.parse(e.dataset.connectedApp);
+                idResource = e.dataset.idResource;
                 let tableBody = document.getElementById('connectedAppTable').getElementsByTagName('tbody')[0];
                 let i = 1;
                 tableBody.innerHTML = '';
@@ -194,7 +195,13 @@
             }
 
             const addApp = (e) => {
-                console.log("add app to resource");
+                let f = document.getElementById("connectClient");
+                console.log(f.action);
+                
+                let url = {!! json_encode(route('do.connectClient', ['id' => ':id'])) !!};
+                url = url.replace(':id', idResource);
+                f.action = url;
+                
                 modalConnectClient.show();
             }
 
@@ -208,7 +215,9 @@
     @push('addEventListener')
         <script type="text/javascript">
             document.getElementById('modalsAddReouce').addEventListener('show.bs.modal', resetModalAddResource);
+            document.getElementById('modalConnectClient').addEventListener('show.bs.modal', resetModalConnectClient);
             document.getElementById('btnSubmitResource').addEventListener('click', sumbitAddResource);
+            document.getElementById('btnSbConnectClient').addEventListener('click', submitConnectClient);
             document.getElementById('selResource').addEventListener('change', enableSubmit);
             document.getElementById('btnAddClient').addEventListener('click', addApp);
         </script>

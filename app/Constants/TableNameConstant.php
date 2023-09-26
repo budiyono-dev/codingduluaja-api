@@ -4,7 +4,7 @@ namespace App\Constants;
 
 class TableNameConstant
 {
-    const APP_CLIENT = 'app_client';
+    const CLIENT_APP = 'client_app';
     const USERS = 'users';
     const MENU_ITEM = 'menu_item';
     const MENU_PARENT = 'menu_parent';

@@ -61,7 +61,7 @@
     @push('script')
         <script type="text/javascript">
             const resetModalCreateNewApp = () => {
-                document.getElementById('createApp').reset();
+                document.createApp.reset();
             }
             const submitCreateAppForm = () => {
                 document.createApp.submit();

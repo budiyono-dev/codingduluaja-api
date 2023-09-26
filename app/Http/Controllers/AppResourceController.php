@@ -19,7 +19,7 @@ class AppResourceController extends Controller
     public function index(): View
     {
         $tbConnClient = TableNameConstant::CONNECTED_APP;
-        $tbAppClient = TableNameConstant::APP_CLIENT;
+        $tbAppClient = TableNameConstant::CLIENT_APP;
         $userId = Auth::user()->id;
 
         $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
@@ -36,6 +36,7 @@ class AppResourceController extends Controller
         // dd($listResource);
         
         $mapped = $listResource->map(function(ClientResource $r){
+            // dd($r->connectedApp);
             $connectedApp = $r->connectedApp->map(function(AppClient $app){
                 return (object) [
                     'id' => $app->id,
@@ -95,8 +96,7 @@ class AppResourceController extends Controller
     public function connectClient(int $id, ConnectClientRequest $req): RedirectResponse
     {
         DB::transaction(function () use ($id, $req) {
-            $appClient = ClientResource::find($id);
-            $appClient->delete();
+            dd($id, $req);
         });
         return redirect()->route('page.appResource');
     }

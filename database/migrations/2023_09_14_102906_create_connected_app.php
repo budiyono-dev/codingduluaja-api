@@ -12,11 +12,11 @@ return new class extends Migration
         Schema::create(TableNameConstant::CONNECTED_APP, function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('client_resource_id');
-            $table->unsignedBigInteger('app_client_id');
+            $table->unsignedBigInteger('client_app_id');
             $table->timestamps();
 
             $table->foreign('client_resource_id')->references('id')->on(TableNameConstant::CLIENT_RESOURCE);
-            $table->foreign('app_client_id')->references('id')->on(TableNameConstant::APP_CLIENT);
+            $table->foreign('client_app_id')->references('id')->on(TableNameConstant::CLIENT_APP);
         });
     }
 

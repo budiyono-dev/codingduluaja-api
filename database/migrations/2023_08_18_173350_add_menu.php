@@ -33,7 +33,7 @@ return new class extends Migration
         $itemAppClient = new MenuItem(
             [
                 'menu_parent_id' => $menuApplication->id,
-                'name' => 'menu.item.app_client',
+                'name' => 'menu.item.client_app',
                 'page' => 'page.appClient',
                 'sequence' => 2
             ]

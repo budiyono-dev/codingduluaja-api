@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(TableNameConstant::APP_CLIENT, function (Blueprint $table) {
+        Schema::create(TableNameConstant::CLIENT_APP, function (Blueprint $table) {
             $table->id();
             $table->unsignedBiginteger('user_id');
             $table->string('name', 50);
@@ -22,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(TableNameConstant::APP_CLIENT);
+        Schema::dropIfExists(TableNameConstant::CLIENT_APP);
     }
 };
