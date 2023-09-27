@@ -9,21 +9,27 @@ use App\Models\Api\Todolist;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ToDoListController extends Controller
 {
-    public function __construct(public ResponseHelper $responseHelper)
+    public function __construct
+    (
+        public ResponseHelper $responseHelper
+    )
     {
     }
 
     public function createTodoList(CreateTodolistRequest $req): JsonResponse
     {
+        Log::info('Create Todolist');
         DB::transaction(function () use ($req) {
             $validatedReq = $req->validated();
             $todo = new Todolist();
             $todo->date = Carbon::createFromFormat('d-m-Y', $validatedReq['date'])->format('Y-m-d');
             $todo->name = $validatedReq['name'];
             $todo->save();
+            Log::info($todo);
         });
         return $this->responseHelper->successResponse('Data Inserted Successfully', null);
     }
@@ -40,6 +46,7 @@ class ToDoListController extends Controller
 
     public function editTodoList(int $id, CreateTodolistRequest $req): JsonResponse
     {
+        Log::info('edit Todolist : '.$id);
         DB::transaction(function () use ($id, $req) {
             $todo = Todolist::findOrFail($id);
 
@@ -54,6 +61,7 @@ class ToDoListController extends Controller
 
     public function deleteTodoList($id)
     {
+        Log::info('delete Todolist : '.$id);
         DB::transaction(function () use ($id) {
             Todolist::findOrFail($id)->delete();
         });

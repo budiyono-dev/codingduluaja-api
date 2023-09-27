@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class AppResourceController extends Controller
@@ -72,6 +73,7 @@ class AppResourceController extends Controller
 
     public function addResource(AddResourceRequest $req): RedirectResponse
     {
+        Log::info('Add Resource');    
         DB::transaction(function () use ($req) {
             $validated = $req->validated();
             $userId = Auth::user()->id;
@@ -79,8 +81,9 @@ class AppResourceController extends Controller
             $c = new ClientResource();
             $c->user_id = $userId;
             $c->master_resource_id = $validated['sel_m_resource'];
-
+            
             $c->save();
+            Log::info($c);
         });
 
         return redirect()->route('page.appResource');
@@ -88,8 +91,9 @@ class AppResourceController extends Controller
 
     public function delete(int $id): RedirectResponse
     {
+        Log::info('Delete Resource : '.$id);
         DB::transaction(function () use ($id) {
-            $appClient = ClientResource::find($id);
+            $appClient = ClientResource::findOrFail($id);
             $appClient->delete();
         });
         return redirect()->route('page.appResource');
@@ -97,12 +101,15 @@ class AppResourceController extends Controller
 
     public function connectClient(int $id, ConnectClientRequest $req): RedirectResponse
     {
+        Log::info('Connect Client To Resource');
         DB::transaction(function () use ($id, $req) {
             $validReq = $req->validated();
             $userId = Auth::user()->id;
             // dd($id, $req);
             $now = Carbon::now();
-            $clientResource = ClientResource::find($id);
+            $clientResource = ClientResource::findOrFail($id);
+
+            Log::info('connect client '.$validReq['sel_client'].' to resource '.$id);
 
             DB::table(TableNameConstant::CONNECTED_APP)
                 ->insert([
@@ -117,8 +124,14 @@ class AppResourceController extends Controller
 
     public function disconnectClient(int $id, DisconnectClientRequest $req): RedirectResponse
     {
+        Log::info('Disconnect Client from Resource');
         DB::transaction(function () use ($id, $req) {
             $validReq = $req->validated();
+
+            $clientResource = ClientResource::findOrFail($id);
+
+            Log::info('disconnect client '.$validReq['sel_client'].' from resource '.$id);
+
             DB::table(TableNameConstant::CONNECTED_APP)
                 ->where('client_resource_id', $id)
                 ->where('client_app_id', $validReq['client_id'])

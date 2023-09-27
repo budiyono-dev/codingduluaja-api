@@ -27,7 +27,7 @@
                                 <td class="text-start">{{ $appClient->name }}</td>
                                 <td class="text-start">{{ $appClient->created_at }}</td>
                                 <td>
-                                    <form method="post"
+                                    <form method="post" autocomplete="off"
                                         action="{{ route('do.deleteAppClient', ['id' => $appClient->id]) }}">
                                         @csrf
                                         <x-button-icon type="button" class="btn-outline-danger"
@@ -49,7 +49,7 @@
     </div>
     {{-- <!-- Modal --> --}}
     <x-modals.form-modal titleModal="Add New App" id="modalCreateNewApp" idModalBtnSubmit="btnSubmitCreateApp">
-        <form name="createApp" id="createApp" action="{{ route('do.createApp') }}" method="post">
+        <form name="createApp" id="createApp" action="{{ route('do.createApp') }}" method="post" autocomplete="off">
             @csrf
             <div class="form-floating">
                 <input type="text" class="form-control" id="txtName" name="name" placeholder="my-app">

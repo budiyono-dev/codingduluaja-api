@@ -75,7 +75,7 @@
     </div>
     {{-- <!-- Modal --> --}}
     <x-modals.form-modal titleModal="Add Resource" id="modalsAddReouce" idModalBtnSubmit="btnSubmitResource">
-        <form name="addResource" id="addResource" action="{{ route('do.addResource') }}" method="post">
+        <form name="addResource" id="addResource" action="{{ route('do.addResource') }}" method="post" autocomplete="off">
             @csrf
             <select class="form-select" name="sel_m_resource" id="selResource">
                 @forelse ($masterResource as $key => $mRes)
@@ -92,7 +92,7 @@
 
     {{-- <!-- Modal --> --}}
     <x-modals.form-modal titleModal="Connect Client Resource" id="modalConnectClient" idModalBtnSubmit="btnSbConnectClient">
-        <form name="connectClient" id="connectClient" method="post">
+        <form name="connectClient" id="connectClient" method="post" autocomplete="off">
             @csrf
             <select class="form-select" id="selClientNotConnected" name="sel_client">
             </select>
