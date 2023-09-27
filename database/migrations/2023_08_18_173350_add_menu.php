@@ -33,13 +33,24 @@ return new class extends Migration
         $itemAppClient = new MenuItem(
             [
                 'menu_parent_id' => $menuApplication->id,
-                'name' => 'menu.item.client_app',
+                'name' => 'menu.item.app_client',
                 'page' => 'page.appClient',
                 'sequence' => 2
             ]
         );
 
         $itemAppClient->save();
+
+        $itemAppManager = new MenuItem(
+            [
+                'menu_parent_id' => $menuApplication->id,
+                'name' => 'menu.item.app_manager',
+                'page' => 'page.appManager',
+                'sequence' => 3
+            ]
+        );
+
+        $itemAppManager->save();
     }
 
     public function down(): void

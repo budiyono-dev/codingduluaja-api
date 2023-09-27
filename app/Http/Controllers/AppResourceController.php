@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Constants\TableNameConstant;
 use App\Http\Requests\AddResourceRequest;
 use App\Http\Requests\ConnectClientRequest;
+use App\Http\Requests\DisconnectClientRequest;
 use App\Models\AppClient;
 use App\Models\ClientResource;
 use Illuminate\Contracts\View\View;
 use App\Models\MasterResource;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -96,16 +98,31 @@ class AppResourceController extends Controller
     public function connectClient(int $id, ConnectClientRequest $req): RedirectResponse
     {
         DB::transaction(function () use ($id, $req) {
-            dd($id, $req);
+            $validReq = $req->validated();
+            $userId = Auth::user()->id;
+            // dd($id, $req);
+            $now = Carbon::now();
+            $clientResource = ClientResource::find($id);
+
+            DB::table(TableNameConstant::CONNECTED_APP)
+                ->insert([
+                    'client_resource_id' => $id,
+                    'client_app_id' => $validReq['sel_client'],
+                    'created_at'=> $now,
+                    'updated_at'=> $now
+                ]);
         });
         return redirect()->route('page.appResource');
     }
 
-    public function disconnectClient(int $id): RedirectResponse
+    public function disconnectClient(int $id, DisconnectClientRequest $req): RedirectResponse
     {
-        DB::transaction(function () use ($id) {
-            $appClient = ClientResource::find($id);
-            $appClient->delete();
+        DB::transaction(function () use ($id, $req) {
+            $validReq = $req->validated();
+            DB::table(TableNameConstant::CONNECTED_APP)
+                ->where('client_resource_id', $id)
+                ->where('client_app_id', $validReq['client_id'])
+                ->delete();
         });
         return redirect()->route('page.appResource');
     }

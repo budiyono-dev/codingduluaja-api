@@ -161,11 +161,7 @@
                         c2.innerText = app.name;
                         c2.classList.add('text-start');
 
-                        c3.innerHTML = `<x-button-icon type="button" class="btn-outline-danger"
-                                            onclick="addApp(this)" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" data-bs-title="Connect App to Resource">
-                                            <x-icon.bi-trash></x-icon.bi-trash>
-                                        </x-button-icon>`;
+                        c3.innerHTML = generateDeleteApp(idResource, app.id);
                         c3.classList.add('text-center', 'd-flex', 'justify-content-evenly', 'align-items-center');
                         i++;
                     }
@@ -181,6 +177,22 @@
                 }
                 createSellAppClient(appList);
             }
+
+            const generateDeleteApp = (idResource, idApp) => {
+                let url = {!! json_encode(route('do.disconnectClient', ['id' => ':id'])) !!};
+                url = url.replace(':id', idResource);
+                return `
+                <form method="post" action="${url}">
+                    @csrf
+                    <input type="hidden" name="client_id" value="${idApp}">
+                    <x-button-icon type="button" class="btn-outline-danger"
+                        onclick="deleteApp(this)" data-bs-toggle="tooltip"
+                        data-bs-placement="top" data-bs-title="Connect App to Resource">
+                        <x-icon.bi-trash></x-icon.bi-trash>
+                    </x-button-icon>
+                </form>
+                `;
+            }
             
 
             document.getElementById('btnSubmitResource').disabled = true;
@@ -192,6 +204,10 @@
                 } else {
                     btnSubmitResource.disabled = true;
                 }
+            }
+
+            const deleteApp = (e) => {
+                deleteConfirmation(() => e.parentElement.submit());
             }
 
             const addApp = (e) => {

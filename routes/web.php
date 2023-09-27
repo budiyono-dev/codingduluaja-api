@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/app-client', [AppClientController::class, 'index'])->name('page.appClient');
     Route::post('/app-client', [AppClientController::class, 'createApp'])->name('do.createApp');
     Route::post('/app-client/delete/{id}', [AppClientController::class, 'delete'])->name('do.deleteAppClient');
+    
+    Route::get('/app-manager', [AppClientController::class, 'index'])->name('page.appManager');
 });
 
 Route::middleware('non-auth')->group(function () {
