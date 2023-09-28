@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AppClientController;
 use App\Http\Controllers\AppResourceController;
+use App\Http\Controllers\AppManagerController;
 
 Route::middleware('auth')->group(function () {
     Route::view('/', 'page.welcome')->name('page.dashboard');
@@ -32,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/app-client', [AppClientController::class, 'createApp'])->name('do.createApp');
     Route::post('/app-client/delete/{id}', [AppClientController::class, 'delete'])->name('do.deleteAppClient');
     
-    Route::get('/app-manager', [AppClientController::class, 'index'])->name('page.appManager');
+    Route::get('/app-manager', [AppManagerController::class, 'index'])->name('page.appManager');
 });
 
 Route::middleware('non-auth')->group(function () {
