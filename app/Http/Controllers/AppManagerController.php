@@ -24,6 +24,6 @@ class AppManagerController extends Controller
 
         // dd($listAppClient);
 
-        return view('page.appManager');
+        return view('page.app-manager');
     }
 }
