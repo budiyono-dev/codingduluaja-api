@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\CreateAppClientRequest;
+use App\Constants\TableNameConstant;
+use App\Http\Requests\AddResourceRequest;
+use App\Http\Requests\ConnectClientRequest;
+use App\Http\Requests\DisconnectClientRequest;
 use App\Models\AppClient;
-use Illuminate\Support\Str;
+use App\Models\ClientResource;
 use Illuminate\Contracts\View\View;
+use App\Models\MasterResource;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +26,18 @@ class AppManagerController extends Controller
 
         $listAppClient = AppClient::where('user_id', $userId)->get();
 
-        // dd($listAppClient);
+        $tbConnClient = TableNameConstant::CONNECTED_APP;
+        $tbAppClient = TableNameConstant::CLIENT_APP;
+        $userId = Auth::user()->id;
+
+        $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
+        $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
+        $listAppClient = DB::table($tbAppClient)
+             ->join($tbConnClient, $tbConnClient.'.app_client_id', '=', $tbAppClient.'.id')
+             ->select($tbAppClient.'.id', $tbAppClient.'.name')
+             ->where($tbAppClient.'.user_id', $userId)
+             ->get();
+         dd($listAppClient);
 
         return view('page.app-manager');
     }
