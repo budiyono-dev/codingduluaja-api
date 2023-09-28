@@ -1,8 +1,8 @@
-<x-layout.main-sidebar title="App Clients">
+<x-layout.main-sidebar title="App Manager">
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="pt-4 pb-4">
-                <h4>Your Client Application</h4>
+                <h4>App Manager</h4>
             </div>
             <div class="text-end mb-2">
                 <x-button type="button" class="btn-sm btn-outline-primary px-3" data-bs-toggle="modal"
@@ -21,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($listAppClient as $key => $appClient)
+{{--                       @forelse ($listAppClient as $key => $appClient)
                             <tr>
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td class="text-start">{{ $appClient->name }}</td>
@@ -42,7 +42,8 @@
                                 <td colspan="4">No Data....</td>
                             </tr>
                         @endforelse
-                    </tbody>
+--}}  
+                  </tbody>
                 </table>
             </div>
         </div>
