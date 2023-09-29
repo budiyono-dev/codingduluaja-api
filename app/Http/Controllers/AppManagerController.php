@@ -33,7 +33,7 @@ class AppManagerController extends Controller
         $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
         $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
         $listAppClient = DB::table($tbAppClient)
-             ->join($tbConnClient, $tbConnClient.'.app_client_id', '=', $tbAppClient.'.id')
+             ->join($tbConnClient, $tbConnClient.'.client_app_id', '=', $tbAppClient.'.id')
              ->select($tbAppClient.'.id', $tbAppClient.'.name')
              ->where($tbAppClient.'.user_id', $userId)
              ->get();
