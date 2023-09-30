@@ -21,17 +21,9 @@ class AppManagerController extends Controller
     public function index(): View
     {
         // craete token for user with expired
-        $user = Auth::user();
-        $userId = $user->id;
-
-        $listAppClient = AppClient::where('user_id', $userId)->get();
 
         $userId = Auth::user()->id;
-
-        $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
-        $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
-
-        $listAppClient = DB::table(TableNameConstant::CLIENT_APP.' as ac')
+        $listApp = DB::table(TableNameConstant::CLIENT_APP.' as ac')
              ->join(TableNameConstant::CONNECTED_APP.' as ca', 'ca.client_app_id', '=', 'ac.id')
              ->join(TableNameConstant::CLIENT_RESOURCE.' as cr', 'ca.client_resource_id', '=','cr.id')
              ->join(TableNameConstant::MASTER_RESOURCE.' as mr', 'cr.master_resource_id', '=', 'mr.id' )
@@ -41,8 +33,8 @@ class AppManagerController extends Controller
              ->orderBy('mr.name')
              ->orderBy('ac.name')
              ->get();
-         dd($listAppClient);
+         //dd($listAppClient);
 
-        return view('page.app-manager');
+        return view('page.app-manager', ['listApp' => $listApp]);
     }
 }

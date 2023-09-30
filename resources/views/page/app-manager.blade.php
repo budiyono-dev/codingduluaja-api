@@ -17,23 +17,38 @@
                             <th scope="col">#</th>
                             <th scope="col">Resource</th>
                             <th scope="col">Connected App</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Token</th>
+                            <th scope="col" class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-{{--                       @forelse ($listAppClient as $key => $appClient)
+                       @forelse ($listApp as $key => $app)
                             <tr>
                                 <th scope="row">{{ $key + 1 }}</th>
-                                <td class="text-start">{{ $appClient->name }}</td>
-                                <td class="text-start">{{ $appClient->created_at }}</td>
-                                <td>
+                                <td class="text-start">{{ $app->resource_name }}</td>
+                                <td class="text-start">{{ $app->app_name }}</td>
+                                <td class="text-start">
+                                    <x-button type="button" class="btn-outline-primary btn-sm"
+                                        onclick="deleteAppClient(this)">
+                                        Show Token
+                                    </x-button>
+                                </td>
+                                <td class="text-center d-flex justify-content-evenly align-items-center">
                                     <form method="post" autocomplete="off"
-                                        action="{{ route('do.deleteAppClient', ['id' => $appClient->id]) }}">
+                                        action="">
                                         @csrf
-                                        <x-button-icon type="button" class="btn-outline-danger"
+                                        <x-button type="button" class="btn-outline-primary btn-sm"
                                             onclick="deleteAppClient(this)">
-                                            <x-icon.bi-trash></x-icon.bi-trash>
-                                        </x-button-icon>
+                                            Generate Token
+                                        </x-button>
+                                    </form>
+                                    <form method="post" autocomplete="off"
+                                        action="">
+                                        @csrf
+                                        <x-button type="button" class="btn-outline-danger btn-sm"
+                                            onclick="deleteAppClient(this)">
+                                            Revoke Token
+                                        </x-button>
                                     </form>
                                 </td>
                             </tr>
@@ -41,8 +56,7 @@
                             <tr>
                                 <td colspan="4">No Data....</td>
                             </tr>
-                        @endforelse
---}}  
+                        @endforelse  
                   </tbody>
                 </table>
             </div>
