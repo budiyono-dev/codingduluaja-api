@@ -26,16 +26,20 @@ class AppManagerController extends Controller
 
         $listAppClient = AppClient::where('user_id', $userId)->get();
 
-        $tbConnClient = TableNameConstant::CONNECTED_APP;
-        $tbAppClient = TableNameConstant::CLIENT_APP;
         $userId = Auth::user()->id;
 
         $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
         $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
-        $listAppClient = DB::table($tbAppClient)
-             ->join($tbConnClient, $tbConnClient.'.client_app_id', '=', $tbAppClient.'.id')
-             ->select($tbAppClient.'.id', $tbAppClient.'.name')
-             ->where($tbAppClient.'.user_id', $userId)
+
+        $listAppClient = DB::table(TableNameConstant::CLIENT_APP.' as ac')
+             ->join(TableNameConstant::CONNECTED_APP.' as ca', 'ca.client_app_id', '=', 'ac.id')
+             ->join(TableNameConstant::CLIENT_RESOURCE.' as cr', 'ca.client_resource_id', '=','cr.id')
+             ->join(TableNameConstant::MASTER_RESOURCE.' as mr', 'cr.master_resource_id', '=', 'mr.id' )
+             ->select('ac.name as app_name', 'mr.name as resource_name',
+                     'ac.id as client_id', 'cr.id as resource_id')
+             ->where('ac.user_id', $userId)
+             ->orderBy('mr.name')
+             ->orderBy('ac.name')
              ->get();
          dd($listAppClient);
 
