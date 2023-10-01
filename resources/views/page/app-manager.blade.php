@@ -34,22 +34,14 @@
                                     </x-button>
                                 </td>
                                 <td class="text-center d-flex justify-content-evenly align-items-center">
-                                    <form method="post" autocomplete="off"
-                                        action="">
-                                        @csrf
-                                        <x-button type="button" class="btn-outline-primary btn-sm"
-                                            onclick="deleteAppClient(this)">
-                                            Generate Token
-                                        </x-button>
-                                    </form>
-                                    <form method="post" autocomplete="off"
-                                        action="">
-                                        @csrf
-                                        <x-button type="button" class="btn-outline-danger btn-sm"
-                                            onclick="deleteAppClient(this)">
-                                            Revoke Token
-                                        </x-button>
-                                    </form>
+                                    <x-button type="button" class="btn-outline-primary btn-sm" id="btnGenerateToken"
+                                        onclick="deleteAppClient(this)">
+                                        Generate Token
+                                    </x-button>
+                                    <x-button type="button" class="btn-outline-danger btn-sm" id="btnRevokeToken"
+                                        onclick="deleteAppClient(this)">
+                                        Revoke Token
+                                    </x-button>
                                 </td>
                             </tr>
                         @empty
@@ -90,6 +82,7 @@
         <script type="text/javascript">
             document.getElementById('modalCreateNewApp').addEventListener('hide.bs.modal', resetModalCreateNewApp);
             document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
+            document.getElementById('btnGenerateToken').addEventListener('click', submitCreateAppForm);
         </script>
     @endpush
 </x-layout.main-sidebar>
