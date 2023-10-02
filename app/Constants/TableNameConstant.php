@@ -12,4 +12,5 @@ class TableNameConstant
     const CLIENT_RESOURCE = 'client_resource';
     const TODOLIST = 'todolist';
     const CONNECTED_APP = 'connected_app';
+    const EXPIRED_TOKEN = 'expired_token';
 }

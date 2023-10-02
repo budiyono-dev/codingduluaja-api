@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
-    Route::post('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
+    // Route::post('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
 
     Route::get('/app-resource', [AppResourceController::class, 'index'])->name('page.appResource');
     Route::post('/app-resource', [AppResourceController::class, 'addResource'])->name('do.addResource');
@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/app-client/delete/{id}', [AppClientController::class, 'delete'])->name('do.deleteAppClient');
     
     Route::get('/app-manager', [AppManagerController::class, 'index'])->name('page.appManager');
+    Route::post('/app-manager/create-token', [AppManagerController::class, 'generateToken'])->name('do.generateToken');
 });
 
 Route::middleware('non-auth')->group(function () {

@@ -4,12 +4,12 @@
             <div class="pt-4 pb-4">
                 <h4>App Manager</h4>
             </div>
-            <div class="text-end mb-2">
+            {{-- <div class="text-end mb-2">
                 <x-button type="button" class="btn-sm btn-outline-primary px-3" data-bs-toggle="modal"
                     data-bs-target="#modalCreateNewApp">
                     Create New App
                 </x-button>
-            </div>
+            </div> --}}
             <div class="table-responsive">
                 <table class="table table-sm  table-hover">
                     <thead>
@@ -75,7 +75,7 @@
         </form>
     </x-modals.form-modal>
 
-    <x-modals.basic-modal>
+    <x-modals.basic-modal id="">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">Token</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

@@ -12,17 +12,17 @@
             const createToken = async (el) => {
                 try {
                     
-                    const res = await fetch("{{ route('do.createToken') }}", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-Token': csrfToken
-                        },
-                        body: JSON.stringify({applicationId: "idOfApplication"})
+                    // const res = await fetch("{{ route('do.createToken') }}", {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json',
+                    //         'X-CSRF-Token': csrfToken
+                    //     },
+                    //     body: JSON.stringify({applicationId: "idOfApplication"})
 
-                    });
-                    const jsonRes = await res.json();
-                    console.log(jsonRes);
+                    // });
+                    // const jsonRes = await res.json();
+                    // console.log(jsonRes);
                 } catch (e) {
                     log.error('error', e);
                 }
