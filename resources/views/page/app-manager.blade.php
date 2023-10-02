@@ -55,8 +55,8 @@
         </div>
     </div>
     {{-- <!-- Modal --> --}}
-    <x-modals.form-modal titleModal="Add New App" id="modalCreateNewApp" idModalBtnSubmit="btnSubmitCreateApp">
-        <form name="createApp" id="createApp" action="{{ route('do.createApp') }}" method="post" autocomplete="off">
+    <x-modals.form-modal titleModal="Generate Token" id="modalGenerateToken" idModalBtnSubmit="btnSbGenToken">
+        <form name="createApp" id="createApp" action="" method="post" autocomplete="off">
             @csrf
             <div class="form-floating">
                 <input type="text" class="form-control" id="txtName" name="name" placeholder="my-app">
@@ -64,6 +64,26 @@
             </div>
         </form>
     </x-modals.form-modal>
+
+    <x-modals.form-modal titleModal="Token" id="" idModalBtnSubmit="btnSbGenToken">
+        <form name="createApp" id="createApp" action="" method="post" autocomplete="off">
+            @csrf
+            <div class="form-floating">
+                <input type="text" class="form-control" id="txtName" name="name" placeholder="my-app">
+                <label for="txtName">Name</label>
+            </div>
+        </form>
+    </x-modals.form-modal>
+
+    <x-modals.basic-modal>
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Token</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>
+        </div>
+    </x-modals.basic-modal>
 
     @push('script')
         <script type="text/javascript">
