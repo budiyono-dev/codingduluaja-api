@@ -16,8 +16,8 @@ class GenerateTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'app_id' => 'required',
-            'resource_id' => 'required',
+            'client_app_id' => 'required',
+            'client_resource_id' => 'required',
             'exp' => 'required'
         ];
     }

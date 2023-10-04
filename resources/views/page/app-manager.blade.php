@@ -35,7 +35,7 @@
                                 </td>
                                 <td class="text-center d-flex justify-content-evenly align-items-center">
                                     <x-button type="button" class="btn-outline-primary btn-sm" id="btnGenerateToken"
-                                        onclick="showGenerateToken(this)">
+                                        onclick="showGenerateToken(this, {{$app->client_app_id}}, {{$app->client_resource_id}})">
                                         Generate Token
                                     </x-button>
                                     <x-button type="button" class="btn-outline-danger btn-sm" id="btnRevokeToken"
@@ -67,7 +67,7 @@
     </x-modals.form-modal>
 
     <x-modals.basic-modal id="modalGenerateToken">
-        <form>
+        <form autocomple="off" name="generateToken">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Token</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -77,7 +77,7 @@
                     <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>    
                 </div>--}}
                 <div class="mb-3">
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" name="selExp" id="selExp">
                         @forelse ($expList as $key => $exp)
                             @if ($key == 0) 
                                 <option selected value="">Select Token Duration..</option> 
@@ -111,14 +111,42 @@
 
     @push('script')
         <script type="text/javascript">
+            let clientAppId;
+            let clientResourceId;
+            console.log(document.generateToken);
             const modalGenerateToken = new bootstrap.Modal('#modalGenerateToken', { });
-            const showGenerateToken = () => {
+            const showGenerateToken = (e, clAppId, clResourceId) => {
+                clientAppId = clAppId;
+                clientResourceId = clResourceId;
                 modalGenerateToken.show();
+            }
+            const submitGenerateToken = async (e) => {
+                e.preventDefault();
+                console.log('submit form generate token');
+                const res = await fetch("{{ route('do.generateToken') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': csrfToken
+                        },
+                        body: JSON.stringify(
+                            {
+                                client_app_id: clientAppId,
+                                client_resource_id: clientResourceId,
+                                exp: document.generateToken.selExp.value
+                            }
+                        )
+
+                    });
+                    const jsonRes = await res.json();
+                    console.log(jsonRes);
+                // return false;
             }
         </script>
     @endpush
     @push('addEventListener')
         <script type="text/javascript">
+            document.generateToken.addEventListener('submit', submitGenerateToken);
             // document.getElementById('showGenerateToken').addEventListener('show.bs.modal', resetModalCreateNewApp);
             // document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
             // document.getElementById('btnGenerateToken').addEventListener('click', submitCreateAppForm);

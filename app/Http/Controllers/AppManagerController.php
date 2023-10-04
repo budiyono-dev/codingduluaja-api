@@ -38,7 +38,7 @@ class AppManagerController extends Controller
              ->join(TableNameConstant::CLIENT_RESOURCE.' as cr', 'conap.client_resource_id', '=','cr.id')
              ->join(TableNameConstant::MASTER_RESOURCE.' as mr', 'cr.master_resource_id', '=', 'mr.id' )
              ->select('cap.name as app_name', 'mr.name as resource_name',
-                     'cap.id as client_id', 'cr.id as resource_id')
+                     'cap.id as client_app_id', 'cr.id as client_resource_id')
              ->where('cap.user_id', $userId)
              ->orderBy('mr.name')
              ->orderBy('cap.name')
@@ -55,9 +55,8 @@ class AppManagerController extends Controller
         // craete token for user with expired
         $user = Auth::user();
         $username = $user->username;
-        $applicationId = $request->validated()['applicationId'];
         
-        dd($username, $applicationId);
+        dd($request);
         return response()->json(['token' => $this->jwtHelper->createToken()]);
     }
 }
