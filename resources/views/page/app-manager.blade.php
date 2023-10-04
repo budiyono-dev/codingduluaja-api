@@ -28,18 +28,18 @@
                                 <td class="text-start">{{ $app->resource_name }}</td>
                                 <td class="text-start">{{ $app->app_name }}</td>
                                 <td class="text-start">
-                                    <x-button type="button" class="btn-outline-primary btn-sm"
-                                        onclick="deleteAppClient(this)">
+                                    <x-button type="button" class="btn-outline-info btn-sm"
+                                        onclick="showToken(this)">
                                         Show Token
                                     </x-button>
                                 </td>
                                 <td class="text-center d-flex justify-content-evenly align-items-center">
                                     <x-button type="button" class="btn-outline-primary btn-sm" id="btnGenerateToken"
-                                        onclick="deleteAppClient(this)">
+                                        onclick="showGenerateToken(this)">
                                         Generate Token
                                     </x-button>
                                     <x-button type="button" class="btn-outline-danger btn-sm" id="btnRevokeToken"
-                                        onclick="deleteAppClient(this)">
+                                        onclick="showRevokeToken(this)">
                                         Revoke Token
                                     </x-button>
                                 </td>
@@ -55,15 +55,6 @@
         </div>
     </div>
     {{-- <!-- Modal --> --}}
-    <x-modals.form-modal titleModal="Generate Token" id="modalGenerateToken" idModalBtnSubmit="btnSbGenToken">
-        <form name="createApp" id="createApp" action="" method="post" autocomplete="off">
-            @csrf
-            <div class="form-floating">
-                <input type="text" class="form-control" id="txtName" name="name" placeholder="my-app">
-                <label for="txtName">Name</label>
-            </div>
-        </form>
-    </x-modals.form-modal>
 
     <x-modals.form-modal titleModal="Token" id="" idModalBtnSubmit="btnSbGenToken">
         <form name="createApp" id="createApp" action="" method="post" autocomplete="off">
@@ -74,6 +65,39 @@
             </div>
         </form>
     </x-modals.form-modal>
+
+    <x-modals.basic-modal id="modalGenerateToken">
+        <form>
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Token</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{--<div class="mb-3">
+                    <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>    
+                </div>--}}
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default select example">
+                        @forelse ($expList as $key => $exp)
+                            @if ($key == 0) 
+                                <option selected value="">Select Token Duration..</option> 
+                            @endif
+                            <option value="{{ $exp->id }}">{{$exp->exp_value.' '.Str::ucfirst(strtolower($exp->unit))}}</option>
+                        @empty
+                            <option selected value="">No Data..</option>
+                        @endforelse  
+                    </select>    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex w-100">
+                    <x-button type="submit" class="btn-outline-primary btn-sm w-100" >
+                        Generate Token
+                    </x-button>
+                </div>
+            </div>
+        <form>
+    </x-modals.basic-modal>
 
     <x-modals.basic-modal id="">
         <div class="modal-header">
@@ -87,22 +111,17 @@
 
     @push('script')
         <script type="text/javascript">
-            const resetModalCreateNewApp = () => {
-                document.createApp.reset();
-            }
-            const submitCreateAppForm = () => {
-                document.createApp.submit();
-            }
-            const deleteAppClient = (e) => {
-                deleteConfirmation(() => e.parentElement.submit());
+            const modalGenerateToken = new bootstrap.Modal('#modalGenerateToken', { });
+            const showGenerateToken = () => {
+                modalGenerateToken.show();
             }
         </script>
     @endpush
     @push('addEventListener')
         <script type="text/javascript">
-            document.getElementById('modalCreateNewApp').addEventListener('hide.bs.modal', resetModalCreateNewApp);
-            document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
-            document.getElementById('btnGenerateToken').addEventListener('click', submitCreateAppForm);
+            // document.getElementById('showGenerateToken').addEventListener('show.bs.modal', resetModalCreateNewApp);
+            // document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
+            // document.getElementById('btnGenerateToken').addEventListener('click', submitCreateAppForm);
         </script>
     @endpush
 </x-layout.main-sidebar>

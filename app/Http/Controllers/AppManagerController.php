@@ -13,6 +13,7 @@ use App\Models\AppClient;
 use App\Models\ClientResource;
 use Illuminate\Contracts\View\View;
 use App\Models\MasterResource;
+use App\Models\ExpiredToken;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -43,8 +44,9 @@ class AppManagerController extends Controller
              ->orderBy('cap.name')
              ->get();
          //dd($listAppClient);
+        $expList = ExpiredToken::all();
 
-        return view('page.app-manager', ['listApp' => $listApp]);
+        return view('page.app-manager', ['listApp' => $listApp, 'expList' => $expList]);
     }
 
     public function generateToken(GenerateTokenRequest $request): JsonResponse

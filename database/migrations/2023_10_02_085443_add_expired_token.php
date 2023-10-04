@@ -21,7 +21,7 @@ return new class extends Migration
 
         $exp3Day = new ExpiredToken(
             [
-                'exp_value' => 1,
+                'exp_value' => 3,
                 'unit' => ExpUnit::DAY,
             ]
         );
