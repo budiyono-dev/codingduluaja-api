@@ -55,8 +55,14 @@ class AppManagerController extends Controller
         // craete token for user with expired
         $user = Auth::user();
         $username = $user->username;
-        
+
+        $sub = 
+
+        $name = $user->first_name.' '.$user->last_name;
+        dd($user);
+        // $this->jwtHelper->createToken();
+
         dd($request);
-        return response()->json(['token' => $this->jwtHelper->createToken()]);
+        return response()->json(['token' => 'asd']);
     }
 }

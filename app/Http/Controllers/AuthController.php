@@ -81,15 +81,15 @@ class AuthController extends BaseController
         return response()->json(['is_exist' => $isExist]);
     }
 
-    public function createToken(CreateTokenRequest $request): JsonResponse
-    {
+    // public function createToken(CreateTokenRequest $request): JsonResponse
+    // {
 
-        // craete token for user with expired
-        $user = Auth::user();
-        $username = $user->username;
-        $applicationId = $request->validated()['applicationId'];
+    //     // craete token for user with expired
+    //     $user = Auth::user();
+    //     $username = $user->username;
+    //     $applicationId = $request->validated()['applicationId'];
         
-        dd($username, $applicationId);
-        return response()->json(['token' => $this->jwtHelper->createToken()]);
-    }
+    //     dd($username, $applicationId);
+    //     return response()->json(['token' => $this->jwtHelper->createToken()]);
+    // }
 }
