@@ -30,7 +30,7 @@ class JwtHelper
         return hash_hmac('sha256', $encodedHeader . '.' . $encodedPayload, $secret, true);
     }
 
-    public function createToken(string $sub, string $fullname, string $key): string
+    public function createToken(string $sub, string $fullname, string $key, int $exp): string
     {
         // create base64 header and payload
         $encodedHeader = base64_encode($this->createHeader($this->header));
@@ -39,21 +39,14 @@ class JwtHelper
                 'sub' => $sub,
                 'name' => $fullname,
                 'iat' => time(),
-                'exp' => time() + 3600
+                'exp' => $exp
             ])
         );
-
-        // remove padding
-        $encodedHeader = rtrim($encodedHeader, '=');
-        $encodedPayload = rtrim($encodedPayload, '=');
 
         // create signature
         $encodedSignature = base64_encode(
             $this->createSignature($encodedHeader, $encodedPayload, $key)
         );
-
-        // remove paffing
-        $encodedSignature = rtrim($encodedSignature, '=');
 
         return $encodedHeader . '.' . $encodedPayload . '.' . $encodedSignature;
     }

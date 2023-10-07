@@ -11,6 +11,8 @@ use App\Http\Requests\GenerateTokenRequest;
 use App\Jwt\JwtHelper;
 use App\Models\ClientApp;
 use App\Models\ClientResource;
+use App\Models\Token;
+use App\Enums\ExpUnit;
 use Illuminate\Contracts\View\View;
 use App\Models\MasterResource;
 use App\Models\ExpiredToken;
@@ -20,11 +22,16 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use App\Helper\ResponseHelper;
 
 class AppManagerController extends Controller
 {
     public function __construct(
+        protected ResponseHelper $responseHelper,
         protected JwtHelper $jwtHelper
+
     ) {
     }
     
@@ -48,25 +55,60 @@ class AppManagerController extends Controller
         return view('page.app-manager', ['listApp' => $listApp, 'expList' => $expList]);
     }
 
-    public function generateToken(GenerateTokenRequest $request): JsonResponse
+    public function generateToken(Request $req): JsonResponse
     {
-        $validatedReq = $request->validated();
-        $user = Auth::user();
-        $userId = $user->id;
-        $clientAppId = $validatedReq['client_app_id'];
-        $clientResId = $validatedReq['client_resource_id'];
-        $expId = $validatedReq['exp_id'];
+        Log::info('generateToken');
+        try {
+            $validatedReq = $req->validate([
+                'client_app_id' => 'required',
+                'client_resource_id' => 'required',
+                'exp_id' => 'required'
+            ]);
 
-        ClientApp::findOrFail($clientAppId);
-        ClientResource::findOrFail($clientResId);
-        ExpiredToken::findOrFail($expId);
+            $user = Auth::user();
+            $userId = $user->id;
+            $clientAppId = $validatedReq['client_app_id'];
+            $clientResId = $validatedReq['client_resource_id'];
+            $expId = $validatedReq['exp_id'];
 
+            ClientResource::findOrFail($clientResId);
+            $exp = ExpiredToken::findOrFail($expId);
+            $clientApp = ClientApp::where('id', $clientAppId)
+                ->where('user_id', $userId)
+                ->firstOrFail();
 
-        $sub = base64_encode($userId.';'.$clientAppId.'.'.$clientResId);
-        $name = $user->first_name.' '.$user->last_name;
+            $sub = base64_encode($userId.';'.$clientAppId.'.'.$clientResId);
+            $fullname = $user->first_name.' '.$user->last_name;
+            $appKey = $clientApp->app_key;
 
-        $appKey = ClientApp::
-        dd($request);
-        return response()->json(['token' => 'asd']);
+            $expiredTime = $this->calculateExpiredToUnixTime($exp->exp_value, ExpUnit::tryFrom($exp->unit));
+            
+            $token = $this->jwtHelper->createToken($sub, $fullname, $appKey, $expiredTime);
+
+            Token::create([
+                'token' => $token,
+                'exp' => $expiredTime 
+            ]);
+            return response()->json(['token' => $token]);    
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors()->toArray();
+            return $this->responseHelper->validationErrorResponse('CDA_R14', $errors);
+        } catch (Exception $e) {
+            return $this->responseHelper->errorResponse('CDA_500', $e->message(), 500, null);
+        }
+        
+    }
+
+    private function calculateExpiredToUnixTime(int $expValue, ExpUnit $unit): int
+    {
+        $now = Carbon::now();
+        $result = match ($unit) {
+            ExpUnit::DAY => $now->addDays($expValue),
+            ExpUnit::MONTH => $now->addMonths($expValue),
+            ExpUnit::YEAR => $now->addYears($expValue),
+            ExpUnit::HOUR => $now->addHours($expValue)
+        };
+
+        return $result->timestamp;
     }
 }

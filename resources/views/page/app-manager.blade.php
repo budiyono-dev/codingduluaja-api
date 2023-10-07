@@ -63,7 +63,7 @@
     <x-modals.basic-modal id="modalGenerateToken">
         <form autocomple="off" name="generateToken">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Token</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Generate Token</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -93,13 +93,20 @@
         <form>
     </x-modals.basic-modal>
 
-    <x-modals.basic-modal id="">
+    <x-modals.basic-modal id="modalShowToken">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Token</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Your Token</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>
+            <input class="form-control" type="text" id='txtToken' value="Disabled readonly input" aria-label="Disabled input example" readonly>
+        </div>
+        <div class="modal-footer">
+            <div class="d-flex w-100">
+                <x-button type="submit" id="btnCopyToken" class="btn-outline-primary btn-sm w-100" >
+                    Copy To Cliboard
+                </x-button>
+            </div>
         </div>
     </x-modals.basic-modal>
 
@@ -107,8 +114,10 @@
         <script type="text/javascript">
             let clientAppId;
             let clientResourceId;
-            console.log(document.generateToken);
+
             const modalGenerateToken = new bootstrap.Modal('#modalGenerateToken', { });
+            const modalShowToken = new bootstrap.Modal('#modalShowToken', { });
+
             const showGenerateToken = (e, clAppId, clResourceId) => {
                 clientAppId = clAppId;
                 clientResourceId = clResourceId;
@@ -127,14 +136,21 @@
                             {
                                 client_app_id: clientAppId,
                                 client_resource_id: clientResourceId,
-                                exp: document.generateToken.selExp.value
+                                exp_id: document.generateToken.selExp.value
                             }
                         )
 
                     });
                     const jsonRes = await res.json();
-                    console.log(jsonRes);
-                // return false;
+                    document.getElementById('txtToken').value = jsonRes.token;
+                    modalGenerateToken.hide();
+                    modalShowToken.show();
+            }
+            const copyTokenToClipboard = () => {
+                const copyText = document.getElementById('txtToken');
+                copyText.select();
+                document.execCommand('copy');
+                showSimpleToast('Copied to clipboard');
             }
         </script>
     @endpush
@@ -143,7 +159,7 @@
             document.generateToken.addEventListener('submit', submitGenerateToken);
             // document.getElementById('showGenerateToken').addEventListener('show.bs.modal', resetModalCreateNewApp);
             // document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
-            // document.getElementById('btnGenerateToken').addEventListener('click', submitCreateAppForm);
+            document.getElementById('btnCopyToken').addEventListener('click', copyTokenToClipboard);
         </script>
     @endpush
 </x-layout.main-sidebar>

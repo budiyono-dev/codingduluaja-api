@@ -13,4 +13,5 @@ class TableNameConstant
     const TODOLIST = 'todolist';
     const CONNECTED_APP = 'connected_app';
     const EXPIRED_TOKEN = 'expired_token';
+    const TOKEN = 'tokens';
 }
