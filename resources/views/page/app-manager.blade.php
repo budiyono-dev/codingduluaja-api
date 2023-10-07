@@ -4,12 +4,6 @@
             <div class="pt-4 pb-4">
                 <h4>App Manager</h4>
             </div>
-            {{-- <div class="text-end mb-2">
-                <x-button type="button" class="btn-sm btn-outline-primary px-3" data-bs-toggle="modal"
-                    data-bs-target="#modalCreateNewApp">
-                    Create New App
-                </x-button>
-            </div> --}}
             <div class="table-responsive">
                 <table class="table table-sm  table-hover">
                     <thead>

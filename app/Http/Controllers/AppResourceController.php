@@ -6,7 +6,7 @@ use App\Constants\TableNameConstant;
 use App\Http\Requests\AddResourceRequest;
 use App\Http\Requests\ConnectClientRequest;
 use App\Http\Requests\DisconnectClientRequest;
-use App\Models\AppClient;
+use App\Models\ClientApp;
 use App\Models\ClientResource;
 use Illuminate\Contracts\View\View;
 use App\Models\MasterResource;
@@ -21,26 +21,14 @@ class AppResourceController extends Controller
 {
     public function index(): View
     {
-        $tbConnClient = TableNameConstant::CONNECTED_APP;
-        $tbAppClient = TableNameConstant::CLIENT_APP;
         $userId = Auth::user()->id;
 
         $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
         $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
-        // $listAppClient = DB::table($tbAppClient)
-        //     ->join($tbConnClient, $tbConnClient.'.app_client_id', '=', $tbAppClient.'.id')
-        //     ->select($tbAppClient.'.id', $tbAppClient.'.name')
-        //     ->where($tbAppClient.'.user_id', $userId)
-        //     ->get();
-        $listAppClient = AppClient::select('id', 'name')->where('user_id', $userId)->get();
-            
-        // dd($listAppClient);
-
-        // dd($listResource);
+        $listClientApp = ClientApp::select('id', 'name')->where('user_id', $userId)->get();
         
         $mapped = $listResource->map(function(ClientResource $r){
-            // dd($r->connectedApp);
-            $connectedApp = $r->connectedApp->map(function(AppClient $app){
+            $connectedApp = $r->connectedApp->map(function(ClientApp $app){
                 return (object) [
                     'id' => $app->id,
                     'name' => $app->name
@@ -66,7 +54,7 @@ class AppResourceController extends Controller
             [
                 'listResource' => $mapped,
                 'masterResource' => $masterResource,
-                'listAppClient' => $listAppClient
+                'listClientApp' => $listClientApp
             ]
         );
     }
@@ -93,8 +81,8 @@ class AppResourceController extends Controller
     {
         Log::info('Delete Resource : '.$id);
         DB::transaction(function () use ($id) {
-            $appClient = ClientResource::findOrFail($id);
-            $appClient->delete();
+            $clientResource = ClientResource::findOrFail($id);
+            $clientResource->delete();
         });
         return redirect()->route('page.appResource');
     }
@@ -130,7 +118,7 @@ class AppResourceController extends Controller
 
             $clientResource = ClientResource::findOrFail($id);
 
-            Log::info('disconnect client '.$validReq['sel_client'].' from resource '.$id);
+            Log::info('disconnect client '.$validReq['client_id'].' from resource '.$id);
 
             DB::table(TableNameConstant::CONNECTED_APP)
                 ->where('client_resource_id', $id)

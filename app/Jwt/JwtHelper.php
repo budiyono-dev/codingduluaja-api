@@ -58,8 +58,24 @@ class JwtHelper
         return $encodedHeader . '.' . $encodedPayload . '.' . $encodedSignature;
     }
 
-    public function validateToken(string $token) : void
+    public function validateToken(string $token, string $key) : void
     {
-        
+        list($header, $payload, $signature) = explode('.', $token);
+
+        $decodedHeader = base64_decode($header);
+        $decodedPayload = base64_decode($payload);
+
+        $hashedHeaderPayload = hash_hmac('sha256', $header.'.'.$payload, $key, true);
+        $computedSignature = base64_encode($hashedHeaderPayload);
+
+        if ($computedSignature !== $signature) {
+            throw new TokenException("Invalid Token");
+        }
+
+        $payloadData = json_decode($decodedPayload);
+        if (isset($payloadData->exp) && $payloadData->exp < time()) {
+            throw new TokenException("Token Expired");
+            
+        }
     }
 }

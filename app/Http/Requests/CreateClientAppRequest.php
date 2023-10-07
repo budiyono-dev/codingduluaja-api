@@ -7,7 +7,7 @@ use App\Rules\LetterAndSpace;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class CreateAppClientRequest extends FormRequest
+class CreateClientAppRequest extends FormRequest
 {
     public function authorize(): bool
     {

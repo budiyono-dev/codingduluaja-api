@@ -9,7 +9,7 @@ use App\Http\Requests\CreateTokenRequest;
 use App\Http\Requests\DisconnectClientRequest;
 use App\Http\Requests\GenerateTokenRequest;
 use App\Jwt\JwtHelper;
-use App\Models\AppClient;
+use App\Models\ClientApp;
 use App\Models\ClientResource;
 use Illuminate\Contracts\View\View;
 use App\Models\MasterResource;
@@ -43,7 +43,6 @@ class AppManagerController extends Controller
              ->orderBy('mr.name')
              ->orderBy('cap.name')
              ->get();
-         //dd($listAppClient);
         $expList = ExpiredToken::all();
 
         return view('page.app-manager', ['listApp' => $listApp, 'expList' => $expList]);
@@ -51,17 +50,22 @@ class AppManagerController extends Controller
 
     public function generateToken(GenerateTokenRequest $request): JsonResponse
     {
-
-        // craete token for user with expired
+        $validatedReq = $request->validated();
         $user = Auth::user();
-        $username = $user->username;
+        $userId = $user->id;
+        $clientAppId = $validatedReq['client_app_id'];
+        $clientResId = $validatedReq['client_resource_id'];
+        $expId = $validatedReq['exp_id'];
 
-        $sub = 
+        ClientApp::findOrFail($clientAppId);
+        ClientResource::findOrFail($clientResId);
+        ExpiredToken::findOrFail($expId);
 
+
+        $sub = base64_encode($userId.';'.$clientAppId.'.'.$clientResId);
         $name = $user->first_name.' '.$user->last_name;
-        dd($user);
-        // $this->jwtHelper->createToken();
 
+        $appKey = ClientApp::
         dd($request);
         return response()->json(['token' => 'asd']);
     }

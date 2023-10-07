@@ -45,7 +45,7 @@
                                             {{-- <td class="text-start"> {{ $resource->created_at }} </td> --}}
                                             <td class="text-center d-flex justify-content-evenly align-items-center">
                                                 <form method="post"
-                                                    action="{{ route('do.deleteAppClient', ['id' => $resource->id]) }}">
+                                                    action="{{ route('do.deleteClientApp', ['id' => $resource->id]) }}">
                                                     @csrf
                                                     <x-button-icon type="button" class="btn-outline-danger"
                                                         onclick="deleteAppClient(this)" data-bs-toggle="tooltip"
@@ -102,9 +102,8 @@
     @push('script')
         <script type="text/javascript">
             const modalConnectClient = new bootstrap.Modal('#modalConnectClient', { });
-            const listAppClient = {!! json_encode($listAppClient) !!}
+            const listClientApp = {!! json_encode($listClientApp) !!}
             let idResource;
-            console.log(listAppClient);
             
             const resetModalAddResource = () => {
                 document.addResource.reset();
@@ -121,16 +120,15 @@
             const deleteResource = (e) => {
                 deleteConfirmation(() => e.parentElement.submit());
             }
-            const createSellAppClient = (appList) => {
+            const createSellClientApp = (appList) => {
                 const selClientNotConnected = document.getElementById('selClientNotConnected');
                 const mapAppList = new Map(appList.map(el => [el.id, el]));
-                let selAppClient = listAppClient.filter(app => mapAppList.get(app.id) ? false : true);
+                let selClientApp = listClientApp.filter(app => mapAppList.get(app.id) ? false : true);
                 selClientNotConnected.innerHTML = '';
 
-                if (selAppClient.length > 0) {
-                    console.log(selAppClient);
+                if (selClientApp.length > 0) {
                     selClientNotConnected.add(new Option('-- Select Client --', '-'));
-                    for (const el of selAppClient) {
+                    for (const el of selClientApp) {
                         selClientNotConnected.add(new Option(el.name, el.id));
                     }
                 } else {
@@ -175,7 +173,7 @@
                     c1.innerText = 'No App Connected';
                     c1.classList.add('text-center');
                 }
-                createSellAppClient(appList);
+                createSellClientApp(appList);
             }
 
             const generateDeleteApp = (idResource, idApp) => {

@@ -21,14 +21,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($listAppClient as $key => $appClient)
+                        @forelse ($listClientApp as $key => $appClient)
                             <tr>
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td class="text-start">{{ $appClient->name }}</td>
                                 <td class="text-start">{{ $appClient->created_at }}</td>
                                 <td>
                                     <form method="post" autocomplete="off"
-                                        action="{{ route('do.deleteAppClient', ['id' => $appClient->id]) }}">
+                                        action="{{ route('do.deleteClientApp', ['id' => $appClient->id]) }}">
                                         @csrf
                                         <x-button-icon type="button" class="btn-outline-danger"
                                             onclick="deleteAppClient(this)">

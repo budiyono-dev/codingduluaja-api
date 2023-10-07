@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AppClientController;
+use App\Http\Controllers\ClientAppController;
 use App\Http\Controllers\AppResourceController;
 use App\Http\Controllers\AppManagerController;
 
@@ -29,9 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/app-resource/connect/{id}', [AppResourceController::class, 'connectClient'])->name('do.connectClient');
     Route::post('/app-resource/disconnect/{id}', [AppResourceController::class, 'disconnectClient'])->name('do.disconnectClient');
         
-    Route::get('/app-client', [AppClientController::class, 'index'])->name('page.appClient');
-    Route::post('/app-client', [AppClientController::class, 'createApp'])->name('do.createApp');
-    Route::post('/app-client/delete/{id}', [AppClientController::class, 'delete'])->name('do.deleteAppClient');
+    Route::get('/app-client', [ClientAppController::class, 'index'])->name('page.clientApp');
+    Route::post('/app-client', [ClientAppController::class, 'createApp'])->name('do.createApp');
+    Route::post('/app-client/delete/{id}', [ClientAppController::class, 'delete'])->name('do.deleteClientApp');
     
     Route::get('/app-manager', [AppManagerController::class, 'index'])->name('page.appManager');
     Route::post('/app-manager/create-token', [AppManagerController::class, 'generateToken'])->name('do.generateToken');

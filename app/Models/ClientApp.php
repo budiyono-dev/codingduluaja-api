@@ -6,7 +6,7 @@ use App\Constants\TableNameConstant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AppClient extends Model
+class ClientApp extends Model
 {
     use HasFactory;
     protected $table = TableNameConstant::CLIENT_APP;

@@ -30,16 +30,16 @@ return new class extends Migration
 
         $itemAppResource->save();
 
-        $itemAppClient = new MenuItem(
+        $itemClientApp = new MenuItem(
             [
                 'menu_parent_id' => $menuApplication->id,
-                'name' => 'menu.item.app_client',
-                'page' => 'page.appClient',
+                'name' => 'menu.item.client_app',
+                'page' => 'page.clientApp',
                 'sequence' => 2
             ]
         );
 
-        $itemAppClient->save();
+        $itemClientApp->save();
 
         $itemAppManager = new MenuItem(
             [
