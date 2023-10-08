@@ -42,7 +42,7 @@ class ResponseHelper
         ], 404);
     }
 
-    private function errorResponse(string $code, string $message, int $httpStatusCode, object|array $data): JsonResponse
+    private function errorResponse(string $code, string $message, int $httpStatusCode, object|array|null $data): JsonResponse
     {
         return response()->json([
             'meta' => [
@@ -57,5 +57,10 @@ class ResponseHelper
     public function validationErrorResponse(string $code, array $errorMessage): JsonResponse
     {
         return $this->errorResponse($code, 'validation error', 400, $errorMessage);
+    }
+
+    public function serverErrorResponse(object|array $data): JsonResponse
+    {
+        return $this->errorResponse('CDA-R500', 'internal server error', 500, $data);
     }
 }

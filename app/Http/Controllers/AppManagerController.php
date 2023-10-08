@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Helper\ResponseHelper;
+use Exception;
 
 class AppManagerController extends Controller
 {
@@ -87,14 +88,14 @@ class AppManagerController extends Controller
 
             Token::create([
                 'token' => $token,
-                'exp' => $expiredTime 
+                'exp' => $expiredTime
             ]);
-            return response()->json(['token' => $token]);    
+            return response()->json(['token' => $token]);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->toArray();
             return $this->responseHelper->validationErrorResponse('CDA_R14', $errors);
         } catch (Exception $e) {
-            return $this->responseHelper->errorResponse('CDA_500', $e->message(), 500, null);
+            return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
         
     }

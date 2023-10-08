@@ -2,6 +2,7 @@
 
 namespace App\Jwt;
 
+use App\Exceptions\TokenException;
 use Illuminate\Support\Str;
 
 class JwtHelper
