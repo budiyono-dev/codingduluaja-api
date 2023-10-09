@@ -1,7 +1,7 @@
 @push('styles')
     <style>
         .left-sidebar {
-            background: #fff;
+/*            background: #fff;*/
             width: 235px;
             position: fixed;
             top: 0;
@@ -18,8 +18,8 @@
             align-items: center;
             padding: .25rem .5rem;
             font-weight: 600;
-            color: rgba(0, 0, 0, .65);
-            background-color: transparent;
+/*            color: rgba(0, 0, 0, .65);*/
+/*            background-color: transparent;*/
             border: 0;
         }
 
@@ -38,7 +38,7 @@
         }
 
         .btn-toggle[aria-expanded="true"] {
-            color: rgba(0, 0, 0, .85);
+/*            color: rgba(0, 0, 0, .85);*/
         }
 
         .btn-toggle[aria-expanded="true"]::before {
@@ -64,7 +64,7 @@
     </style>
 @endpush
 
-<div class="flex-shrink-0 p-3 bg-white left-sidebar" id="sidebar">
+<div class="flex-shrink-0 p-3 left-sidebar" id="sidebar">
   <div class="border-bottom text-center pb-2 mx-auto">
     <span class="fs-5 fw-semibold">😎 Happy Coding 😎</span>
   </div>
