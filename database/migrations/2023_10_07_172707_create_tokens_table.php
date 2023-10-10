@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create(TableNameConstant::TOKEN, function (Blueprint $table) {
             $table->id();
             $table->string('token');
+			$table->string('identifier');
             $table->unsignedBigInteger('exp');
             $table->boolean('is_revoked')->default(0);
             $table->timestamps();

@@ -35,7 +35,7 @@ class AppManagerController extends Controller
 
     ) {
     }
-    
+
     public function index(): View
     {
         // craete token for user with expired
@@ -83,11 +83,12 @@ class AppManagerController extends Controller
             $appKey = $clientApp->app_key;
 
             $expiredTime = $this->calculateExpiredToUnixTime($exp->exp_value, ExpUnit::tryFrom($exp->unit));
-            
+
             $token = $this->jwtHelper->createToken($sub, $fullname, $appKey, $expiredTime);
 
             Token::create([
                 'token' => $token,
+				'identifier' => 'identifier',
                 'exp' => $expiredTime
             ]);
             return response()->json(['token' => $token]);
@@ -97,8 +98,23 @@ class AppManagerController extends Controller
         } catch (Exception $e) {
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
-        
     }
+
+	public function showToken(string $clientResId, string $clientAppId): JsonResponse
+	{
+        try {
+			$userId = Auth::user()->id;
+
+
+			Log::info('showToken of user_id = {userId} ,client_app = {clientAppId}, client_resource = {clientResId}', [
+				'userId' => $userId,
+				'clientAppId' => $clientAppId,
+				'clientResId' => $clientResId,
+			]);
+		} catch (Exception $e) {
+            return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
+        }
+	}
 
     private function calculateExpiredToUnixTime(int $expValue, ExpUnit $unit): int
     {

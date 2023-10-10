@@ -42,7 +42,7 @@
                             <tr>
                                 <td colspan="4">No Data....</td>
                             </tr>
-                        @endforelse  
+                        @endforelse
                   </tbody>
                 </table>
             </div>
@@ -68,19 +68,19 @@
             </div>
             <div class="modal-body">
                 {{--<div class="mb-3">
-                    <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>    
+                    <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>
                 </div>--}}
                 <div class="mb-3">
                     <select class="form-select" aria-label="Default select example" name="selExp" id="selExp">
                         @forelse ($expList as $key => $exp)
-                            @if ($key == 0) 
-                                <option selected value="">Select Token Duration..</option> 
+                            @if ($key == 0)
+                                <option selected value="">Select Token Duration..</option>
                             @endif
                             <option value="{{ $exp->id }}">{{$exp->exp_value.' '.Str::ucfirst(strtolower($exp->unit))}}</option>
                         @empty
                             <option selected value="">No Data..</option>
-                        @endforelse  
-                    </select>    
+                        @endforelse
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">
@@ -141,11 +141,20 @@
                         )
 
                     });
-                    const jsonRes = await res.json();
-                    document.getElementById('txtToken').value = jsonRes.token;
-                    modalGenerateToken.hide();
-                    modalShowToken.show();
+                const jsonRes = await res.json();
+                document.getElementById('txtToken').value = jsonRes.token;
+                modalGenerateToken.hide();
+                modalShowToken.show();
             }
+
+			const showToken = async () => {
+                let url = {!! json_encode(route('do.showToken', ['resource' => ':resource', 'app' => ':app'])) !!};
+                url = url.replace(':resource', clientResourceId).replace(':app', clientAppId);
+                const res = await fetch(url);
+				const jsonRes = await res.json();
+                console.log(jsonRes);
+            }
+
             const copyTokenToClipboard = () => {
                 const copyText = document.getElementById('txtToken');
                 copyText.select();

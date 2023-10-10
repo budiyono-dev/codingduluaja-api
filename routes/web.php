@@ -28,13 +28,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/app-resource/delete/{id}', [AppResourceController::class, 'delete'])->name('do.deleteResource');
     Route::post('/app-resource/connect/{id}', [AppResourceController::class, 'connectClient'])->name('do.connectClient');
     Route::post('/app-resource/disconnect/{id}', [AppResourceController::class, 'disconnectClient'])->name('do.disconnectClient');
-        
+
     Route::get('/app-client', [ClientAppController::class, 'index'])->name('page.clientApp');
     Route::post('/app-client', [ClientAppController::class, 'createApp'])->name('do.createApp');
     Route::post('/app-client/delete/{id}', [ClientAppController::class, 'delete'])->name('do.deleteClientApp');
-    
+
     Route::get('/app-manager', [AppManagerController::class, 'index'])->name('page.appManager');
-    Route::post('/app-manager/create-token', [AppManagerController::class, 'generateToken'])->name('do.generateToken');
+    Route::post('/app-manager/token', [AppManagerController::class, 'generateToken'])->name('do.generateToken');
+    Route::get('/app-manager/token/{resource}/{app}', [AppManagerController::class, 'showToken'])->name('do.showToken');
 });
 
 Route::middleware('non-auth')->group(function () {
@@ -48,7 +49,7 @@ Route::middleware('non-auth')->group(function () {
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
 Route::get('do-something', function(){
         $menu1 = \App\Models\MenuParent::where('sequence', 1)->first();
-        
+
         $subMenus = \App\Models\MenuItem::where('menu_parent_id', $menu1->id);
         $subMenus->delete();
     return "OK";
