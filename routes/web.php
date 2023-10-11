@@ -1,41 +1,41 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppManagerController;
+use App\Http\Controllers\AppResourceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientAppController;
-use App\Http\Controllers\AppResourceController;
-use App\Http\Controllers\AppManagerController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::view('/', 'page.welcome')->name('page.dashboard');
-    Route::get('/home', function () {
-        return 'this is home route';
-    });
-
-    Route::get('/navbar', function () {
-        return view('navbar');
-    });
-
-    Route::get('/get-data', function () {
-        return trans('validation.required', ['field' => 'first name', 's' => 'skdjbfksjd']);
-    });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
-    // Route::post('/create-token', [AuthController::class, 'createToken'])->name('do.createToken');
 
-    Route::get('/app-resource', [AppResourceController::class, 'index'])->name('page.appResource');
-    Route::post('/app-resource', [AppResourceController::class, 'addResource'])->name('do.addResource');
-    Route::post('/app-resource/delete/{id}', [AppResourceController::class, 'delete'])->name('do.deleteResource');
-    Route::post('/app-resource/connect/{id}', [AppResourceController::class, 'connectClient'])->name('do.connectClient');
-    Route::post('/app-resource/disconnect/{id}', [AppResourceController::class, 'disconnectClient'])->name('do.disconnectClient');
+    Route::controller(AppResourceController::class)->group(function () {
+        Route::prefix('/app-resource')->group(function () {
+            Route::get('', 'index')->name('page.appResource');
+            Route::post('', 'addResource')->name('do.addResource');
+            Route::post('/delete/{id}', 'delete')->name('do.deleteResource');
+            Route::post('/connect/{id}', 'connectClient')->name('do.connectClient');
+            Route::post('/disconnect/{id}', 'disconnectClient')->name('do.disconnectClient');
+        });
+    });
 
-    Route::get('/app-client', [ClientAppController::class, 'index'])->name('page.clientApp');
-    Route::post('/app-client', [ClientAppController::class, 'createApp'])->name('do.createApp');
-    Route::post('/app-client/delete/{id}', [ClientAppController::class, 'delete'])->name('do.deleteClientApp');
+    Route::controller(ClientAppController::class)->group(function () {
+        Route::prefix('/app-client')->group(function () {
+            Route::get('', 'index')->name('page.clientApp');
+            Route::post('', 'createApp')->name('do.createApp');
+            Route::post('/delete/{id}', 'delete')->name('do.deleteClientApp');
+        });
+    });
 
-    Route::get('/app-manager', [AppManagerController::class, 'index'])->name('page.appManager');
-    Route::post('/app-manager/token', [AppManagerController::class, 'generateToken'])->name('do.generateToken');
-    Route::get('/app-manager/token/{resource}/{app}', [AppManagerController::class, 'showToken'])->name('do.showToken');
+    Route::controller(AppManagerController::class)->group(function () {
+        Route::prefix('/app-manager')->group(function () {
+            Route::get('', 'index')->name('page.appManager');
+            Route::post('/token', 'generateToken')->name('do.generateToken');
+            Route::get('/token/{resource}/{app}', 'showToken')->name('do.showToken');
+        });
+    });
 });
 
 Route::middleware('non-auth')->group(function () {
@@ -47,10 +47,3 @@ Route::middleware('non-auth')->group(function () {
 
 
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
-Route::get('do-something', function(){
-        $menu1 = \App\Models\MenuParent::where('sequence', 1)->first();
-
-        $subMenus = \App\Models\MenuItem::where('menu_parent_id', $menu1->id);
-        $subMenus->delete();
-    return "OK";
-});

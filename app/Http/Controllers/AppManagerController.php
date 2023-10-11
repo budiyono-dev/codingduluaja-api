@@ -111,6 +111,7 @@ class AppManagerController extends Controller
 				'clientAppId' => $clientAppId,
 				'clientResId' => $clientResId,
 			]);
+            return $this->responseHelper->successResponse(['error' => '$e->getMessage()']);
 		} catch (Exception $e) {
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
