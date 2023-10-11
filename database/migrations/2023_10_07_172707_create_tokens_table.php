@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index('token');
+            $table->index('identifier');
         });
     }
 

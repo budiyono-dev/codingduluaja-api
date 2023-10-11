@@ -11,6 +11,6 @@ class Token extends Model
     use HasFactory;
     protected $table = TableNameConstant::TOKEN;
     protected $fillable = [
-        'token', 'exp'
+        'token', 'exp', 'identifier'
     ];
 }

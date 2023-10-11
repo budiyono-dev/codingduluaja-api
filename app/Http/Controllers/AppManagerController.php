@@ -88,14 +88,16 @@ class AppManagerController extends Controller
 
             Token::create([
                 'token' => $token,
-				'identifier' => 'identifier',
+				'identifier' => $userId.';'.$clientAppId.';'.$clientResId,
                 'exp' => $expiredTime
             ]);
             return response()->json(['token' => $token]);
         } catch (ValidationException $e) {
+            Log::info('Error generateToken {error}', ['error'=> $e]);
             $errors = $e->validator->errors()->toArray();
             return $this->responseHelper->validationErrorResponse('CDA_R14', $errors);
         } catch (Exception $e) {
+            Log::info('Error generateToken {error}', ['error'=> $e]);
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
     }
@@ -105,14 +107,20 @@ class AppManagerController extends Controller
         try {
 			$userId = Auth::user()->id;
 
+            $identifier = $userId.';'.$clientAppId.';'.$clientResId;
+            $listToken = Token::where('identifier', $identifier)
+                    ->where('exp', '>=', time())
+                    ->get()->toArray();
 
 			Log::info('showToken of user_id = {userId} ,client_app = {clientAppId}, client_resource = {clientResId}', [
 				'userId' => $userId,
 				'clientAppId' => $clientAppId,
 				'clientResId' => $clientResId,
 			]);
-            return $this->responseHelper->successResponse(['error' => '$e->getMessage()']);
+            dd($listToken, $identifier, time());
+            return $this->responseHelper->successResponse($listToken->toArray());
 		} catch (Exception $e) {
+            Log::info('Error showToken {error}', ['error'=> $e]);
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
 	}

@@ -23,7 +23,7 @@
                                 <td class="text-start">{{ $app->app_name }}</td>
                                 <td class="text-start">
                                     <x-button type="button" class="btn-outline-info btn-sm"
-                                        onclick="showToken(this)">
+                                        onclick="showToken(this, {{$app->client_app_id}}, {{$app->client_resource_id}})">
                                         Show Token
                                     </x-button>
                                 </td>
@@ -33,7 +33,7 @@
                                         Generate Token
                                     </x-button>
                                     <x-button type="button" class="btn-outline-danger btn-sm" id="btnRevokeToken"
-                                        onclick="showRevokeToken(this)">
+                                        onclick="showRevokeToken(this, {{$app->client_app_id}}, {{$app->client_resource_id}})">
                                         Revoke Token
                                     </x-button>
                                 </td>
@@ -147,12 +147,16 @@
                 modalShowToken.show();
             }
 
-			const showToken = async () => {
-                let url = {!! json_encode(route('do.showToken', ['resource' => ':resource', 'app' => ':app'])) !!};
-                url = url.replace(':resource', clientResourceId).replace(':app', clientAppId);
-                const res = await fetch(url);
-				const jsonRes = await res.json();
-                console.log(jsonRes);
+			const showToken = async (e, clAppId, clResourceId) => {
+                if (clAppId, clResourceId) {
+                    let url = {!! json_encode(route('do.showToken', ['resource' => ':resource', 'app' => ':app'])) !!};
+                    url = url.replace(':resource', clResourceId).replace(':app', clAppId);
+                    const res = await fetch(url);
+                    const jsonRes = await res.json();
+                    console.log(jsonRes);
+                } else {
+                    console.log(clAppId, clResourceId);
+                }
             }
 
             const copyTokenToClipboard = () => {
