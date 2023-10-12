@@ -147,7 +147,7 @@
                 modalShowToken.show();
             }
 
-			const showToken = async (e, clAppId, clResourceId) => {
+            const showToken = async (e, clAppId, clResourceId) => {
                 if (clAppId, clResourceId) {
                     let url = {!! json_encode(route('do.showToken', ['resource' => ':resource', 'app' => ':app'])) !!};
                     url = url.replace(':resource', clResourceId).replace(':app', clAppId);

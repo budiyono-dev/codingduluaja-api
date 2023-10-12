@@ -88,7 +88,7 @@ class AppManagerController extends Controller
 
             Token::create([
                 'token' => $token,
-				'identifier' => $userId.';'.$clientAppId.';'.$clientResId,
+                'identifier' => $userId.';'.$clientAppId.';'.$clientResId,
                 'exp' => $expiredTime
             ]);
             return response()->json(['token' => $token]);
@@ -102,28 +102,28 @@ class AppManagerController extends Controller
         }
     }
 
-	public function showToken(string $clientResId, string $clientAppId): JsonResponse
-	{
+    public function showToken(string $clientResId, string $clientAppId): JsonResponse
+    {
         try {
-			$userId = Auth::user()->id;
+            $userId = Auth::user()->id;
 
             $identifier = $userId.';'.$clientAppId.';'.$clientResId;
             $listToken = Token::where('identifier', $identifier)
                     ->where('exp', '>=', time())
                     ->get()->toArray();
 
-			Log::info('showToken of user_id = {userId} ,client_app = {clientAppId}, client_resource = {clientResId}', [
-				'userId' => $userId,
-				'clientAppId' => $clientAppId,
-				'clientResId' => $clientResId,
-			]);
+            Log::info('showToken of user_id = {userId} ,client_app = {clientAppId}, client_resource = {clientResId}', [
+                'userId' => $userId,
+                'clientAppId' => $clientAppId,
+                'clientResId' => $clientResId,
+            ]);
             dd($listToken, $identifier, time());
             return $this->responseHelper->successResponse($listToken->toArray());
-		} catch (Exception $e) {
+        } catch (Exception $e) {
             Log::info('Error showToken {error}', ['error'=> $e]);
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
-	}
+    }
 
     private function calculateExpiredToUnixTime(int $expValue, ExpUnit $unit): int
     {
