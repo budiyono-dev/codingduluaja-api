@@ -21,7 +21,7 @@ class ClientAppController extends Controller
 
         $listClientApp = ClientApp::where('user_id', $userId)->get();
 
-        return view('page.client-app', ['listClientApp' => $listClientApp]);
+        return view('page.app-client', ['listClientApp' => $listClientApp]);
     }
 
     public function createApp(CreateClientAppRequest $req): RedirectResponse

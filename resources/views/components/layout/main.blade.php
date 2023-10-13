@@ -74,12 +74,16 @@
         const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast)
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const myModalAlternative = new bootstrap.Modal('#modals', { keyboard: false });
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
         let resolveGlobal;
+        let localTheme = localStorage.getItem("theme");
 
 
         // ============= GLOBAL FUNCTION =================
+
+        const refreshTooltips = () => {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        }
 
         // show simple toas
         const showSimpleToast = (msg = 'nofitication', type) => {
@@ -119,20 +123,48 @@
         }
         const toggleDarkMode = () => {
             const current = document.documentElement.getAttribute('data-bs-theme');
-            console.log('current', current);
-            document.documentElement.setAttribute('data-bs-theme', current == 'dark' ? 'light' : 'dark');
+            // document.documentElement.setAttribute('data-bs-theme', current == 'dark' ? 'light' : 'dark');
+            let finalTheme =  current == 'dark' ? 'light' : 'dark';
+            console.log('finalTheme', finalTheme);
+            changeTheme(finalTheme);
+        }
+
+        const changeTheme = (theme) => {
             let a = document.querySelectorAll("[data-bs-theme]");
-            console.log('a', a);
+            a.forEach(e => e.dataset.bsTheme = theme);
+
+            if (theme === 'dark') {
+                document.querySelectorAll('.link-dark').forEach(b => {
+                    b.classList.remove('link-dark');
+                    b.classList.add('link-light');
+                });
+            } else {
+                document.querySelectorAll('.link-light').forEach(b => {
+                    b.classList.remove('link-light');
+                    b.classList.add('link-dark');
+                });
+            }
+            localStorage.setItem("theme", theme);
+
         }
         
 
         // ============== Document Ready Function ================
 
+        refreshTooltips();
         // show error if exist     
         const errMsg = {!! json_encode($errors->all()) !!};
         if (errMsg.length > 0) {
             showSimpleToast(errMsg.join('<br>'));
         }
+        if (localTheme) {
+            const current = document.documentElement.getAttribute('data-bs-theme');
+            if (localTheme !== current) {
+                changeTheme(localTheme);
+            }
+
+        }
+
 
         // ============== Global Event Listener ================
         document.getElementById('modals').addEventListener('hide.bs.modal', modalsFunc);

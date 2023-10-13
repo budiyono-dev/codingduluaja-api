@@ -48,8 +48,7 @@
                                                     action="{{ route('do.deleteClientApp', ['id' => $resource->id]) }}">
                                                     @csrf
                                                     <x-button-icon type="button" class="btn-outline-danger"
-                                                        onclick="deleteAppClient(this)" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="Delete Resource">
+                                                        onclick="deleteAppClient(this)">
                                                         <x-icon.bi-trash></x-icon.bi-trash>
                                                     </x-button-icon>
                                                 </form>
@@ -184,8 +183,7 @@
                     @csrf
                     <input type="hidden" name="client_id" value="${idApp}">
                     <x-button-icon type="button" class="btn-outline-danger"
-                        onclick="deleteApp(this)" data-bs-toggle="tooltip"
-                        data-bs-placement="top" data-bs-title="Connect App to Resource">
+                        onclick="deleteApp(this)">
                         <x-icon.bi-trash></x-icon.bi-trash>
                     </x-button-icon>
                 </form>

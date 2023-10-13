@@ -93,11 +93,11 @@ class AppManagerController extends Controller
             ]);
             return response()->json(['token' => $token]);
         } catch (ValidationException $e) {
-            Log::info('Error generateToken {error}', ['error'=> $e]);
+            Log::info('Error generateToken {$e.getMessage}');
             $errors = $e->validator->errors()->toArray();
             return $this->responseHelper->validationErrorResponse('CDA_R14', $errors);
         } catch (Exception $e) {
-            Log::info('Error generateToken {error}', ['error'=> $e]);
+            Log::info('Error generateToken {$e.getMessage}');
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
     }
@@ -112,15 +112,11 @@ class AppManagerController extends Controller
                     ->where('exp', '>=', time())
                     ->get()->toArray();
 
-            Log::info('showToken of user_id = {userId} ,client_app = {clientAppId}, client_resource = {clientResId}', [
-                'userId' => $userId,
-                'clientAppId' => $clientAppId,
-                'clientResId' => $clientResId,
-            ]);
+            Log::info('showToken of user_id = {$userId} ,client_app = {$clientAppId}, client_resource = {$clientResId}');
             dd($listToken, $identifier, time());
             return $this->responseHelper->successResponse($listToken->toArray());
         } catch (Exception $e) {
-            Log::info('Error showToken {error}', ['error'=> $e]);
+            Log::info('Error showToken {$e.getMessage}');
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
     }

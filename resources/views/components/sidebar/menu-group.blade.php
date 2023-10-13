@@ -1,3 +1,3 @@
-<li class="mb-1">
+<li class="border-bottom">
   {{ $slot }}
 </li>
