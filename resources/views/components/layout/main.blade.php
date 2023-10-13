@@ -117,6 +117,13 @@
         const confirmationYes = () => {
             resolveGlobal(true);
         }
+        const toggleDarkMode = () => {
+            const current = document.documentElement.getAttribute('data-bs-theme');
+            console.log('current', current);
+            document.documentElement.setAttribute('data-bs-theme', current == 'dark' ? 'light' : 'dark');
+            let a = document.querySelectorAll("[data-bs-theme]");
+            console.log('a', a);
+        }
         
 
         // ============== Document Ready Function ================
@@ -130,7 +137,7 @@
         // ============== Global Event Listener ================
         document.getElementById('modals').addEventListener('hide.bs.modal', modalsFunc);
         document.getElementById('btnConfirmYes').addEventListener('click', confirmationYes);
-
+        document.getElementById('btnDarkMode').addEventListener('click', toggleDarkMode);
     </script>
     @stack('script')
     @stack('addEventListener')

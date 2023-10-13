@@ -18,7 +18,7 @@
     <x-side-bar />
     <div id="main" class="main-content">
         <div class="row">
-            <div class="col text-center border border-dark">
+            <div class="col text-center">
                 <x-nav-bar />
             </div>
         </div>
