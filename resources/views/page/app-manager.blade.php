@@ -170,6 +170,9 @@
                     const res = await fetch(url);
                     const jsonRes = await res.json();
                     console.log(jsonRes);
+                    document.getElementById('txtToken').value = jsonRes.data.token;
+                    modalGenerateToken.hide();
+                    modalShowToken.show();
                 } else {
                     console.log(clAppId, clResourceId);
                 }
@@ -177,8 +180,7 @@
 
             const copyTokenToClipboard = () => {
                 const copyText = document.getElementById('txtToken');
-                copyText.select();
-                document.execCommand('copy');
+                navigator.clipboard.writeText(copyText.value);
                 showSimpleToast('Copied to clipboard');
             }
         </script>
@@ -186,8 +188,6 @@
     @push('addEventListener')
         <script type="text/javascript">
             document.generateToken.addEventListener('submit', submitGenerateToken);
-            // document.getElementById('showGenerateToken').addEventListener('show.bs.modal', resetModalCreateNewApp);
-            // document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
             document.getElementById('btnCopyToken').addEventListener('click', copyTokenToClipboard);
         </script>
     @endpush

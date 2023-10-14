@@ -127,7 +127,6 @@ class AppManagerController extends Controller
                 ->first();
 
             Log::info("showToken of user_id = {$userId}, client_app = {$clientAppId}, client_resource = {$clientResId}");
-            dd($token);
             return $this->responseHelper->successResponse('succces get data token', $token);
         } catch (Exception $e) {
             Log::info("Error showToken {$e->getMessage()}");
