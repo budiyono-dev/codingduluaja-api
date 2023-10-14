@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ToDoListController extends Controller
 {
@@ -46,7 +47,7 @@ class ToDoListController extends Controller
 
     public function editTodoList(int $id, CreateTodolistRequest $req): JsonResponse
     {
-        Log::info('edit Todolist : '.$id);
+        Log::info("edit Todolist : {$id}");
         DB::transaction(function () use ($id, $req) {
             $todo = Todolist::findOrFail($id);
 
@@ -61,7 +62,7 @@ class ToDoListController extends Controller
 
     public function deleteTodoList($id)
     {
-        Log::info('delete Todolist : '.$id);
+        Log::info("delete Todolist : {$id}");
         DB::transaction(function () use ($id) {
             Todolist::findOrFail($id)->delete();
         });

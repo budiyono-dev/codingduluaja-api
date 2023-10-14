@@ -1,9 +1,8 @@
 <?php
 return [
     'parent' => [
-        'client_app' => 'App Client',
-        'app_resource' => 'App Resource',
-        'application' => 'Application'
+        'application' => 'Application',
+        'documentation' => 'Resource Documentation'
     ],
     'item' => [
         'app_resource' => 'App Resource',

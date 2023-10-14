@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Constants\TableNameConstant;
+use App\Dto\TokenDto;
+use App\Exceptions\TokenException;
 use App\Http\Requests\AddResourceRequest;
 use App\Http\Requests\ConnectClientRequest;
 use App\Http\Requests\CreateTokenRequest;
@@ -31,9 +33,9 @@ class AppManagerController extends Controller
 {
     public function __construct(
         protected ResponseHelper $responseHelper,
-        protected JwtHelper $jwtHelper
-
-    ) {
+        protected JwtHelper      $jwtHelper
+    )
+    {
     }
 
     public function index(): View
@@ -41,16 +43,16 @@ class AppManagerController extends Controller
         // craete token for user with expired
 
         $userId = Auth::user()->id;
-        $listApp = DB::table(TableNameConstant::CLIENT_APP.' as cap')
-             ->join(TableNameConstant::CONNECTED_APP.' as conap', 'conap.client_app_id', '=', 'cap.id')
-             ->join(TableNameConstant::CLIENT_RESOURCE.' as cr', 'conap.client_resource_id', '=','cr.id')
-             ->join(TableNameConstant::MASTER_RESOURCE.' as mr', 'cr.master_resource_id', '=', 'mr.id' )
-             ->select('cap.name as app_name', 'mr.name as resource_name',
-                     'cap.id as client_app_id', 'cr.id as client_resource_id')
-             ->where('cap.user_id', $userId)
-             ->orderBy('mr.name')
-             ->orderBy('cap.name')
-             ->get();
+        $listApp = DB::table(TableNameConstant::CLIENT_APP . ' as cap')
+            ->join(TableNameConstant::CONNECTED_APP . ' as conap', 'conap.client_app_id', '=', 'cap.id')
+            ->join(TableNameConstant::CLIENT_RESOURCE . ' as cr', 'conap.client_resource_id', '=', 'cr.id')
+            ->join(TableNameConstant::MASTER_RESOURCE . ' as mr', 'cr.master_resource_id', '=', 'mr.id')
+            ->select('cap.name as app_name', 'mr.name as resource_name',
+                'cap.id as client_app_id', 'cr.id as client_resource_id')
+            ->where('cap.user_id', $userId)
+            ->orderBy('mr.name')
+            ->orderBy('cap.name')
+            ->get();
         $expList = ExpiredToken::all();
 
         return view('page.app-manager', ['listApp' => $listApp, 'expList' => $expList]);
@@ -77,9 +79,17 @@ class AppManagerController extends Controller
             $clientApp = ClientApp::where('id', $clientAppId)
                 ->where('user_id', $userId)
                 ->firstOrFail();
+            $identifier = "{$userId};{$clientAppId};{$clientResId}";
+            $countActiveToken = Token::where('identifier', $identifier)
+                ->where('is_revoked', false)
+                ->count();
 
-            $sub = base64_encode($userId.';'.$clientAppId.'.'.$clientResId);
-            $fullname = $user->first_name.' '.$user->last_name;
+            if ($countActiveToken >= 1) {
+                throw new TokenException('you have active token');
+            }
+
+            $sub = base64_encode($identifier);
+            $fullname = "{$user->first_name} {$user->last_name}";
             $appKey = $clientApp->app_key;
 
             $expiredTime = $this->calculateExpiredToUnixTime($exp->exp_value, ExpUnit::tryFrom($exp->unit));
@@ -88,16 +98,18 @@ class AppManagerController extends Controller
 
             Token::create([
                 'token' => $token,
-                'identifier' => $userId.';'.$clientAppId.';'.$clientResId,
+                'identifier' => $identifier,
                 'exp' => $expiredTime
             ]);
             return response()->json(['token' => $token]);
         } catch (ValidationException $e) {
-            Log::info('Error generateToken {$e.getMessage}');
+            Log::info("Error generateToken {$e->getMessage()}");
             $errors = $e->validator->errors()->toArray();
             return $this->responseHelper->validationErrorResponse('CDA_R14', $errors);
+        } catch (TokenException $e) {
+            return $this->responseHelper->validationErrorResponse('CDA_R14', ['token' => [$e->getMessage()]]);
         } catch (Exception $e) {
-            Log::info('Error generateToken {$e.getMessage}');
+            Log::info("Error generateToken {$e->getMessage()}");
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
     }
@@ -107,16 +119,18 @@ class AppManagerController extends Controller
         try {
             $userId = Auth::user()->id;
 
-            $identifier = $userId.';'.$clientAppId.';'.$clientResId;
-            $listToken = Token::where('identifier', $identifier)
-                    ->where('exp', '>=', time())
-                    ->get()->toArray();
+            $identifier = "{$userId};{$clientAppId};{$clientResId}";
+            $token = Token::where('identifier', $identifier)
+                ->where('exp', '>=', time())
+                ->get()
+                ->map(fn($t) => TokenDto::fromToken($t))
+                ->first();
 
-            Log::info('showToken of user_id = {$userId} ,client_app = {$clientAppId}, client_resource = {$clientResId}');
-            dd($listToken, $identifier, time());
-            return $this->responseHelper->successResponse($listToken->toArray());
+            Log::info("showToken of user_id = {$userId}, client_app = {$clientAppId}, client_resource = {$clientResId}");
+            dd($token);
+            return $this->responseHelper->successResponse('succces get data token', $token);
         } catch (Exception $e) {
-            Log::info('Error showToken {$e.getMessage}');
+            Log::info("Error showToken {$e->getMessage()}");
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
         }
     }

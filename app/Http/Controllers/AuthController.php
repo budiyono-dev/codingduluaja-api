@@ -34,7 +34,7 @@ class AuthController extends BaseController
     {
         DB::transaction(function () use ($req) {
             $userReq = $req->validated();
-            Log::info('REGISTERING USER :' . $userReq['email']);
+            Log::info("REGISTERING USER : {$userReq['email']}");
             User::create([
                 'username' => $userReq['username'],
                 'first_name' => $userReq['first_name'],
@@ -59,7 +59,7 @@ class AuthController extends BaseController
     {
         $validated = $req->validated();
         if (Auth::attempt($validated)) {
-            Log::info('LOGIN ' . $validated['email']);
+            Log::info("LOGIN  {$validated['email']}");
             request()->session()->regenerate();
             return redirect()->route('page.dashboard');
         }
@@ -88,7 +88,7 @@ class AuthController extends BaseController
     //     $user = Auth::user();
     //     $username = $user->username;
     //     $applicationId = $request->validated()['applicationId'];
-        
+
     //     dd($username, $applicationId);
     //     return response()->json(['token' => $this->jwtHelper->createToken()]);
     // }

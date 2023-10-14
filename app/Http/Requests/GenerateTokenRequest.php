@@ -11,7 +11,6 @@ class GenerateTokenRequest extends FormRequest
 
     public function authorize(): bool
     {
-        Log::info('check auth '. Auth::check());
         return Auth::check();
     }
 

@@ -46,7 +46,7 @@ class ClientAppController extends Controller
 
     public function delete(int $id): RedirectResponse
     {
-        Log::info('Delete Client App : '.$id);
+        Log::info("Delete Client App : {$id}");
         DB::transaction(function () use ($id) {
             $clientApp = ClientApp::find($id);
             $clientApp->delete();

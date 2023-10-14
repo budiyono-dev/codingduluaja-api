@@ -26,7 +26,7 @@ class AppResourceController extends Controller
         $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
         $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
         $listClientApp = ClientApp::select('id', 'name')->where('user_id', $userId)->get();
-        
+
         $mapped = $listResource->map(function(ClientResource $r){
             $connectedApp = $r->connectedApp->map(function(ClientApp $app){
                 return (object) [
@@ -61,7 +61,7 @@ class AppResourceController extends Controller
 
     public function addResource(AddResourceRequest $req): RedirectResponse
     {
-        Log::info('Add Resource');    
+        Log::info('Add Resource');
         DB::transaction(function () use ($req) {
             $validated = $req->validated();
             $userId = Auth::user()->id;
@@ -69,7 +69,7 @@ class AppResourceController extends Controller
             $c = new ClientResource();
             $c->user_id = $userId;
             $c->master_resource_id = $validated['sel_m_resource'];
-            
+
             $c->save();
             Log::info($c);
         });
@@ -79,7 +79,7 @@ class AppResourceController extends Controller
 
     public function delete(int $id): RedirectResponse
     {
-        Log::info('Delete Resource : '.$id);
+        Log::info("Delete Resource : {$id}");
         DB::transaction(function () use ($id) {
             $clientResource = ClientResource::findOrFail($id);
             $clientResource->delete();
@@ -97,7 +97,7 @@ class AppResourceController extends Controller
             $now = Carbon::now();
             $clientResource = ClientResource::findOrFail($id);
 
-            Log::info('connect client '.$validReq['sel_client'].' to resource '.$id);
+            Log::info("'connect client {$validReq['sel_client']} to resource {$id}");
 
             DB::table(TableNameConstant::CONNECTED_APP)
                 ->insert([
@@ -118,7 +118,7 @@ class AppResourceController extends Controller
 
             $clientResource = ClientResource::findOrFail($id);
 
-            Log::info('disconnect client '.$validReq['client_id'].' from resource '.$id);
+            Log::info("disconnect client {$validReq['client_id']} from resource {$id}");
 
             DB::table(TableNameConstant::CONNECTED_APP)
                 ->where('client_resource_id', $id)

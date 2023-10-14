@@ -90,7 +90,7 @@
                     </x-button>
                 </div>
             </div>
-        <form>
+        </form>
     </x-modals.basic-modal>
 
     <x-modals.basic-modal id="modalShowToken">
@@ -126,6 +126,10 @@
             const submitGenerateToken = async (e) => {
                 e.preventDefault();
                 console.log('submit form generate token');
+                if (!document.generateToken.selExp.value) {
+                    showSimpleToast('please choose token duration');
+                    return;
+                }
                 const res = await fetch("{{ route('do.generateToken') }}", {
                         method: 'POST',
                         headers: {
@@ -141,14 +145,26 @@
                         )
 
                     });
+                console.log(res);
                 const jsonRes = await res.json();
-                document.getElementById('txtToken').value = jsonRes.token;
-                modalGenerateToken.hide();
-                modalShowToken.show();
+                if (res.ok) {
+                    document.getElementById('txtToken').value = jsonRes.token;
+                    modalGenerateToken.hide();
+                    modalShowToken.show();
+                } else {
+                    if (jsonRes.data.token && jsonRes.data.token.length > 0) {
+                        showSimpleToast(jsonRes.data.token[0]);
+                    } else if (jsonRes.data.exp_id && jsonRes.data.exp_id.length > 0) {
+                        showSimpleToast('choose token duration');
+                    } else {
+                        showSimpleToast('Generate Token Failed');
+                    }
+                }
+
             }
 
             const showToken = async (e, clAppId, clResourceId) => {
-                if (clAppId, clResourceId) {
+                if (clAppId && clResourceId) {
                     let url = {!! json_encode(route('do.showToken', ['resource' => ':resource', 'app' => ':app'])) !!};
                     url = url.replace(':resource', clResourceId).replace(':app', clAppId);
                     const res = await fetch(url);

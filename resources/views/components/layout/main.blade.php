@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -147,12 +147,12 @@
             localStorage.setItem("theme", theme);
 
         }
-        
+
 
         // ============== Document Ready Function ================
 
         refreshTooltips();
-        // show error if exist     
+        // show error if exist
         const errMsg = {!! json_encode($errors->all()) !!};
         if (errMsg.length > 0) {
             showSimpleToast(errMsg.join('<br>'));
