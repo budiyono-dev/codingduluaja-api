@@ -169,10 +169,13 @@
                     url = url.replace(':resource', clResourceId).replace(':app', clAppId);
                     const res = await fetch(url);
                     const jsonRes = await res.json();
-                    console.log(jsonRes);
-                    document.getElementById('txtToken').value = jsonRes.data.token;
-                    modalGenerateToken.hide();
-                    modalShowToken.show();
+                    if (res.ok) {
+                        document.getElementById('txtToken').value = jsonRes.data.token;
+                        modalGenerateToken.hide();
+                        modalShowToken.show();
+                    } else {
+                        showSimpleToast('no token found');
+                    }
                 } else {
                     console.log(clAppId, clResourceId);
                 }

@@ -36,12 +36,18 @@ class Handler extends ExceptionHandler
             //
         });
 
-        $this->renderable(function (NotFoundHttpException $e, $request) {
+        // $this->renderable(function (NotFoundHttpException $e, $request) {
+        //     if ($request->is('api/*')) {
+        //         if ($e->getPrevious() instanceof ModelNotFoundException) {
+        //             return $this->responseHelper->notFoundResponse('Data Not Found');
+        //         }
+        //         return $this->responseHelper->genericFoundResponse();
+        //     }
+        // });
+
+        $this->renderable(function (\Exception $e, $request) {
             if ($request->is('api/*')) {
-                if ($e->getPrevious() instanceof ModelNotFoundException) {
-                    return $this->responseHelper->notFoundResponse('Data Not Found');
-                }
-                return $this->responseHelper->genericFoundResponse();
+                return response()->json(['api response' => get_class($e)]);
             }
         });
     }

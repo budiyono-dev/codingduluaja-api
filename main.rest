@@ -1,3 +1,7 @@
-GET http://localhost:8000/api/testing
+#GET http://localhost:8000/api/testing
 
-GET http://localhost:8000/api/user
+#GET http://localhost:8000/api/user
+
+
+DELETE http://localhost:8000/api/todo-list/1
+x-authorization: Bearer kjsdnfkjsbdkfjbk

@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Exceptions\TokenException;
 
 class ToDoListController extends Controller
 {
@@ -64,7 +65,10 @@ class ToDoListController extends Controller
     {
         Log::info("delete Todolist : {$id}");
         DB::transaction(function () use ($id) {
-            Todolist::findOrFail($id)->delete();
+            // Todolist::findOrFail($id)->delete();
+            Todolist::findOr($id, function(){
+                throw new TokenException('asdasdfasd');
+            });
         });
         return $this->responseHelper->successResponse('Data Deleted Successfully', null);
     }

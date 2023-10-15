@@ -63,4 +63,9 @@ class ResponseHelper
     {
         return $this->errorResponse('CDA-R500', 'internal server error', 500, $data);
     }
+
+    public function unAutorizeResponse(): JsonResponse
+    {
+        return $this->errorResponse('CDA-400', 'validation error', 401, ['request' => 'Unauthorized request']);
+    }
 }

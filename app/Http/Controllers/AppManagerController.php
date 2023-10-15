@@ -126,6 +126,10 @@ class AppManagerController extends Controller
                 ->map(fn($t) => TokenDto::fromToken($t))
                 ->first();
 
+            if (is_null($token)) {
+                return $this->responseHelper->notFoundResponse('Token Not Found');
+            }
+
             Log::info("showToken of user_id = {$userId}, client_app = {$clientAppId}, client_resource = {$clientResId}");
             return $this->responseHelper->successResponse('succces get data token', $token);
         } catch (Exception $e) {
