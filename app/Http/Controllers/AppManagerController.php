@@ -34,8 +34,7 @@ class AppManagerController extends Controller
     public function __construct(
         protected ResponseHelper $responseHelper,
         protected JwtHelper      $jwtHelper
-    )
-    {
+    ) {
     }
 
     public function index(): View
@@ -47,8 +46,12 @@ class AppManagerController extends Controller
             ->join(TableNameConstant::CONNECTED_APP . ' as conap', 'conap.client_app_id', '=', 'cap.id')
             ->join(TableNameConstant::CLIENT_RESOURCE . ' as cr', 'conap.client_resource_id', '=', 'cr.id')
             ->join(TableNameConstant::MASTER_RESOURCE . ' as mr', 'cr.master_resource_id', '=', 'mr.id')
-            ->select('cap.name as app_name', 'mr.name as resource_name',
-                'cap.id as client_app_id', 'cr.id as client_resource_id')
+            ->select(
+                'cap.name as app_name',
+                'mr.name as resource_name',
+                'cap.id as client_app_id',
+                'cr.id as client_resource_id'
+            )
             ->where('cap.user_id', $userId)
             ->orderBy('mr.name')
             ->orderBy('cap.name')
@@ -102,12 +105,15 @@ class AppManagerController extends Controller
                 'exp' => $expiredTime
             ]);
             return response()->json(['token' => $token]);
-        } catch (ValidationException $e) {
+        } catch (ValidationException | TokenException $e) {
             Log::info("Error generateToken {$e->getMessage()}");
-            $errors = $e->validator->errors()->toArray();
+            $errors = [];
+            if ($e instanceof ValidationException) {
+                $errors = $e->validator->errors()->toArray();
+            } elseif ($e instanceof TokenException) {
+                $errors = ['token' => [$e->getMessage()]];
+            }
             return $this->responseHelper->validationErrorResponse('CDA_R14', $errors);
-        } catch (TokenException $e) {
-            return $this->responseHelper->validationErrorResponse('CDA_R14', ['token' => [$e->getMessage()]]);
         } catch (Exception $e) {
             Log::info("Error generateToken {$e->getMessage()}");
             return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
@@ -123,14 +129,15 @@ class AppManagerController extends Controller
             $token = Token::where('identifier', $identifier)
                 ->where('exp', '>=', time())
                 ->get()
-                ->map(fn($t) => TokenDto::fromToken($t))
+                ->map(fn ($t) => TokenDto::fromToken($t))
                 ->first();
 
             if (is_null($token)) {
                 return $this->responseHelper->notFoundResponse('Token Not Found');
             }
 
-            Log::info("showToken of user_id = {$userId}, client_app = {$clientAppId}, client_resource = {$clientResId}");
+            Log::info("showToken of user_id = {$userId}, client_app = {$clientAppId}
+            , client_resource = {$clientResId}");
             return $this->responseHelper->successResponse('succces get data token', $token);
         } catch (Exception $e) {
             Log::info("Error showToken {$e->getMessage()}");

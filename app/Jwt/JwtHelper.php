@@ -3,6 +3,7 @@
 namespace App\Jwt;
 
 use App\Exceptions\TokenException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class JwtHelper
@@ -56,13 +57,15 @@ class JwtHelper
     {
         list($header, $payload, $signature) = explode('.', $token);
 
-        $decodedHeader = base64_decode($header);
+        base64_decode($header);
         $decodedPayload = base64_decode($payload);
 
-        $hashedHeaderPayload = hash_hmac('sha256', $header.'.'.$payload, $key, true);
-        $computedSignature = base64_encode($hashedHeaderPayload);
+        
+        $encodeSignature = base64_encode(
+            $this->createSignature($header, $payload, $key)
+        );
 
-        if ($computedSignature !== $signature) {
+        if ($encodeSignature !== $signature) {
             throw new TokenException("Invalid Token");
         }
 
