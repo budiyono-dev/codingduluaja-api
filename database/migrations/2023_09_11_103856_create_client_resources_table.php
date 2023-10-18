@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on(TableNameConstant::USERS);
             $table->foreign('master_resource_id')->references('id')->on(TableNameConstant::MASTER_RESOURCE);
+            $table->unique(['user_id', 'master_resource_id']);
         });
     }
 

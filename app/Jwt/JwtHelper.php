@@ -46,6 +46,7 @@ class JwtHelper
         );
 
         // create signature
+        Log::debug("token created {$encodedHeader}, {$encodedPayload}, {$key}");
         $encodedSignature = base64_encode(
             $this->createSignature($encodedHeader, $encodedPayload, $key)
         );
@@ -55,24 +56,26 @@ class JwtHelper
 
     public function validateToken(string $token, string $key) : void
     {
+        Log::debug("validate token {$token}, {$key}");
         list($header, $payload, $signature) = explode('.', $token);
 
-        base64_decode($header);
-        $decodedPayload = base64_decode($payload);
-
-        
         $encodeSignature = base64_encode(
             $this->createSignature($header, $payload, $key)
         );
+
+        Log::info("Calculate Sign : {$encodeSignature} <=> {$signature}");
 
         if ($encodeSignature !== $signature) {
             throw new TokenException("Invalid Token");
         }
 
+        base64_decode($header);
+        $decodedPayload = base64_decode($payload);
         $payloadData = json_decode($decodedPayload);
+
         if (isset($payloadData->exp) && $payloadData->exp < time()) {
             throw new TokenException("Token Expired");
-            
+
         }
     }
 }

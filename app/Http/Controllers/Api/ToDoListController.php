@@ -38,6 +38,7 @@ class ToDoListController extends Controller
 
     public function getTodoList(): JsonResponse
     {
+        return $this->responseHelper->successResponse('ok', request()->input('apiCtx'));
         return $this->responseHelper->successResponse('Successfully Get Todolist', Todolist::all());
     }
 
