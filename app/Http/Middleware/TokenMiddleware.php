@@ -40,7 +40,7 @@ class TokenMiddleware
     private function getToken(string $authHeader) : string {
         $validPrefix = Str::startsWith($authHeader, 'Bearer ');
         if (!$validPrefix) {
-            return throw new TokenException("token not found in header");
+            throw TokenException::missing();
         }
         return Str::after($authHeader, 'Bearer ');
 
@@ -51,7 +51,7 @@ class TokenMiddleware
         $tokenModel = Token::select('identifier')->where('token', $token)->first();
 
         if (is_null($tokenModel)) {
-            throw new TokenException("token indentifier not found");
+            throw TokenException::notFound();
         }
 
         $identifierSplit = Str::of($tokenModel->identifier)->explode(';');
@@ -64,7 +64,7 @@ class TokenMiddleware
             ->first();
 
         if (is_null($clientApp)) {
-            throw new TokenException("token not mapped to any client app");
+            throw TokenException::unMapped();
         }
         $apiCtx = new ApiCtx($userId, $clientAppId, $clientResourceId);
         $req->merge(['apiCtx' => (array) $apiCtx]);

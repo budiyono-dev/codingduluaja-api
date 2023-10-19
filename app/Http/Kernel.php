@@ -53,6 +53,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
+        'req' => \App\Http\Middleware\RequestInfoMiddleware::class,
         'token' => \App\Http\Middleware\TokenMiddleware::class,
         'non-auth' => \App\Http\Middleware\NonAuthMiddleware::class,
         'auth' => \App\Http\Middleware\AuthMiddleware::class,

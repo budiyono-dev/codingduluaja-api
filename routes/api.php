@@ -10,7 +10,7 @@ Route::get('/testing', function (Request $req) {
 });
 
 
-Route::middleware('token')->group(function(){
+Route::middleware(['req','token'])->group(function(){
     Route::controller(ToDoListController::class)->group(function(){
         Route::prefix('todo-list')->group(function() {
                 Route::post('', 'createTodoList');

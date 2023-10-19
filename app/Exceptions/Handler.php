@@ -9,6 +9,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use Exception;
 
 class Handler extends ExceptionHandler
 {
@@ -41,9 +42,10 @@ class Handler extends ExceptionHandler
             }
         });
 
-        $this->renderable(function (\Exception $e, $request) {
+        $this->renderable(function (Exception $e, $request) {
             if ($request->is('api/*')) {
-                return response()->json(['api response' => get_class($e)]);
+                Log::info("error 500 {$e->getMessage()}");
+                return $this->responseHelper->serverErrorResponse(['error' => 'System Error']);
             }
         });
     }

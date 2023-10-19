@@ -88,7 +88,8 @@ class AppManagerController extends Controller
                 ->count();
 
             if ($countActiveToken >= 1) {
-                throw new TokenException('you have active token');
+                // throw new TokenException('you have active token');
+                throw TokenException::limit();
             }
 
             $sub = base64_encode($identifier);
@@ -136,8 +137,7 @@ class AppManagerController extends Controller
                 return $this->responseHelper->notFoundResponse('Token Not Found');
             }
 
-            Log::info("showToken of user_id = {$userId}, client_app = {$clientAppId}
-            , client_resource = {$clientResId}");
+            Log::info("show token of user_id = {$userId}, c_app = {$clientAppId}, c_res = {$clientResId}");
             return $this->responseHelper->successResponse('succces get data token', $token);
         } catch (Exception $e) {
             Log::info("Error showToken {$e->getMessage()}");

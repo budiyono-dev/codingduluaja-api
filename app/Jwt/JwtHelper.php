@@ -63,10 +63,11 @@ class JwtHelper
             $this->createSignature($header, $payload, $key)
         );
 
-        Log::info("Calculate Sign : {$encodeSignature} <=> {$signature}");
+        Log::info("calulcate sign : {$encodeSignature} <=> {$signature}");
 
         if ($encodeSignature !== $signature) {
-            throw new TokenException("Invalid Token");
+            // throw new TokenException("Invalid Token");
+            throw TokenException::invalid();
         }
 
         base64_decode($header);
@@ -74,8 +75,8 @@ class JwtHelper
         $payloadData = json_decode($decodedPayload);
 
         if (isset($payloadData->exp) && $payloadData->exp < time()) {
-            throw new TokenException("Token Expired");
-
+            // throw new TokenException("Token Expired");
+            throw TokenException::expired();
         }
     }
 }
