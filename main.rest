@@ -3,11 +3,11 @@
 #GET http://localhost:8000/api/user
 
 
-@token=Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN6T3pRPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNjk3NTM1NDkzLCJleHAiOjE2OTc3OTQ2OTN9.GrvOb7FRaIOY630/B1rJ1RorUpUsFNqgjnN5981qUq8=
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN6T3pRPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNjk3NTcwMzEzLCJleHAiOjE2OTc4Mjk1MTN9.5u7++LIjhQdRZNu5qguALDcjZtq8qUF702/jdrfy+lk=
 ### RESOURCE
 ###Todolist App
 GET http://localhost:8000/api/todo-list
 x-authorization: {{token}}
 
-DELETE http://localhost:8000/api/todo-list/1
-x-authorization: Bearer 
+#DELETE http://localhost:8000/api/todo-list/1
+#x-authorization: Bearer 
