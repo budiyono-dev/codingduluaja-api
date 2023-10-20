@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Constants\CtxConstant;
 use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
@@ -38,7 +39,7 @@ class ToDoListController extends Controller
 
     public function getTodoList(): JsonResponse
     {
-        return $this->responseHelper->successResponse('ok', request()->input('apiCtx'));
+        return $this->responseHelper->successResponse('ok', $apiCtx = request()->attributes->get(CtxConstant::REQUEST_CTX));
         return $this->responseHelper->successResponse('Successfully Get Todolist', Todolist::all());
     }
 

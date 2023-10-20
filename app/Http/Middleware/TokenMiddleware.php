@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Constants\CtxConstant;
 use App\Dto\ApiCtx;
 use App\Exceptions\TokenException;
 use Closure;
@@ -66,8 +67,13 @@ class TokenMiddleware
         if (is_null($clientApp)) {
             throw TokenException::unMapped();
         }
-        $apiCtx = new ApiCtx($userId, $clientAppId, $clientResourceId);
-        $req->merge(['apiCtx' => (array) $apiCtx]);
+
+        $apiCtx = $req->attributes->get(CtxConstant::REQUEST_CTX);
+        $apiCtx[CtxConstant::USER_ID] = $userId;
+        $apiCtx[CtxConstant::CLIENT_APP_ID] = $clientAppId;
+        $apiCtx[CtxConstant::CLIENT_RESOURCE_ID] = $clientResourceId;
+
+        $req->attributes->replace([CtxConstant::REQUEST_CTX => $apiCtx]);
 
         Log::debug("client_app : {$clientApp->id}:{$clientApp->app_key}");
 
