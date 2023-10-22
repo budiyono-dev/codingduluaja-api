@@ -30,7 +30,6 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Resource Name</th>
-                                        {{-- <th scope="col">Created At</th> --}}
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
@@ -40,9 +39,8 @@
                                             data-connected-app="{{ $resource->connectedApp }}" class="cursor-pointer"
                                             data-id-resource="{{ $resource->id }}"
                                             @if ($key == 0) id="firstResource" @endif>
-                                            <td class="text-center">{{ $key + 1 }}</th>
+                                            <td class="text-center">{{ $key + 1 }}</td>
                                             <td class="text-start">{{ $resource->name }}</td>
-                                            {{-- <td class="text-start"> {{ $resource->created_at }} </td> --}}
                                             <td class="text-center d-flex justify-content-evenly align-items-center">
                                                 <form method="post"
                                                     action="{{ route('do.deleteResource', ['id' => $resource->id]) }}">
@@ -61,7 +59,10 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <x-button type="button" class="btn-sm btn-outline-primary w-100 btn-sm" data-bs-toggle="modal"
+                            <x-button
+                                type="button"
+                                class="btn-sm btn-outline-primary w-100 btn-sm"
+                                data-bs-toggle="modal"
                                 data-bs-target="#modalsAddReouce">
                                 Add New Resource
                             </x-button>
@@ -101,16 +102,16 @@
     @push('script')
         <script type="text/javascript">
             const modalConnectClient = new bootstrap.Modal('#modalConnectClient', { });
-            const listClientApp = {!! json_encode($listClientApp) !!}
+            const listClientApp = {!! json_encode($listClientApp) !!};
             let idResource;
-            
+
             const resetModalAddResource = () => {
                 document.addResource.reset();
             }
             const resetModalConnectClient = () => {
                 document.connectClient.reset();
             }
-            const sumbitAddResource = () => {
+            const submitAddResource = () => {
                 document.addResource.submit();
             }
             const submitConnectClient = () => {
@@ -122,7 +123,7 @@
             const createSellClientApp = (appList) => {
                 const selClientNotConnected = document.getElementById('selClientNotConnected');
                 const mapAppList = new Map(appList.map(el => [el.id, el]));
-                let selClientApp = listClientApp.filter(app => mapAppList.get(app.id) ? false : true);
+                let selClientApp = listClientApp.filter(app => !mapAppList.get(app.id));
                 selClientNotConnected.innerHTML = '';
 
                 if (selClientApp.length > 0) {
@@ -189,7 +190,7 @@
                 </form>
                 `;
             }
-            
+
 
             document.getElementById('btnSubmitResource').disabled = true;
 
@@ -209,11 +210,11 @@
             const addApp = (e) => {
                 let f = document.getElementById("connectClient");
                 console.log(f.action);
-                
+
                 let url = {!! json_encode(route('do.connectClient', ['id' => ':id'])) !!};
                 url = url.replace(':id', idResource);
                 f.action = url;
-                
+
                 modalConnectClient.show();
             }
 
@@ -228,7 +229,7 @@
         <script type="text/javascript">
             document.getElementById('modalsAddReouce').addEventListener('show.bs.modal', resetModalAddResource);
             document.getElementById('modalConnectClient').addEventListener('show.bs.modal', resetModalConnectClient);
-            document.getElementById('btnSubmitResource').addEventListener('click', sumbitAddResource);
+            document.getElementById('btnSubmitResource').addEventListener('click', submitAddResource);
             document.getElementById('btnSbConnectClient').addEventListener('click', submitConnectClient);
             document.getElementById('selResource').addEventListener('change', enableSubmit);
             document.getElementById('btnAddClient').addEventListener('click', addApp);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Constants\Context;
+use App\Constants\CdaContext;
 use App\Constants\ResponseCode;
 use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
@@ -23,14 +23,8 @@ class ToDoListController extends Controller
     {
     }
 
-    private function getContext() : array 
-    {
-        return request()->attributes->get(Context::REQUEST_CTX);
-    }
-
     public function createTodoList(CreateTodolistRequest $req): JsonResponse
     {
-        $reqId = $this->getContext()->request_id;
         Log::info('Create Todolist');
         DB::transaction(function () use ($req) {
             $validatedReq = $req->validated();
@@ -40,19 +34,29 @@ class ToDoListController extends Controller
             $todo->save();
             Log::info($todo);
         });
-        return $this->responseHelper->success('Data Inserted Successfully', null);
+        return $this->successResponse(
+                'Data Inserted Successfully',
+                ResponseCode::SUCCESS_GET_DATA,
+                null
+            );
     }
 
     public function getTodoList(): JsonResponse
     {
-        $reqId = $this->getContext()['request_id'];
-        return $this->responseHelper->success($reqId, 'OK', ResponseCode::SUCCESS_GET_DATA, Todolist::all());
-        return $this->responseHelper->success('Successfully Get Todolist', Todolist::all());
+        return $this->successResponse(
+                'Successfully Get Todolist',
+                ResponseCode::SUCCESS_GET_DATA,
+                Todolist::all()
+            );
     }
 
     public function getDetail(int $id): JsonResponse
     {
-        return $this->responseHelper->success('Successfully Get Todolist', Todolist::findOrFail($id));
+        return $this->successResponse(
+                'Successfully Get Todolist',
+                ResponseCode::SUCCESS_GET_DATA,
+                Todolist::findOrFail($id)
+            );
     }
 
     public function editTodoList(int $id, CreateTodolistRequest $req): JsonResponse
@@ -67,7 +71,11 @@ class ToDoListController extends Controller
             $todo->name = $validatedReq['name'];
             $todo->save();
         });
-        return $this->responseHelper->success('Data Updated Successfully', null);
+        return $this->successResponse(
+                'Data Updated Successfully',
+                ResponseCode::SUCCESS_EDIT_DATA,
+                null
+            );
     }
 
     public function deleteTodoList($id)
@@ -75,10 +83,29 @@ class ToDoListController extends Controller
         Log::info("delete Todolist : {$id}");
         DB::transaction(function () use ($id) {
             // Todolist::findOrFail($id)->delete();
-            Todolist::findOr($id, function(){
+            Todolist::findOr($id, function () {
                 throw new TokenException('asdasdfasd');
             });
         });
-        return $this->responseHelper->success('Data Deleted Successfully', null);
+        return $this->successResponse(
+            'Data Deleted Successfully',
+            ResponseCode::SUCCESS_DELETE_DATA,
+            null
+        );
+    }
+
+    private function getContext(): array
+    {
+        return request()->attributes->get(CdaContext::REQUEST_CTX);
+    }
+
+    private function successResponse(string $msg, string $responseCode, $data): JsonResponse
+    {
+        return $this->responseHelper->success(
+            $this->getContext()['request_id'],
+            $msg,
+            $responseCode,
+            $data
+        );
     }
 }

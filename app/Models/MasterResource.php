@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Constants\TableNameConstant;
+use App\Constants\TableName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class MasterResource extends Model
 {
     use HasFactory;
-    protected $table = TableNameConstant::MASTER_RESOURCE;
+    protected $table = TableName::MASTER_RESOURCE;
 
 }

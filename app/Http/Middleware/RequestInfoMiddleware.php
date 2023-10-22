@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\Context;
+use App\Constants\CdaContext;
 use App\Dto\ApiCtx;
 use Closure;
 use Illuminate\Http\Request;
@@ -19,21 +19,21 @@ class RequestInfoMiddleware
         $reqInfo = [
             'request_id' => $reqId,
             'method' => $req->method(),
-            'path' => $req->path(), 
-            'ip' => $req->ip() 
+            'path' => $req->path(),
+            'ip' => $req->ip()
         ];
         Log::info('REQUEST INFO : '.json_encode($reqInfo));
 
         $req->attributes->add(
             [
-                Context::REQUEST_CTX => [
-                    Context::REQUEST_ID => $reqId
+                CdaContext::REQUEST_CTX => [
+                    CdaContext::REQUEST_ID => $reqId
                 ]
             ]
         );
         $res = $next($req);
 
-        $reqInfo['status'] = $res->status(); 
+        $reqInfo['status'] = $res->status();
 
         Log::info('RESPONSE INFO : '.json_encode($reqInfo));
 

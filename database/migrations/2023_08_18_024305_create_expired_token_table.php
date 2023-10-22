@@ -1,6 +1,6 @@
 <?php
 
-use App\Constants\TableNameConstant;
+use App\Constants\TableName;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(TableNameConstant::EXPIRED_TOKEN, function (Blueprint $table) {
+        Schema::create(TableName::EXPIRED_TOKEN, function (Blueprint $table) {
             $table->id();
             $table->integer('exp_value');
             $table->string('unit', 20);
@@ -19,6 +19,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(TableNameConstant::EXPIRED_TOKEN);
+        Schema::dropIfExists(TableName::EXPIRED_TOKEN);
     }
 };

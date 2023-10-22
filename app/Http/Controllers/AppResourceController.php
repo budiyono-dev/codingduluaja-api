@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\TableNameConstant;
+use App\Constants\TableName;
 use App\Http\Requests\AddResourceRequest;
 use App\Http\Requests\ConnectClientRequest;
 use App\Http\Requests\DisconnectClientRequest;
@@ -99,7 +99,7 @@ class AppResourceController extends Controller
 
             Log::info("'connect client {$validReq['sel_client']} to resource {$id}");
 
-            DB::table(TableNameConstant::CONNECTED_APP)
+            DB::table(TableName::CONNECTED_APP)
                 ->insert([
                     'client_resource_id' => $id,
                     'client_app_id' => $validReq['sel_client'],
@@ -120,7 +120,7 @@ class AppResourceController extends Controller
 
             Log::info("disconnect client {$validReq['client_id']} from resource {$id}");
 
-            DB::table(TableNameConstant::CONNECTED_APP)
+            DB::table(TableName::CONNECTED_APP)
                 ->where('client_resource_id', $id)
                 ->where('client_app_id', $validReq['client_id'])
                 ->delete();

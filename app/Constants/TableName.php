@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-class TableNameConstant
+class TableName
 {
     const CLIENT_APP = 'client_app';
     const USERS = 'users';

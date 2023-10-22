@@ -7,9 +7,13 @@ use Illuminate\Http\JsonResponse;
 
 class ResponseHelper
 {
-    public function success(string $requestId, string $message, string $responseCode, object|array|null $data): JsonResponse
+    public function success(
+        string            $requestId,
+        string            $message,
+        string            $responseCode,
+        object|array|null $data): JsonResponse
     {
-        return $this->buildJson($requestId, false, $message, $responseCode, 200, $data);
+        return $this->buildJson($requestId, true, $message, $responseCode, 200, $data);
     }
 
     public function notFound(string $requestId, string $message, string $responseCode): JsonResponse
@@ -18,12 +22,13 @@ class ResponseHelper
     }
 
     private function error(
-        string $requestId,
-        string $responseCode,
-        string $message,
-        int $httpStatusCode,
+        string            $requestId,
+        string            $responseCode,
+        string            $message,
+        int               $httpStatusCode,
         object|array|null $data
-    ): JsonResponse {
+    ): JsonResponse
+    {
         return $this->buildJson($requestId, false, $message, $responseCode, $httpStatusCode, $data);
     }
 
@@ -37,7 +42,7 @@ class ResponseHelper
         return $this->error($requestId, ResponseCode::INTERNAL_SERVER_ERROR, 'internal server error', 500, $data);
     }
 
-    public function unAutorize(string $requestId): JsonResponse
+    public function unAuthorize(string $requestId): JsonResponse
     {
         return $this
             ->error(
@@ -50,13 +55,14 @@ class ResponseHelper
     }
 
     private function buildJson(
-        string $requestId,
-        bool $success,
-        string $message,
-        string $responseCode,
-        int $httpStatusCode,
+        string            $requestId,
+        bool              $success,
+        string            $message,
+        string            $responseCode,
+        int               $httpStatusCode,
         object|array|null $data
-    ): JsonResponse {
+    ): JsonResponse
+    {
         return response()->json([
             'meta' => [
                 'request_id' => $requestId,

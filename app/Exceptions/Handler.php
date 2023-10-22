@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Constants\Context;
+use App\Constants\CdaContext;
 use Throwable;
 use Exception;
 
@@ -38,9 +38,9 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (TokenException $e, $request) {
             if ($request->is('api/*')) {
-                $reqId = $request->attributes->get(Context::REQUEST_CTX)['request_id'];
+                $reqId = $request->attributes->get(CdaContext::REQUEST_CTX)['request_id'];
                 Log::info("token exception {$e->getMessage()}");
-                return $this->responseHelper->unAutorize($reqId);
+                return $this->responseHelper->unAuthorize($reqId);
             }
         });
 

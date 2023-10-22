@@ -1,6 +1,6 @@
 <?php
 
-use App\Constants\TableNameConstant;
+use App\Constants\TableName;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,20 +9,20 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(TableNameConstant::CLIENT_RESOURCE, function (Blueprint $table) {
+        Schema::create(TableName::CLIENT_RESOURCE, function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('master_resource_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on(TableNameConstant::USERS);
-            $table->foreign('master_resource_id')->references('id')->on(TableNameConstant::MASTER_RESOURCE);
+            $table->foreign('user_id')->references('id')->on(TableName::USERS);
+            $table->foreign('master_resource_id')->references('id')->on(TableName::MASTER_RESOURCE);
             $table->unique(['user_id', 'master_resource_id']);
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists(TableNameConstant::CLIENT_RESOURCE);
+        Schema::dropIfExists(TableName::CLIENT_RESOURCE);
     }
 };

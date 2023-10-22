@@ -2,12 +2,12 @@
 
 namespace App\Models\Api;
 
-use App\Constants\TableNameConstant;
+use App\Constants\TableName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Todolist extends Model
 {
     use HasFactory;
-    protected $table = TableNameConstant::TODOLIST;
+    protected $table = TableName::TODOLIST;
 }

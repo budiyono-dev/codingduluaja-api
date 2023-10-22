@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\TableNameConstant;
+use App\Constants\TableName;
 use App\Dto\TokenDto;
 use App\Exceptions\TokenException;
 use App\Http\Requests\AddResourceRequest;
@@ -42,10 +42,10 @@ class AppManagerController extends Controller
         // craete token for user with expired
 
         $userId = Auth::user()->id;
-        $listApp = DB::table(TableNameConstant::CLIENT_APP . ' as cap')
-            ->join(TableNameConstant::CONNECTED_APP . ' as conap', 'conap.client_app_id', '=', 'cap.id')
-            ->join(TableNameConstant::CLIENT_RESOURCE . ' as cr', 'conap.client_resource_id', '=', 'cr.id')
-            ->join(TableNameConstant::MASTER_RESOURCE . ' as mr', 'cr.master_resource_id', '=', 'mr.id')
+        $listApp = DB::table(TableName::CLIENT_APP . ' as cap')
+            ->join(TableName::CONNECTED_APP . ' as conap', 'conap.client_app_id', '=', 'cap.id')
+            ->join(TableName::CLIENT_RESOURCE . ' as cr', 'conap.client_resource_id', '=', 'cr.id')
+            ->join(TableName::MASTER_RESOURCE . ' as mr', 'cr.master_resource_id', '=', 'mr.id')
             ->select(
                 'cap.name as app_name',
                 'mr.name as resource_name',

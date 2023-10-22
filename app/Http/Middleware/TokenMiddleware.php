@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\Context;
+use App\Constants\CdaContext;
 use App\Dto\ApiCtx;
 use App\Exceptions\TokenException;
 use Closure;
@@ -15,7 +15,7 @@ use App\Models\Token;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
-use App\Constants\TableNameConstant;
+use App\Constants\TableName;
 
 class TokenMiddleware
 {
@@ -62,8 +62,8 @@ class TokenMiddleware
         $clientAppId = $identifierSplit[1];
         $clientResourceId = $identifierSplit[2];
 
-        $appKey = DB::table(TableNameConstant::CLIENT_APP.' as ap')
-        ->join(TableNameConstant::CONNECTED_APP.' as con', 'ap.id', '=', 'con.client_app_id')
+        $appKey = DB::table(TableName::CLIENT_APP.' as ap')
+        ->join(TableName::CONNECTED_APP.' as con', 'ap.id', '=', 'con.client_app_id')
         ->where('ap.user_id', $userId)
         ->where('ap.id', $clientAppId)
         ->where('con.client_resource_id', $clientResourceId)
@@ -78,12 +78,12 @@ class TokenMiddleware
             throw TokenException::unMapped();
         }
 
-        $apiCtx = $req->attributes->get(Context::REQUEST_CTX);
-        $apiCtx[Context::USER_ID] = $userId;
-        $apiCtx[Context::CLIENT_APP_ID] = $clientAppId;
-        $apiCtx[Context::CLIENT_RESOURCE_ID] = $clientResourceId;
+        $apiCtx = $req->attributes->get(CdaContext::REQUEST_CTX);
+        $apiCtx[CdaContext::USER_ID] = $userId;
+        $apiCtx[CdaContext::CLIENT_APP_ID] = $clientAppId;
+        $apiCtx[CdaContext::CLIENT_RESOURCE_ID] = $clientResourceId;
 
-        $req->attributes->replace([Context::REQUEST_CTX => $apiCtx]);
+        $req->attributes->replace([CdaContext::REQUEST_CTX => $apiCtx]);
 
         return $appKey;
     }
