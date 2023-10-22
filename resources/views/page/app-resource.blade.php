@@ -118,7 +118,7 @@
                 document.connectClient.submit();
             }
             const deleteResource = (e) => {
-                deleteConfirmation(() => e.parentElement.submit());
+                deleteConfirmation(() => e.parentElement.submit(), 'Deleting Resource Will Be Delete All Connected Client');
             }
             const createSellClientApp = (appList) => {
                 const selClientNotConnected = document.getElementById('selClientNotConnected');

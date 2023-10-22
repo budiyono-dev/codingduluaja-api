@@ -82,6 +82,9 @@ class AppResourceController extends Controller
         Log::info("Delete Resource : {$id}");
         DB::transaction(function () use ($id) {
             $clientResource = ClientResource::findOrFail($id);
+            DB::table(TableName::CONNECTED_APP)
+                ->where('client_resource_id', $clientResource->id)
+                ->delete();
             $clientResource->delete();
         });
         return redirect()->route('page.appResource');
