@@ -45,10 +45,10 @@
                                             {{-- <td class="text-start"> {{ $resource->created_at }} </td> --}}
                                             <td class="text-center d-flex justify-content-evenly align-items-center">
                                                 <form method="post"
-                                                    action="{{ route('do.deleteClientApp', ['id' => $resource->id]) }}">
+                                                    action="{{ route('do.deleteResource', ['id' => $resource->id]) }}">
                                                     @csrf
                                                     <x-button-icon type="button" class="btn-outline-danger"
-                                                        onclick="deleteAppClient(this)">
+                                                        onclick="deleteResource(this)">
                                                         <x-icon.bi-trash></x-icon.bi-trash>
                                                     </x-button-icon>
                                                 </form>

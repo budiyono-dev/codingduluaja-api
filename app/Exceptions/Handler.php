@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Constants\Context;
 use Throwable;
 use Exception;
 
@@ -37,16 +38,18 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (TokenException $e, $request) {
             if ($request->is('api/*')) {
+                $reqId = $request->attributes->get(Context::REQUEST_CTX)['request_id'];
                 Log::info("token exception {$e->getMessage()}");
-                return $this->responseHelper->unAutorizeResponse();
+                return $this->responseHelper->unAutorize($reqId);
             }
         });
 
         $this->renderable(function (Exception $e, $request) {
-            if ($request->is('api/*')) {
-                Log::info("error 500 {$e->getMessage()}");
-                return $this->responseHelper->serverErrorResponse(['error' => 'System Error']);
-            }
+            // if ($request->is('api/*')) {
+            //     $reqId = $request->attributes->get(Context::REQUEST_CTX)['request_id'];
+            //     Log::info("error 500 : {$e->getMessage()}, request_id : {$reqId}");
+            //     return $this->responseHelper->serverError($reqId, ['error' => 'System Error']);
+            // }
         });
     }
 }

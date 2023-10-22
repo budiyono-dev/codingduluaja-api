@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-class CtxConstant
+class Context
 {
     const REQUEST_CTX = 'request-context';
     const USER_ID = 'user_id';

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\CtxConstant;
+use App\Constants\Context;
 use App\Dto\ApiCtx;
 use Closure;
 use Illuminate\Http\Request;
@@ -13,17 +13,30 @@ use Illuminate\Support\Str;
 class RequestInfoMiddleware
 {
 
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $req, Closure $next): Response
     {
         $reqId = Str::uuid()->toString();
-        Log::info("request : {$reqId}");
-        $request->attributes->add(
+        $reqInfo = [
+            'request_id' => $reqId,
+            'method' => $req->method(),
+            'path' => $req->path(), 
+            'ip' => $req->ip() 
+        ];
+        Log::info('REQUEST INFO : '.json_encode($reqInfo));
+
+        $req->attributes->add(
             [
-                CtxConstant::REQUEST_CTX => [
-                    CtxConstant::REQUEST_ID => $reqId
+                Context::REQUEST_CTX => [
+                    Context::REQUEST_ID => $reqId
                 ]
             ]
         );
-        return $next($request);
+        $res = $next($req);
+
+        $reqInfo['status'] = $res->status(); 
+
+        Log::info('RESPONSE INFO : '.json_encode($reqInfo));
+
+        return $res;
     }
 }

@@ -49,6 +49,14 @@ class ClientAppController extends Controller
         Log::info("Delete Client App : {$id}");
         DB::transaction(function () use ($id) {
             $clientApp = ClientApp::find($id);
+
+            $connectedResource = $clientApp->connectedClientResource;
+            if ($connectedResource->isNotEmpty()) {
+                return redirect()->route('page.clientApp')->withErrors([
+                    'error' => 'Application Already In Use',
+                ]);;        
+            }
+
             $clientApp->delete();
         });
         return redirect()->route('page.clientApp');

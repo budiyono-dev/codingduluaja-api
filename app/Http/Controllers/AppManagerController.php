@@ -114,10 +114,10 @@ class AppManagerController extends Controller
             } elseif ($e instanceof TokenException) {
                 $errors = ['token' => [$e->getMessage()]];
             }
-            return $this->responseHelper->validationErrorResponse('CDA_R14', $errors);
+            return $this->responseHelper->validationError('CDA_R14', $errors);
         } catch (Exception $e) {
             Log::info("Error generateToken {$e->getMessage()}");
-            return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
+            return $this->responseHelper->serverError(['error' => $e->getMessage()]);
         }
     }
 
@@ -134,14 +134,14 @@ class AppManagerController extends Controller
                 ->first();
 
             if (is_null($token)) {
-                return $this->responseHelper->notFoundResponse('Token Not Found');
+                return $this->responseHelper->notFound('Token Not Found');
             }
 
             Log::info("show token of user_id = {$userId}, c_app = {$clientAppId}, c_res = {$clientResId}");
-            return $this->responseHelper->successResponse('succces get data token', $token);
+            return $this->responseHelper->success('succces get data token', $token);
         } catch (Exception $e) {
             Log::info("Error showToken {$e->getMessage()}");
-            return $this->responseHelper->serverErrorResponse(['error' => $e->getMessage()]);
+            return $this->responseHelper->serverError(['error' => $e->getMessage()]);
         }
     }
 

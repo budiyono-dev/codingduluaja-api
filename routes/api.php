@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ToDoListController;
-use App\Middleware\TokenMiddleware;
 
 Route::get('/testing', function (Request $req) {
     return ['haklsuhkasdh' => 'kajshkdjsbakdb'];

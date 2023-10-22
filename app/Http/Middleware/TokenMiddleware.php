@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\CtxConstant;
+use App\Constants\Context;
 use App\Dto\ApiCtx;
 use App\Exceptions\TokenException;
 use Closure;
@@ -13,7 +13,9 @@ use App\Helper\ResponseHelper;
 use App\Models\ClientApp;
 use App\Models\Token;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
+use App\Constants\TableNameConstant;
 
 class TokenMiddleware
 {
@@ -60,23 +62,29 @@ class TokenMiddleware
         $clientAppId = $identifierSplit[1];
         $clientResourceId = $identifierSplit[2];
 
-        $clientApp = ClientApp::where('user_id', $userId)
-            ->where('id', $clientAppId)
-            ->first();
+        $appKey = DB::table(TableNameConstant::CLIENT_APP.' as ap')
+        ->join(TableNameConstant::CONNECTED_APP.' as con', 'ap.id', '=', 'con.client_app_id')
+        ->where('ap.user_id', $userId)
+        ->where('ap.id', $clientAppId)
+        ->where('con.client_resource_id', $clientResourceId)
+        ->select('ap.app_key')
+        ->get();
 
-        if (is_null($clientApp)) {
+        // $clientApp = ClientApp::where('user_id', $userId)
+        //     ->where('id', $clientAppId)
+        //     ->first();
+
+        if (null === $appKey) {
             throw TokenException::unMapped();
         }
 
-        $apiCtx = $req->attributes->get(CtxConstant::REQUEST_CTX);
-        $apiCtx[CtxConstant::USER_ID] = $userId;
-        $apiCtx[CtxConstant::CLIENT_APP_ID] = $clientAppId;
-        $apiCtx[CtxConstant::CLIENT_RESOURCE_ID] = $clientResourceId;
+        $apiCtx = $req->attributes->get(Context::REQUEST_CTX);
+        $apiCtx[Context::USER_ID] = $userId;
+        $apiCtx[Context::CLIENT_APP_ID] = $clientAppId;
+        $apiCtx[Context::CLIENT_RESOURCE_ID] = $clientResourceId;
 
-        $req->attributes->replace([CtxConstant::REQUEST_CTX => $apiCtx]);
+        $req->attributes->replace([Context::REQUEST_CTX => $apiCtx]);
 
-        Log::debug("client_app : {$clientApp->id}:{$clientApp->app_key}");
-
-        return $clientApp->app_key;
+        return $appKey;
     }
 }
