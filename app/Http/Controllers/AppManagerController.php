@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\CdaContext;
+use App\Constants\ResponseCode;
 use App\Constants\TableName;
 use App\Dto\TokenDto;
 use App\Exceptions\TokenException;
@@ -34,7 +36,8 @@ class AppManagerController extends Controller
     public function __construct(
         protected ResponseHelper $responseHelper,
         protected JwtHelper      $jwtHelper
-    ) {
+    )
+    {
     }
 
     public function index(): View
@@ -106,7 +109,7 @@ class AppManagerController extends Controller
                 'exp' => $expiredTime
             ]);
             return response()->json(['token' => $token]);
-        } catch (ValidationException | TokenException $e) {
+        } catch (ValidationException|TokenException $e) {
             Log::info("Error generateToken {$e->getMessage()}");
             $errors = [];
             if ($e instanceof ValidationException) {
@@ -114,10 +117,19 @@ class AppManagerController extends Controller
             } elseif ($e instanceof TokenException) {
                 $errors = ['token' => [$e->getMessage()]];
             }
-            return $this->responseHelper->validationError('CDA_R14', $errors);
+            return $this->responseHelper
+                ->validationError(
+                    '',
+                    ResponseCode::VALIDATION_ERROR,
+                    $errors
+                );
         } catch (Exception $e) {
             Log::info("Error generateToken {$e->getMessage()}");
-            return $this->responseHelper->serverError(['error' => $e->getMessage()]);
+            return $this->responseHelper
+                ->serverError(
+                    '',
+                    ['error' => $e->getMessage()]
+                );
         }
     }
 
@@ -130,18 +142,22 @@ class AppManagerController extends Controller
             $token = Token::where('identifier', $identifier)
                 ->where('exp', '>=', time())
                 ->get()
-                ->map(fn ($t) => TokenDto::fromToken($t))
+                ->map(fn($t) => TokenDto::fromToken($t))
                 ->first();
 
             if (is_null($token)) {
-                return $this->responseHelper->notFound('Token Not Found');
+                return $this
+                    ->responseHelper
+                    ->notFound('', 'Token Not Found', ResponseCode::MODEL_NOT_FOUND);
             }
 
             Log::info("show token of user_id = {$userId}, c_app = {$clientAppId}, c_res = {$clientResId}");
-            return $this->responseHelper->success('succces get data token', $token);
+            return $this
+                ->responseHelper
+                ->success('','succces get data token', ResponseCode::SUCCESS_GET_DATA, $token);
         } catch (Exception $e) {
             Log::info("Error showToken {$e->getMessage()}");
-            return $this->responseHelper->serverError(['error' => $e->getMessage()]);
+            return $this->responseHelper->serverError('', ['error' => $e->getMessage()]);
         }
     }
 
