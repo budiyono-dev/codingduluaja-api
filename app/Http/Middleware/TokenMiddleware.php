@@ -68,15 +68,9 @@ class TokenMiddleware
         ->where('ap.id', $clientAppId)
         ->where('con.client_resource_id', $clientResourceId)
         ->select('ap.app_key')
-        ->get();
-
-        // $clientApp = ClientApp::where('user_id', $userId)
-        //     ->where('id', $clientAppId)
-        //     ->first();
-
-        Log::info('appkey ========= '.$appKey);
-
-        if ($appKey->isEmpty()) {
+        ->first();
+        
+        if (is_null($appKey)) {
             throw TokenException::unMapped();
         }
 
@@ -87,6 +81,6 @@ class TokenMiddleware
 
         $req->attributes->replace([CdaContext::REQUEST_CTX => $apiCtx]);
 
-        return $appKey;
+        return $appKey->app_key;
     }
 }

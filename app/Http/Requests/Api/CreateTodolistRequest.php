@@ -26,6 +26,7 @@ class CreateTodolistRequest extends FormRequest
         return [
             'date' => 'required|date|date_format:d-m-Y|after_or_equal:' . Carbon::today()->format('d-m-Y'),
             'name' => 'required|alpha:ascii',
+//            'description' => ''
         ];
     }
 

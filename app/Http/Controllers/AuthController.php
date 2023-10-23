@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateTokenRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Jwt\JwtHelper;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-use App\Http\Requests\RegisterRequest;
-use App\Jwt\JwtHelper;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
-
-use function Symfony\Component\VarDumper\Dumper\esc;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends BaseController
 {

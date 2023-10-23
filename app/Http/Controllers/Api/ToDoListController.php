@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Constants\CdaContext;
 use App\Constants\ResponseCode;
+use App\Exceptions\TokenException;
 use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
 use App\Models\Api\Todolist;
+use App\Traits\ApiContext;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Exceptions\TokenException;
 
 class ToDoListController extends Controller
 {
+    use ApiContext;
+
     public function __construct
     (
         protected ResponseHelper $responseHelper
@@ -25,43 +27,46 @@ class ToDoListController extends Controller
 
     public function createTodoList(CreateTodolistRequest $req): JsonResponse
     {
-        Log::info('Create Todolist');
+        Log::info("Create Todolist = {$this->getRequestId()}");
         DB::transaction(function () use ($req) {
             $validatedReq = $req->validated();
-            $todo = new Todolist();
-            $todo->date = Carbon::createFromFormat('d-m-Y', $validatedReq['date'])->format('Y-m-d');
-            $todo->name = $validatedReq['name'];
-            $todo->save();
-            Log::info($todo);
+            Todolist::create([
+                'user_id' => $this->getUserId(),
+                'date' => Carbon::createFromFormat('d-m-Y', $validatedReq['date'])->format('Y-m-d'),
+                'name' => $validatedReq['name'],
+                'description' => $validatedReq['description']
+            ]);
         });
         return $this->successResponse(
-                'Data Inserted Successfully',
-                ResponseCode::SUCCESS_GET_DATA,
-                null
-            );
+            'Data Inserted Successfully',
+            ResponseCode::SUCCESS_GET_DATA,
+            null
+        );
     }
 
     public function getTodoList(): JsonResponse
     {
+        Log::info("get all todolist = {$this->getRequestId()}");
         return $this->successResponse(
-                'Successfully Get Todolist',
-                ResponseCode::SUCCESS_GET_DATA,
-                Todolist::all()
-            );
+            'Successfully Get Todolist',
+            ResponseCode::SUCCESS_GET_DATA,
+            Todolist::where('user_id', $this->getUserId())
+        );
     }
 
     public function getDetail(int $id): JsonResponse
     {
+        Log::info("get detail = {$this->getRequestId()}");
         return $this->successResponse(
-                'Successfully Get Todolist',
-                ResponseCode::SUCCESS_GET_DATA,
-                Todolist::findOrFail($id)
-            );
+            'Successfully Get Todolist',
+            ResponseCode::SUCCESS_GET_DATA,
+            Todolist::findOrFail($id)
+        );
     }
 
     public function editTodoList(int $id, CreateTodolistRequest $req): JsonResponse
     {
-        Log::info("edit Todolist : {$id}");
+        Log::info("edit Todolist = {$this->getRequestId()}");
         DB::transaction(function () use ($id, $req) {
             $todo = Todolist::findOrFail($id);
 
@@ -69,18 +74,19 @@ class ToDoListController extends Controller
 
             $todo->date = Carbon::createFromFormat('d-m-Y', $validatedReq['date'])->format('Y-m-d');
             $todo->name = $validatedReq['name'];
+            $todo->description = $validatedReq['description'];
             $todo->save();
         });
         return $this->successResponse(
-                'Data Updated Successfully',
-                ResponseCode::SUCCESS_EDIT_DATA,
-                null
-            );
+            'Data Updated Successfully',
+            ResponseCode::SUCCESS_EDIT_DATA,
+            null
+        );
     }
 
     public function deleteTodoList($id)
     {
-        Log::info("delete Todolist : {$id}");
+        Log::info("delete Todolist = {$this->getRequestId()}");
         DB::transaction(function () use ($id) {
             // Todolist::findOrFail($id)->delete();
             Todolist::findOr($id, function () {
@@ -94,15 +100,10 @@ class ToDoListController extends Controller
         );
     }
 
-    private function getContext(): array
-    {
-        return request()->attributes->get(CdaContext::REQUEST_CTX);
-    }
-
     private function successResponse(string $msg, string $responseCode, $data): JsonResponse
     {
         return $this->responseHelper->success(
-            $this->getContext()['request_id'],
+            $this->getRequestId(),
             $msg,
             $responseCode,
             $data

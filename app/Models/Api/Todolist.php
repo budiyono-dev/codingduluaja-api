@@ -10,4 +10,5 @@ class Todolist extends Model
 {
     use HasFactory;
     protected $table = TableName::TODOLIST;
+    protected $fillable = ['user_id', 'date', 'name', 'description'];
 }

@@ -2,34 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\CdaContext;
 use App\Constants\ResponseCode;
 use App\Constants\TableName;
 use App\Dto\TokenDto;
+use App\Enums\ExpUnit;
 use App\Exceptions\TokenException;
-use App\Http\Requests\AddResourceRequest;
-use App\Http\Requests\ConnectClientRequest;
-use App\Http\Requests\CreateTokenRequest;
-use App\Http\Requests\DisconnectClientRequest;
-use App\Http\Requests\GenerateTokenRequest;
+use App\Helper\ResponseHelper;
 use App\Jwt\JwtHelper;
 use App\Models\ClientApp;
 use App\Models\ClientResource;
-use App\Models\Token;
-use App\Enums\ExpUnit;
-use Illuminate\Contracts\View\View;
-use App\Models\MasterResource;
 use App\Models\ExpiredToken;
+use App\Models\Token;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use App\Helper\ResponseHelper;
-use Exception;
 
 class AppManagerController extends Controller
 {

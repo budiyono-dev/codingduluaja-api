@@ -3,7 +3,7 @@
 #GET http://localhost:8000/api/user
 
 
-@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHMyT3pVPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNjk3OTg1MjAwLCJleHAiOjE2OTgyNDQ0MDB9.6q7Kdju3K+z5UIYU0pLnTaalXhqMOXLXKUtIO6z8Fac=
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNjk4MDU5NTM5LCJleHAiOjE2OTgzMTg3Mzl9.hTjhjGKmEww01n/7W8V+oj9sCy5xEIEPd/MP7nEha+k=
 ### RESOURCE
 ### Todolist App
 GET http://localhost:8000/api/todo-list

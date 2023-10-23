@@ -14,7 +14,8 @@ class UserTest extends TestCase
      */
     public function test_example(): void
     {
-        $end = env('MYCONF', 'not-found');
-        dd("endndn".$end);
+        $collection = collect([]);
+        $first = $collection->first();
+        dd(is_null($first));
     }
 }

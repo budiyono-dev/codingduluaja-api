@@ -4,7 +4,6 @@ namespace App\Jwt;
 
 use App\Exceptions\TokenException;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class JwtHelper
 {
@@ -66,7 +65,6 @@ class JwtHelper
         Log::info("calulcate sign : {$encodeSignature} <=> {$signature}");
 
         if ($encodeSignature !== $signature) {
-            // throw new TokenException("Invalid Token");
             throw TokenException::invalid();
         }
 
@@ -75,7 +73,6 @@ class JwtHelper
         $payloadData = json_decode($decodedPayload);
 
         if (isset($payloadData->exp) && $payloadData->exp < time()) {
-            // throw new TokenException("Token Expired");
             throw TokenException::expired();
         }
     }
