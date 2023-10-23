@@ -17,7 +17,7 @@ class CreateClientAppRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|regex:'.RegexConstant::LETTER_SPACE,
+            'name' => 'required|regex:'.RegexConstant::COMBINATION_1,
         ];
     }
 }
