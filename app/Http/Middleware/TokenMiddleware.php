@@ -74,7 +74,9 @@ class TokenMiddleware
         //     ->where('id', $clientAppId)
         //     ->first();
 
-        if (null === $appKey) {
+        Log::info('appkey ========= '.$appKey);
+
+        if ($appKey->isEmpty()) {
             throw TokenException::unMapped();
         }
 

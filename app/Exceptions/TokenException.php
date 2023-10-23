@@ -23,7 +23,7 @@ class TokenException extends Exception
 
     public static function unMapped(): TokenException
     {
-        return new static('Token Not Mapped To Any Client');
+        return new static('Token Not Mapped To Any Client App');
     }
 
     public static function invalid(): TokenException

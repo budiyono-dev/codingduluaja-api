@@ -39,17 +39,17 @@ class Handler extends ExceptionHandler
         $this->renderable(function (TokenException $e, $request) {
             if ($request->is('api/*')) {
                 $reqId = $request->attributes->get(CdaContext::REQUEST_CTX)['request_id'];
-                Log::info("token exception {$e->getMessage()}");
+                Log::info("token exception = {$e->getMessage()}");
                 return $this->responseHelper->unAuthorize($reqId);
             }
         });
 
         $this->renderable(function (Exception $e, $request) {
-            // if ($request->is('api/*')) {
-            //     $reqId = $request->attributes->get(Context::REQUEST_CTX)['request_id'];
-            //     Log::info("error 500 : {$e->getMessage()}, request_id : {$reqId}");
-            //     return $this->responseHelper->serverError($reqId, ['error' => 'System Error']);
-            // }
+            if ($request->is('api/*')) {
+                $reqId = $request->attributes->get(Context::REQUEST_CTX)['request_id'];
+                Log::info("error 500 : {$e->getMessage()}, request_id : {$reqId}");
+                return $this->responseHelper->serverError($reqId, ['error' => 'System Error']);
+            }
         });
     }
 }
