@@ -2,20 +2,19 @@
 
 namespace App\Exceptions;
 
+use App\Constants\ResponseCode;
 use App\Helper\ResponseHelper;
 use App\Traits\ApiContext;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Constants\CdaContext;
-use Throwable;
+use Illuminate\Validation\ValidationException;
 use Exception;
 
 class Handler extends ExceptionHandler
 {
     use ApiContext;
+
     public function __construct(Container $container, private ResponseHelper $responseHelper)
     {
         parent::__construct($container);
@@ -42,6 +41,26 @@ class Handler extends ExceptionHandler
             if ($request->is('api/*')) {
                 Log::info("token exception = {$e->getMessage()}");
                 return $this->responseHelper->unAuthorize($this->getRequestId());
+            }
+        });
+
+        $this->renderable(function (ApiException $e, $request) {
+            if ($request->is('api/*')) {
+                Log::info("api exception = {$e->getMessage()}");
+                return $this->responseHelper
+                    ->error($this->getRequestId(), $e->getErrorCode(), $e->getMessage(), $e->getHttpCode(), null);
+            }
+        });
+
+        $this->renderable(function (ValidationException $e, $request) {
+            if ($request->is('api/*')) {
+                Log::info("Validation Exception " . json_encode($e->validator->errors()->all()));
+                return $this->responseHelper
+                    ->validationError(
+                        $this->getRequestId(),
+                        ResponseCode::FORM_VALIDATION,
+                        $e->validator->errors()->all()
+                    );
             }
         });
 

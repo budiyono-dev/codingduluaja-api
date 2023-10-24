@@ -14,6 +14,6 @@ class ResponseCode
     const SUCCESS_DELETE_DATA = 'CDA-S-003';
 
     // input validation
-    const VALIDATION_ERROR = 'CDA-V-001';
+    const FORM_VALIDATION = 'CDA-V-001';
     const UNAUTHORIZED = 'CDA-V-002';
 }

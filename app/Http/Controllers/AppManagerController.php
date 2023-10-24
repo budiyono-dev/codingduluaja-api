@@ -112,7 +112,7 @@ class AppManagerController extends Controller
             return $this->responseHelper
                 ->validationError(
                     '',
-                    ResponseCode::VALIDATION_ERROR,
+                    ResponseCode::FORM_VALIDATION,
                     $errors
                 );
         } catch (Exception $e) {

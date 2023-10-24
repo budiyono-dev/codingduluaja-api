@@ -21,7 +21,7 @@ class ResponseHelper
         return $this->buildJson($requestId, false, $message, $responseCode, 404, null);
     }
 
-    private function error(
+    public function error(
         string            $requestId,
         string            $responseCode,
         string            $message,

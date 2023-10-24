@@ -40,7 +40,8 @@ class TokenMiddleware
         return $next($request);
     }
 
-    private function getToken(string $authHeader) : string {
+    private function getToken(string $authHeader): string
+    {
         $validPrefix = Str::startsWith($authHeader, 'Bearer ');
         if (!$validPrefix) {
             throw TokenException::missing();
@@ -62,14 +63,14 @@ class TokenMiddleware
         $clientAppId = $identifierSplit[1];
         $clientResourceId = $identifierSplit[2];
 
-        $appKey = DB::table(TableName::CLIENT_APP.' as ap')
-        ->join(TableName::CONNECTED_APP.' as con', 'ap.id', '=', 'con.client_app_id')
-        ->where('ap.user_id', $userId)
-        ->where('ap.id', $clientAppId)
-        ->where('con.client_resource_id', $clientResourceId)
-        ->select('ap.app_key')
-        ->first();
-        
+        $appKey = DB::table(TableName::CLIENT_APP . ' as ap')
+            ->join(TableName::CONNECTED_APP . ' as con', 'ap.id', '=', 'con.client_app_id')
+            ->where('ap.user_id', $userId)
+            ->where('ap.id', $clientAppId)
+            ->where('con.client_resource_id', $clientResourceId)
+            ->select('ap.app_key')
+            ->first();
+
         if (is_null($appKey)) {
             throw TokenException::unMapped();
         }

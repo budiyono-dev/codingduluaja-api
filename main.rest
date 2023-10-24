@@ -3,12 +3,34 @@
 #GET http://localhost:8000/api/user
 
 
-@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNjk4MDU5NTM5LCJleHAiOjE2OTgzMTg3Mzl9.hTjhjGKmEww01n/7W8V+oj9sCy5xEIEPd/MP7nEha+k=
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN6T3pRPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNjk4MTE5OTMxLCJleHAiOjE2OTgzNzkxMzF9.LPDruwfTuOkwHfKJG6UF6bmue3qI7WkSx3rS2voX2iE=
 ### RESOURCE
 ### Todolist App
 GET http://localhost:8000/api/todo-list
 x-authorization: {{token}}
 
 ### Delete todolist
-#DELETE http://localhost:8000/api/todo-list/1
-#x-authorization: Bearer 
+DELETE http://localhost:8000/api/todo-list/4
+x-authorization: {{token}}
+
+### Create Todolist
+POST http://localhost:8000/api/todo-list
+x-authorization: {{token}}
+content-type: application/json
+
+{
+    "date": "24-10-2023",
+    "name": "watching footbal",
+    "description": "MU VS Liverpol"
+}
+
+### Edit Todolist
+GET http://localhost:8000/api/todo-list
+x-authorization: {{token}}
+content-type: application/json
+
+{
+    "date": "24-10-2023",
+    "name": "watching tv",
+    "description": "watching naruto"
+}

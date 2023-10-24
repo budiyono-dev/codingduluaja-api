@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Constants\RegexConstant;
 use App\Helper\ResponseHelper;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\ValidationException;
+
 
 class CreateTodolistRequest extends FormRequest
 {
@@ -25,13 +27,14 @@ class CreateTodolistRequest extends FormRequest
     {
         return [
             'date' => 'required|date|date_format:d-m-Y|after_or_equal:' . Carbon::today()->format('d-m-Y'),
-            'name' => 'required|alpha:ascii',
-//            'description' => ''
+            'name' => 'required|regex:'.RegexConstant::LETTER_SPACE,
+            'description' => 'string|min:0|max:1000',
+//            'name'=> 'required'
         ];
     }
 
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException($this->responseHelper->validationErrorResponse('CDA_R14', $validator->errors()->all()));
-    }
+//    public function failedValidation(Validator $validator)
+//    {
+//        throw new ValidationException(json_encode($validator->errors()->all()));
+//    }
 }

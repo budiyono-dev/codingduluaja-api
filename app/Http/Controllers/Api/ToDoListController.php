@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Constants\ResponseCode;
+use App\Dto\TodolistDto;
+use App\Dto\TokenDto;
+use App\Exceptions\ApiException;
 use App\Exceptions\TokenException;
 use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
+use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Models\Api\Todolist;
 use App\Traits\ApiContext;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Faker\Factory;
+use function App\Exceptions\ApiException;
 
 class ToDoListController extends Controller
 {
@@ -47,10 +54,16 @@ class ToDoListController extends Controller
     public function getTodoList(): JsonResponse
     {
         Log::info("get all todolist = {$this->getRequestId()}");
+        $data = Todolist::where('user_id', $this->getUserId())->get()->map(function (Todolist $t){
+            return TodolistDto::fromTodolist($t);
+        });
+
+//        dd($data);
+
         return $this->successResponse(
             'Successfully Get Todolist',
             ResponseCode::SUCCESS_GET_DATA,
-            Todolist::where('user_id', $this->getUserId())
+            $data
         );
     }
 
@@ -88,16 +101,36 @@ class ToDoListController extends Controller
     {
         Log::info("delete Todolist = {$this->getRequestId()}");
         DB::transaction(function () use ($id) {
-            // Todolist::findOrFail($id)->delete();
-            Todolist::findOr($id, function () {
-                throw new TokenException('asdasdfasd');
+            $todolist = Todolist::findOr($id, function () {
+                throw ApiException::notFound();
             });
+            $todolist->delete();
         });
         return $this->successResponse(
             'Data Deleted Successfully',
             ResponseCode::SUCCESS_DELETE_DATA,
             null
         );
+    }
+
+    public function generateDummy(DummyTodolistRequest $req)
+    {
+        DB::transaction(function () use ($req) {
+            $userId = Auth::user()->id;
+            $validatedReq = $req->validated();
+            Log::info("create dummy data todolist for {$userId} qty : {$validatedReq['qty']}");
+            $faker = Factory::create();
+            for ($i = 0; $i < (int)$validatedReq['qty']; $i++) {
+                Todolist::create([
+                    'user_id' => $this->getUserId(),
+                    'date' => Carbon::createFromFormat('d - m - Y', $validatedReq['date'])->format('Y - m - d'),
+                    'name' => $validatedReq['name'],
+                    'description' => $validatedReq['description']
+                ]);
+            }
+
+        });
+
     }
 
     private function successResponse(string $msg, string $responseCode, $data): JsonResponse
