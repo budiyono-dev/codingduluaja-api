@@ -65,10 +65,12 @@ class TokenMiddleware
 
         $appKey = DB::table(TableName::CLIENT_APP . ' as ap')
             ->join(TableName::CONNECTED_APP . ' as con', 'ap.id', '=', 'con.client_app_id')
+            ->join(TableName::CLIENT_RESOURCE . 'as cr', 'cr.id', '=', 'con.client_resource_id')
+            ->join(TableName::MASTER_RESOURCE . 'as mr', 'mr.id', '=', 'cr.master_resource_id')
             ->where('ap.user_id', $userId)
             ->where('ap.id', $clientAppId)
-            ->where('con.client_resource_id', $clientResourceId)
-            ->select('ap.app_key')
+            ->where('cr.id', $clientResourceId)
+            ->select('ap.app_key', 'mr.path')
             ->first();
 
         if (is_null($appKey)) {
