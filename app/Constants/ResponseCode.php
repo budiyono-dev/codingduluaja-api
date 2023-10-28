@@ -7,6 +7,7 @@ class ResponseCode
     // error system
     const MODEL_NOT_FOUND = 'CDA-E-001';
     const INTERNAL_SERVER_ERROR = 'CDA-E-002';
+    const RESOURCE_NOT_FOUND = 'CDA-E-003';
 
     // success
     const SUCCESS_GET_DATA = 'CDA-S-001';

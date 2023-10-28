@@ -22,11 +22,11 @@ class DevelopmentSeeder extends Seeder
                 ('1','testing','e49e34a5f09d49fe9add396ff75a5e9c',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
                 ");
             DB::insert("
-                insert into `master_resource` (`id`, `name`, `created_at`, `updated_at`)
+                insert into `master_resource` (`id`, `name`, `path`, `created_at`, `updated_at`)
                 values
-                ('2','Mahasiswa',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
-                ('3','Wilayah',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
-                ('4','API',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+                ('2','Mahasiswa','/mahasiswa', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+                ('3','Wilayah','/wilayah', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+                ('4','users','/users', CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
                 ");
             DB::insert("
                 INSERT INTO `client_resource` (user_id, master_resource_id, created_at, updated_at)

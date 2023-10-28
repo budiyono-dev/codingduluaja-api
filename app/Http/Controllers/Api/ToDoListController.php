@@ -58,8 +58,6 @@ class ToDoListController extends Controller
             return TodolistDto::fromTodolist($t);
         });
 
-//        dd($data);
-
         return $this->successResponse(
             'Successfully Get Todolist',
             ResponseCode::SUCCESS_GET_DATA,

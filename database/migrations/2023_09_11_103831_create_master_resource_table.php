@@ -11,7 +11,8 @@ return new class extends Migration
     {
         Schema::create(TableName::MASTER_RESOURCE, function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
+            $table->string('name', 50)->unique();
+            $table->string('path', 50)->unique();
             $table->timestamps();
         });
     }

@@ -17,7 +17,8 @@ Route::middleware(['req','token'])->group(function(){
                 Route::get('', 'getTodoList');
                 Route::get('/{id}', 'getDetail');
                 Route::put('/{id}', 'editTodolist');
-                Route::delete('/{id}', 'deleteTodoList');    
+                Route::delete('/{id}', 'deleteTodoList');  
+                Route::post('dummy', 'generateDummy');  
         });
     });
 });

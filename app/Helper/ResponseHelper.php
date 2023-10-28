@@ -16,6 +16,11 @@ class ResponseHelper
         return $this->buildJson($requestId, true, $message, $responseCode, 200, $data);
     }
 
+    public function resourceNotFound(): JsonResponse
+    {
+        return $this->buildJson(null, false, 'Resource Not Found', ResponseCode::RESOURCE_NOT_FOUND, 404, null);
+    }
+
     public function notFound(string $requestId, string $message, string $responseCode): JsonResponse
     {
         return $this->buildJson($requestId, false, $message, $responseCode, 404, null);
@@ -55,7 +60,7 @@ class ResponseHelper
     }
 
     private function buildJson(
-        string            $requestId,
+        ?string            $requestId,
         bool              $success,
         string            $message,
         string            $responseCode,

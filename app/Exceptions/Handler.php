@@ -9,6 +9,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 
 class Handler extends ExceptionHandler
@@ -61,6 +62,12 @@ class Handler extends ExceptionHandler
                         ResponseCode::FORM_VALIDATION,
                         $e->validator->errors()->all()
                     );
+            }
+        });
+        
+        $this->renderable(function (NotFoundHttpException $e, $request){
+            if ($request->is('api/*')) {
+                return $this->responseHelper->resourceNotFound();
             }
         });
 

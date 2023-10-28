@@ -9,15 +9,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $todolistReource = new MasterResource();
-        $todolistReource->name = 'Todolist';
-        $todolistReource->save();
+        MasterResource::create([
+            'name'=>'Todolist',
+            'path' => '/todolist'
+        ]);
 
     }
 
     public function down(): void
     {
-        $todolist = MasterResource::find('name', 'Todolist')->first();
-        $todolist->delete();
+        MasterResource::find('name', 'Todolist')->first()->delete();
     }
 };
