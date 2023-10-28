@@ -41,5 +41,5 @@ x-authorization: {{token}}
 content-type: application/json
 
 {
-    "qry": 1
+    "qty": 1
 }
