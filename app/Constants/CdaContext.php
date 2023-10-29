@@ -9,5 +9,6 @@ class CdaContext
     const CLIENT_APP_ID = 'client_app_id';
     const CLIENT_RESOURCE_ID = 'client_resource_id';
     const REQUEST_ID = 'request_id';
+    const PATH = 'path';
 
 }

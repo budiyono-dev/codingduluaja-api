@@ -2,7 +2,8 @@
 return [
     'parent' => [
         'application' => 'Application',
-        'documentation' => 'Resource Documentation'
+        'documentation' => 'Resource Documentation',
+        'resourceManager' => 'Resource Manager'
     ],
     'item' => [
         'app_resource' => 'App Resource',

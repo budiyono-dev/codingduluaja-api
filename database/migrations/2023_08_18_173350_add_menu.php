@@ -18,6 +18,7 @@ return new class extends Migration
         MigrationUtils::insertMenuItem($menuApplication->id, 'menu.item.app_manager', 'page.appManager', 3);
 
         $menuDocumentation = MigrationUtils::insertMenuParent('menu.parent.documentation', 2);
+        $menuDocumentation = MigrationUtils::insertMenuParent('menu.parent.resourceManager', 3);
     }
 
     public function down(): void

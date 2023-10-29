@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\MasterResource;
+use App\Constants\ApiPath;
 
 return new class extends Migration
 {
@@ -11,7 +12,7 @@ return new class extends Migration
     {
         MasterResource::create([
             'name'=>'Todolist',
-            'path' => '/todolist'
+            'path' => ApiPath::TODOLIST
         ]);
 
     }

@@ -63,7 +63,7 @@ class TokenMiddleware
         $clientAppId = $identifierSplit[1];
         $clientResourceId = $identifierSplit[2];
 
-        $appKey = DB::table(TableName::CLIENT_APP . ' as ap')
+        $validatedIdentifier = DB::table(TableName::CLIENT_APP . ' as ap')
             ->join(TableName::CONNECTED_APP . ' as con', 'ap.id', '=', 'con.client_app_id')
             ->join(TableName::CLIENT_RESOURCE . ' as cr', 'cr.id', '=', 'con.client_resource_id')
             ->join(TableName::MASTER_RESOURCE . ' as mr', 'mr.id', '=', 'cr.master_resource_id')
@@ -73,17 +73,30 @@ class TokenMiddleware
             ->select('ap.app_key', 'mr.path')
             ->first();
 
-        if (is_null($appKey)) {
+        if (is_null($validatedIdentifier)) {
             throw TokenException::unMapped();
         }
+
+        $appKey = $validatedIdentifier->app_key;
+        $path = $validatedIdentifier->path;
+
 
         $apiCtx = $req->attributes->get(CdaContext::REQUEST_CTX);
         $apiCtx[CdaContext::USER_ID] = $userId;
         $apiCtx[CdaContext::CLIENT_APP_ID] = $clientAppId;
         $apiCtx[CdaContext::CLIENT_RESOURCE_ID] = $clientResourceId;
 
+        $currentPath = Str::after($apiCtx[CdaContext::PATH], 'api');
+
+        Log::debug("{$path}  <= === => {$currentPath}");
+
+        if ($path !== $currentPath) {
+            throw TokenException::invalidResource();
+        }
+
+
         $req->attributes->replace([CdaContext::REQUEST_CTX => $apiCtx]);
 
-        return $appKey->app_key;
+        return $appKey;
     }
 }

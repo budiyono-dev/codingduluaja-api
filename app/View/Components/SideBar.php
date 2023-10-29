@@ -16,6 +16,7 @@ class SideBar extends Component
     )
     {
         $this->menu = MenuParent::with('menuItem')->get();
+        dd($this->menu);
     }
 
     public function render(): View|Closure|string

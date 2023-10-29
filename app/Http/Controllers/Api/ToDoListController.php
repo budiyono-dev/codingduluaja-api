@@ -114,7 +114,7 @@ class ToDoListController extends Controller
     public function generateDummy(DummyTodolistRequest $req)
     {
         DB::transaction(function () use ($req) {
-            $userIdkkj = Auth::user()->id;
+            $userId = Auth::user()->id;
             $validatedReq = $req->validated();
             Log::info("create dummy data todolist for {$userId} qty : {$validatedReq['qty']}");
             $faker = Factory::create();

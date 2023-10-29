@@ -35,4 +35,9 @@ class TokenException extends Exception
     {
         return new static('Token Expired');
     }
+
+    public static function invalidResource(): TokenException
+    {
+        return new static('Invalid Resource Token');
+    }
 }

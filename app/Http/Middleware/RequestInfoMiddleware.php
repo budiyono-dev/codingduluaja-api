@@ -27,7 +27,8 @@ class RequestInfoMiddleware
         $req->attributes->add(
             [
                 CdaContext::REQUEST_CTX => [
-                    CdaContext::REQUEST_ID => $reqId
+                    CdaContext::REQUEST_ID => $reqId,
+                    CdaContext::PATH => $req->path()
                 ]
             ]
         );
