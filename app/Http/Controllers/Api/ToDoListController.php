@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Constants\ResponseCode;
 use App\Dto\TodolistDto;
-use App\Dto\TokenDto;
 use App\Exceptions\ApiException;
-use App\Exceptions\TokenException;
 use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
@@ -14,11 +12,11 @@ use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Models\Api\Todolist;
 use App\Traits\ApiContext;
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Faker\Factory;
 use function App\Exceptions\ApiException;
 
 class ToDoListController extends Controller
@@ -44,7 +42,8 @@ class ToDoListController extends Controller
                 'description' => $validatedReq['description']
             ]);
         });
-        return $this->successResponse(
+        return $this->responseHelper->success(
+            $this->getRequestId(),
             'Data Inserted Successfully',
             ResponseCode::SUCCESS_GET_DATA,
             null
@@ -54,11 +53,12 @@ class ToDoListController extends Controller
     public function getTodoList(): JsonResponse
     {
         Log::info("get all todolist = {$this->getRequestId()}");
-        $data = Todolist::where('user_id', $this->getUserId())->get()->map(function (Todolist $t){
+        $data = Todolist::where('user_id', $this->getUserId())->get()->map(function (Todolist $t) {
             return TodolistDto::fromTodolist($t);
         });
 
-        return $this->successResponse(
+        return $this->responseHelper->success(
+            $this->getRequestId(),
             'Successfully Get Todolist',
             ResponseCode::SUCCESS_GET_DATA,
             $data
@@ -68,7 +68,8 @@ class ToDoListController extends Controller
     public function getDetail(int $id): JsonResponse
     {
         Log::info("get detail = {$this->getRequestId()}");
-        return $this->successResponse(
+        return $this->responseHelper->success(
+            $this->getRequestId(),
             'Successfully Get Todolist',
             ResponseCode::SUCCESS_GET_DATA,
             Todolist::findOrFail($id)
@@ -88,7 +89,8 @@ class ToDoListController extends Controller
             $todo->description = $validatedReq['description'];
             $todo->save();
         });
-        return $this->successResponse(
+        return $this->responseHelper->success(
+            $this->getRequestId(),
             'Data Updated Successfully',
             ResponseCode::SUCCESS_EDIT_DATA,
             null
@@ -104,7 +106,8 @@ class ToDoListController extends Controller
             });
             $todolist->delete();
         });
-        return $this->successResponse(
+        return $this->responseHelper->success(
+            $this->getRequestId(),
             'Data Deleted Successfully',
             ResponseCode::SUCCESS_DELETE_DATA,
             null
@@ -122,13 +125,17 @@ class ToDoListController extends Controller
                 Todolist::create([
                     'user_id' => $this->getUserId(),
                     'date' => Carbon::createFromFormat('d - m - Y', $validatedReq['date'])->format('Y - m - d'),
-                    'name' => $validatedReq['name'],
-                    'description' => $validatedReq['description']
+                    'name' => $faker->sentences(3),
+                    'description' => $faker->sentences(5)
                 ]);
             }
-
         });
+        return redirect()->route('page.res.todolist');
+    }
 
+    public function todolist()
+    {
+        return view('page.res.todolist');
     }
 
     private function successResponse(string $msg, string $responseCode, $data): JsonResponse

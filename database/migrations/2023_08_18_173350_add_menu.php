@@ -22,7 +22,7 @@ return new class extends Migration
 
 
         $menuResourceManager = MigrationUtils::insertMenuParent('menu.parent.resourceManager', 3);
-        MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.res_man_todolist', 'page.resman.todolist', 1);
+        MigrationUtils::insertMenuItem($menuResourceManager->id, 'menu.item.res_todolist', 'page.res.todolist', 1);
     }
 
     public function down(): void
