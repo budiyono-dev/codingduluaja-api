@@ -18,11 +18,17 @@ return new class extends Migration
         MigrationUtils::insertMenuItem($menuApplication->id, 'menu.item.app_manager', 'page.appManager', 3);
 
         $menuDocumentation = MigrationUtils::insertMenuParent('menu.parent.documentation', 2);
-        $menuDocumentation = MigrationUtils::insertMenuParent('menu.parent.resourceManager', 3);
+        MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.doc_todolist', 'page.doc.todolist', 1);
+
+
+        $menuResourceManager = MigrationUtils::insertMenuParent('menu.parent.resourceManager', 3);
+        MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.res_man_todolist', 'page.resman.todolist', 1);
     }
 
     public function down(): void
     {
         MigrationUtils::deleteMenuParent(1);
+        MigrationUtils::deleteMenuParent(2);
+        MigrationUtils::deleteMenuParent(3);
     }
 };

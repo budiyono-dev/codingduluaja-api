@@ -19,3 +19,7 @@
     - KRS
     - TODOLIST
     - 
+
+- TODO
+    - page documentasi resource todolist
+    - page resource todolistq
