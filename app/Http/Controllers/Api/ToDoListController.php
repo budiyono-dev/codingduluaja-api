@@ -135,7 +135,9 @@ class ToDoListController extends Controller
 
     public function todolist()
     {
-        return view('page.res.todolist');
+        $todolist = Todolist::where('user_id', Auth::user()->id)->get();
+//        dd($todolist);
+        return view('page.res.todolist', ['todolist' => $todolist]);
     }
 
     private function successResponse(string $msg, string $responseCode, $data): JsonResponse

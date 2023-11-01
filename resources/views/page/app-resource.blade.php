@@ -71,7 +71,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     {{-- <!-- Modal --> --}}
     <x-modals.form-modal titleModal="Add Resource" id="modalsAddReouce" idModalBtnSubmit="btnSubmitResource">
