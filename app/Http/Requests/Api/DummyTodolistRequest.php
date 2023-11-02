@@ -12,10 +12,6 @@ class DummyTodolistRequest extends FormRequest
 
     public function authorize(): bool
     {
-        // Log::info(request()->path());
-        if(request()->is('api/*')) {
-            return true;
-        }
         return Auth::check();
 
     }
@@ -23,7 +19,7 @@ class DummyTodolistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'qty' => 'required|numeric|in:1,5,10'
+            'sel_qty' => 'required|numeric|in:1,5,10'
         ];
     }
 }

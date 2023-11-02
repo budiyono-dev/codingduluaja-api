@@ -119,9 +119,10 @@ class ToDoListController extends Controller
         DB::transaction(function () use ($req) {
             $userId = Auth::user()->id;
             $validatedReq = $req->validated();
-            Log::info("create dummy data todolist for {$userId} qty : {$validatedReq['qty']}");
+            $qty = $validatedReq['sel_qty'];
+            Log::info("create dummy data todolist for {$userId} qty : {$qty}");
             $faker = Factory::create();
-            for ($i = 0; $i < (int)$validatedReq['qty']; $i++) {
+            for ($i = 0; $i < $qty; $i++) {
                 Todolist::create([
                     'user_id' => $this->getUserId(),
                     'date' => Carbon::createFromFormat('d - m - Y', $validatedReq['date'])->format('Y - m - d'),

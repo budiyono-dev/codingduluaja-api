@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <form name="addResource" id="addResource" action="{{ route('do.addResource') }}" method="post" autocomplete="off">
+                        <form name="genTodolist" id="genTodolist" action="{{ route('do.todolist.dummy') }}" method="post" autocomplete="off">
                             <div class="card p-3">
                                 <div class="text-center p-1">
                                     <h5>Generate Data Todolist</h5>
@@ -45,12 +45,12 @@
                                 @csrf
                                 <select class="form-select mb-3" name="sel_qty" id="selQty">
                                     <option selected value="">-- Select Qty --</option>
-                                    <option selected value="1">1</option>
-                                    <option selected value="5">5</option>
-                                    <option selected value="10">10</option>
-                                    <option selected value="20">20</option>
+                                    <option value="1">1</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
                                 </select>
-                                <x-button type="button" class="btn-sm btn-outline-primary px-3">
+                                <x-button type="submit" class="btn-sm btn-outline-primary px-3">
                                     Add
                                 </x-button>
                             </div>
@@ -60,4 +60,9 @@
             </div>
         </div>
     </div>
+    @push('script')
+        <script type="text/javascript">
+            // console.log('reset', document.getElementById('selQty').value = '');
+        </script>
+    @endpush
 </x-layout.main-sidebar>

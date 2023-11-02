@@ -50,8 +50,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/res')->group(function () {
         Route::controller(ToDoListController::class)->group(function () {
             Route::get('/todolist', 'todolist')->name('page.res.todolist');
+            Route::post('/todolist/dummy', 'generateDummy')->name('do.todolist.dummy');  
         });
     });
+
+
 });
 
 Route::middleware('non-auth')->group(function () {
