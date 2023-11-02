@@ -123,6 +123,7 @@ class ToDoListController extends Controller
             Log::info("create dummy data todolist for {$userId} qty : {$qty}");
             $faker = Factory::create();
             for ($i = 0; $i < $qty; $i++) {
+                $date = 
                 Todolist::create([
                     'user_id' => $this->getUserId(),
                     'date' => Carbon::createFromFormat('d - m - Y', $validatedReq['date'])->format('Y - m - d'),
