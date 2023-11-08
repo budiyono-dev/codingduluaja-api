@@ -18,7 +18,7 @@ class ClientAppController extends Controller
         $user = Auth::user();
         $userId = $user->id;
 
-        $listClientApp = ClientApp::where('user_id', $userId)->get();
+        $listClientApp = ClientApp::where('user_id', $userId)->paginate(5);
 
         return view('page.app-client', ['listClientApp' => $listClientApp]);
     }

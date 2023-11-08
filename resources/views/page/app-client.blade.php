@@ -11,7 +11,7 @@
                 </x-button>
             </div>
             <div class="table-responsive">
-                <table class="table table-sm  table-hover">
+                <table class="table table-sm table-hover" id="tbAppClient">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -23,7 +23,7 @@
                     <tbody>
                         @forelse ($listClientApp as $key => $appClient)
                             <tr>
-                                <th scope="row">{{ $key + 1 }}</th>
+                                <th scope="row">{{ ($listClientApp->currentPage() - 1) * $listClientApp->perPage() + $key + 1 }}</th>
                                 <td class="text-start">{{ $appClient->name }}</td>
                                 <td class="text-start">{{ $appClient->created_at }}</td>
                                 <td>
@@ -44,6 +44,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                    {{ $listClientApp->links('vendor.pagination.bootstrap-5') }} 
             </div>
         </div>
     </div>
@@ -60,6 +61,7 @@
 
     @push('script')
         <script type="text/javascript">
+            
             const resetModalCreateNewApp = () => {
                 document.createApp.reset();
             }
