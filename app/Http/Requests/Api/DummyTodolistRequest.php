@@ -19,7 +19,7 @@ class DummyTodolistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sel_qty' => 'required|numeric|in:1,5,10'
+            'sel_qty' => 'required|numeric|in:1,5,10,20'
         ];
     }
 }

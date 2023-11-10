@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="pt-4 pb-4">
-                <h4>App Manager</h4>
+                <h4 class="m-0">App Manager</h4>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm  table-hover">

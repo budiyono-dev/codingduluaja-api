@@ -1,32 +1,47 @@
 <x-layout.main-sidebar title="App Resource">
-    <div class="container">
+    <!-- <div class="container"> -->
         <div class="row justify-content-center">
-            <div class="col">
-                <div class="pt-4 pb-4 text-center">
-                    <h4>Your Resources Application</h4>
+            <div class="col-10">
+                <div class="d-flex align-items-center justify-content-between p-3 my-3 ">
+                    <h4 class="m-0">Your Resources Application</h4>
+                    <div >
+                        <x-button 
+                            type="submit" 
+                            class="btn-outline-primary btn-sm" 
+                            id="btnAddClient">
+                            Add Client
+                        </x-button>
+                        <x-button
+                                type="button"
+                                class="btn-sm btn-outline-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalsAddReouce">
+                                Add New Resource
+                        </x-button>
+                    </div>
+
                 </div>
-                <div class="row justify-content-evenly">
-                    <div class="col-5">
-                        <table class="table table-sm table-bordered" id="connectedAppTable">
-                            <thead class="table-dark text-center">
+                <div class="row justify-content-between">
+                    <div class="col">
+                        
+                        <table class="table table-sm table-bordered table-hover " id="connectedAppTable">
+                            <thead class=" text-center">
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Connected Client</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody  class="table-group-divider">
+                            <tbody  >
                             </tbody>
                         </table>
-                        <x-button type="submit" class="btn-outline-primary w-100 btn-sm" id="btnAddClient">
-                            Add Client
-                        </x-button>
+                       
                     </div>
 
-                    <div class="col-5">
+                    <div class="col"> 
                         <div class="table-responsive">
                             <table class="table table-sm  table-hover table-bordered">
-                                <thead class="table-dark text-center">
+                                <thead class=" text-center">
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Resource Name</th>
@@ -59,19 +74,13 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <x-button
-                                type="button"
-                                class="btn-sm btn-outline-primary w-100 btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalsAddReouce">
-                                Add New Resource
-                            </x-button>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
     {{-- <!-- Modal --> --}}
     <x-modals.form-modal titleModal="Add Resource" id="modalsAddReouce" idModalBtnSubmit="btnSubmitResource">
         <form name="addResource" id="addResource" action="{{ route('do.addResource') }}" method="post" autocomplete="off">

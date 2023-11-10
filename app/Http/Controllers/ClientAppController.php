@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use App\Helper\PaginationUtils;
 
 class ClientAppController extends Controller
 {
@@ -18,7 +19,7 @@ class ClientAppController extends Controller
         $user = Auth::user();
         $userId = $user->id;
 
-        $listClientApp = ClientApp::where('user_id', $userId)->paginate(5);
+        $listClientApp = ClientApp::where('user_id', $userId)->get();
 
         return view('page.app-client', ['listClientApp' => $listClientApp]);
     }

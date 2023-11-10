@@ -123,12 +123,13 @@ class ToDoListController extends Controller
             Log::info("create dummy data todolist for {$userId} qty : {$qty}");
             $faker = Factory::create();
             for ($i = 0; $i < $qty; $i++) {
-                $date = 
+                $now = Carbon::now();
+                $end = $now->copy()->addDays(14);
                 Todolist::create([
-                    'user_id' => $this->getUserId(),
-                    'date' => Carbon::createFromFormat('d - m - Y', $validatedReq['date'])->format('Y - m - d'),
-                    'name' => $faker->sentences(3),
-                    'description' => $faker->sentences(5)
+                    'user_id' => $userId,
+                    'date' => $faker->dateTimeBetween($now, $end)->format('Y-m-d'),
+                    'name' => $faker->sentence(3),
+                    'description' => $faker->sentence(10)
                 ]);
             }
         });
@@ -137,8 +138,21 @@ class ToDoListController extends Controller
 
     public function todolist()
     {
-        $todolist = Todolist::where('user_id', Auth::user()->id)->get();
-//        dd($todolist);
+        $todolist = Todolist::where('user_id', Auth::user()->id)
+        ->paginate(\App\Helper\PaginationUtils::PAGE_SIZE)
+        ->through(function($t){
+            $strCreated = Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->toDateTimeString();
+            return collect([
+                'id' => $t->id,
+                'name' => $t->name,
+                'description' => $t->description,
+                'date' => $t->date,
+                'date_fmt' => Carbon::createFromFormat('Y-m-d', $t->date)->format('d F Y'),
+                'created_at' => $strCreated,
+            ]);
+            // return $t;
+        });
+       // dd($todoli/st);
         return view('page.res.todolist', ['todolist' => $todolist]);
     }
 

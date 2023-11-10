@@ -1,10 +1,8 @@
 <x-layout.main-sidebar title="App Clients">
     <div class="row justify-content-center">
-        <div class="col-8">
-            <div class="pt-4 pb-4">
-                <h4>Your Client Application</h4>
-            </div>
-            <div class="text-end mb-2">
+        <div class="col-10">
+            <div class="d-flex align-items-center justify-content-between p-3 my-3 ">
+                <h4 class="m-0">Your Client Application</h4>
                 <x-button type="button" class="btn-sm btn-outline-primary px-3" data-bs-toggle="modal"
                     data-bs-target="#modalCreateNewApp">
                     Create New App
@@ -23,7 +21,7 @@
                     <tbody>
                         @forelse ($listClientApp as $key => $appClient)
                             <tr>
-                                <th scope="row">{{ ($listClientApp->currentPage() - 1) * $listClientApp->perPage() + $key + 1 }}</th>
+                                <th scope="row">{{ $key + 1 }}</th>
                                 <td class="text-start">{{ $appClient->name }}</td>
                                 <td class="text-start">{{ $appClient->created_at }}</td>
                                 <td>
@@ -44,7 +42,7 @@
                         @endforelse
                     </tbody>
                 </table>
-                    {{ $listClientApp->links('vendor.pagination.bootstrap-5') }} 
+                    {{-- $listClientApp->links('vendor.pagination.bootstrap-5') --}} 
             </div>
         </div>
     </div>
