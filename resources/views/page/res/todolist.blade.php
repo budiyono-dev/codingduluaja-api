@@ -13,7 +13,6 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Name</th>
                                     <th scope="col">Date</th>
                                 </tr>
                                 </thead>
@@ -22,7 +21,6 @@
                                     <tr onclick="show({{ $t }})">
                                         <th scope="row">{{ ($todolist->currentPage() -1) * $todolist->perPage() + 1 + $key }}</th>
                                         <td class="text-start">{{ $t->get('name') }}</td>
-                                        <td class="text-start text-truncate" style="width:10px;">{{ $t->get('description') }}</td>
                                         <td class="text-start">{{ $t->get('date') }}</td>
                                     </tr>
                                 @empty
@@ -60,8 +58,8 @@
                                 </div>
                                 <p ><b id="todoName"></b></p>
                                 <p id="todoDesc" ></p>
-                                <p id="todoDate" class="blockquote-footer"></p>
-                                <p id="todoCreate" class="blockquote-footer"></p>
+                                <p id="todoDate" class="fs-6 fw-light"></p>
+                                <p id="todoCreate" class="fs-6 fw-lighter"></p>
                                 
                             </div>
                     </div>
@@ -77,7 +75,7 @@
                 document.getElementById('todoName').innerText = d.name;
                 document.getElementById('todoDesc').innerText = d.description;
                 document.getElementById('todoDate').innerText = d.date_fmt;
-                document.getElementById('todoCreate').innerText = d.created_at;
+                document.getElementById('todoCreate').innerText = 'Created At ' + d.created_at;
             } 
         </script>
     @endpush

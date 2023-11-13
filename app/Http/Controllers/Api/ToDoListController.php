@@ -148,7 +148,7 @@ class ToDoListController extends Controller
                 'description' => $t->description,
                 'date' => $t->date,
                 'date_fmt' => Carbon::createFromFormat('Y-m-d', $t->date)->format('d F Y'),
-                'created_at' => $strCreated,
+                'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->format('d/m/Y H:i')
             ]);
             // return $t;
         });
