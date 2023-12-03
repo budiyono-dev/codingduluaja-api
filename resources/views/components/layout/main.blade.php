@@ -10,23 +10,9 @@
     
     <title> {{ $title }}</title>
     <style>
-        html,
-        body {
-            height: 100%;
-            min-height: 100%;
-            margin:0;
-            box-sizing: border-box;
-            padding:0;
-
-        }
-
-        .cursor-pointer {
-            cursor: pointer;
-        }
     </style>
     @stack('styles')
-    <!-- <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-1.13.7/datatables.min.css" rel="stylesheet"> -->
-    <!-- <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-1.13.7/datatables.min.js"></script> -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>

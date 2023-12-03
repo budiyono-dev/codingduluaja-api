@@ -3,26 +3,30 @@
         <style>
             .main-content {
                 /* margin-left: 250px; */
-                transition: all 0.3s ease-out;
+                transition: all 0.3s ease-out!important;
                 /* padding: 20px; */
                 width: 100%
             }
 
             .toggle-main-content {
-                margin-left: 250px
+                padding-left: 250px;
+                /* transition: all 0.3s ease-out!important; */
             }
         </style>
     @endpush
 
     {{-- ============ Component HTML START ======== --}}
     <x-side-bar />
-    <div id="main" class="main-content">
-        <div class="row">
-            <div class="col text-center">
-                <x-nav-bar />
+    <div id="main" class="container-fluid main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <x-nav-bar />
+                </div>
             </div>
+            {{ $slot }}
+            
         </div>
-        {{ $slot }}
     </div>
     {{-- ============ Component HTML END ======== --}}
 
