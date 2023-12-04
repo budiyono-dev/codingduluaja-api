@@ -42,7 +42,7 @@
                         @endforelse
                     </tbody>
                 </table>
-                    {{-- $listClientApp->links('vendor.pagination.bootstrap-5') --}} 
+                {{-- $listClientApp->links('vendor.pagination.bootstrap-5') --}}
             </div>
         </div>
     </div>
@@ -58,21 +58,11 @@
     </x-modals.form-modal>
 
     @push('script')
-        <script type="text/javascript">
-            
-            const resetModalCreateNewApp = () => {
-                document.createApp.reset();
-            }
-            const submitCreateAppForm = () => {
-                document.createApp.submit();
-            }
-            const deleteAppClient = (e) => {
-                deleteConfirmation(() => e.parentElement.submit());
-            }
-        </script>
-    @endpush
-    @push('addEventListener')
-        <script type="text/javascript">
+        <script type="module">
+            import {
+                resetModalCreateNewApp,
+                submitCreateAppForm
+            } from "{{ Vite::asset('resources/js/app.js') }}"
             document.getElementById('modalCreateNewApp').addEventListener('hide.bs.modal', resetModalCreateNewApp);
             document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
         </script>

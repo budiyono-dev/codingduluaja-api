@@ -12,20 +12,6 @@
       </div>
     </div>
   </div>
-
-@push('styles')
-  <style type="text/css">
-    .main-content {
-      /* margin-left: 250px; */
-      transition: all 0.3s ease-out;
-      /* padding: 20px; */
-    }
-    .toggle-main-content {
-      margin-left: 250px
-    }
-  </style>
-@endpush
-
 </x-layout>
 
 
