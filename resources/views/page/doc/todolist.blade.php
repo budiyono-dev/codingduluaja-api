@@ -292,4 +292,21 @@
             </ul>
         </nav>
     </div>
+    @push('script')
+        <script type="text/javascript">
+            let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
+
+            const resetActive = () => {
+                daftarIsi.forEach(el => el.classList.remove('active'));
+            }
+            const toggleActiveDaftarIsi = (el) => {
+                resetActive();
+                el.target.classList.add('active');
+            }
+            daftarIsi.forEach(el => {
+                el.addEventListener('click', toggleActiveDaftarIsi);
+            });
+        </script>
+    @endpush
+
 </x-layout.main-sidebar>

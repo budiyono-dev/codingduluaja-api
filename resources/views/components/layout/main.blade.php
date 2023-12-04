@@ -7,12 +7,68 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    
+
     <title> {{ $title }}</title>
     <style>
+        html,
+        body {
+            height: 100%;
+            min-height: 100%;
+            margin: 0;
+            box-sizing: border-box;
+            padding: 0;
+
+        }
+
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        #TableOfContents ul,
+        #TableOfContents ul li,
+        #TableOfContents ul ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            padding-left: 0.5rem;
+        }
+
+        #TableOfContents ul li a {
+            display: block;
+            text-decoration: none;
+            border-left: 0.3rem solid transparent;
+            transition: border-left-color 0.3s ease;
+            padding: .125rem 0 .125rem .75rem;
+        }
+
+        #TableOfContents ul li a:hover,
+        #TableOfContents ul li a:active {
+            border-left-color: #007bff;
+        }
+
+        #TableOfContents ul li a.active {
+            border-left-color: #007bff;
+        }
+
+        .doc {
+            overflow: auto;
+            height: 90dvh;
+        }
+
+        .nav-doc {
+            width: 20%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .doc-main {
+            width: 80%;
+            scroll-behavior: smooth;
+            box-sizing: border-box;
+            padding: 1rem;
+        }
     </style>
     @stack('styles')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -30,14 +86,8 @@
         </div>
     </div>
 
-    <div
-        class="modal fade"
-        id="modals"
-        {{-- data-bs-backdrop="static" --}}
-        data-bs-keyboard="false"
-        tabindex="-1"
-        {{-- aria-labelledby="staticBackdropLabel" --}}
-        aria-hidden="true">
+    <div class="modal fade" id="modals" {{-- data-bs-backdrop="static" --}} data-bs-keyboard="false" tabindex="-1"
+        {{-- aria-labelledby="staticBackdropLabel" --}} aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content d-flex justify-content-center align-items-center">
                 <div class="modal-header w-100">
@@ -62,7 +112,9 @@
         const simpleToast = document.getElementById('simple-toast');
         const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast)
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const myModalAlternative = new bootstrap.Modal('#modals', { keyboard: false });
+        const myModalAlternative = new bootstrap.Modal('#modals', {
+            keyboard: false
+        });
         let resolveGlobal;
         let localTheme = localStorage.getItem("theme");
 
@@ -92,12 +144,12 @@
 
         const deleteConfirmation = (callback, msg = 'Are you sure?', buttonType) => {
             let promise = new Promise(function(resolve, reject) {
-                        let confirmValue = true;
-                        resolveGlobal = resolve;
-                        document.getElementById('confirmationMsg').innerHTML = msg;
-                        document.getElementById('btnConfirmYes').innerHTML = 'YES';
-                        myModalAlternative.show();
-                    });
+                let confirmValue = true;
+                resolveGlobal = resolve;
+                document.getElementById('confirmationMsg').innerHTML = msg;
+                document.getElementById('btnConfirmYes').innerHTML = 'YES';
+                myModalAlternative.show();
+            });
             promise.then(data => {
                 if (data) {
                     callback();
@@ -112,9 +164,7 @@
         }
         const toggleDarkMode = () => {
             const current = document.documentElement.getAttribute('data-bs-theme');
-            // document.documentElement.setAttribute('data-bs-theme', current == 'dark' ? 'light' : 'dark');
-            let finalTheme =  current == 'dark' ? 'light' : 'dark';
-            console.log('finalTheme', finalTheme);
+            let finalTheme = current == 'dark' ? 'light' : 'dark';
             changeTheme(finalTheme);
         }
 
@@ -158,7 +208,6 @@
         // ============== Global Event Listener ================
         document.getElementById('modals').addEventListener('hide.bs.modal', modalsFunc);
         document.getElementById('btnConfirmYes').addEventListener('click', confirmationYes);
-        document.getElementById('btnDarkMode').addEventListener('click', toggleDarkMode);
     </script>
     @stack('script')
     @stack('addEventListener')

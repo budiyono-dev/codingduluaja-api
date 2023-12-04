@@ -3,7 +3,7 @@
         <style>
             .main-content {
                 /* margin-left: 250px; */
-                transition: all 0.3s ease-out!important;
+                transition: all 0.3s ease-out !important;
                 /* padding: 20px; */
                 width: 100%
             }
@@ -25,7 +25,7 @@
                 </div>
             </div>
             {{ $slot }}
-            
+
         </div>
     </div>
     {{-- ============ Component HTML END ======== --}}
@@ -41,6 +41,7 @@
     @push('addEventListener')
         <script type="text/javascript">
             document.getElementById('btn-toggle-sidebar').addEventListener('click', toggleSidebar);
+            document.getElementById('btnDarkMode').addEventListener('click', toggleDarkMode);
         </script>
     @endpush
 </x-layout.main>

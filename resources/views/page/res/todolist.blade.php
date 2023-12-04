@@ -60,7 +60,7 @@
                                 <p id="todoDesc" ></p>
                                 <p id="todoDate" class="fs-6 fw-light"></p>
                                 <p id="todoCreate" class="fs-6 fw-lighter"></p>
-                                
+
                             </div>
                     </div>
                 </div>
@@ -69,14 +69,12 @@
     </div>
     @push('script')
         <script type="text/javascript">
-            // console.log('reset', document.getElementById('selQty').value = '');
             const show = (d) => {
-                console.log(d, document.getElementById('todoName'));
                 document.getElementById('todoName').innerText = d.name;
                 document.getElementById('todoDesc').innerText = d.description;
                 document.getElementById('todoDate').innerText = d.date_fmt;
                 document.getElementById('todoCreate').innerText = 'Created At ' + d.created_at;
-            } 
+            }
         </script>
     @endpush
 </x-layout.main-sidebar>
