@@ -9,8 +9,66 @@
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
     <title> {{ $title }}</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            min-height: 100%;
+            margin: 0;
+            box-sizing: border-box;
+            padding: 0;
+
+        }
+
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        #TableOfContents ul,
+        #TableOfContents ul li,
+        #TableOfContents ul ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            padding-left: 0.5rem;
+        }
+
+        #TableOfContents ul li a {
+            display: block;
+            text-decoration: none;
+            border-left: 0.3rem solid transparent;
+            transition: border-left-color 0.3s ease;
+            padding: .125rem 0 .125rem .75rem;
+        }
+
+        #TableOfContents ul li a:hover,
+        #TableOfContents ul li a:active {
+            border-left-color: #007bff;
+        }
+
+        #TableOfContents ul li a.active {
+            border-left-color: #007bff;
+        }
+
+        .doc {
+            overflow: auto;
+            height: 90dvh;
+        }
+
+        .nav-doc {
+            width: 20%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .doc-main {
+            width: 80%;
+            scroll-behavior: smooth;
+            box-sizing: border-box;
+            padding: 1rem;
+        }
+    </style>
     @stack('styles')
-    @vite('resources/css/app.css')
 </head>
 
 <body>
@@ -50,15 +108,87 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
-    @vite('resources/js/app.js')
-    <script type="module">
-        import {
-            refreshTooltips,
-            showSimpleToast
-        } from "{{ Vite::asset('resources/js/app.js') }}"
-
-        const errMsg = {!! json_encode($errors->all()) !!};
+    <script>
+        const simpleToast = document.getElementById('simple-toast');
+        const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast)
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const myModalAlternative = new bootstrap.Modal('#modals', {
+            keyboard: false
+        });
+        let resolveGlobal;
         let localTheme = localStorage.getItem("theme");
+
+
+        // ============= GLOBAL FUNCTION =================
+
+        const refreshTooltips = () => {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        }
+
+        // show simple toas
+        const showSimpleToast = (msg = 'nofitication', type) => {
+            let bgColour = 'text-bg-danger';
+            if (type === 'info') {
+                bgColour = 'text-bg-primary';
+            }
+            simpleToast.classList.forEach(className => {
+                if (className.includes('text-bg')) {
+                    simpleToast.classList.remove(className);
+                }
+            });
+            simpleToast.classList.add(bgColour);
+            document.getElementById('simple-toast-msg').innerHTML = msg;
+            toastSimpleB.show();
+        }
+
+        const deleteConfirmation = (callback, msg = 'Are you sure?', buttonType) => {
+            let promise = new Promise(function(resolve, reject) {
+                let confirmValue = true;
+                resolveGlobal = resolve;
+                document.getElementById('confirmationMsg').innerHTML = msg;
+                document.getElementById('btnConfirmYes').innerHTML = 'YES';
+                myModalAlternative.show();
+            });
+            promise.then(data => {
+                if (data) {
+                    callback();
+                }
+            });
+        }
+        const modalsFunc = () => {
+            resolveGlobal(false);
+        }
+        const confirmationYes = () => {
+            resolveGlobal(true);
+        }
+        const toggleDarkMode = () => {
+            const current = document.documentElement.getAttribute('data-bs-theme');
+            let finalTheme = current == 'dark' ? 'light' : 'dark';
+            changeTheme(finalTheme);
+        }
+
+        const changeTheme = (theme) => {
+            let a = document.querySelectorAll("[data-bs-theme]");
+            a.forEach(e => e.dataset.bsTheme = theme);
+
+            if (theme === 'dark') {
+                document.querySelectorAll('.link-dark').forEach(b => {
+                    b.classList.remove('link-dark');
+                    b.classList.add('link-light');
+                });
+            } else {
+                document.querySelectorAll('.link-light').forEach(b => {
+                    b.classList.remove('link-light');
+                    b.classList.add('link-dark');
+                });
+            }
+            localStorage.setItem("theme", theme);
+
+        }
+
+
+        // ============== Document Ready Function ================
 
         refreshTooltips();
 
@@ -72,6 +202,11 @@
             }
 
         }
+
+
+        // ============== Global Event Listener ================
+        document.getElementById('modals').addEventListener('hide.bs.modal', modalsFunc);
+        document.getElementById('btnConfirmYes').addEventListener('click', confirmationYes);
     </script>
     @stack('script')
     @stack('addEventListener')

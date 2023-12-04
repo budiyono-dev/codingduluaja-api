@@ -300,8 +300,6 @@
                 daftarIsi.forEach(el => el.classList.remove('active'));
             }
             const toggleActiveDaftarIsi = (el) => {
-                console.log(el)
-                console.log('activate link');
                 resetActive();
                 el.target.classList.add('active');
             }
