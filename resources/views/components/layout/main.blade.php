@@ -20,8 +20,60 @@
 
         }
 
+        .main-content {
+            transition: all 0.3s ease-out !important;
+            width: 100%
+        }
+
+        .toggle-main-content {
+            padding-left: 250px;
+        }
+
         .cursor-pointer {
             cursor: pointer;
+        }
+
+        .left-sidebar {
+            width: 235px;
+            position: fixed;
+            top: 0;
+            left: -235px;
+            height: 100%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            padding-top: 90px;
+            transition: all 0.3s ease-out;
+            box-sizing: border-box;
+        }
+
+        .btn-toggle {
+            display: inline-flex;
+            align-items: center;
+            padding: .25rem .5rem;
+            font-weight: 600;
+            border: 0;
+        }
+
+        .btn-toggle:hover,
+        .btn-toggle:focus {
+            color: rgba(0, 0, 0, .85);
+            background-color: #d2f4ea;
+        }
+
+        .btn-toggle-nav a {
+            display: inline-flex;
+            padding: .1875rem .5rem;
+            /*            margin-top: .125rem;*/
+            /*            margin-left: 1.25rem;*/
+            text-decoration: none;
+        }
+
+        .btn-toggle-nav a:hover,
+        .btn-toggle-nav a:focus {
+            background-color: #d2f4ea;
+        }
+
+        .sidebarshow {
+            left: 0;
         }
 
         #TableOfContents ul,
@@ -189,6 +241,7 @@
 
 
         // ============== Document Ready Function ================
+        const errMsg = {!! json_encode($errors->all()) !!}
 
         refreshTooltips();
 

@@ -58,11 +58,7 @@
     </x-modals.form-modal>
 
     @push('script')
-        <script type="module">
-            import {
-                resetModalCreateNewApp,
-                submitCreateAppForm
-            } from "{{ Vite::asset('resources/js/app.js') }}"
+        <script>
             document.getElementById('modalCreateNewApp').addEventListener('hide.bs.modal', resetModalCreateNewApp);
             document.getElementById('btnSubmitCreateApp').addEventListener('click', submitCreateAppForm);
         </script>

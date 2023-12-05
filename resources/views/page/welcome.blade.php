@@ -3,7 +3,6 @@
 
     @push('addEventListener')
         <script type="text/javascript">
-            document.getElementById('btnCreateToken').addEventListener('click', createToken);
         </script>
     @endpush
 </x-layout.main-sidebar>

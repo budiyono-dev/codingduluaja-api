@@ -3,7 +3,7 @@
         <style>
             .main-content {
                 /* margin-left: 250px; */
-                transition: all 0.3s ease-out !important;
+                transition: all 0.3s ease-out ;
                 /* padding: 20px; */
                 width: 100%
             }
@@ -29,10 +29,11 @@
         </div>
     </div>
     @push('script')
-        <script type="module">
-            import {
-                toggleSidebar
-            } from "{{ Vite::asset('resources/js/app.js') }}"
+        <script>
+            const toggleSidebar = () => {
+                document.getElementById('sidebar').classList.toggle('sidebarshow');
+                document.getElementById('main').classList.toggle('toggle-main-content');
+            }
             document.getElementById('btn-toggle-sidebar').addEventListener('click', toggleSidebar);
             document.getElementById('btnDarkMode').addEventListener('click', toggleDarkMode);
         </script>
