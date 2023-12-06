@@ -59,47 +59,46 @@ class AppManagerController extends Controller
     {
         Log::info('generateToken');
         try {
-            DB::transaction(function () use ($req) {
-                $validatedReq = $req->validate([
-                    'client_app_id' => 'required',
-                    'client_resource_id' => 'required',
-                    'exp_id' => 'required'
-                ]);
+            $validatedReq = $req->validate([
+                'client_app_id' => 'required',
+                'client_resource_id' => 'required',
+                'exp_id' => 'required'
+            ]);
 
-                $user = Auth::user();
-                $userId = $user->id;
-                $clientAppId = $validatedReq['client_app_id'];
-                $clientResId = $validatedReq['client_resource_id'];
-                $expId = $validatedReq['exp_id'];
+            $user = Auth::user();
+            $userId = $user->id;
+            $clientAppId = $validatedReq['client_app_id'];
+            $clientResId = $validatedReq['client_resource_id'];
+            $expId = $validatedReq['exp_id'];
 
-                ClientResource::findOrFail($clientResId);
-                $exp = ExpiredToken::findOrFail($expId);
-                $clientApp = ClientApp::where('id', $clientAppId)
-                    ->where('user_id', $userId)
-                    ->firstOrFail();
-                $identifier = "{$userId};{$clientAppId};{$clientResId}";
-                $countActiveToken = Token::where('identifier', $identifier)->count();
+            ClientResource::findOrFail($clientResId);
+            $exp = ExpiredToken::findOrFail($expId);
+            $clientApp = ClientApp::where('id', $clientAppId)
+                ->where('user_id', $userId)
+                ->firstOrFail();
+            $identifier = "{$userId};{$clientAppId};{$clientResId}";
+            $countActiveToken = Token::where('identifier', $identifier)->count();
 
-                if ($countActiveToken >= 1) {
-                    // throw new TokenException('you have active token');
-                    throw TokenException::limit();
-                }
+            if ($countActiveToken >= 1) {
+                // throw new TokenException('you have active token');
+                throw TokenException::limit();
+            }
 
-                $sub = base64_encode($identifier);
-                $fullname = "{$user->first_name} {$user->last_name}";
-                $appKey = $clientApp->app_key;
+            $sub = base64_encode($identifier);
+            $fullname = "{$user->first_name} {$user->last_name}";
+            $appKey = $clientApp->app_key;
 
-                $expiredTime = $this->calculateExpiredToUnixTime($exp->exp_value, ExpUnit::tryFrom($exp->unit));
+            $expiredTime = $this->calculateExpiredToUnixTime($exp->exp_value, ExpUnit::tryFrom($exp->unit));
 
-                $token = $this->jwtHelper->createToken($sub, $fullname, $appKey, $expiredTime);
-
+            $token = $this->jwtHelper->createToken($sub, $fullname, $appKey, $expiredTime);
+            DB::transaction(function () use ($token, $identifier, $expiredTime) {
                 Token::create([
                     'token' => $token,
                     'identifier' => $identifier,
                     'exp' => $expiredTime
                 ]);
-                return response()->json(['token' => $token]);
             });
+            return response()->json(['token' => $token]);
         } catch (ValidationException | TokenException $e) {
             Log::info("Error generateToken {$e->getMessage()}");
             $errors = [];

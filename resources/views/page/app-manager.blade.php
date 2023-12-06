@@ -123,6 +123,7 @@
             const showGenerateToken = (e, clAppId, clResourceId) => {
                 clientAppId = clAppId;
                 clientResourceId = clResourceId;
+                document.generateToken.reset();
                 modalGenerateToken.show();
             }
             const submitGenerateToken = async (e) => {
@@ -196,7 +197,7 @@
                 console.log(res);
                 const jsonRes = await res.json();
                 if (res.ok) {
-                    showSimpleToast('Revoke Token Success');
+                    showSimpleToast('Revoke Token Success', 'info');
                 } else {
                     showSimpleToast('Revoke Token Failed');
                 }
