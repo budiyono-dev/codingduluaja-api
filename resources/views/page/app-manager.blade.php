@@ -16,24 +16,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                       @forelse ($listApp as $key => $app)
+                        @forelse ($listApp as $key => $app)
                             <tr>
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td class="text-start">{{ $app->resource_name }}</td>
                                 <td class="text-start">{{ $app->app_name }}</td>
                                 <td class="text-start">
                                     <x-button type="button" class="btn-outline-info btn-sm"
-                                        onclick="showToken(this, {{$app->client_app_id}}, {{$app->client_resource_id}})">
+                                        onclick="showToken(this, {{ $app->client_app_id }}, {{ $app->client_resource_id }})">
                                         Show Token
                                     </x-button>
                                 </td>
                                 <td class="text-center d-flex justify-content-evenly align-items-center">
                                     <x-button type="button" class="btn-outline-primary btn-sm" id="btnGenerateToken"
-                                        onclick="showGenerateToken(this, {{$app->client_app_id}}, {{$app->client_resource_id}})">
+                                        onclick="showGenerateToken(this, {{ $app->client_app_id }}, {{ $app->client_resource_id }})">
                                         Generate Token
                                     </x-button>
                                     <x-button type="button" class="btn-outline-danger btn-sm" id="btnRevokeToken"
-                                        onclick="showRevokeToken(this, {{$app->client_app_id}}, {{$app->client_resource_id}})">
+                                        onclick="showRevokeToken(this, {{ $app->client_app_id }}, {{ $app->client_resource_id }})">
                                         Revoke Token
                                     </x-button>
                                 </td>
@@ -43,7 +43,7 @@
                                 <td colspan="4">No Data....</td>
                             </tr>
                         @endforelse
-                  </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -67,16 +67,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {{--<div class="mb-3">
+                {{-- <div class="mb-3">
                     <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>
-                </div>--}}
+                </div> --}}
                 <div class="mb-3">
                     <select class="form-select" aria-label="Default select example" name="selExp" id="selExp">
                         @forelse ($expList as $key => $exp)
                             @if ($key == 0)
                                 <option selected value="">Select Token Duration..</option>
                             @endif
-                            <option value="{{ $exp->id }}">{{$exp->exp_value.' '.Str::ucfirst(strtolower($exp->unit))}}</option>
+                            <option value="{{ $exp->id }}">
+                                {{ $exp->exp_value . ' ' . Str::ucfirst(strtolower($exp->unit)) }}</option>
                         @empty
                             <option selected value="">No Data..</option>
                         @endforelse
@@ -85,7 +86,7 @@
             </div>
             <div class="modal-footer">
                 <div class="d-flex w-100">
-                    <x-button type="submit" class="btn-outline-primary btn-sm w-100" >
+                    <x-button type="submit" class="btn-outline-primary btn-sm w-100">
                         Generate Token
                     </x-button>
                 </div>
@@ -99,11 +100,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <input class="form-control" type="text" id='txtToken' value="Disabled readonly input" aria-label="Disabled input example" readonly>
+            <input class="form-control" type="text" id='txtToken' value="Disabled readonly input"
+                aria-label="Disabled input example" readonly>
         </div>
         <div class="modal-footer">
             <div class="d-flex w-100">
-                <x-button type="submit" id="btnCopyToken" class="btn-outline-primary btn-sm w-100" >
+                <x-button type="submit" id="btnCopyToken" class="btn-outline-primary btn-sm w-100">
                     Copy To Cliboard
                 </x-button>
             </div>
@@ -115,8 +117,8 @@
             let clientAppId;
             let clientResourceId;
 
-            const modalGenerateToken = new bootstrap.Modal('#modalGenerateToken', { });
-            const modalShowToken = new bootstrap.Modal('#modalShowToken', { });
+            const modalGenerateToken = new bootstrap.Modal('#modalGenerateToken', {});
+            const modalShowToken = new bootstrap.Modal('#modalShowToken', {});
 
             const showGenerateToken = (e, clAppId, clResourceId) => {
                 clientAppId = clAppId;
@@ -131,20 +133,18 @@
                     return;
                 }
                 const res = await fetch("{{ route('do.generateToken') }}", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-Token': csrfToken
-                        },
-                        body: JSON.stringify(
-                            {
-                                client_app_id: clientAppId,
-                                client_resource_id: clientResourceId,
-                                exp_id: document.generateToken.selExp.value
-                            }
-                        )
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        client_app_id: clientAppId,
+                        client_resource_id: clientResourceId,
+                        exp_id: document.generateToken.selExp.value
+                    })
 
-                    });
+                });
                 console.log(res);
                 const jsonRes = await res.json();
                 if (res.ok) {
@@ -160,7 +160,6 @@
                         showSimpleToast('Generate Token Failed');
                     }
                 }
-
             }
 
             const showToken = async (e, clAppId, clResourceId) => {
@@ -179,6 +178,35 @@
                 } else {
                     console.log(clAppId, clResourceId);
                 }
+            }
+
+            const doRevokeToken = async () => {
+                const res = await fetch("{{ route('do.revoveToken') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        client_app_id: clientAppId,
+                        client_resource_id: clientResourceId,
+                    })
+
+                });
+                console.log(res);
+                const jsonRes = await res.json();
+                if (res.ok) {
+                    showSimpleToast('Revoke Token Success');
+                } else {
+                    showSimpleToast('Revoke Token Failed');
+                }
+                myModalAlternative.hide();
+            }
+
+            const showRevokeToken = (e, clAppId, clResourceId) => {
+                clientAppId = clAppId;
+                clientResourceId = clResourceId;
+                deleteConfirmation(doRevokeToken, 'Are you sure?');
             }
 
             const copyTokenToClipboard = () => {

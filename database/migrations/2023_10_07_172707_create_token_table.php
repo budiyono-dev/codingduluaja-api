@@ -14,7 +14,6 @@ return new class extends Migration
             $table->string('token');
 			$table->string('identifier');
             $table->unsignedBigInteger('exp');
-            $table->boolean('is_revoked')->default(0);
             $table->timestamps();
 
             $table->index('token');

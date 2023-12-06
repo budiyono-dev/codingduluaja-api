@@ -28,8 +28,7 @@ class AppManagerController extends Controller
     public function __construct(
         protected ResponseHelper $responseHelper,
         protected JwtHelper      $jwtHelper
-    )
-    {
+    ) {
     }
 
     public function index(): View
@@ -60,48 +59,48 @@ class AppManagerController extends Controller
     {
         Log::info('generateToken');
         try {
-            $validatedReq = $req->validate([
-                'client_app_id' => 'required',
-                'client_resource_id' => 'required',
-                'exp_id' => 'required'
-            ]);
+            DB::transaction(function () use ($req) {
+                $validatedReq = $req->validate([
+                    'client_app_id' => 'required',
+                    'client_resource_id' => 'required',
+                    'exp_id' => 'required'
+                ]);
 
-            $user = Auth::user();
-            $userId = $user->id;
-            $clientAppId = $validatedReq['client_app_id'];
-            $clientResId = $validatedReq['client_resource_id'];
-            $expId = $validatedReq['exp_id'];
+                $user = Auth::user();
+                $userId = $user->id;
+                $clientAppId = $validatedReq['client_app_id'];
+                $clientResId = $validatedReq['client_resource_id'];
+                $expId = $validatedReq['exp_id'];
 
-            ClientResource::findOrFail($clientResId);
-            $exp = ExpiredToken::findOrFail($expId);
-            $clientApp = ClientApp::where('id', $clientAppId)
-                ->where('user_id', $userId)
-                ->firstOrFail();
-            $identifier = "{$userId};{$clientAppId};{$clientResId}";
-            $countActiveToken = Token::where('identifier', $identifier)
-                ->where('is_revoked', false)
-                ->count();
+                ClientResource::findOrFail($clientResId);
+                $exp = ExpiredToken::findOrFail($expId);
+                $clientApp = ClientApp::where('id', $clientAppId)
+                    ->where('user_id', $userId)
+                    ->firstOrFail();
+                $identifier = "{$userId};{$clientAppId};{$clientResId}";
+                $countActiveToken = Token::where('identifier', $identifier)->count();
 
-            if ($countActiveToken >= 1) {
-                // throw new TokenException('you have active token');
-                throw TokenException::limit();
-            }
+                if ($countActiveToken >= 1) {
+                    // throw new TokenException('you have active token');
+                    throw TokenException::limit();
+                }
 
-            $sub = base64_encode($identifier);
-            $fullname = "{$user->first_name} {$user->last_name}";
-            $appKey = $clientApp->app_key;
+                $sub = base64_encode($identifier);
+                $fullname = "{$user->first_name} {$user->last_name}";
+                $appKey = $clientApp->app_key;
 
-            $expiredTime = $this->calculateExpiredToUnixTime($exp->exp_value, ExpUnit::tryFrom($exp->unit));
+                $expiredTime = $this->calculateExpiredToUnixTime($exp->exp_value, ExpUnit::tryFrom($exp->unit));
 
-            $token = $this->jwtHelper->createToken($sub, $fullname, $appKey, $expiredTime);
+                $token = $this->jwtHelper->createToken($sub, $fullname, $appKey, $expiredTime);
 
-            Token::create([
-                'token' => $token,
-                'identifier' => $identifier,
-                'exp' => $expiredTime
-            ]);
-            return response()->json(['token' => $token]);
-        } catch (ValidationException|TokenException $e) {
+                Token::create([
+                    'token' => $token,
+                    'identifier' => $identifier,
+                    'exp' => $expiredTime
+                ]);
+                return response()->json(['token' => $token]);
+            });
+        } catch (ValidationException | TokenException $e) {
             Log::info("Error generateToken {$e->getMessage()}");
             $errors = [];
             if ($e instanceof ValidationException) {
@@ -134,7 +133,7 @@ class AppManagerController extends Controller
             $token = Token::where('identifier', $identifier)
                 ->where('exp', '>=', time())
                 ->get()
-                ->map(fn($t) => TokenDto::fromToken($t))
+                ->map(fn ($t) => TokenDto::fromToken($t))
                 ->first();
 
             if (is_null($token)) {
@@ -146,11 +145,67 @@ class AppManagerController extends Controller
             Log::info("show token of user_id = {$userId}, c_app = {$clientAppId}, c_res = {$clientResId}");
             return $this
                 ->responseHelper
-                ->success('','succces get data token', ResponseCode::SUCCESS_GET_DATA, $token);
+                ->success('', 'succces get data token', ResponseCode::SUCCESS_GET_DATA, $token);
         } catch (Exception $e) {
             Log::info("Error showToken {$e->getMessage()}");
             return $this->responseHelper->serverError('', ['error' => $e->getMessage()]);
         }
+    }
+
+    public function revokeToken(Request $req): JsonResponse
+    {
+        Log::info('revokeToken');
+        try {
+
+            $validatedReq = $req->validate([
+                'client_app_id' => 'required',
+                'client_resource_id' => 'required'
+            ]);
+
+            $user = Auth::user();
+            $userId = $user->id;
+            $clientAppId = $validatedReq['client_app_id'];
+            $clientResId = $validatedReq['client_resource_id'];
+
+            $cRes = ClientResource::find($clientResId);
+            if (is_null($cRes)) {
+                return $this->tokenNotFoundError();
+            }
+            $cApp = ClientApp::where('id', $clientAppId)
+                ->where('user_id', $userId)
+                ->get();
+            if (is_null($cApp)) {
+                return $this->tokenNotFoundError();
+            }
+
+            $identifier = "{$userId};{$clientAppId};{$clientResId}";
+            $token = Token::where('identifier', $identifier)->first();
+
+            if (is_null($token)) {
+                return $this->tokenNotFoundError();
+            }
+            DB::transaction(function () use ($token) {
+                $token->delete();
+            });
+
+            return $this
+                ->responseHelper
+                ->success('', 'succces revoke token', ResponseCode::SUCCESS_REVOKE_TOKEN, null);
+        } catch (Exception $e) {
+            Log::info("Error revokeToken {$e->getMessage()}");
+            return $this->responseHelper
+                ->serverError(
+                    '',
+                    ['error' => $e->getMessage()]
+                );
+        }
+    }
+
+    private function tokenNotFoundError(): JsonResponse
+    {
+        return $this
+            ->responseHelper
+            ->notFound('', 'Token Not Found', ResponseCode::MODEL_NOT_FOUND);
     }
 
     private function calculateExpiredToUnixTime(int $expValue, ExpUnit $unit): int

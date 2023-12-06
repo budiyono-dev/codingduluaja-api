@@ -13,6 +13,7 @@ class ResponseCode
     const SUCCESS_GET_DATA = 'CDA-S-001';
     const SUCCESS_EDIT_DATA = 'CDA-S-002';
     const SUCCESS_DELETE_DATA = 'CDA-S-003';
+    const SUCCESS_REVOKE_TOKEN = 'CDA-S-004';
 
     // input validation
     const FORM_VALIDATION = 'CDA-V-001';

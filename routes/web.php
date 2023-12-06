@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('', 'index')->name('page.appManager');
                 Route::post('/token', 'generateToken')->name('do.generateToken');
                 Route::get('/token/{resource}/{app}', 'showToken')->name('do.showToken');
+                Route::post('/token/revoke', 'revokeToken')->name('do.revoveToken');
             });
         });
     });
@@ -50,11 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/res')->group(function () {
         Route::controller(ToDoListController::class)->group(function () {
             Route::get('/todolist', 'todolist')->name('page.res.todolist');
-            Route::post('/todolist/dummy', 'generateDummy')->name('do.todolist.dummy');  
+            Route::post('/todolist/dummy', 'generateDummy')->name('do.todolist.dummy');
         });
     });
-
-
 });
 
 Route::middleware('non-auth')->group(function () {
