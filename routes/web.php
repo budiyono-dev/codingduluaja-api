@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientAppController;
 use App\Http\Controllers\DocController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::middleware('auth')->group(function () {
     Route::view('/', 'page.welcome')->name('page.dashboard');
@@ -61,6 +62,10 @@ Route::middleware('non-auth')->group(function () {
     Route::view('/register', 'page.register')->name('page.register');
     Route::post('/register', [AuthController::class, 'register'])->name('do.register');
     Route::post('/login', [AuthController::class, 'login'])->name('do.login');
+    Route::get('/test-storage', function ()  {
+        $afile = Storage::disk('local')->get('sql/desa.sql');
+        dd($afile);
+    });
 });
 
 
