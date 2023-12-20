@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ToDoListController;
+use App\Http\Controllers\Api\WilayahController;
 use App\Http\Controllers\AppManagerController;
 use App\Http\Controllers\AppResourceController;
 use App\Http\Controllers\AuthController;
@@ -46,6 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::controller(DocController::class)->group(function () {
         Route::prefix('/doc')->group(function () {
             Route::get('/todolist', 'todolist')->name('page.doc.todolist');
+            Route::get('/wilayah-bps', 'wilayahBps')->name('page.doc.wilayahBps');
+            Route::get('/wilayah-dagri', 'wilayahDagri')->name('page.doc.wilayahDagri');
         });
     });
 
@@ -53,6 +56,10 @@ Route::middleware('auth')->group(function () {
         Route::controller(ToDoListController::class)->group(function () {
             Route::get('/todolist', 'todolist')->name('page.res.todolist');
             Route::post('/todolist/dummy', 'generateDummy')->name('do.todolist.dummy');
+        });
+        Route::controller(WilayahController::class)->group(function() {
+            Route::get('/wilayah-bps', 'indexBps')->name('page.res.wilayahBps');
+            Route::get('/wilayah-dagri', 'indexDagri')->name('page.res.wilayahDagri');
         });
     });
 });

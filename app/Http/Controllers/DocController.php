@@ -10,4 +10,12 @@ class DocController extends Controller
     {
         return view('page.doc.todolist');
     }
+    public function wilayahBps()
+    {
+        return view('page.doc.todolist');
+    }
+    public function wilayahDagri()
+    {
+        return view('page.doc.todolist');
+    }
 }

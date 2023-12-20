@@ -14,4 +14,8 @@ class TableName
     const CONNECTED_APP = 'connected_app';
     const EXPIRED_TOKEN = 'expired_token';
     const TOKEN = 'token';
+    const PROVINSI = 'provinsi';
+    const KABUPATEN = 'kabupaten';
+    const KECAMATAN = 'kecamatan';
+    const DESA = 'desa';
 }

@@ -6,6 +6,7 @@ class ApiPath
 {
     const TODOLIST = '/todolist';
     const MAHASISWA = '/mahasiswa';
-    const WILAYAH = '/wilayah';
+    const WILAYAH_BPS = '/wilayah-bps';
+    const WILAYAH_DAGRI = '/wilayah-dagri';
     
 }
