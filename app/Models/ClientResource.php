@@ -12,6 +12,7 @@ class ClientResource extends Model
 {
     use HasFactory;
     protected $table = TableName::CLIENT_RESOURCE;
+    protected $fillable = ['user_id', 'master_resource_id'];
 
     public function masterResource(): BelongsTo
     {

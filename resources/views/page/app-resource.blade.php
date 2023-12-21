@@ -28,7 +28,7 @@
                             <thead class=" text-center">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Connected Client</th>
+                                    <th scope="col" id="connectClientTitleTable">Connected Client</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -53,10 +53,11 @@
                                         <tr onclick="showConnectedApp(this)"
                                             data-connected-app="{{ $resource->connectedApp }}" class="cursor-pointer"
                                             data-id-resource="{{ $resource->id }}"
+                                            data-name-resource="{{ $resource->name }}"
                                             @if ($key == 0) id="firstResource" @endif>
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td class="text-start">{{ $resource->name }}</td>
-                                            <td class="text-center d-flex justify-content-evenly align-items-center">
+                                            <td class="text-center d-flex justify-content-evenly align-items-center" style="border-left: none;">
                                                 <form method="post"
                                                     action="{{ route('do.deleteResource', ['id' => $resource->id]) }}">
                                                     @csrf
@@ -146,6 +147,7 @@
             const showConnectedApp = (e) => {
                 const appList = JSON.parse(e.dataset.connectedApp);
                 idResource = e.dataset.idResource;
+                document.getElementById('connectClientTitleTable').innerHTML = `Connected Client <u>${e.dataset.nameResource}</u>`;
                 let tableBody = document.getElementById('connectedAppTable').getElementsByTagName('tbody')[0];
                 let i = 1;
                 tableBody.innerHTML = '';
@@ -169,6 +171,8 @@
 
                         c3.innerHTML = generateDeleteApp(idResource, app.id);
                         c3.classList.add('text-center', 'd-flex', 'justify-content-evenly', 'align-items-center');
+                        c3.style.borderLeft = 'none';
+                        // c3.classList.add('text-center');
                         i++;
                     }
                 } else {

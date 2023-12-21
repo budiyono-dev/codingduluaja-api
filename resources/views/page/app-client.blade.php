@@ -56,7 +56,19 @@
             </div>
         </form>
     </x-modals.form-modal>
-
+    @push('script')
+        <script type="text/javascript">
+            const resetModalCreateNewApp = () => {
+                document.createApp.reset();
+            }
+            const submitCreateAppForm = () => {
+                document.createApp.submit();
+            }
+            const deleteAppClient = (e) => {
+                deleteConfirmation(() => e.parentElement.submit());
+            }
+        </script>
+    @endpush
     @push('script')
         <script>
             document.getElementById('modalCreateNewApp').addEventListener('hide.bs.modal', resetModalCreateNewApp);

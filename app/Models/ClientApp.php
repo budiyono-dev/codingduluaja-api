@@ -11,6 +11,7 @@ class ClientApp extends Model
 {
     use HasFactory;
     protected $table = TableName::CLIENT_APP;
+    protected $fillable = ['user_id', 'name', 'app_key'];
 
     public function connectedClientResource(): BelongsToMany
     {
