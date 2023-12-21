@@ -48,7 +48,7 @@
                                     <option value="20">20</option>
                                 </select>
                                 <x-button type="submit" class="btn-sm btn-outline-primary px-3">
-                                    Add
+                                    Generate
                                 </x-button>
                             </div>
                         </form>
