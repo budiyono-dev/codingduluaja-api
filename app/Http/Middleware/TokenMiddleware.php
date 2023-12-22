@@ -26,7 +26,8 @@ class TokenMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->hasHeader('x-authorization')) {
-            return $this->responseHelper->unAutorizeResponse();
+            $apiCtx = $request->attributes->get(CdaContext::REQUEST_CTX);
+            return $this->responseHelper->unAuthorize($apiCtx[CdaContext::REQUEST_ID]);
         }
 
         $authHeader = $request->header('x-authorization');
@@ -47,7 +48,6 @@ class TokenMiddleware
             throw TokenException::missing();
         }
         return Str::after($authHeader, 'Bearer ');
-
     }
 
     private function validate(Request $req, string $token): string
@@ -90,7 +90,7 @@ class TokenMiddleware
 
         Log::debug("{$path}  <= === => {$currentPath}");
 
-        if ($path !== $currentPath) {
+        if (!Str::startsWith($currentPath, $path)) {
             throw TokenException::invalidResource();
         }
 

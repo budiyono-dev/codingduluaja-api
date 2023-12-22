@@ -2,291 +2,93 @@
     <div class="d-flex f-w">
 
         <div class="doc-main doc">
-            <h3 id="satu">satu</h3>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur animi, dolores maxime possimus
-                voluptate
-                laborum at odit rem nisi eaque corrupti ipsam nulla rerum. Illum earum sed repellat facilis harum?
-                Reprehenderit quos ad dicta velit quia consectetur aliquid praesentium natus amet? Commodi modi ea porro
-                blanditiis vel. Officia fuga molestias velit, corporis natus magni incidunt quaerat esse nemo hic
-                dignissimos.
-                Odio quaerat dicta dolorum esse velit voluptatem corporis. Quidem at corporis debitis rem asperiores
-                nobis
-                similique officia quia reiciendis ducimus delectus, quam ad voluptatem dolorem nostrum molestias quas.
-                Explicabo, nihil.
-                Dolores officiis sit quisquam impedit id et error sed, earum repellat deserunt iste. Magni velit libero
-                maxime ex quo rem! Exercitationem iste sint suscipit odio ut cupiditate distinctio hic facilis.
-                Assumenda, aliquam? Harum voluptates adipisci amet itaque in necessitatibus odio dicta laudantium iusto
-                cum
-                aliquam, obcaecati voluptatum fuga earum perspiciatis distinctio laborum aperiam? Hic deserunt pariatur
-                veritatis rem corporis ipsa!
-                Dolores porro aspernatur quo veritatis magni est neque veniam, accusantium cupiditate eius accusamus sed
-                autem id commodi sit nihil corporis quas hic quis? Cumque expedita alias quidem in natus nemo!
-                Totam fugit, beatae obcaecati earum amet aperiam, ducimus consequuntur eveniet nam a nisi natus.
-                Suscipit
-                impedit nostrum sequi culpa, architecto aspernatur similique eius iusto nemo, cum molestias nihil nam
-                exercitationem!
-                Dolor explicabo beatae pariatur ex, velit aspernatur nostrum, cum quae nobis iusto rerum. Itaque, unde
-                nam
-                fugiat perferendis temporibus ipsam, quae sed expedita est, voluptas molestiae. Repellat excepturi
-                architecto libero!
-                Ipsa vitae suscipit est, accusantium ab soluta fuga nesciunt ipsum minima libero aliquam rem dolore
-                sequi
-                reiciendis. Placeat inventore non rerum explicabo enim totam at voluptatem necessitatibus, praesentium
-                dolore voluptate?
-                Ipsam deserunt incidunt soluta minus architecto, est neque quos explicabo sed minima distinctio et rerum
-                impedit voluptas perferendis ea, consequuntur totam natus culpa porro debitis praesentium id recusandae?
-                Assumenda, magnam.
-                Facilis neque iure consequuntur praesentium totam voluptatibus sed facere nulla nesciunt rem fuga,
-                explicabo
-                quaerat reprehenderit eveniet nisi? Harum doloribus quis iusto dicta necessitatibus. Officiis quas vitae
-                rem
-                quaerat vel?
-                Asperiores corrupti incidunt, obcaecati repellat illo ipsum atque doloribus excepturi vel, odio
-                molestias
-                reprehenderit! Provident quasi, numquam enim ratione sunt doloremque quibusdam, doloribus dolor omnis
-                sapiente ea voluptas ad incidunt?</p>
-            <h3 id="enam">enam</h3>
+            <h1 class="fs-2" id="apiName">Todolist Api</h3>
+            <p>Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu</p>
+            <h3 class="fs-4" id="listEndpoint">List Endpoint</h3>
+            <p>Berikut list endpoint yang disediakan untuk Api Todolist, pastikan menambahkan token kedalam <strong>Header</strong> untuk setiap request. <code>X-Authorization: Bearer @{{your_token}}</code></p>
+            
+            <h3 class="fs-6 fw-bold" id="getAll">Get All Todolist</h3>
+            <p>Mengambil semua data todolist, method : <code>GET</code>, endpoint : <code>http://localhost:8000/api/todolist</code>, contoh response :</p>
+            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
+            <pre class="card" ><code class="language-json" id="resGetAll"></code></pre>
+            
+            <h3 class="fs-6 fw-bold" id="getSingle">Get Single Todolist</h3>
+            <p>Mengambil data todolist berdasarkan id, method : <code>GET</code>, endpoint : <code>http://localhost:8000/api/todolist/{id}</code>, contoh response :</p>
+            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
+            <pre class="card" ><code class="language-json" id="resGetSingle"></code></pre>
 
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur animi, dolores maxime possimus
-                voluptate
-                laborum at odit rem nisi eaque corrupti ipsam nulla rerum. Illum earum sed repellat facilis harum?
-                Reprehenderit quos ad dicta velit quia consectetur aliquid praesentium natus amet? Commodi modi ea porro
-                blanditiis vel. Officia fuga molestias velit, corporis natus magni incidunt quaerat esse nemo hic
-                dignissimos.
-                Odio quaerat dicta dolorum esse velit voluptatem corporis. Quidem at corporis debitis rem asperiores
-                nobis
-                similique officia quia reiciendis ducimus delectus, quam ad voluptatem dolorem nostrum molestias quas.
-                Explicabo, nihil.
-                Dolores officiis sit quisquam impedit id et error sed, earum repellat deserunt iste. Magni velit libero
-                maxime ex quo rem! Exercitationem iste sint suscipit odio ut cupiditate distinctio hic facilis.
-                Assumenda, aliquam? Harum voluptates adipisci amet itaque in necessitatibus odio dicta laudantium iusto
-                cum
-                aliquam, obcaecati voluptatum fuga earum perspiciatis distinctio laborum aperiam? Hic deserunt pariatur
-                veritatis rem corporis ipsa!
-                Dolores porro aspernatur quo veritatis magni est neque veniam, accusantium cupiditate eius accusamus sed
-                autem id commodi sit nihil corporis quas hic quis? Cumque expedita alias quidem in natus nemo!
-                Totam fugit, beatae obcaecati earum amet aperiam, ducimus consequuntur eveniet nam a nisi natus.
-                Suscipit
-                impedit nostrum sequi culpa, architecto aspernatur similique eius iusto nemo, cum molestias nihil nam
-                exercitationem!
-                Dolor explicabo beatae pariatur ex, velit aspernatur nostrum, cum quae nobis iusto rerum. Itaque, unde
-                nam
-                fugiat perferendis temporibus ipsam, quae sed expedita est, voluptas molestiae. Repellat excepturi
-                architecto libero!
-                Ipsa vitae suscipit est, accusantium ab soluta fuga nesciunt ipsum minima libero aliquam rem dolore
-                sequi
-                reiciendis. Placeat inventore non rerum explicabo enim totam at voluptatem necessitatibus, praesentium
-                dolore voluptate?
-                Ipsam deserunt incidunt soluta minus architecto, est neque quos explicabo sed minima distinctio et rerum
-                impedit voluptas perferendis ea, consequuntur totam natus culpa porro debitis praesentium id recusandae?
-                Assumenda, magnam.
-                Facilis neque iure consequuntur praesentium totam voluptatibus sed facere nulla nesciunt rem fuga,
-                explicabo
-                quaerat reprehenderit eveniet nisi? Harum doloribus quis iusto dicta necessitatibus. Officiis quas vitae
-                rem
-                quaerat vel?
-                Asperiores corrupti incidunt, obcaecati repellat illo ipsum atque doloribus excepturi vel, odio
-                molestias
-                reprehenderit! Provident quasi, numquam enim ratione sunt doloremque quibusdam, doloribus dolor omnis
-                sapiente ea voluptas ad incidunt?</p>
-            <h3 id="lima">lima</h3>
+            <h3 class="fs-6 fw-bold" id="create">Create Todolist</h3>
+            <p>Mengambil data todolist berdasarkan id, method : <code>POST</code>, endpoint : <code>http://localhost:8000/api/todolist</code></p>
+            <p>Request body :</p>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Field Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Length</th>
+                        <th scope="col">Mandatory</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td>date</td>
+                        <td>String</td>
+                        <td>-</td>
+                        <td>Y</td>
+                        <td>Format dd-mm-yyyy, more or equals than today</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">2</td>
+                        <td>name</td>
+                        <td>String</td>
+                        <td>50</td>
+                        <td>Y</td>
+                        <td>Letter and Space</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">3</td>
+                        <td>description</td>
+                        <td>String</td>
+                        <td>1000</td>
+                        <td>N</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
+            <pre class="card" ><code class="language-json" id="reqCreate"></code></pre>
+            <p>Response body :</p>
+            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
+            <pre class="card" ><code class="language-json" id="resCreate"></code></pre>
 
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur animi, dolores maxime possimus
-                voluptate
-                laborum at odit rem nisi eaque corrupti ipsam nulla rerum. Illum earum sed repellat facilis harum?
-                Reprehenderit quos ad dicta velit quia consectetur aliquid praesentium natus amet? Commodi modi ea porro
-                blanditiis vel. Officia fuga molestias velit, corporis natus magni incidunt quaerat esse nemo hic
-                dignissimos.
-                Odio quaerat dicta dolorum esse velit voluptatem corporis. Quidem at corporis debitis rem asperiores
-                nobis
-                similique officia quia reiciendis ducimus delectus, quam ad voluptatem dolorem nostrum molestias quas.
-                Explicabo, nihil.
-                Dolores officiis sit quisquam impedit id et error sed, earum repellat deserunt iste. Magni velit libero
-                maxime ex quo rem! Exercitationem iste sint suscipit odio ut cupiditate distinctio hic facilis.
-                Assumenda, aliquam? Harum voluptates adipisci amet itaque in necessitatibus odio dicta laudantium iusto
-                cum
-                aliquam, obcaecati voluptatum fuga earum perspiciatis distinctio laborum aperiam? Hic deserunt pariatur
-                veritatis rem corporis ipsa!
-                Dolores porro aspernatur quo veritatis magni est neque veniam, accusantium cupiditate eius accusamus sed
-                autem id commodi sit nihil corporis quas hic quis? Cumque expedita alias quidem in natus nemo!
-                Totam fugit, beatae obcaecati earum amet aperiam, ducimus consequuntur eveniet nam a nisi natus.
-                Suscipit
-                impedit nostrum sequi culpa, architecto aspernatur similique eius iusto nemo, cum molestias nihil nam
-                exercitationem!
-                Dolor explicabo beatae pariatur ex, velit aspernatur nostrum, cum quae nobis iusto rerum. Itaque, unde
-                nam
-                fugiat perferendis temporibus ipsam, quae sed expedita est, voluptas molestiae. Repellat excepturi
-                architecto libero!
-                Ipsa vitae suscipit est, accusantium ab soluta fuga nesciunt ipsum minima libero aliquam rem dolore
-                sequi
-                reiciendis. Placeat inventore non rerum explicabo enim totam at voluptatem necessitatibus, praesentium
-                dolore voluptate?
-                Ipsam deserunt incidunt soluta minus architecto, est neque quos explicabo sed minima distinctio et rerum
-                impedit voluptas perferendis ea, consequuntur totam natus culpa porro debitis praesentium id recusandae?
-                Assumenda, magnam.
-                Facilis neque iure consequuntur praesentium totam voluptatibus sed facere nulla nesciunt rem fuga,
-                explicabo
-                quaerat reprehenderit eveniet nisi? Harum doloribus quis iusto dicta necessitatibus. Officiis quas vitae
-                rem
-                quaerat vel?
-                Asperiores corrupti incidunt, obcaecati repellat illo ipsum atque doloribus excepturi vel, odio
-                molestias
-                reprehenderit! Provident quasi, numquam enim ratione sunt doloremque quibusdam, doloribus dolor omnis
-                sapiente ea voluptas ad incidunt?</p>
-            <h3 id="nol">nol</h3>
+            <h3 class="fs-6 fw-bold" id="edit">Edit Todolist</h3>
+            <p>Mengambil data todolist berdasarkan id, method : <code>POST</code>, endpoint : <code>http://localhost:8000/api/todolist</code></p>
+            <p>Request body :</p>
+            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
+            <pre class="card" ><code class="language-json" id="reqEdit"></code></pre>
+            <p>Response body :</p>
+            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
+            <pre class="card" ><code class="language-json" id="resEdit"></code></pre>
 
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur animi, dolores maxime possimus
-                voluptate
-                laborum at odit rem nisi eaque corrupti ipsam nulla rerum. Illum earum sed repellat facilis harum?
-                Reprehenderit quos ad dicta velit quia consectetur aliquid praesentium natus amet? Commodi modi ea porro
-                blanditiis vel. Officia fuga molestias velit, corporis natus magni incidunt quaerat esse nemo hic
-                dignissimos.
-                Odio quaerat dicta dolorum esse velit voluptatem corporis. Quidem at corporis debitis rem asperiores
-                nobis
-                similique officia quia reiciendis ducimus delectus, quam ad voluptatem dolorem nostrum molestias quas.
-                Explicabo, nihil.
-                Dolores officiis sit quisquam impedit id et error sed, earum repellat deserunt iste. Magni velit libero
-                maxime ex quo rem! Exercitationem iste sint suscipit odio ut cupiditate distinctio hic facilis.
-                Assumenda, aliquam? Harum voluptates adipisci amet itaque in necessitatibus odio dicta laudantium iusto
-                cum
-                aliquam, obcaecati voluptatum fuga earum perspiciatis distinctio laborum aperiam? Hic deserunt pariatur
-                veritatis rem corporis ipsa!
-                Dolores porro aspernatur quo veritatis magni est neque veniam, accusantium cupiditate eius accusamus sed
-                autem id commodi sit nihil corporis quas hic quis? Cumque expedita alias quidem in natus nemo!
-                Totam fugit, beatae obcaecati earum amet aperiam, ducimus consequuntur eveniet nam a nisi natus.
-                Suscipit
-                impedit nostrum sequi culpa, architecto aspernatur similique eius iusto nemo, cum molestias nihil nam
-                exercitationem!
-                Dolor explicabo beatae pariatur ex, velit aspernatur nostrum, cum quae nobis iusto rerum. Itaque, unde
-                nam
-                fugiat perferendis temporibus ipsam, quae sed expedita est, voluptas molestiae. Repellat excepturi
-                architecto libero!
-                Ipsa vitae suscipit est, accusantium ab soluta fuga nesciunt ipsum minima libero aliquam rem dolore
-                sequi
-                reiciendis. Placeat inventore non rerum explicabo enim totam at voluptatem necessitatibus, praesentium
-                dolore voluptate?
-                Ipsam deserunt incidunt soluta minus architecto, est neque quos explicabo sed minima distinctio et rerum
-                impedit voluptas perferendis ea, consequuntur totam natus culpa porro debitis praesentium id recusandae?
-                Assumenda, magnam.
-                Facilis neque iure consequuntur praesentium totam voluptatibus sed facere nulla nesciunt rem fuga,
-                explicabo
-                quaerat reprehenderit eveniet nisi? Harum doloribus quis iusto dicta necessitatibus. Officiis quas vitae
-                rem
-                quaerat vel?
-                Asperiores corrupti incidunt, obcaecati repellat illo ipsum atque doloribus excepturi vel, odio
-                molestias
-                reprehenderit! Provident quasi, numquam enim ratione sunt doloremque quibusdam, doloribus dolor omnis
-                sapiente ea voluptas ad incidunt?</p>
-            <h3 id="dua">dua</h3>
-
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur animi, dolores maxime possimus
-                voluptate
-                laborum at odit rem nisi eaque corrupti ipsam nulla rerum. Illum earum sed repellat facilis harum?
-                Reprehenderit quos ad dicta velit quia consectetur aliquid praesentium natus amet? Commodi modi ea porro
-                blanditiis vel. Officia fuga molestias velit, corporis natus magni incidunt quaerat esse nemo hic
-                dignissimos.
-                Odio quaerat dicta dolorum esse velit voluptatem corporis. Quidem at corporis debitis rem asperiores
-                nobis
-                similique officia quia reiciendis ducimus delectus, quam ad voluptatem dolorem nostrum molestias quas.
-                Explicabo, nihil.
-                Dolores officiis sit quisquam impedit id et error sed, earum repellat deserunt iste. Magni velit libero
-                maxime ex quo rem! Exercitationem iste sint suscipit odio ut cupiditate distinctio hic facilis.
-                Assumenda, aliquam? Harum voluptates adipisci amet itaque in necessitatibus odio dicta laudantium iusto
-                cum
-                aliquam, obcaecati voluptatum fuga earum perspiciatis distinctio laborum aperiam? Hic deserunt pariatur
-                veritatis rem corporis ipsa!
-                Dolores porro aspernatur quo veritatis magni est neque veniam, accusantium cupiditate eius accusamus sed
-                autem id commodi sit nihil corporis quas hic quis? Cumque expedita alias quidem in natus nemo!
-                Totam fugit, beatae obcaecati earum amet aperiam, ducimus consequuntur eveniet nam a nisi natus.
-                Suscipit
-                impedit nostrum sequi culpa, architecto aspernatur similique eius iusto nemo, cum molestias nihil nam
-                exercitationem!
-                Dolor explicabo beatae pariatur ex, velit aspernatur nostrum, cum quae nobis iusto rerum. Itaque, unde
-                nam
-                fugiat perferendis temporibus ipsam, quae sed expedita est, voluptas molestiae. Repellat excepturi
-                architecto libero!
-                Ipsa vitae suscipit est, accusantium ab soluta fuga nesciunt ipsum minima libero aliquam rem dolore
-                sequi
-                reiciendis. Placeat inventore non rerum explicabo enim totam at voluptatem necessitatibus, praesentium
-                dolore voluptate?
-                Ipsam deserunt incidunt soluta minus architecto, est neque quos explicabo sed minima distinctio et rerum
-                impedit voluptas perferendis ea, consequuntur totam natus culpa porro debitis praesentium id recusandae?
-                Assumenda, magnam.
-                Facilis neque iure consequuntur praesentium totam voluptatibus sed facere nulla nesciunt rem fuga,
-                explicabo
-                quaerat reprehenderit eveniet nisi? Harum doloribus quis iusto dicta necessitatibus. Officiis quas vitae
-                rem
-                quaerat vel?
-                Asperiores corrupti incidunt, obcaecati repellat illo ipsum atque doloribus excepturi vel, odio
-                molestias
-                reprehenderit! Provident quasi, numquam enim ratione sunt doloremque quibusdam, doloribus dolor omnis
-                sapiente ea voluptas ad incidunt?</p>
-            <h3 id="tiga">tiga</h3>
-
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur animi, dolores maxime possimus
-                voluptate
-                laborum at odit rem nisi eaque corrupti ipsam nulla rerum. Illum earum sed repellat facilis harum?
-                Reprehenderit quos ad dicta velit quia consectetur aliquid praesentium natus amet? Commodi modi ea porro
-                blanditiis vel. Officia fuga molestias velit, corporis natus magni incidunt quaerat esse nemo hic
-                dignissimos.
-                Odio quaerat dicta dolorum esse velit voluptatem corporis. Quidem at corporis debitis rem asperiores
-                nobis
-                similique officia quia reiciendis ducimus delectus, quam ad voluptatem dolorem nostrum molestias quas.
-                Explicabo, nihil.
-                Dolores officiis sit quisquam impedit id et error sed, earum repellat deserunt iste. Magni velit libero
-                maxime ex quo rem! Exercitationem iste sint suscipit odio ut cupiditate distinctio hic facilis.
-                Assumenda, aliquam? Harum voluptates adipisci amet itaque in necessitatibus odio dicta laudantium iusto
-                cum
-                aliquam, obcaecati voluptatum fuga earum perspiciatis distinctio laborum aperiam? Hic deserunt pariatur
-                veritatis rem corporis ipsa!
-                Dolores porro aspernatur quo veritatis magni est neque veniam, accusantium cupiditate eius accusamus sed
-                autem id commodi sit nihil corporis quas hic quis? Cumque expedita alias quidem in natus nemo!
-                Totam fugit, beatae obcaecati earum amet aperiam, ducimus consequuntur eveniet nam a nisi natus.
-                Suscipit
-                impedit nostrum sequi culpa, architecto aspernatur similique eius iusto nemo, cum molestias nihil nam
-                exercitationem!
-                Dolor explicabo beatae pariatur ex, velit aspernatur nostrum, cum quae nobis iusto rerum. Itaque, unde
-                nam
-                fugiat perferendis temporibus ipsam, quae sed expedita est, voluptas molestiae. Repellat excepturi
-                architecto libero!
-                Ipsa vitae suscipit est, accusantium ab soluta fuga nesciunt ipsum minima libero aliquam rem dolore
-                sequi
-                reiciendis. Placeat inventore non rerum explicabo enim totam at voluptatem necessitatibus, praesentium
-                dolore voluptate?
-                Ipsam deserunt incidunt soluta minus architecto, est neque quos explicabo sed minima distinctio et rerum
-                impedit voluptas perferendis ea, consequuntur totam natus culpa porro debitis praesentium id recusandae?
-                Assumenda, magnam.
-                Facilis neque iure consequuntur praesentium totam voluptatibus sed facere nulla nesciunt rem fuga,
-                explicabo
-                quaerat reprehenderit eveniet nisi? Harum doloribus quis iusto dicta necessitatibus. Officiis quas vitae
-                rem
-                quaerat vel?
-                Asperiores corrupti incidunt, obcaecati repellat illo ipsum atque doloribus excepturi vel, odio
-                molestias
-                reprehenderit! Provident quasi, numquam enim ratione sunt doloremque quibusdam, doloribus dolor omnis
-                sapiente ea voluptas ad incidunt?</p>
-            <h3 id="empat">empat</h3>
-
+            <h3 class="fs-6 fw-bold" id="delete">Delete Todolist</h3>
+            <p>Mengambil data todolist berdasarkan id, method : <code>DELETE</code>, endpoint : <code>http://localhost:8000/api/todolist/{id}</code>, contoh response :</p>
+            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
+            <pre class="card" ><code class="language-json" id="resDelete"></code></pre>
+            
         </div>
         <nav id="TableOfContents" class="nav-doc border-end doc">
             <ul>
-                <li><a class="link-dark" href="#satu">How it works</a></li>
-                <li><a class="link-dark" href="#dua">Examples</a>
+                <li><a class="link-dark" href="#apiName">Todolist Api</a></li>
+                <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
                     <ul>
-                        <li><a class="link-dark" href="#tiga">Navbar</a></li>
-                        <li><a class="link-dark" href="#empat">Nested nav</a></li>
-                        <li><a class="link-dark" href="#lima">List group</a></li>
-                        <li><a class="link-dark" href="#enam">Simple anchors</a></li>
-                    </ul>
-                </li>
-                <li><a class="link-dark" href="#non-visible-elements">Non-visible elements</a></li>
-                <li><a class="link-dark" href="#usage">Usage</a>
-                    <ul>
-                        <li><a class="link-dark" href="#via-data-attributes">Via data attributes</a></li>
-                        <li><a class="link-dark" href="#via-javascript">Via JavaScript</a></li>
-                        <li><a class="link-dark" href="#options">Options</a></li>
-                        <li><a class="link-dark" href="#methods">Methods</a></li>
-                        <li><a class="link-dark" href="#events">Events</a></li>
+                        <li><a class="link-dark" href="#getAll">Get All Todolist</a></li>
+                        <li><a class="link-dark" href="#getSingle">Get Single Todolist</a></li>
+                        <li><a class="link-dark" href="#create">Create Todolist</a></li>
+                        <li><a class="link-dark" href="#edit">Edit Todolist</a></li>
+                        <li><a class="link-dark" href="#delete">Delete Todolist</a></li>
                     </ul>
                 </li>
             </ul>
@@ -294,6 +96,85 @@
     </div>
     @push('script')
         <script type="text/javascript">
+            const jsonResGetAll = 
+`{
+    "meta": {
+        "request_id": "94082663-416b-48cf-adc8-2779a8c10362",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get Todolist"
+    },
+    "data": [
+        {
+        "id": "1",
+        "date": "2023-12-31",
+        "name": "Rerum autem distinctio.",
+        "description": "Est vero eligendi reiciendis corporis cupiditate voluptas et.",
+        "created_at": "2023-12-21 08:28:30",
+        "updated_at": "2023-12-21 08:28:30"
+        },
+        {
+        "id": "2",
+        "date": "2023-12-28",
+        "name": "Sed ab aut.",
+        "description": "Magnam et velit delectus exercitationem qui quia est qui excepturi est harum.",
+        "created_at": "2023-12-21 08:28:30",
+        "updated_at": "2023-12-21 08:28:30"
+        }
+    ]
+}`;
+            const jsonResGetSingle =
+`{
+  "meta": {
+    "request_id": "5504d11a-89f8-4cd8-b718-5e02538c5add",
+    "success": true,
+    "code": "CDA-S-003",
+    "message": "Data Deleted Successfully"
+  },
+  "data": null
+}`;
+            const jsonResCreate =
+`{
+  "meta": {
+    "request_id": "ff325861-deb3-47ae-aea1-fc299c6bc7b9",
+    "success": true,
+    "code": "CDA-S-001",
+    "message": "Data Inserted Successfully"
+  },
+  "data": null
+}`;
+            const jsonResEdit =
+`{
+  "meta": {
+    "request_id": "afee1673-e721-48ee-b6da-418c2d64201d",
+    "success": true,
+    "code": "CDA-S-002",
+    "message": "Data Updated Successfully"
+  },
+  "data": null
+}`;
+            const jsonReqCreate =
+`{
+    "date": "24-12-2023",
+    "name": "watching football",
+    "description": "MU VS Liverpol"
+}`;
+            const jsonReqEdit =
+`{
+    "date": "24-12-2023",
+    "name": "watching tv",
+    "description": "watching naruto"
+}`;
+            const jsonResDelete =
+`{
+  "meta": {
+    "request_id": "5504d11a-89f8-4cd8-b718-5e02538c5add",
+    "success": true,
+    "code": "CDA-S-003",
+    "message": "Data Deleted Successfully"
+  },
+  "data": null
+}`;
             let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
 
             const resetActive = () => {
@@ -306,6 +187,13 @@
             daftarIsi.forEach(el => {
                 el.addEventListener('click', toggleActiveDaftarIsi);
             });
+            document.getElementById('resGetAll').innerHTML = jsonResGetAll;
+            document.getElementById('resGetSingle').innerHTML = jsonResGetSingle;
+            document.getElementById('resCreate').innerHTML = jsonResCreate;
+            document.getElementById('resEdit').innerHTML = jsonResEdit;
+            document.getElementById('reqCreate').innerHTML = jsonReqCreate;
+            document.getElementById('reqEdit').innerHTML = jsonReqEdit;
+            document.getElementById('resDelete').innerHTML = jsonResDelete;
         </script>
     @endpush
 </x-layout.main-sidebar>

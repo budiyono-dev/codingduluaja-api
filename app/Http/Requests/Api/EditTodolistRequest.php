@@ -10,7 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 
-class CreateTodolistRequest extends FormRequest
+class EditTodolistRequest extends FormRequest
 {
 
 
@@ -26,7 +26,7 @@ class CreateTodolistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'required|date|date_format:d-m-Y|after_or_equal:' . Carbon::today()->format('d-m-Y'),
+            'date' => 'required|date|date_format:d-m-Y',
             'name' => 'required|max:50|regex:'.RegexConstant::LETTER_SPACE,
             'description' => 'string|min:0|max:1000',
         ];

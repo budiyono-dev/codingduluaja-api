@@ -17,5 +17,9 @@ class ResponseCode
 
     // input validation
     const FORM_VALIDATION = 'CDA-V-001';
-    const UNAUTHORIZED = 'CDA-V-002';
+    
+    // error access
+    const UNAUTHORIZED = 'CDA-A-001';
+    const FORBIDDEN = 'CDA-A-002';
+
 }

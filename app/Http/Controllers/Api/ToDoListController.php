@@ -9,6 +9,7 @@ use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
 use App\Http\Requests\Api\DummyTodolistRequest;
+use App\Http\Requests\Api\EditTodolistRequest;
 use App\Models\Api\Todolist;
 use App\Traits\ApiContext;
 use Carbon\Carbon;
@@ -23,11 +24,9 @@ class ToDoListController extends Controller
 {
     use ApiContext;
 
-    public function __construct
-    (
+    public function __construct(
         protected ResponseHelper $responseHelper
-    )
-    {
+    ) {
     }
 
     public function createTodoList(CreateTodolistRequest $req): JsonResponse
@@ -76,7 +75,7 @@ class ToDoListController extends Controller
         );
     }
 
-    public function editTodoList(int $id, CreateTodolistRequest $req): JsonResponse
+    public function editTodoList(int $id, EditTodolistRequest $req): JsonResponse
     {
         Log::info("edit Todolist = {$this->getRequestId()}");
         DB::transaction(function () use ($id, $req) {
@@ -84,7 +83,14 @@ class ToDoListController extends Controller
 
             $validatedReq = $req->validated();
 
-            $todo->date = Carbon::createFromFormat('d-m-Y', $validatedReq['date'])->format('Y-m-d');
+            // validate tanggal edit jika sudah terlewat tidak boleh di edit
+            $dateDb = Carbon::createFromFormat('Y-m-d', $todo->date);
+            $dateReq = Carbon::createFromFormat('d-m-Y', $validatedReq['date']);
+            if ($dateDb->isPast() && $dateDb->notEqualTo($dateReq)) {
+                throw ApiException::forbidden("you are not allowed to change past data todolist date");
+            }
+
+            $todo->date = $dateReq->format('Y-m-d');
             $todo->name = $validatedReq['name'];
             $todo->description = $validatedReq['description'];
             $todo->save();
@@ -139,20 +145,20 @@ class ToDoListController extends Controller
     public function todolist()
     {
         $todolist = Todolist::where('user_id', Auth::user()->id)
-        ->paginate(\App\Helper\PaginationUtils::PAGE_SIZE)
-        ->through(function($t){
-            $strCreated = Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->toDateTimeString();
-            return collect([
-                'id' => $t->id,
-                'name' => $t->name,
-                'description' => $t->description,
-                'date' => $t->date,
-                'date_fmt' => Carbon::createFromFormat('Y-m-d', $t->date)->format('d F Y'),
-                'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->format('d/m/Y H:i')
-            ]);
-            // return $t;
-        });
-       // dd($todoli/st);
+            ->paginate(\App\Helper\PaginationUtils::PAGE_SIZE)
+            ->through(function ($t) {
+                $strCreated = Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->toDateTimeString();
+                return collect([
+                    'id' => $t->id,
+                    'name' => $t->name,
+                    'description' => $t->description,
+                    'date' => $t->date,
+                    'date_fmt' => Carbon::createFromFormat('Y-m-d', $t->date)->format('d F Y'),
+                    'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->format('d/m/Y H:i')
+                ]);
+                // return $t;
+            });
+        // dd($todoli/st);
         return view('page.res.todolist', ['todolist' => $todolist]);
     }
 

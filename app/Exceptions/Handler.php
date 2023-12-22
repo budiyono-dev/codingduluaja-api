@@ -39,14 +39,14 @@ class Handler extends ExceptionHandler
     {
 
         $this->renderable(function (TokenException $e, $request) {
-            if ($request->is('api/*')) {
+            if ($this->isApiRequest($request)) {
                 Log::info("token exception = {$e->getMessage()}");
                 return $this->responseHelper->unAuthorize($this->getRequestId());
             }
         });
 
         $this->renderable(function (ApiException $e, $request) {
-            if ($request->is('api/*')) {
+            if ($this->isApiRequest($request)) {
                 Log::info("api exception = {$e->getMessage()}");
                 return $this->responseHelper
                     ->error($this->getRequestId(), $e->getErrorCode(), $e->getMessage(), $e->getHttpCode(), null);
@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (ValidationException $e, $request) {
-            if ($request->is('api/*')) {
+            if ($this->isApiRequest($request)) {
                 Log::info("Validation Exception " . json_encode($e->validator->errors()->all()));
                 return $this->responseHelper
                     ->validationError(
@@ -66,17 +66,25 @@ class Handler extends ExceptionHandler
         });
         
         $this->renderable(function (NotFoundHttpException $e, $request){
-            if ($request->is('api/*')) {
+            if ($this->isApiRequest($request)) {
                 return $this->responseHelper->resourceNotFound();
             }
         });
 
         $this->renderable(function (Exception $e, $request) {
-            if ($request->is('api/*')) {
+            if ($this->isApiRequest($request)) {
                 $reqId = $this->getRequestId();
                 Log::info("error 500 : {$e->getMessage()}, request_id : {$reqId}");
                 return $this->responseHelper->serverError($reqId, ['error' => 'System Error']);
             }
         });
+    }
+    
+    private function isApiRequest($request) : bool{
+        $enableApiDebug = env('ENABLE_API_DEBUG_RESPONSE', false);
+        if ($enableApiDebug) {
+            return false;
+        }
+        return $request->is('api/*');
     }
 }

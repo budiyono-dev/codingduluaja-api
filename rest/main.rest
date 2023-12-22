@@ -3,34 +3,38 @@
 #GET http://localhost:8000/api/user
 
 
-@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN5T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNjk4NjIyNDY2LCJleHAiOjE2OTg4ODE2NjZ9.Bm31agzoVbInD9IJPQkh/TS9cGuNvMMXb19EaiDhGAQ=
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzMTM0ODY5LCJleHAiOjE3MDMzOTQwNjl9.VJO10PcHOGL2fcZmW0g93usSB4SsXaSaU/Drv9Oba/A=
 ### RESOURCE
-### Todolist App
+### Todolist App 
 GET http://localhost:8000/api/todolist
+x-authorization: {{token}}
+
+### Get Single
+GET http://localhost:8000/api/todolist/1
 x-authorization: {{token}}
 
 ### Delete todolist
 DELETE http://localhost:8000/api/todolist/4
 x-authorization: {{token}}
 
-### Create Todolist
+### Create Todolist 
 POST http://localhost:8000/api/todolist
 x-authorization: {{token}}
 content-type: application/json
 
 {
-    "date": "24-10-2023",
+    "date": "24-12-2023",
     "name": "watching footbal",
     "description": "MU VS Liverpol"
 }
 
 ### Edit Todolist
-GET http://localhost:8000/api/todolist
+PUT http://localhost:8000/api/todolist/1
 x-authorization: {{token}}
 content-type: application/json
 
 {
-    "date": "24-10-2023",
+    "date": "21-12-2023",
     "name": "watching tv",
     "description": "watching naruto"
 }

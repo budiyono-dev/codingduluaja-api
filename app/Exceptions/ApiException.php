@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Constants\ResponseCode;
 use Exception;
+use Throwable;
 
 class ApiException extends Exception
 {
@@ -31,6 +32,11 @@ class ApiException extends Exception
     public static function notFound(string $key = 'Data'): ApiException
     {
         return new static(404, ResponseCode::MODEL_NOT_FOUND, "{$key} Not Found");
+    }
+
+    public static function forbidden(string $message): ApiException
+    {
+        return new static(403, ResponseCode::FORBIDDEN, $message);
     }
 
 }
