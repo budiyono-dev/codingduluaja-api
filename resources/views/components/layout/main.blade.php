@@ -197,6 +197,9 @@
             document.getElementById('simple-toast-msg').innerHTML = msg;
             toastSimpleB.show();
         }
+        const showSimpleToastInfo = (msg = 'nofitication') => {
+            showSimpleToast(msg, 'info');
+        }
 
         const deleteConfirmation = (callback, msg = 'Are you sure?', buttonType) => {
             let promise = new Promise(function(resolve, reject) {

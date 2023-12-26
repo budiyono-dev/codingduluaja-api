@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Handler extends ExceptionHandler
 {
@@ -64,10 +65,16 @@ class Handler extends ExceptionHandler
                     );
             }
         });
-        
-        $this->renderable(function (NotFoundHttpException $e, $request){
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            Log::info('not found ');
             if ($this->isApiRequest($request)) {
-                return $this->responseHelper->resourceNotFound();
+                $reqId = $this->getRequestId();
+                if ($e->getPrevious() instanceof ModelNotFoundException) {
+                    return $this->responseHelper->notFound($reqId, 'Data not found', ResponseCode::MODEL_NOT_FOUND);
+                } else {
+                    return $this->responseHelper->resourceNotFound($reqId);
+                }
             }
         });
 
@@ -79,9 +86,10 @@ class Handler extends ExceptionHandler
             }
         });
     }
-    
-    private function isApiRequest($request) : bool{
-        $enableApiDebug = env('ENABLE_API_DEBUG_RESPONSE', false);
+
+    private function isApiRequest($request): bool
+    {
+        $enableApiDebug = config('cda.enable_api_debug_response');
         if ($enableApiDebug) {
             return false;
         }

@@ -132,7 +132,6 @@ class AppManagerController extends Controller
 
             $identifier = "{$userId};{$clientAppId};{$clientResId}";
             $token = Token::where('identifier', $identifier)
-                ->where('exp', '>=', time())
                 ->get()
                 ->map(fn ($t) => TokenDto::fromToken($t))
                 ->first();

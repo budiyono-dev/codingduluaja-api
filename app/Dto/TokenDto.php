@@ -9,11 +9,12 @@ class TokenDto
     (
         public int $id,
         public string $token,
-        public int $exp
+        public int $exp,
+        public bool $isExpired
     ){}
 
     public static function fromToken(Token $token): TokenDto
     {
-        return new TokenDto($token->id, $token->token, $token->exp);
+        return new TokenDto($token->id, $token->token, $token->exp, $token->exp >= time() ? false : true);
     }
 }

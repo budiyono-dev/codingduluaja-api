@@ -16,9 +16,9 @@ class ResponseHelper
         return $this->buildJson($requestId, true, $message, $responseCode, 200, $data);
     }
 
-    public function resourceNotFound(): JsonResponse
+    public function resourceNotFound(string $requestId): JsonResponse
     {
-        return $this->buildJson(null, false, 'Resource Not Found', ResponseCode::RESOURCE_NOT_FOUND, 404, null);
+        return $this->buildJson($requestId, false, 'Resource Not Found', ResponseCode::RESOURCE_NOT_FOUND, 404, null);
     }
 
     public function notFound(string $requestId, string $message, string $responseCode): JsonResponse
@@ -53,7 +53,7 @@ class ResponseHelper
             ->error(
                 $requestId,
                 ResponseCode::UNAUTHORIZED,
-                'Validation Error',
+                'Unauthorized',
                 401,
                 ['request' => 'Unauthorized request']
             );

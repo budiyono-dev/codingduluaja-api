@@ -8,14 +8,14 @@ class DocController extends Controller
 {
     public function todolist()
     {
-        return view('page.doc.todolist');
+        return view('page.doc.todolist', ['endpoint' => config('app.url')]);
     }
     public function wilayahBps()
     {
-        return view('page.doc.todolist');
+        return view('page.doc.todolist', ['endpoint' => config('app.url')]);
     }
     public function wilayahDagri()
     {
-        return view('page.doc.todolist');
+        return view('page.doc.todolist', ['endpoint' => config('app.url')]);
     }
 }

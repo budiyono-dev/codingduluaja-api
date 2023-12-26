@@ -170,6 +170,10 @@
                     const res = await fetch(url);
                     const jsonRes = await res.json();
                     if (res.ok) {
+                        if (jsonRes.data.isExpired) {
+                            showSimpleToast('Token Expired, please revoke and regenerate.');
+                            return;
+                        }
                         document.getElementById('txtToken').value = jsonRes.data.token;
                         modalGenerateToken.hide();
                         modalShowToken.show();
@@ -197,7 +201,7 @@
                 console.log(res);
                 const jsonRes = await res.json();
                 if (res.ok) {
-                    showSimpleToast('Revoke Token Success', 'info');
+                    showSimpleToastInfo('Revoke Token Success');
                 } else {
                     showSimpleToast('Revoke Token Failed');
                 }
@@ -213,7 +217,7 @@
             const copyTokenToClipboard = () => {
                 const copyText = document.getElementById('txtToken');
                 navigator.clipboard.writeText(copyText.value);
-                showSimpleToast('Copied to clipboard');
+                showSimpleToastInfo('Copied to clipboard');
             }
         </script>
     @endpush
