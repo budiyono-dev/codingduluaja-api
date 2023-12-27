@@ -78,12 +78,16 @@
             <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resDelete"></code></pre>
 
-            <h3 class="fs-4" id="unAuthorize">Error Example</h3>
+            <h3 class="fs-4" id="listError">Error Example</h3>
             <p>Berikut contoh error response :</p>
 
-            <h3 class="fs-6 fw-bold" id="delete">Unauthorized</h3>
+            <h3 class="fs-6 fw-bold" id="unAuthorize">Unauthorized</h3>
             <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resAnautorize"></code></pre>
+
+            <h3 class="fs-6 fw-bold" id="notFound">Not Found</h3>
+            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
+            <pre class="card" ><code class="language-json" id="resNotFound"></code></pre>
             
             
         </div>
@@ -102,8 +106,8 @@
                 <li><a class="link-dark" href="#listError">Error Example</a>
                     <ul>
                         <li><a class="link-dark" href="#unAuthorize">Unauthorized</a></li>
-                        {{-- <li><a class="link-dark" href="#getSingle">Get Single Todolist</a></li>
-                        <li><a class="link-dark" href="#create">Create Todolist</a></li>
+                        <li><a class="link-dark" href="#notFound">Not Found</a></li>
+                        {{-- <li><a class="link-dark" href="#create">Create Todolist</a></li>
                         <li><a class="link-dark" href="#edit">Edit Todolist</a></li>
                         <li><a class="link-dark" href="#delete">Delete Todolist</a></li> --}}
                     </ul>
@@ -204,6 +208,16 @@
         "request": "Unauthorized request"
     }
 }`;
+            const jsonResNotFound =
+`{
+  "meta": {
+    "request_id": "6bf84d71-ce6f-429e-86b3-52f4db2e1309",
+    "success": false,
+    "code": "CDA-E-001",
+    "message": "Data not found"
+  },
+  "data": null
+}`;
             let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
 
             const resetActive = () => {
@@ -224,6 +238,7 @@
             document.getElementById('reqEdit').innerHTML = jsonReqEdit;
             document.getElementById('resDelete').innerHTML = jsonResDelete;
             document.getElementById('resAnautorize').innerHTML = jsonResAnautorize;
+            document.getElementById('resNotFound').innerHTML = jsonResNotFound;
         </script>
     @endpush
 </x-layout.main-sidebar>

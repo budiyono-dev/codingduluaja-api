@@ -79,15 +79,8 @@ class ToDoListController extends Controller
     public function editTodoList(int $id, EditTodolistRequest $req): JsonResponse
     {
         Log::info("edit Todolist = {$this->getRequestId()}");
-        $todo = Todolist::findOrFail($id);
-        try {
-            $todo = Todolist::findOrFail($id);
-        } catch (Exception $th) {
-            dd($th);
-        }
         DB::transaction(function () use ($id, $req) {
-            
-
+            $todo = Todolist::findOrFail($id);
             $validatedReq = $req->validated();
 
             // validate tanggal edit jika sudah terlewat tidak boleh di edit

@@ -3,11 +3,11 @@
 #GET http://localhost:8000/api/user
 
 
-@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzMTM0ODY5LCJleHAiOjE3MDMzOTQwNjl9.VJO10PcHOGL2fcZmW0g93usSB4SsXaSaU/Drv9Oba/A=
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzNTYwMzk2LCJleHAiOjE3MDM2NDY3OTZ9.WeLSh+kRF1XcO2YO5bESh6+EFXIertuLQJ3sStqqPzA=
 ### RESOURCE
 ### Todolist App 
 GET http://localhost:8000/api/todolist
-x-authorization: {{token}}
+x-authorization: {{token}} 
 
 ### Get Single
 GET http://localhost:8000/api/todolist/1
@@ -29,7 +29,7 @@ content-type: application/json
 }
 
 ### Edit Todolist
-PUT http://localhost:8000/api/todolist/1
+PUT http://localhost:8000/api/todolist/111
 x-authorization: {{token}}
 content-type: application/json
 
