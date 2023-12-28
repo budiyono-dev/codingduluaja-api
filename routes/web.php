@@ -60,9 +60,6 @@ Route::middleware('auth')->group(function () {
         Route::controller(WilayahController::class)->group(function() {
             Route::get('/wilayah-bps', 'indexBps')->name('page.res.wilayahBps');
             Route::get('/wilayah-dagri', 'indexDagri')->name('page.res.wilayahDagri');
-            // Route::get('/wilayah-dagri/kabupaten', 'getKabupatenDagri')->name('page.res.wilayahDagri.kabupaten');
-            // Route::get('/wilayah-dagri/kecamatan', 'getKecamatanDagri')->name('page.res.wilayahDagri.kecamatan');
-            // Route::get('/wilayah-dagri/desa', 'getKecamatanDagri')->name('page.res.wilayahDagri.desa');
         });
     });
 });

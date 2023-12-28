@@ -1,9 +1,9 @@
-<x-layout.main-sidebar title="Resource | Wilayah BPS">
+<x-layout.main-sidebar title="Resource | {{$title}}">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col">
                 <div class="pt-4 pb-4 text-center">
-                    <h4>Resource Wilayah BPS</h4>
+                    <h4>Resource {{$title}}</h4>
                 </div>
                 <div class="row justify-content-evenly">
                     <div class="col-7 ">
@@ -56,7 +56,7 @@
                             method="post" autocomplete="off">
                             <div class="card p-3">
                                 <div class="text-center p-1">
-                                    <h5>Search Wilayah-Dagri</h5>
+                                    <h5>Search {{$title}}</h5>
                                 </div>
                                 @csrf
                                 <select class="form-select mb-3" name="sel_search_by" id="selSearchBy">

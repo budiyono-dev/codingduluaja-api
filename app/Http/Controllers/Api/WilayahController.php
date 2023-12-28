@@ -16,54 +16,59 @@ class WilayahController extends Controller
     private const COLUMN_DAGRI = ['id', 'kode_dagri', 'nama_dagri'];
     public function indexDagri(SearchWilayahRequest $req)
     {
-        $listWilayah = [];
+        $data = ['title' => 'Wilayah Dagri'];
         $actionTurunan = [];
         $validated = $req->validated();
         if (array_key_exists('search', $validated)) {
             $search = $validated['search'];
             if ($search === 'kabupaten') {
-                return $this->getKabupaten($validated['provinsi_id'], false);
+                $data = array_merge($data, $this->getKabupaten($validated['provinsi_id'], false));
             } elseif ($search === 'kecamatan') {
-                return $this->getKecamatan($validated['kabupaten_id'], false);
+                $data = array_merge($data, $this->getKecamatan($validated['kabupaten_id'], false));
             } elseif ($search === 'desa') {
-                return $this->getDesa($validated['kecamatan_id'], false);
+                $data = array_merge($data, $this->getDesa($validated['kecamatan_id'], false));
             } else {
-                return $this->getProvinsi(false);
+                $data = array_merge($data, $this->getProvinsi(false));
             }
         } else {
-            return $this->getProvinsi(false);
+            $data = array_merge($data, $this->getProvinsi(false));
         }
+        return view('page.res.wilayah-bps', $data);
     }
-    public function getProvinsi(bool $isBps)
+    public function getProvinsi(bool $isBps): array
     {
-        $listWilayah = Provinsi::all($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI);
-        $actionTurunan = $this->constructActionTurunan('Show Kabupaten', 'kabupaten', 'provinsi_id');
-        return view('page.res.wilayah-bps', compact('listWilayah', 'actionTurunan'));
+        return [
+            'listWilayah' => Provinsi::all($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI),
+            'actionTurunan' => $this->constructActionTurunan('Show Kabupaten', 'kabupaten', 'provinsi_id')
+        ];
     }
     public function getKabupaten(string $provinsiId, bool $isBps)
     {
-        $listWilayah = Kabupaten::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
-            ->where('provinsi_id', $provinsiId)
-            ->get();
-        $actionTurunan = $this->constructActionTurunan('Show Kecamatan', 'kecamatan', 'kabupaten_id');
-        return view('page.res.wilayah-bps', compact('listWilayah', 'actionTurunan'));
+        return [
+            'listWilayah' => Kabupaten::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
+                ->where('provinsi_id', $provinsiId)
+                ->get(),
+            'actionTurunan' => $this->constructActionTurunan('Show Kecamatan', 'kecamatan', 'kabupaten_id')
+        ];
     }
     public function getKecamatan(string $kabupatenId, bool $isBps)
     {
-        $listWilayah = Kecamatan::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
-            ->where('kabupaten_id', $kabupatenId)
-            ->get();
-        $actionTurunan = $this->constructActionTurunan('Show Desa', 'desa', 'kecamatan_id');
-        return view('page.res.wilayah-bps', compact('listWilayah', 'actionTurunan'));
+        return [
+            'listWilayah' => Kecamatan::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
+                ->where('kabupaten_id', $kabupatenId)
+                ->get(),
+            'actionTurunan' => $this->constructActionTurunan('Show Desa', 'desa', 'kecamatan_id')
+        ];
     }
 
     public function getDesa(string $kecamatanId, bool $isBps)
     {
-        $listWilayah = Desa::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
-            ->where('kecamatan_id', $kecamatanId)
-            ->get();
-        $actionTurunan = [];
-        return view('page.res.wilayah-bps', compact('listWilayah', 'actionTurunan'));
+        return [
+            'listWilayah' => Desa::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
+                ->where('kecamatan_id', $kecamatanId)
+                ->get(),
+            'actionTurunan' => []
+        ];
     }
 
     public function indexBps()
