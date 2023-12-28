@@ -8,80 +8,68 @@ use App\Models\Api\Wilayah\Desa;
 use App\Models\Api\Wilayah\Kabupaten;
 use App\Models\Api\Wilayah\Kecamatan;
 use App\Models\Api\Wilayah\Provinsi;
-use Illuminate\Http\Request;
 
 class WilayahController extends Controller
 {
-    private const COLUMN_BPS = ['id', 'kode_bps', 'nama_bps'];
-    private const COLUMN_DAGRI = ['id', 'kode_dagri', 'nama_dagri'];
+    private const COLUMN_BPS = ['id', 'kode_bps as kode', 'nama_bps as nama'];
+    private const COLUMN_DAGRI = ['id', 'kode_dagri as kode', 'nama_dagri as nama'];
+    public function indexBps(SearchWilayahRequest $req)
+    {
+        return $this->getWilayah($req, true);
+    }
     public function indexDagri(SearchWilayahRequest $req)
     {
-        $data = ['title' => 'Wilayah Dagri'];
-        $actionTurunan = [];
+        return $this->getWilayah($req, false);
+    }
+    private function getWilayah(SearchWilayahRequest $req, bool $isBps)
+    {
+        $title = $isBps ? 'Wilayah BPS' : 'Wilayah Dagri';
+        $column = $isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI;
+        $url = $isBps ? route('page.res.wilayahBps') : route('page.res.wilayahDagri');
         $validated = $req->validated();
+
+        $listWilayah = [];
+        $actionTurunan = [];
         if (array_key_exists('search', $validated)) {
             $search = $validated['search'];
             if ($search === 'kabupaten') {
-                $data = array_merge($data, $this->getKabupaten($validated['provinsi_id'], false));
+                $listWilayah =  Kabupaten::select($column)
+                    ->where('provinsi_id', $validated['provinsi_id'])
+                    ->get();
+                $actionTurunan = $this->constructActionTurunan('Show Kecamatan', 'kecamatan', 'kabupaten_id', $url);
             } elseif ($search === 'kecamatan') {
-                $data = array_merge($data, $this->getKecamatan($validated['kabupaten_id'], false));
+                $listWilayah =  Kecamatan::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
+                    ->where('kabupaten_id', $validated['kabupaten_id'])
+                    ->get();
+                $actionTurunan = $this->constructActionTurunan('Show Desa', 'desa', 'kecamatan_id', $url);
             } elseif ($search === 'desa') {
-                $data = array_merge($data, $this->getDesa($validated['kecamatan_id'], false));
+                $listWilayah =  Desa::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
+                    ->where('kecamatan_id', $validated['kecamatan_id'])
+                    ->get();
             } else {
-                $data = array_merge($data, $this->getProvinsi(false));
+                ['listWilayah' => $listWilayah, 'actionTurunan' => $actionTurunan] =  $this->getProvinsi($column, $url);
             }
         } else {
-            $data = array_merge($data, $this->getProvinsi(false));
+            ['listWilayah' => $listWilayah, 'actionTurunan' => $actionTurunan] =  $this->getProvinsi($column, $url);
         }
-        return view('page.res.wilayah-bps', $data);
+        // dd($title, $listWilayah, $actionTurunan);
+        return view('page.res.wilayah-bps', ['title' => $title, 'listWilayah' => $listWilayah, 'actionTurunan' => $actionTurunan]);
     }
-    public function getProvinsi(bool $isBps): array
+    private function getProvinsi(array $column, string $url)
     {
         return [
-            'listWilayah' => Provinsi::all($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI),
-            'actionTurunan' => $this->constructActionTurunan('Show Kabupaten', 'kabupaten', 'provinsi_id')
-        ];
-    }
-    public function getKabupaten(string $provinsiId, bool $isBps)
-    {
-        return [
-            'listWilayah' => Kabupaten::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
-                ->where('provinsi_id', $provinsiId)
-                ->get(),
-            'actionTurunan' => $this->constructActionTurunan('Show Kecamatan', 'kecamatan', 'kabupaten_id')
-        ];
-    }
-    public function getKecamatan(string $kabupatenId, bool $isBps)
-    {
-        return [
-            'listWilayah' => Kecamatan::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
-                ->where('kabupaten_id', $kabupatenId)
-                ->get(),
-            'actionTurunan' => $this->constructActionTurunan('Show Desa', 'desa', 'kecamatan_id')
+            'listWilayah' => Provinsi::all($column),
+            'actionTurunan' => $this->constructActionTurunan('Show Kabupaten', 'kabupaten', 'provinsi_id', $url)
         ];
     }
 
-    public function getDesa(string $kecamatanId, bool $isBps)
-    {
-        return [
-            'listWilayah' => Desa::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
-                ->where('kecamatan_id', $kecamatanId)
-                ->get(),
-            'actionTurunan' => []
-        ];
-    }
-
-    public function indexBps()
-    {
-    }
-
-    private function constructActionTurunan(string $text, string $search, string $param): array
+    private function constructActionTurunan(string $text, string $search, string $param, string $url): array
     {
         return [
             'text' => $text,
             'search' => '<input type="hidden" name="search" value="' . $search . '">',
             'param' => '<input type="hidden" name="' . $param . '" value=":id">',
-            'url' => route('page.res.wilayahDagri')
+            'url' => $url
         ];
     }
 }

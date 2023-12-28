@@ -1,21 +1,21 @@
-<x-layout.main-sidebar title="Resource | {{$title}}">
+<x-layout.main-sidebar title="Resource | {{ $title }}">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col">
                 <div class="pt-4 pb-4 text-center">
-                    <h4>Resource {{$title}}</h4>
+                    <h4>Resource {{ $title }}</h4>
                 </div>
                 <div class="row justify-content-evenly">
                     <div class="col-7 ">
                         <div class="table-responsive" style="max-height: 70vh">
-                            <table class="table table-sm  table-hover" >
+                            <table class="table table-sm  table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
                                         {{-- <th scope="col">Id</th> --}}
                                         <th scope="col">Kode</th>
                                         <th scope="col">Nama</th>
-                                        @if(count($actionTurunan) > 0)
+                                        @if (count($actionTurunan) > 0)
                                             <th scope="col">Action</th>
                                         @endif
                                     </tr>
@@ -25,17 +25,17 @@
                                         <tr>
                                             <th scope="row">{{ 1 + $key }}</th>
                                             {{-- <td class="text-start">{{ $p->id }}</td> --}}
-                                            <td class="text-start">{{ $w->kode_dagri }}</td>
-                                            <td class="text-start">{{ $w->nama_dagri }}</td>
-                                            @if(count($actionTurunan) > 0)
-                                                <td class="text-start"> 
+                                            <td class="text-start">{{ $w->kode }}</td>
+                                            <td class="text-start">{{ $w->nama }}</td>
+                                            @if (count($actionTurunan) > 0)
+                                                <td class="text-start">
                                                     <form action="{{ $actionTurunan['url'] }}">
-                                                        {!!$actionTurunan['search']!!}
-                                                        {!!str_replace(':id', $w->id ,$actionTurunan['param'])!!}
+                                                        {!! $actionTurunan['search'] !!}
+                                                        {!! str_replace(':id', $w->id, $actionTurunan['param']) !!}
                                                         <x-button type="submit" class="btn-sm btn-outline-primary ">
-                                                        {{$actionTurunan['text']}}
+                                                            {{ $actionTurunan['text'] }}
                                                         </x-button>
-                                                        
+
                                                     </form>
                                                 </td>
                                             @endif
@@ -56,7 +56,7 @@
                             method="post" autocomplete="off">
                             <div class="card p-3">
                                 <div class="text-center p-1">
-                                    <h5>Search {{$title}}</h5>
+                                    <h5>Search {{ $title }}</h5>
                                 </div>
                                 @csrf
                                 <select class="form-select mb-3" name="sel_search_by" id="selSearchBy">
