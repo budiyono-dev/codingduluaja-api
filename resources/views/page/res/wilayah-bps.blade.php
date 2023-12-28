@@ -1,29 +1,44 @@
-<x-layout.main-sidebar title="Resource | Todolist">
+<x-layout.main-sidebar title="Resource | Wilayah BPS">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col">
                 <div class="pt-4 pb-4 text-center">
-                    <h4>Resource Todolist</h4>
+                    <h4>Resource Wilayah BPS</h4>
                 </div>
                 <div class="row justify-content-evenly">
-                    <div class="col-7">
-                        <div class="table-responsive">
-                            <table class="table table-sm  table-hover">
+                    <div class="col-7 ">
+                        <div class="table-responsive" style="max-height: 70vh">
+                            <table class="table table-sm  table-hover" >
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Id</th>
+                                        {{-- <th scope="col">Id</th> --}}
                                         <th scope="col">Kode</th>
                                         <th scope="col">Nama</th>
+                                        @if(count($actionTurunan) > 0)
+                                            <th scope="col">Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody id="bodyTb">
-                                    @forelse ($listProvinsi as $key => $p)
+                                    @forelse ($listWilayah as $key => $w)
                                         <tr>
                                             <th scope="row">{{ 1 + $key }}</th>
-                                            <td class="text-start">{{ $p->id }}</td>
-                                            <td class="text-start">{{ $p->kode_dagri }}</td>
-                                            <td class="text-start">{{ $p->nama_dagri }}</td>
+                                            {{-- <td class="text-start">{{ $p->id }}</td> --}}
+                                            <td class="text-start">{{ $w->kode_dagri }}</td>
+                                            <td class="text-start">{{ $w->nama_dagri }}</td>
+                                            @if(count($actionTurunan) > 0)
+                                                <td class="text-start"> 
+                                                    <form action="{{ $actionTurunan['url'] }}">
+                                                        {!!$actionTurunan['search']!!}
+                                                        {!!str_replace(':id', $w->id ,$actionTurunan['param'])!!}
+                                                        <x-button type="submit" class="btn-sm btn-outline-primary ">
+                                                        {{$actionTurunan['text']}}
+                                                        </x-button>
+                                                        
+                                                    </form>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @empty
                                         <tr>
@@ -57,7 +72,7 @@
                                 </x-button>
                             </div>
                         </form>
-                        {{-- <div class="card p-3 mt-2">
+                        <div class="card p-3 mt-2">
                             <div class="text-center p-1">
                                 <h5>Details</h5>
                             </div>
@@ -66,7 +81,7 @@
                             <p id="todoDate" class="fs-6 fw-light"></p>
                             <p id="todoCreate" class="fs-6 fw-lighter"></p>
 
-                        </div> --}}
+                        </div>
 
                     </div>
                 </div>
@@ -106,13 +121,13 @@
             const changeSearchBy = () => {
                 const searchBy = document.getElementById('selSearchBy').value;
                 console.log('change search by', searchBy);
-                var drinks = {
-                    'kabupaten': 'provinsi',
-                    'kecamatan': 'kabupaten',
-                    'desa': 'kecamatan',
-                    'default': 'Default item'
-                };
-                return 'The drink I chose was ' + (drinks[type] || drinks['default']);
+                // var drinks = {
+                //     'kabupaten': 'provinsi',
+                //     'kecamatan': 'kabupaten',
+                //     'desa': 'kecamatan',
+                //     'default': 'Default item'
+                // };
+                // return 'The drink I chose was ' + (drinks[type] || drinks['default']);
                 const txtCode = document.getElementById('txtKode');
                 txtCode.value = '';
                 txtCode.placeholder = `kode ${searchBy}`;
