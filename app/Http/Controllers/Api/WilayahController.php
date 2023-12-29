@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Constants\ResponseCode;
+use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\SearchWilayahRequest;
 use App\Models\Api\Wilayah\Desa;
 use App\Models\Api\Wilayah\Kabupaten;
 use App\Models\Api\Wilayah\Kecamatan;
 use App\Models\Api\Wilayah\Provinsi;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class WilayahController extends Controller
 {
+    public function __construct(
+        protected ResponseHelper $responseHelper,
+    ) {
+    }
     private const COLUMN_BPS = ['id', 'kode_bps as kode', 'nama_bps as nama'];
     private const COLUMN_DAGRI = ['id', 'kode_dagri as kode', 'nama_dagri as nama'];
     public function indexBps(SearchWilayahRequest $req)
@@ -21,11 +29,46 @@ class WilayahController extends Controller
     {
         return $this->getWilayah($req, false);
     }
+
+    public function findBps(string $wilayah, string $id)
+    {
+        return $this->findWilayah($wilayah, $id, true);
+    }
+    public function findDagri(string $wilayah, string $id)
+    {
+        return $this->findWilayah($wilayah, $id, false);
+    }
+    private function findWilayah(string $wilayah, string $id, bool $isBps)
+    {
+        try {
+            $column = $isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI;
+            $kode = $isBps ? 'kode_bps' : 'kode_dagri';
+            $data = [];
+            if ($wilayah === 'kabupaten') {
+                $data =  Kabupaten::select($column)->where($kode,$id)->first();
+            } elseif ($wilayah === 'kecamatan') {
+                $data =  Kecamatan::select($column)->where($kode, $id)->first();
+            } elseif ($wilayah === 'desa') {
+                $data =  Desa::select($column)->where($kode, $id)->first();
+            }
+
+            if (!is_null($data)) {
+                return $this->responseHelper->success('', 'success get data', ResponseCode::SUCCESS_GET_DATA, $data);
+            }
+            return $this->responseHelper->resourceNotFound('');
+        } catch (Exception $e) {
+            Log::info("message {$e->getMessage()}");
+            return $this->responseHelper->resourceNotFound('');
+        }
+    }
     private function getWilayah(SearchWilayahRequest $req, bool $isBps)
     {
         $title = $isBps ? 'Wilayah BPS' : 'Wilayah Dagri';
         $column = $isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI;
         $url = $isBps ? route('page.res.wilayahBps') : route('page.res.wilayahDagri');
+        $url_find = $isBps
+            ? route('page.res.findBps', ['wilayah' => ':wil', 'id' => ':id'])
+            : route('page.res.findDagri', ['wilayah' => ':wil', 'id' => ':id']);
         $validated = $req->validated();
 
         $listWilayah = [];
@@ -53,7 +96,15 @@ class WilayahController extends Controller
             ['listWilayah' => $listWilayah, 'actionTurunan' => $actionTurunan] =  $this->getProvinsi($column, $url);
         }
         // dd($title, $listWilayah, $actionTurunan);
-        return view('page.res.wilayah-bps', ['title' => $title, 'listWilayah' => $listWilayah, 'actionTurunan' => $actionTurunan]);
+        return view(
+            'page.res.wilayah-bps',
+            [
+                'title' => $title,
+                'listWilayah' => $listWilayah,
+                'actionTurunan' => $actionTurunan,
+                'url_find' => $url_find
+            ]
+        );
     }
     private function getProvinsi(array $column, string $url)
     {

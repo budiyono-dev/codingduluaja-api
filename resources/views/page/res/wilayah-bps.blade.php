@@ -52,20 +52,19 @@
                     <div class="col-5">
                         <input type="text" class="form-control mb-3" id="txtFilterTable" name="filterTable"
                             placeholder="search key word in table">
-                        <form name="genTodolist" id="genTodolist" action="{{ route('do.todolist.dummy') }}"
+                        <form name="formSearchWilayah" id="formSearchWilayah" action=""
                             method="post" autocomplete="off">
                             <div class="card p-3">
                                 <div class="text-center p-1">
-                                    <h5>Search {{ $title }}</h5>
+                                    <h5>Cek Kode {{ $title }}</h5>
                                 </div>
-                                @csrf
                                 <select class="form-select mb-3" name="sel_search_by" id="selSearchBy">
                                     <option selected value="">-- Search --</option>
                                     <option value="kabupaten">Kabupaten</option>
                                     <option value="kecamatan">Kecamatan</option>
                                     <option value="desa">Desa</option>
                                 </select>
-                                <input type="text" class="form-control mb-3" id="txtKode" name="kode"
+                                <input type="text" class="form-control mb-3" id="txtCode" name="kode"
                                     placeholder="kode ">
                                 <x-button type="submit" class="btn-sm btn-outline-primary px-3">
                                     Search
@@ -74,13 +73,9 @@
                         </form>
                         <div class="card p-3 mt-2">
                             <div class="text-center p-1">
-                                <h5>Details</h5>
+                                <h5>Hasil</h5>
                             </div>
-                            <p><b id="todoName"></b></p>
-                            <p id="todoDesc"></p>
-                            <p id="todoDate" class="fs-6 fw-light"></p>
-                            <p id="todoCreate" class="fs-6 fw-lighter"></p>
-
+                            <p id="wilDes" class="text-center"></p>
                         </div>
 
                     </div>
@@ -90,6 +85,7 @@
     </div>
     @push('script')
         <script type="text/javascript">
+            let urlFind = {!! json_encode($url_find) !!};
             document.getElementById('txtFilterTable').value = '';
             const searchInTable = () => {
                 const filter = document.getElementById('txtFilterTable').value;
@@ -120,20 +116,36 @@
             }
             const changeSearchBy = () => {
                 const searchBy = document.getElementById('selSearchBy').value;
-                console.log('change search by', searchBy);
-                // var drinks = {
-                //     'kabupaten': 'provinsi',
-                //     'kecamatan': 'kabupaten',
-                //     'desa': 'kecamatan',
-                //     'default': 'Default item'
-                // };
-                // return 'The drink I chose was ' + (drinks[type] || drinks['default']);
-                const txtCode = document.getElementById('txtKode');
+                const txtCode = document.getElementById('txtCode');
                 txtCode.value = '';
                 txtCode.placeholder = `kode ${searchBy}`;
             }
+            const searchWilayah = async (e) => {
+                e.preventDefault();
+                const wil = document.getElementById('selSearchBy').value;
+                const code = document.getElementById('txtCode').value;
+                console.log(wil, code, wil&&code, code !== '', wil !== '' && code !== '');
+                if (wil !== '' && code !== '') {
+                    const res = await fetch(urlFind.replace(':wil', wil).replace(':id', code));
+                    if (res.ok) {
+                        const jsonRes = await res.json();
+                        const data = jsonRes.data;
+                        console.log(data);
+                        document.getElementById('wilDes').innerHTML = `${wil.toUpperCase()} <b>${data.nama}</b>, KODE <b>${data.kode}</b>`;
+                        // document.getElementById('wilId').innerText = data.id;
+                        // document.getElementById('wilName').innerText = data.nama;
+                        // document.getElementById('wilCode').innerText = data.kode;
+                    } else {
+                        document.getElementById('wilDes').innerHTML = `<b>Data Tidak Ditemukan</b>`;
+                    }
+                } else {
+                    showSimpleToast('not found');
+                }
+
+            }
             document.getElementById('txtFilterTable').addEventListener('keyup', searchInTable);
             document.getElementById('selSearchBy').addEventListener('change', changeSearchBy);
+            document.getElementById('formSearchWilayah').addEventListener('submit', searchWilayah);
         </script>
     @endpush
 </x-layout.main-sidebar>

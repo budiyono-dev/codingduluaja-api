@@ -58,8 +58,10 @@ Route::middleware('auth')->group(function () {
             Route::post('/todolist/dummy', 'generateDummy')->name('do.todolist.dummy');
         });
         Route::controller(WilayahController::class)->group(function() {
-            Route::get('/wilayah-bps', 'indexBps')->name('page.res.wilayahBps');
-            Route::get('/wilayah-dagri', 'indexDagri')->name('page.res.wilayahDagri');
+            Route::get('/wilayah/bps', 'indexBps')->name('page.res.wilayahBps');
+            Route::get('/wilayah/dagri', 'indexDagri')->name('page.res.wilayahDagri');
+            Route::get('/wilayah/bps/{wilayah}/{id}', 'findBps')->name('page.res.findBps');
+            Route::get('/wilayah/dagri/{wilayah}/{id}', 'findDagri')->name('page.res.findDagri');
         });
     });
 });
