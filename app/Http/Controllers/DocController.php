@@ -12,10 +12,10 @@ class DocController extends Controller
     }
     public function wilayahBps()
     {
-        return view('page.doc.todolist', ['endpoint' => config('app.url')]);
+        return view('page.doc.wilayah', ['endpoint' => config('app.url'), 'title' => 'wilayah BPS']);
     }
     public function wilayahDagri()
     {
-        return view('page.doc.todolist', ['endpoint' => config('app.url')]);
+        return view('page.doc.todolist', ['endpoint' => config('app.url'), 'title' => 'wilayah Dagri']);
     }
 }

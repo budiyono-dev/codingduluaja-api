@@ -47,8 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::controller(DocController::class)->group(function () {
         Route::prefix('/doc')->group(function () {
             Route::get('/todolist', 'todolist')->name('page.doc.todolist');
-            Route::get('/wilayah-bps', 'wilayahBps')->name('page.doc.wilayahBps');
-            Route::get('/wilayah-dagri', 'wilayahDagri')->name('page.doc.wilayahDagri');
+            Route::get('/wilayah/bps', 'wilayahBps')->name('page.doc.wilayahBps');
+            Route::get('/wilayah/dagri', 'wilayahDagri')->name('page.doc.wilayahDagri');
         });
     });
 
