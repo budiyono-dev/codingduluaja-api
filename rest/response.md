@@ -259,3 +259,130 @@
     }
 }
 ```
+
+## GET http://localhost:8000/api/wilayah/bps/kabupaten?provinsi_id=1
+```json
+{
+    "meta":
+    {
+        "request_id": "42be490b-5b66-490c-9dda-d844c39af190",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get List Kabupaten"
+    },
+    "data":
+    [
+        {
+            "id": 1,
+            "nama": "SIMEULUE"
+        },
+        {
+            "id": 2,
+            "nama": "ACEH SINGKIL"
+        },
+        {
+            "id": 3,
+            "nama": "ACEH SELATAN"
+        },
+        {
+            "id": 4,
+            "nama": "ACEH TENGGARA"
+        },
+        {
+            "id": 5,
+            "nama": "ACEH TIMUR"
+        },
+        {
+            "id": 6,
+            "nama": "ACEH TENGAH"
+        },
+        {
+            "id": 7,
+            "nama": "ACEH BARAT"
+        },
+        {
+            "id": 8,
+            "nama": "ACEH BESAR"
+        },
+        {
+            "id": 9,
+            "nama": "PIDIE"
+        },
+        {
+            "id": 10,
+            "nama": "BIREUEN"
+        },
+        {
+            "id": 11,
+            "nama": "ACEH UTARA"
+        },
+        {
+            "id": 12,
+            "nama": "ACEH BARAT DAYA"
+        },
+        {
+            "id": 13,
+            "nama": "GAYO LUES"
+        },
+        {
+            "id": 14,
+            "nama": "ACEH TAMIANG"
+        },
+        {
+            "id": 15,
+            "nama": "NAGAN RAYA"
+        },
+        {
+            "id": 16,
+            "nama": "ACEH JAYA"
+        },
+        {
+            "id": 17,
+            "nama": "BENER MERIAH"
+        },
+        {
+            "id": 18,
+            "nama": "PIDIE JAYA"
+        },
+        {
+            "id": 19,
+            "nama": "BANDA ACEH"
+        },
+        {
+            "id": 20,
+            "nama": "SABANG"
+        },
+        {
+            "id": 21,
+            "nama": "LANGSA"
+        },
+        {
+            "id": 22,
+            "nama": "LHOKSEUMAWE"
+        },
+        {
+            "id": 23,
+            "nama": "SUBULUSSALAM"
+        }
+    ]
+}
+```
+
+## GET http://localhost:8000/api/wilayah/bps/kabupaten/123
+```json
+{
+    "meta":
+    {
+        "request_id": "ef9e336b-540a-44ce-8f24-e64c24b381a3",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get Kabupaten"
+    },
+    "data":
+    {
+        "id": 123,
+        "kode": "1708",
+        "nama": "KEPAHIANG"
+    }
+}
+```

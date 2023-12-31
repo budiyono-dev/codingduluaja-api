@@ -179,34 +179,38 @@ class WilayahController extends Controller
     // {id, nama_bps}
     public function getListKabupatenBps(Request $req)
     {
-        
+        return $this->getListKabupaten($req, true);
     }
 
     private function getListKabupaten(Request $req, bool $isBps)
     {
-        $validated = $req->validate([
-            'search' => 'string',
-            'provinsi_id' => 'string',
-            'kabupaten_id' => 'string',
-            'kecamatan_id' => 'string'
-        ]);
+        $validated = $req->validate(['provinsi_id' => 'string']);
+        $data = Kabupaten::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
+                ->where('provinsi_id', $validated['provinsi_id'])->get();
+        
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'Successfully Get List Kabupaten',
+            ResponseCode::SUCCESS_GET_DATA,
+            $data
+        );
     }
 
 
     // {id, kode_bps, nama_bps}
     public function getKabupatenBps(string $id)
     {
-        
+       return $this->getKabupaten($id, true);
     }
 
     private function getKabupaten(string $id, bool $isBps)
     {
-        $validated = $req->validate([
-            'search' => 'string',
-            'provinsi_id' => 'string',
-            'kabupaten_id' => 'string',
-            'kecamatan_id' => 'string'
-        ]);
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'Successfully Get Kabupaten',
+            ResponseCode::SUCCESS_GET_DATA,
+            Kabupaten::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
+        );
     }
 
 

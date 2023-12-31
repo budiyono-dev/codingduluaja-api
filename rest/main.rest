@@ -50,12 +50,22 @@ content-type: application/json
 
 ### Provinsi BPS/DAGRI
 @tokenbps=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzOTkxNzA4LCJleHAiOjE3MDQyNTA5MDh9.bvH7pyI8FfHNfDpGp/1krD67scJ84TqxuQDZZhVnt0M=
-### GET Provinsi
+### GET List Provinsi
 GET http://localhost:8000/api/wilayah/bps/provinsi
 x-authorization: {{tokenbps}}
 content-type: application/json
 
 ### GET Detail Provinsi
 GET http://localhost:8000/api/wilayah/bps/provinsi/34zaksjdjks
+x-authorization: {{tokenbps}}
+content-type: application/json
+
+### GET List Kabupaten
+GET http://localhost:8000/api/wilayah/bps/kabupaten?provinsi_id=1
+x-authorization: {{tokenbps}}
+content-type: application/json
+
+### GET Detail Kabupaten
+GET http://localhost:8000/api/wilayah/bps/kabupaten/123
 x-authorization: {{tokenbps}}
 content-type: application/json
