@@ -386,3 +386,139 @@
     }
 }
 ```
+
+## GET http://localhost:8000/api/wilayah/bps/kecamatan?kabupaten_id=233
+```json
+{
+  "meta": {
+    "request_id": "4e62347c-b94d-490a-b29d-09a7531ad244",
+    "success": true,
+    "code": "CDA-S-001",
+    "message": "Successfully Get List Kecamatan"
+  },
+  "data": [
+    {
+      "id": 3360,
+      "nama": "MOJO"
+    },
+    {
+      "id": 3361,
+      "nama": "SEMEN"
+    },
+    {
+      "id": 3362,
+      "nama": "NGADILUWIH"
+    },
+    {
+      "id": 3363,
+      "nama": "KRAS"
+    },
+    {
+      "id": 3364,
+      "nama": "RINGINREJO"
+    },
+    {
+      "id": 3365,
+      "nama": "KANDAT"
+    },
+    {
+      "id": 3366,
+      "nama": "WATES"
+    },
+    {
+      "id": 3367,
+      "nama": "NGANCAR"
+    },
+    {
+      "id": 3368,
+      "nama": "PLOSOKLATEN"
+    },
+    {
+      "id": 3369,
+      "nama": "GURAH"
+    },
+    {
+      "id": 3370,
+      "nama": "PUNCU"
+    },
+    {
+      "id": 3371,
+      "nama": "KEPUNG"
+    },
+    {
+      "id": 3372,
+      "nama": "KANDANGAN"
+    },
+    {
+      "id": 3373,
+      "nama": "PARE"
+    },
+    {
+      "id": 3374,
+      "nama": "BADAS"
+    },
+    {
+      "id": 3375,
+      "nama": "KUNJANG"
+    },
+    {
+      "id": 3376,
+      "nama": "PLEMAHAN"
+    },
+    {
+      "id": 3377,
+      "nama": "PURWOASRI"
+    },
+    {
+      "id": 3378,
+      "nama": "PAPAR"
+    },
+    {
+      "id": 3379,
+      "nama": "PAGU"
+    },
+    {
+      "id": 3380,
+      "nama": "KAYEN KIDUL"
+    },
+    {
+      "id": 3381,
+      "nama": "GAMPENGREJO"
+    },
+    {
+      "id": 3382,
+      "nama": "NGASEM"
+    },
+    {
+      "id": 3383,
+      "nama": "BANYAKAN"
+    },
+    {
+      "id": 3384,
+      "nama": "GROGOL"
+    },
+    {
+      "id": 3385,
+      "nama": "TAROKAN"
+    }
+  ]
+}
+```
+
+## GET http://localhost:8000/api/wilayah/bps/kecamatan/2500
+```json
+{
+  "meta": {
+    "request_id": "7d309f0e-cdb5-4bc6-9abd-e25e7639c4e4",
+    "success": true,
+    "code": "CDA-S-001",
+    "message": "Successfully Get Kecamatan"
+  },
+  "data": {
+    "id": 2500,
+    "kode": "3216121",
+    "nama": "SUKAKARYA"
+  }
+}
+```
+
