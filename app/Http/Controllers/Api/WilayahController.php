@@ -12,19 +12,32 @@ use App\Models\Api\Wilayah\Kecamatan;
 use App\Models\Api\Wilayah\Provinsi;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use App\Traits\ApiContext;
 
 class WilayahController extends Controller
 {
+    use ApiContext;
+
     public function __construct(
         protected ResponseHelper $responseHelper,
     ) {
     }
+
     private const COLUMN_BPS = ['id', 'kode_bps as kode', 'nama_bps as nama'];
     private const COLUMN_DAGRI = ['id', 'kode_dagri as kode', 'nama_dagri as nama'];
+
+    private const COLUMN_GET_LIST_BPS = ['id', 'nama_bps as nama'];
+    private const COLUMN_GET_LIST_DAGRI = ['id', 'nama_dagri as nama'];
+
+    private const COLUMN_GET_BPS = ['id', 'kode_bps as kode', 'nama_bps as nama'];
+    private const COLUMN_GET_DAGRI = ['id', 'kode_dagri as kode', 'nama_dagri as nama'];
+    
     public function indexBps(SearchWilayahRequest $req)
     {
         return $this->getWilayah($req, true);
     }
+
     public function indexDagri(SearchWilayahRequest $req)
     {
         return $this->getWilayah($req, false);
@@ -34,10 +47,12 @@ class WilayahController extends Controller
     {
         return $this->findWilayah($wilayah, $id, true);
     }
+    
     public function findDagri(string $wilayah, string $id)
     {
         return $this->findWilayah($wilayah, $id, false);
     }
+    
     private function findWilayah(string $wilayah, string $id, bool $isBps)
     {
         try {
@@ -61,6 +76,7 @@ class WilayahController extends Controller
             return $this->responseHelper->resourceNotFound('');
         }
     }
+    
     private function getWilayah(SearchWilayahRequest $req, bool $isBps)
     {
         $title = $isBps ? 'Wilayah BPS' : 'Wilayah Dagri';
@@ -106,6 +122,7 @@ class WilayahController extends Controller
             ]
         );
     }
+    
     private function getProvinsi(array $column, string $url)
     {
         return [
@@ -123,4 +140,124 @@ class WilayahController extends Controller
             'url' => $url
         ];
     }
+
+    // API Controller
+    // all provinsi id => {id nama_bps}
+    public function getListProvinsiBps()
+    {
+        return $this->getListProvinsi(true);
+    }
+
+    private function getListProvinsi(bool $isBps)
+    {
+        $data = Provinsi::all($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI);
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'Successfully Get List Provinsi',
+            ResponseCode::SUCCESS_GET_DATA,
+            $data
+        );
+
+    }    
+
+    // {id, kode_bps, nama_bps}
+    public function getProvinsiBps(string $id)
+    {
+        return $this->getProvinsiApi($id, true);
+    }
+
+    private function getProvinsiApi(string $id, bool $isBps)
+    {
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'Successfully Get Provinsi',
+            ResponseCode::SUCCESS_GET_DATA,
+            Provinsi::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
+        );
+    }
+
+    // {id, nama_bps}
+    public function getListKabupatenBps(Request $req)
+    {
+        
+    }
+
+    private function getListKabupaten(Request $req, bool $isBps)
+    {
+        $validated = $req->validate([
+            'search' => 'string',
+            'provinsi_id' => 'string',
+            'kabupaten_id' => 'string',
+            'kecamatan_id' => 'string'
+        ]);
+    }
+
+
+    // {id, kode_bps, nama_bps}
+    public function getKabupatenBps(string $id)
+    {
+        
+    }
+
+    private function getKabupaten(string $id, bool $isBps)
+    {
+        $validated = $req->validate([
+            'search' => 'string',
+            'provinsi_id' => 'string',
+            'kabupaten_id' => 'string',
+            'kecamatan_id' => 'string'
+        ]);
+    }
+
+
+    // {id, nama_bps}
+    public function getListKecamatanBps(Request $req)
+    {
+        
+    }
+
+    private function getListKecamatan(Request $req, bool $isBps)
+    {
+        $validated = $req->validate(['kabupaten_id' => 'string']);
+    }
+
+    // {id, kode_bps, nama_bps}
+    public function getKecamatanBps(string $id)
+    {
+    }
+
+    private function getKecamatan(string $id, bool $isBps)
+    {
+    }
+
+    // {id, nama_bps}
+    public function getListDesaBps(Request $req)
+    {
+        $this->getListDesa($req, true);
+    }
+
+    private function getListDesa(Request $req, bool $isBps)
+    {
+        $validated = $req->validate([
+            'kecamatan_id' => 'string'
+        ]);
+    }
+
+    // {id, kode_bps, nama_bps}
+    public function getDesaBps(string $id)
+    {
+        $this->getDesa($id, true);
+    }
+
+    private function getDesa(string $id, bool $isBps)
+    {
+    }
+    // ('/provinsi', 'getListProvinsiBps');
+    //         Route::get('/provinsi/{id}', 'getProvinsiBps');
+    //         Route::get('/kabupaten', 'getListKabupatenBps');
+    //         Route::get('/kabupaten/{id}', 'getKabupatenBps');
+    //         Route::get('/kecamatan', 'getListKecamatanBps');
+    //         Route::get('/kecamatan/{id}', 'getKecamatanBps');
+    //         Route::get('/desa', 'getListDesaBps');
+    //         Route::get('/desa/{id}', 'getDesaBps');
 }

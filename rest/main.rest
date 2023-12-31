@@ -3,7 +3,7 @@
 #GET http://localhost:8000/api/user
 
 
-@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzNTYwMzk2LCJleHAiOjE3MDM2NDY3OTZ9.WeLSh+kRF1XcO2YO5bESh6+EFXIertuLQJ3sStqqPzA=
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzOTM2MDM0LCJleHAiOjE3MDQxOTUyMzR9.4xiI45pW81nM3Wb4QT7FiMDPGo1+x7kKGIAybnN5w8I=
 ### RESOURCE
 ### Todolist App 
 GET http://localhost:8000/api/todolist
@@ -47,3 +47,15 @@ content-type: application/json
 {
     "qty": 1
 }
+
+### Provinsi BPS/DAGRI
+@tokenbps=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzOTkxNzA4LCJleHAiOjE3MDQyNTA5MDh9.bvH7pyI8FfHNfDpGp/1krD67scJ84TqxuQDZZhVnt0M=
+### GET Provinsi
+GET http://localhost:8000/api/wilayah/bps/provinsi
+x-authorization: {{tokenbps}}
+content-type: application/json
+
+### GET Detail Provinsi
+GET http://localhost:8000/api/wilayah/bps/provinsi/34zaksjdjks
+x-authorization: {{tokenbps}}
+content-type: application/json

@@ -9,12 +9,10 @@
             
             <h3 class="fs-6 fw-bold" id="getAll">Get All Todolist</h3>
             <p>Mengambil semua data todolist, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/api/todolist</code>, contoh response :</p>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resGetAll"></code></pre>
             
             <h3 class="fs-6 fw-bold" id="getSingle">Get Single Todolist</h3>
             <p>Mengambil data todolist berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/api/todolist/{id}</code>, contoh response :</p>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resGetSingle"></code></pre>
 
             <h3 class="fs-6 fw-bold" id="create">Create Todolist</h3>
@@ -58,36 +56,33 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="reqCreate"></code></pre>
             <p>Response body :</p>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resCreate"></code></pre>
 
             <h3 class="fs-6 fw-bold" id="edit">Edit Todolist</h3>
             <p>Mengambil data todolist berdasarkan id, method : <code>POST</code>, endpoint : <code>{{$endpoint}}/api/todolist</code></p>
             <p>Request body :</p>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="reqEdit"></code></pre>
             <p>Response body :</p>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resEdit"></code></pre>
 
             <h3 class="fs-6 fw-bold" id="delete">Delete Todolist</h3>
             <p>Mengambil data todolist berdasarkan id, method : <code>DELETE</code>, endpoint : <code>{{$endpoint}}/api/todolist/{id}</code>, contoh response :</p>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resDelete"></code></pre>
 
             <h3 class="fs-4" id="listError">Error Example</h3>
             <p>Berikut contoh error response :</p>
 
             <h3 class="fs-6 fw-bold" id="unAuthorize">Unauthorized</h3>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resAnautorize"></code></pre>
 
             <h3 class="fs-6 fw-bold" id="notFound">Not Found</h3>
-            <div class="d-flex justify-content-end mb-1"><a class="btn btn-outline-primary btn-sm ">Copy To Clipboard</a></div>
             <pre class="card" ><code class="language-json" id="resNotFound"></code></pre>
+
+            <h3 class="fs-6 fw-bold" id="notValid">Not Valid</h3>
+            <pre class="card" ><code class="language-json" id="resNotValid"></code></pre>
+            
             
             
         </div>
@@ -107,9 +102,7 @@
                     <ul>
                         <li><a class="link-dark" href="#unAuthorize">Unauthorized</a></li>
                         <li><a class="link-dark" href="#notFound">Not Found</a></li>
-                        {{-- <li><a class="link-dark" href="#create">Create Todolist</a></li>
-                        <li><a class="link-dark" href="#edit">Edit Todolist</a></li>
-                        <li><a class="link-dark" href="#delete">Delete Todolist</a></li> --}}
+                        <li><a class="link-dark" href="#notValid">Not Valid</a></li>
                     </ul>
                 </li>
             </ul>
@@ -218,6 +211,20 @@
   },
   "data": null
 }`;
+            const jsonResNotValid =
+`{
+    "meta":
+    {
+        "request_id": "f7688857-52ba-4f61-ab56-b8c33671911e",
+        "success": false,
+        "code": "CDA-V-001",
+        "message": "Validation Error"
+    },
+    "data":
+    [
+        "The date field must be a date after or equal to 30-12-2023."
+    ]
+}`;
             let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
 
             const resetActive = () => {
@@ -239,6 +246,7 @@
             document.getElementById('resDelete').innerHTML = jsonResDelete;
             document.getElementById('resAnautorize').innerHTML = jsonResAnautorize;
             document.getElementById('resNotFound').innerHTML = jsonResNotFound;
+            document.getElementById('resNotValid').innerHTML = jsonResNotValid;
         </script>
     @endpush
 </x-layout.main-sidebar>

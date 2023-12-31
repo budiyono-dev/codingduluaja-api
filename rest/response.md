@@ -88,3 +88,174 @@
   }
 }
 ```
+
+## GET http://localhost:8000/api/wilayah/bps/provinsi
+```json
+{
+    "meta":
+    {
+        "request_id": "09401522-b8db-4270-9f98-d4576feb8098",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get List Provinsi"
+    },
+    "data":
+    [
+        {
+            "id": 1,
+            "nama": "ACEH"
+        },
+        {
+            "id": 2,
+            "nama": "SUMATERA UTARA"
+        },
+        {
+            "id": 3,
+            "nama": "SUMATERA BARAT"
+        },
+        {
+            "id": 4,
+            "nama": "RIAU"
+        },
+        {
+            "id": 5,
+            "nama": "JAMBI"
+        },
+        {
+            "id": 6,
+            "nama": "SUMATERA SELATAN"
+        },
+        {
+            "id": 7,
+            "nama": "BENGKULU"
+        },
+        {
+            "id": 8,
+            "nama": "LAMPUNG"
+        },
+        {
+            "id": 9,
+            "nama": "KEP. BANGKA BELITUNG"
+        },
+        {
+            "id": 10,
+            "nama": "KEP. RIAU"
+        },
+        {
+            "id": 11,
+            "nama": "DKI JAKARTA"
+        },
+        {
+            "id": 12,
+            "nama": "JAWA BARAT"
+        },
+        {
+            "id": 13,
+            "nama": "JAWA TENGAH"
+        },
+        {
+            "id": 14,
+            "nama": "DI YOGYAKARTA"
+        },
+        {
+            "id": 15,
+            "nama": "JAWA TIMUR"
+        },
+        {
+            "id": 16,
+            "nama": "BANTEN"
+        },
+        {
+            "id": 17,
+            "nama": "BALI"
+        },
+        {
+            "id": 18,
+            "nama": "NUSA TENGGARA BARAT"
+        },
+        {
+            "id": 19,
+            "nama": "NUSA TENGGARA TIMUR"
+        },
+        {
+            "id": 20,
+            "nama": "KALIMANTAN BARAT"
+        },
+        {
+            "id": 21,
+            "nama": "KALIMANTAN TENGAH"
+        },
+        {
+            "id": 22,
+            "nama": "KALIMANTAN SELATAN"
+        },
+        {
+            "id": 23,
+            "nama": "KALIMANTAN TIMUR"
+        },
+        {
+            "id": 24,
+            "nama": "KALIMANTAN UTARA"
+        },
+        {
+            "id": 25,
+            "nama": "SULAWESI UTARA"
+        },
+        {
+            "id": 26,
+            "nama": "SULAWESI TENGAH"
+        },
+        {
+            "id": 27,
+            "nama": "SULAWESI SELATAN"
+        },
+        {
+            "id": 28,
+            "nama": "SULAWESI TENGGARA"
+        },
+        {
+            "id": 29,
+            "nama": "GORONTALO"
+        },
+        {
+            "id": 30,
+            "nama": "SULAWESI BARAT"
+        },
+        {
+            "id": 31,
+            "nama": "MALUKU"
+        },
+        {
+            "id": 32,
+            "nama": "MALUKU UTARA"
+        },
+        {
+            "id": 33,
+            "nama": "PAPUA BARAT"
+        },
+        {
+            "id": 34,
+            "nama": "PAPUA"
+        }
+    ]
+}
+```
+
+## GET http://localhost:8000/api/wilayah/bps/provinsi/{id}
+```json
+{
+    "meta":
+    {
+        "request_id": "67044262-792c-4c39-8151-13bbe4b76036",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get Provinsi"
+    },
+    "data":
+    {
+        "id": 1,
+        "kode": "11",
+        "nama": "ACEH"
+    }
+}
+```

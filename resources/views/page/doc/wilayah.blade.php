@@ -1,8 +1,8 @@
-<x-layout.main-sidebar title="Documentation Wilayah">
+<x-layout.main-sidebar title="Documentation {{ $title }}">
     <div class="d-flex f-w">
 
         <div class="doc-main doc">
-            <h1 class="fs-2" id="apiName">Todolist Api</h3>
+            <h1 class="fs-2" id="apiName">{{ $title }} Api</h3>
             <p>Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu</p>
             <h3 class="fs-4" id="listEndpoint">List Endpoint</h3>
             <p>Berikut list endpoint yang disediakan untuk Api Todolist, pastikan menambahkan token kedalam <strong>Header</strong> untuk setiap request. <code>X-Authorization: Bearer @{{your_token}}</code></p>
@@ -117,31 +117,30 @@
     </div>
     @push('script')
         <script type="text/javascript">
-            const jsonResGetAll =
+            const jsonGetListProvinsi =
 `{
-    "meta": {
-        "request_id": "94082663-416b-48cf-adc8-2779a8c10362",
+    "meta":
+    {
+        "request_id": "09401522-b8db-4270-9f98-d4576feb8098",
         "success": true,
         "code": "CDA-S-001",
-        "message": "Successfully Get Todolist"
+        "message": "Successfully Get List Provinsi"
     },
-    "data": [
+    "data":
+    [
         {
-        "id": "1",
-        "date": "2023-12-31",
-        "name": "Rerum autem distinctio.",
-        "description": "Est vero eligendi reiciendis corporis cupiditate voluptas et.",
-        "created_at": "2023-12-21 08:28:30",
-        "updated_at": "2023-12-21 08:28:30"
+            "id": 1,
+            "nama": "ACEH"
         },
         {
-        "id": "2",
-        "date": "2023-12-28",
-        "name": "Sed ab aut.",
-        "description": "Magnam et velit delectus exercitationem qui quia est qui excepturi est harum.",
-        "created_at": "2023-12-21 08:28:30",
-        "updated_at": "2023-12-21 08:28:30"
-        }
+            "id": 2,
+            "nama": "SUMATERA UTARA"
+        },
+        {
+            "id": 3,
+            "nama": "SUMATERA BARAT"
+        },
+        ...
     ]
 }`;
             const jsonResGetSingle =
