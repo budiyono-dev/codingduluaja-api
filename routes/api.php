@@ -33,14 +33,14 @@ Route::middleware(['req', 'token'])->group(function () {
             Route::get('/desa/{id}', 'getDesaBps');
         });
         Route::prefix(ApiPath::WILAYAH_DAGRI)->group(function () {
-            Route::get('/provinsi', 'getListProvinsiDargi');
-            Route::get('/provinsi/{id}', 'getProvinsiDargi');
-            Route::get('/kabupaten', 'getListKabupatenDargi');
-            Route::get('/kabupaten/{id}', 'getKabupatenDargi');
-            Route::get('/kecamatan', 'getListKecamatanDargi');
-            Route::get('/kecamatan/{id}', 'getKecamatanDargi');
-            Route::get('/desa', 'getListDesaDargi');
-            Route::get('/desa/{id}', 'getDesaDargi');
+            Route::get('/provinsi', 'getListProvinsiDagri');
+            Route::get('/provinsi/{id}', 'getProvinsiDagri');
+            Route::get('/kabupaten', 'getListKabupatenDagri');
+            Route::get('/kabupaten/{id}', 'getKabupatenDagri');
+            Route::get('/kecamatan', 'getListKecamatanDagri');
+            Route::get('/kecamatan/{id}', 'getKecamatanDagri');
+            Route::get('/desa', 'getListDesaDagri');
+            Route::get('/desa/{id}', 'getDesaDagri');
         });
     });
 });

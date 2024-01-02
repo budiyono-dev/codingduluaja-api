@@ -292,7 +292,7 @@ class WilayahController extends Controller
     private function getListDesa(Request $req, bool $isBps): JsonResponse
     {
         $validated = $req->validate(['kecamatan_id' => 'required|string']);
-        $data = Kecamatan::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
+        $data = Desa::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
             ->where('kecamatan_id', $validated['kecamatan_id'])->get();
 
         return $this->responseHelper->success(
