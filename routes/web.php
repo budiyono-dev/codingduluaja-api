@@ -7,6 +7,7 @@ use App\Http\Controllers\AppResourceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientAppController;
 use App\Http\Controllers\DocController;
+use App\Http\Controllers\ToolsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -57,11 +58,17 @@ Route::middleware('auth')->group(function () {
             Route::get('/todolist', 'todolist')->name('page.res.todolist');
             Route::post('/todolist/dummy', 'generateDummy')->name('do.todolist.dummy');
         });
-        Route::controller(WilayahController::class)->group(function() {
+        Route::controller(WilayahController::class)->group(function () {
             Route::get('/wilayah/bps', 'indexBps')->name('page.res.wilayahBps');
             Route::get('/wilayah/dagri', 'indexDagri')->name('page.res.wilayahDagri');
             Route::get('/wilayah/bps/{wilayah}/{id}', 'findBps')->name('page.res.findBps');
             Route::get('/wilayah/dagri/{wilayah}/{id}', 'findDagri')->name('page.res.findDagri');
+        });
+    });
+
+    Route::controller(ToolsController::class)->group(function () {
+        Route::prefix('/tools')->group(function () {
+            Route::get('/tools1', 'tools1')->name('page.tools.tools_tools1');
         });
     });
 });
@@ -71,7 +78,7 @@ Route::middleware('non-auth')->group(function () {
     Route::view('/register', 'page.register')->name('page.register');
     Route::post('/register', [AuthController::class, 'register'])->name('do.register');
     Route::post('/login', [AuthController::class, 'login'])->name('do.login');
-    Route::get('/test-storage', function ()  {
+    Route::get('/test-storage', function () {
         $afile = Storage::disk('local')->get('sql/desa.sql');
         dd($afile);
     });

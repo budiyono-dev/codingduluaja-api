@@ -8,16 +8,16 @@
             <p>Berikut list endpoint yang disediakan untuk {{ $title }} Api, pastikan menambahkan token kedalam <strong>Header</strong> untuk setiap request. <code>X-Authorization: Bearer @{{your_token}}</code></p>
 
             <h3 class="fs-6 fw-bold" id="getListProvinsi">Get List Provinsi</h3>
-            <p>Mengambil semua data provinsi, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/provinsi</code>, contoh response :</p>
+            <p>Menampilkan semua data provinsi, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/provinsi</code>, contoh response :</p>
             <pre class="card" ><code class="language-json" id="resListProvinsi"></code></pre>
 
-            <h3 class="fs-6 fw-bold" id="getSingle">Get Single Todolist</h3>
-            <p>Mengambil data todolist berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/api/todolist/{id}</code>, contoh response :</p>
-            <pre class="card" ><code class="language-json" id="resGetSingle"></code></pre>
+            <h3 class="fs-6 fw-bold" id="getDetailProvinsi">Get Detail Provinsi</h3>
+            <p>Menampilkan data provinsi berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/provinsi/{id}</code>, contoh response :</p>
+            <pre class="card" ><code class="language-json" id="resDetailProvinsi"></code></pre>
 
-            <h3 class="fs-6 fw-bold" id="create">Create Todolist</h3>
-            <p>Mengambil data todolist berdasarkan id, method : <code>POST</code>, endpoint : <code>{{$endpoint}}/api/todolist</code></p>
-            <p>Request body :</p>
+            <h3 class="fs-6 fw-bold" id="getListKabupaten">Get List Kabupaten</h3>
+            <p>Menampilkan semua data kabupaten dari provinsi tertentu, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/kabupaten</code></p>
+            <p>Request parameter :</p>
             <table class="table table-hover table-sm">
                 <thead>
                     <tr>
@@ -32,44 +32,88 @@
                 <tbody>
                     <tr>
                         <td scope="row">1</td>
-                        <td>date</td>
+                        <td>provinsi_id</td>
                         <td>String</td>
                         <td>-</td>
                         <td>Y</td>
-                        <td>Format dd-mm-yyyy, more or equals than today</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">2</td>
-                        <td>name</td>
-                        <td>String</td>
-                        <td>50</td>
-                        <td>Y</td>
-                        <td>Letter and Space</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">3</td>
-                        <td>description</td>
-                        <td>String</td>
-                        <td>1000</td>
-                        <td>N</td>
-                        <td>-</td>
+                        <td>provinsi id</td>
                     </tr>
                 </tbody>
             </table>
-            <pre class="card" ><code class="language-json" id="reqCreate"></code></pre>
-            <p>Response body :</p>
-            <pre class="card" ><code class="language-json" id="resCreate"></code></pre>
+            <p>contoh response :</p>
+            <pre class="card" ><code class="language-json" id="resListKabupaten"></code></pre>
+            
 
-            <h3 class="fs-6 fw-bold" id="edit">Edit Todolist</h3>
-            <p>Mengambil data todolist berdasarkan id, method : <code>POST</code>, endpoint : <code>{{$endpoint}}/api/todolist</code></p>
-            <p>Request body :</p>
-            <pre class="card" ><code class="language-json" id="reqEdit"></code></pre>
-            <p>Response body :</p>
-            <pre class="card" ><code class="language-json" id="resEdit"></code></pre>
+            <h3 class="fs-6 fw-bold" id="getDetailKabupaten">Get Detail Kabupaten</h3>
+            <p>Menampilkan detail kabupaten berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/kabupaten/{id}</code>, contoh response :</p>
+            <pre class="card" ><code class="language-json" id="resDetailKabupaten"></code></pre>
 
-            <h3 class="fs-6 fw-bold" id="delete">Delete Todolist</h3>
-            <p>Mengambil data todolist berdasarkan id, method : <code>DELETE</code>, endpoint : <code>{{$endpoint}}/api/todolist/{id}</code>, contoh response :</p>
-            <pre class="card" ><code class="language-json" id="resDelete"></code></pre>
+            <h3 class="fs-6 fw-bold" id="getListKecamatan">Get List Kecamatan</h3>
+            <p>Menampilkan semua data kecamatan dari kabupaten tertentu, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/kecamatan</code></p>
+            <p>Request parameter :</p>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Field Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Length</th>
+                        <th scope="col">Mandatory</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td>kabupaten_id</td>
+                        <td>String</td>
+                        <td>-</td>
+                        <td>Y</td>
+                        <td>kabupaten id</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>contoh response :</p>
+            <pre class="card" ><code class="language-json" id="resListKecamatan"></code></pre>
+
+            
+
+            <h3 class="fs-6 fw-bold" id="getDetailKecamatan">Get Detail Kecamatan</h3>
+            <p>Menampilkan detail kecamatan berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/kecamatan/{id}</code>, contoh response :</p>
+            <pre class="card" ><code class="language-json" id="resDetailKecamatan"></code></pre>
+
+            <h3 class="fs-6 fw-bold" id="getListDesa">Get List Desa</h3>
+            <p>Menampilkan semua data desa dari kecamatan tertentu, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/desa</code></p>
+            <p>Request parameter :</p>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Field Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Length</th>
+                        <th scope="col">Mandatory</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">1</td>
+                        <td>kecamatan_id</td>
+                        <td>String</td>
+                        <td>-</td>
+                        <td>Y</td>
+                        <td>kecamatan id</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>contoh response :</p>
+            <pre class="card" ><code class="language-json" id="resListDesa"></code></pre>
+
+            
+            <h3 class="fs-6 fw-bold" id="getDetailDesa">Get Detail Desa</h3>
+            <p>Menampilkan detail desa berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/desa/{id}</code>, contoh response :</p>
+            <pre class="card" ><code class="language-json" id="resDetailDesa"></code></pre>
 
             <h3 class="fs-4" id="listError">Error Example</h3>
             <p>Berikut contoh error response :</p>
@@ -86,23 +130,20 @@
                 <li><a class="link-dark" href="#apiName">{{ $title }} Api</a></li>
                 <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
                     <ul>
-                        <li><a class="link-dark" href="#getAll">Get List Provinsi</a></li>
-                        <li><a class="link-dark" href="#getSingle">Get Detail Provinsi</a></li>
-                        <li><a class="link-dark" href="#create">Get List Kabupaten</a></li>
-                        <li><a class="link-dark" href="#edit">Get Detail Kabupaten</a></li>
-                        <li><a class="link-dark" href="#delete">Get List Kecamatan</a></li>
-                        <li><a class="link-dark" href="#delete">Get Detail Kecamatan</a></li>
-                        <li><a class="link-dark" href="#delete">Get List Desa</a></li>
-                        <li><a class="link-dark" href="#delete">Get Detail Desa</a></li>
+                        <li><a class="link-dark" href="#getListProvinsi">Get List Provinsi</a></li>
+                        <li><a class="link-dark" href="#getDetailProvinsi">Get Detail Provinsi</a></li>
+                        <li><a class="link-dark" href="#getListKabupaten">Get List Kabupaten</a></li>
+                        <li><a class="link-dark" href="#getDetailKabupaten">Get Detail Kabupaten</a></li>
+                        <li><a class="link-dark" href="#getListKecamatan">Get List Kecamatan</a></li>
+                        <li><a class="link-dark" href="#getDetailKecamatan">Get Detail Kecamatan</a></li>
+                        <li><a class="link-dark" href="#getListDesa">Get List Desa</a></li>
+                        <li><a class="link-dark" href="#getDetailDesa">Get Detail Desa</a></li>
                     </ul>
                 </li>
                 <li><a class="link-dark" href="#listError">Error Example</a>
                     <ul>
                         <li><a class="link-dark" href="#unAuthorize">Unauthorized</a></li>
                         <li><a class="link-dark" href="#notFound">Not Found</a></li>
-                        {{-- <li><a class="link-dark" href="#create">Create Todolist</a></li>
-                        <li><a class="link-dark" href="#edit">Edit Todolist</a></li>
-                        <li><a class="link-dark" href="#delete">Delete Todolist</a></li> --}}
                     </ul>
                 </li>
             </ul>
@@ -110,7 +151,8 @@
     </div>
     @push('script')
         <script type="text/javascript">
-            const jsonGetListProvinsi = '{"meta":{"request_id":"09401522-b8db-4270-9f98-d4576feb8098","success":true,"code":"CDA-S-001","message":"Successfully Get List Provinsi"},"data":[{"id":1,"nama":"ACEH"},{"id":2,"nama":"SUMATERA UTARA"},{"id":3,"nama":"SUMATERA BARAT"}]}';
+            const jsonResponse = {!! json_encode($jsonResponse) !!};
+            console.table(jsonResponse);
             let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
 
             const resetActive = () => {
@@ -126,7 +168,17 @@
             const formatJson = (stringJson) => {
                 return JSON.stringify(JSON.parse(stringJson), null, 4);
             }
-            document.getElementById('resListProvinsi').innerHTML = formatJson(jsonGetListProvinsi);
+            document.getElementById('resListProvinsi').innerHTML = formatJson(jsonResponse.resGetListProvinsi);
+            document.getElementById('resDetailProvinsi').innerHTML = formatJson(jsonResponse.resGetDetailProvinsi);
+            document.getElementById('resListKabupaten').innerHTML = formatJson(jsonResponse.resGetListKabupaten);
+            document.getElementById('resDetailKabupaten').innerHTML = formatJson(jsonResponse.resGetDetailKabupaten);
+            document.getElementById('resListKecamatan').innerHTML = formatJson(jsonResponse.resGetListKecamatan);
+            document.getElementById('resDetailKecamatan').innerHTML = formatJson(jsonResponse.resGetDetailKecamatan);
+            document.getElementById('resListDesa').innerHTML = formatJson(jsonResponse.resGetListDesa);
+            document.getElementById('resDetailDesa').innerHTML = formatJson(jsonResponse.resGetDetailDesa);
+            
+            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('responsejson.error.unauthorized')) !!}, null, 4);
+            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('responsejson.error.notFound')) !!}, null, 4);
         </script>
     @endpush
 </x-layout.main-sidebar>

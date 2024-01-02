@@ -3,7 +3,8 @@ return [
     'parent' => [
         'application' => 'Application',
         'documentation' => 'Resource Documentation',
-        'resourceManager' => 'Resource Manager'
+        'resourceManager' => 'Resource Manager',
+        'tools' => 'Tools'
     ],
     'item' => [
         'app_resource' => 'App Resource',
@@ -18,5 +19,7 @@ return [
         
         'doc_wilayah_dagri' => 'Wilayah DAGRI',
         'res_wilayah_dagri' => 'Wilayah DAGRI',
+
+        'tools_tools1' => 'Tool Pertama'
     ]
 ];

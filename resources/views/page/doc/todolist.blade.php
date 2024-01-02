@@ -56,6 +56,7 @@
                     </tr>
                 </tbody>
             </table>
+            <p>Contoh request body:</p>
             <pre class="card" ><code class="language-json" id="reqCreate"></code></pre>
             <p>Response body :</p>
             <pre class="card" ><code class="language-json" id="resCreate"></code></pre>
@@ -110,121 +111,6 @@
     </div>
     @push('script')
         <script type="text/javascript">
-            const jsonResGetAll = 
-`{
-    "meta": {
-        "request_id": "94082663-416b-48cf-adc8-2779a8c10362",
-        "success": true,
-        "code": "CDA-S-001",
-        "message": "Successfully Get Todolist"
-    },
-    "data": [
-        {
-        "id": "1",
-        "date": "2023-12-31",
-        "name": "Rerum autem distinctio.",
-        "description": "Est vero eligendi reiciendis corporis cupiditate voluptas et.",
-        "created_at": "2023-12-21 08:28:30",
-        "updated_at": "2023-12-21 08:28:30"
-        },
-        {
-        "id": "2",
-        "date": "2023-12-28",
-        "name": "Sed ab aut.",
-        "description": "Magnam et velit delectus exercitationem qui quia est qui excepturi est harum.",
-        "created_at": "2023-12-21 08:28:30",
-        "updated_at": "2023-12-21 08:28:30"
-        }
-    ]
-}`;
-            const jsonResGetSingle =
-`{
-  "meta": {
-    "request_id": "5504d11a-89f8-4cd8-b718-5e02538c5add",
-    "success": true,
-    "code": "CDA-S-003",
-    "message": "Data Deleted Successfully"
-  },
-  "data": null
-}`;
-            const jsonResCreate =
-`{
-  "meta": {
-    "request_id": "ff325861-deb3-47ae-aea1-fc299c6bc7b9",
-    "success": true,
-    "code": "CDA-S-001",
-    "message": "Data Inserted Successfully"
-  },
-  "data": null
-}`;
-            const jsonResEdit =
-`{
-  "meta": {
-    "request_id": "afee1673-e721-48ee-b6da-418c2d64201d",
-    "success": true,
-    "code": "CDA-S-002",
-    "message": "Data Updated Successfully"
-  },
-  "data": null
-}`;
-            const jsonReqCreate =
-`{
-    "date": "24-12-2023",
-    "name": "watching football",
-    "description": "MU VS Liverpol"
-}`;
-            const jsonReqEdit =
-`{
-    "date": "24-12-2023",
-    "name": "watching tv",
-    "description": "watching naruto"
-}`;
-            const jsonResDelete =
-`{
-  "meta": {
-    "request_id": "5504d11a-89f8-4cd8-b718-5e02538c5add",
-    "success": true,
-    "code": "CDA-S-003",
-    "message": "Data Deleted Successfully"
-  },
-  "data": null
-}`;
-            const jsonResAnautorize =
-`{
-    "meta": {
-        "request_id": "6c6a5348-4571-456e-8063-957f9202cdbb",
-        "success": false,
-        "code": "CDA-A-001",
-        "message": "Unauthorized"
-    },
-    "data": {
-        "request": "Unauthorized request"
-    }
-}`;
-            const jsonResNotFound =
-`{
-  "meta": {
-    "request_id": "6bf84d71-ce6f-429e-86b3-52f4db2e1309",
-    "success": false,
-    "code": "CDA-E-001",
-    "message": "Data not found"
-  },
-  "data": null
-}`;
-            const jsonResNotValid =
-`{
-    "meta":
-    {
-        "request_id": "f7688857-52ba-4f61-ab56-b8c33671911e",
-        "success": false,
-        "code": "CDA-V-001",
-        "message": "Validation Error"
-    },
-    "data":
-    [
-        "The date field must be a date after or equal to 30-12-2023."
-    ]
-}`;
             let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
 
             const resetActive = () => {
@@ -237,16 +123,16 @@
             daftarIsi.forEach(el => {
                 el.addEventListener('click', toggleActiveDaftarIsi);
             });
-            document.getElementById('resGetAll').innerHTML = jsonResGetAll;
-            document.getElementById('resGetSingle').innerHTML = jsonResGetSingle;
-            document.getElementById('resCreate').innerHTML = jsonResCreate;
-            document.getElementById('resEdit').innerHTML = jsonResEdit;
-            document.getElementById('reqCreate').innerHTML = jsonReqCreate;
-            document.getElementById('reqEdit').innerHTML = jsonReqEdit;
-            document.getElementById('resDelete').innerHTML = jsonResDelete;
-            document.getElementById('resAnautorize').innerHTML = jsonResAnautorize;
-            document.getElementById('resNotFound').innerHTML = jsonResNotFound;
-            document.getElementById('resNotValid').innerHTML = jsonResNotValid;
+            document.getElementById('resGetAll').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resGetAll')) !!}, null, 4);;
+            document.getElementById('resGetSingle').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resGetSingle')) !!}, null, 4);;
+            document.getElementById('resCreate').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resCreate')) !!}, null, 4);;
+            document.getElementById('reqCreate').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.reqCreate')) !!}, null, 4);;
+            document.getElementById('resEdit').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resEdit')) !!}, null, 4);;
+            document.getElementById('reqEdit').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.reqEdit')) !!}, null, 4);;
+            document.getElementById('resDelete').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resDelete')) !!}, null, 4);;
+            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('responsejson.error.unauthorized')) !!}, null, 4);;
+            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('responsejson.error.notFound')) !!}, null, 4);;
+            document.getElementById('resNotValid').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resNotValid')) !!}, null, 4);;
         </script>
     @endpush
 </x-layout.main-sidebar>
