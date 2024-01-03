@@ -48,21 +48,20 @@
 
             const encode = () => {
                 try {
-                    console.log(txtInput.value);
                     txtOutput.value = bytesToBase64(new TextEncoder().encode(txtInput.value.trim()));
                 } catch (error) {
                     console.log(error);
+                    showSimpleToast(error.message);
                 }
             }
 
             const decode = () => {
                 try {
-                    console.log(txtInput.value);
                     let s = base64ToBytes(txtInput.value.trim());
-                    console.log(s);
                     txtOutput.value = new TextDecoder().decode(base64ToBytes(txtInput.value.trim()));
                 } catch (error) {
                     console.log(error);
+                    showSimpleToast(error.message);
                 }
             }
 
