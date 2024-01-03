@@ -1,4 +1,4 @@
-<x-layout.main-sidebar title="App Resource">
+<x-layout.main-sidebar title="Application | Resource">
     <!-- <div class="container"> -->
         <div class="row justify-content-center">
             <div class="col-10">

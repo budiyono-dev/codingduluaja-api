@@ -25,7 +25,7 @@ return new class extends Migration
         MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.doc_wilayah_dagri', 'page.doc.wilayahDagri', 3);
 
         $menuDocumentation = MigrationUtils::insertMenuParent('menu.parent.tools', 4);
-        MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.tools_tools1', 'page.tools.tools_tools1', 1);
+        MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.tools_base64', 'page.tools.base64', 1);
     }
 
     public function down(): void

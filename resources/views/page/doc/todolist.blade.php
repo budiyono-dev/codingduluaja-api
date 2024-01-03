@@ -1,4 +1,4 @@
-<x-layout.main-sidebar title="Documentation Todolist">
+<x-layout.main-sidebar title="Documentation | Todolist">
     <div class="d-flex f-w">
 
         <div class="doc-main doc">

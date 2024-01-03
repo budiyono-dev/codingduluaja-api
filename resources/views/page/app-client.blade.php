@@ -1,4 +1,4 @@
-<x-layout.main-sidebar title="App Clients">
+<x-layout.main-sidebar title="Application | Clients">
     <div class="row justify-content-center">
         <div class="col-10">
             <div class="d-flex align-items-center justify-content-between p-3 my-3 ">

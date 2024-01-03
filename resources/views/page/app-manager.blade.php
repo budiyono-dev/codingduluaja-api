@@ -1,4 +1,4 @@
-<x-layout.main-sidebar title="App Manager">
+<x-layout.main-sidebar title="Application | Manager">
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="pt-4 pb-4">

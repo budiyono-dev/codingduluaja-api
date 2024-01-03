@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(ToolsController::class)->group(function () {
         Route::prefix('/tools')->group(function () {
-            Route::get('/tools1', 'tools1')->name('page.tools.tools_tools1');
+            Route::get('/base64', 'base64')->name('page.tools.base64');
         });
     });
 });

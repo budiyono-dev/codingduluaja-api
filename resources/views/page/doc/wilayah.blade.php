@@ -1,4 +1,4 @@
-<x-layout.main-sidebar title="Documentation {{ $title }}">
+<x-layout.main-sidebar title="Documentation | {{ $title }}">
     <div class="d-flex f-w">
 
         <div class="doc-main doc">

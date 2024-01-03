@@ -20,6 +20,6 @@ return [
         'doc_wilayah_dagri' => 'Wilayah DAGRI',
         'res_wilayah_dagri' => 'Wilayah DAGRI',
 
-        'tools_tools1' => 'Tool Pertama'
+        'tools_base64' => 'Base64 Tools'
     ]
 ];

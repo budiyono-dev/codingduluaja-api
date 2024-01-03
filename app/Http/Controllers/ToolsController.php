@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class ToolsController extends Controller
 {
-    public function tools1(Request $request)
+    public function base64(Request $request)
     {
-        return 'tools pertama';
+        return view('page.tool.base64');
     }
 }
