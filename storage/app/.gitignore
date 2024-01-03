@@ -1,3 +1,5 @@
 *
 !public/
+!sql/
+!sql/*
 !.gitignore

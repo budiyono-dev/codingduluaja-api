@@ -1,0 +1,11 @@
+Doc.
+Header :
+X-Authorization= Beared {{token}}
+
+Get All Todolist Data
+GET {{domain}}/api/todolist
+
+example request and response
+// example request
+// example response
+

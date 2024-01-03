@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Helper\ResponseHelper;
+use App\Jwt\JwtHelper;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(ResponseHelper::class, function () {
+            return new ResponseHelper();
+        });
+
+        $this->app->singleton(JwtHelper::class, function (){
+            return new JwtHelper();
+        });
     }
 
     /**
@@ -19,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Paginator::useBootstrap();
     }
 }
