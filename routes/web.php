@@ -6,6 +6,7 @@ use App\Http\Controllers\AppManagerController;
 use App\Http\Controllers\AppResourceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientAppController;
+use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\DocController;
 use App\Http\Controllers\ToolsController;
 use Illuminate\Support\Facades\Route;
@@ -84,5 +85,11 @@ Route::middleware('non-auth')->group(function () {
     });
 });
 
-
+// Route::middleware('exclude-routes')->group(function () {
+    Route::controller(DeploymentController::class)->group(function () {
+        Route::get('cda-su/{id}', 'index')->name('page.su');
+        Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
+    });
+// });
+Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
