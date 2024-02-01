@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Jwt\JwtHelper;
+use App\Models\ForgotPasswordToken;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +17,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AuthController extends BaseController
 {
@@ -74,6 +77,34 @@ class AuthController extends BaseController
         }
 
         return response()->json(['is_exist' => $isExist]);
+    }
+
+    public function forgotPassword(Request $req)
+    {
+        $reqv = $req->validate(
+            [
+                'email' => 'required|email|exists:users,email',
+            ]
+        );
+
+        $forgot = ForgotPasswordToken::create([
+            'email' => $reqv['email'],
+            'date' => Carbon::now()->format('d M Y'),
+            'token' => Str::random(32)
+        ]);
+
+        return view('page.reset-password', [$token])
+    }
+
+    private function resetPasswordUserByEmail(string $email): string
+    {
+        $newPassword = Str::random(8);
+
+        $user = User::where('email', $email);
+        $user->password = bcrypt($newPassword);
+        $user->save();
+
+        return $newPassword;
     }
 
     // public function createToken(CreateTokenRequest $request): JsonResponse

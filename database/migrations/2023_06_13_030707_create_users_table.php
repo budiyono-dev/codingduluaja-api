@@ -3,6 +3,7 @@
 use App\Constants\TableName;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -18,12 +19,15 @@ return new class extends Migration
             $table->string('sex')->nullable();
             $table->string('email', 50)->unique();
             $table->string('password', 100);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
             $table->timestamps();
 
             $table->index('username');
             $table->index('email');
+        });
+
+        Schema::table(TableName::USERS, function (Blueprint $table) {
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
         });
     }
 

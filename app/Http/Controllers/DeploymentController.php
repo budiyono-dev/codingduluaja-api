@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TestSMPTP;
 use App\Models\Configuration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -45,6 +47,10 @@ class DeploymentController extends Controller
             $conf->save();
         });
         return "key berhasil di update ";
+    }
+
+    public function sendTestMail(){
+        Mail::to('budiyono.dev@gmail.com')->send(new TestSMPTP());
     }
 
     public function doAction(Request $req, string $id)

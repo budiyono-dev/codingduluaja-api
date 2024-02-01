@@ -10,23 +10,27 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(TableName::CONFIGURATION, function (Blueprint $table) {
-            $table->string('key')->primary();
-            $table->string('group');
-            $table->string('value');
+        Schema::create(TableName::FORGOT_PASSWORD_TOKEN, function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->date('token');
+            $table->date('date');
+            $table->boolean('is_valid')->default(true);
             $table->timestamps();
 
-            $table->unique(['group', 'key']);
+            $table->index('created_at');
         });
 
-        Schema::table(TableName::CONFIGURATION, function (Blueprint $table) {
+        Schema::table(TableName::FORGOT_PASSWORD_TOKEN, function (Blueprint $table) {
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists(TableName::CONFIGURATION);
+        Schema::dropIfExists(TableName::FORGOT_PASSWORD_LINK);
     }
 };

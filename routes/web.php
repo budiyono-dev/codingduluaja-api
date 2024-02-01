@@ -76,20 +76,22 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('non-auth')->group(function () {
     Route::view('/login', 'page.login')->name('page.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('do.login');
+
     Route::view('/register', 'page.register')->name('page.register');
     Route::post('/register', [AuthController::class, 'register'])->name('do.register');
-    Route::post('/login', [AuthController::class, 'login'])->name('do.login');
-    Route::get('/test-storage', function () {
-        $afile = Storage::disk('local')->get('sql/desa.sql');
-        dd($afile);
-    });
+
+    Route::view('/forgot-password', 'page.forgot-password')->name('page.forgot-password');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('do.forgotPassword');
+    
+    Route::get('/reset-password', [AuthController::class, 'resetPassword'])->name('page.resetPassword');
+    Route::post('/reset-password', [AuthController::class, 'doResetPassword'])->name('do.resetPassword');
 });
 
-// Route::middleware('exclude-routes')->group(function () {
-    Route::controller(DeploymentController::class)->group(function () {
-        Route::get('cda-su/{id}', 'index')->name('page.su');
-        Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
-    });
-// });
+Route::controller(DeploymentController::class)->group(function () {
+    Route::get('cda-su/{id}', 'index')->name('page.su');
+    Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
+    Route::get('cda-su-check/smtp-test-mail', 'sendTestMail')->name('do.su.sendTestMail');
+});
 Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
