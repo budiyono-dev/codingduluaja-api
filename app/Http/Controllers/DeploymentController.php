@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 
@@ -14,12 +15,16 @@ class DeploymentController extends Controller
 {
     public function index(string $id)
     {
-        $config = Configuration::select('value')->where('group', 'admin')->where('key', 'su.url')->first();
-        $value = $config['value'];
+        $value = config('cda.init_su_url');
 
-        if (is_null($value)) {
-            $value = config('cda.init_su_url');
+        if(Schema::hasTable('configuration')) {
+            $config = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
+
+            if(!is_null($config) && !is_null($config['value']) &&  !$config['value'] !== '') {
+                $value = $config['value'];
+            }
         }
+
         if ($value !== $id) {
             abort(404);
         }
@@ -31,7 +36,6 @@ class DeploymentController extends Controller
         DB::transaction(function() {
             Log::info('refrech id for admin console');
             $conf = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
-            
             if (is_null($conf)) {
                 $conf = new Configuration();
                 $conf->group = 'admin';
@@ -72,7 +76,6 @@ class DeploymentController extends Controller
         } else {
             abort(404);
         }
-        
         Log::info("artisan comand run $output");
 
         return redirect()->route('page.su', ['id' => $id])->with('command-output', $output);;
