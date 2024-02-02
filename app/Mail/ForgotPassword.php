@@ -15,7 +15,8 @@ class ForgotPassword extends Mailable
 
     public function __construct
     (
-        public string $token
+        public string $token,
+        public string $email
     )
     {
         //

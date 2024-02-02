@@ -83,9 +83,10 @@ Route::middleware('non-auth')->group(function () {
 
     Route::view('/forgot-password', 'page.forgot-password')->name('page.forgot-password');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('do.forgotPassword');
+    Route::get('/forgot-password/validate', [AuthController::class, 'validateForgotPassword'])->name('do.validateForgotPassword');
     
-    Route::get('/reset-password', [AuthController::class, 'resetPassword'])->name('page.resetPassword');
-    Route::post('/reset-password', [AuthController::class, 'doResetPassword'])->name('do.resetPassword');
+    Route::view('/reset-password', 'page.reset-password')->name('page.resetPassword');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('do.resetPassword');
 });
 
 Route::controller(DeploymentController::class)->group(function () {

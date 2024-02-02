@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Jwt\JwtHelper;
+use App\Mail\ForgotPassword;
+use App\Mail\TestSMPTP;
 use App\Models\ForgotPasswordToken;
 use App\Models\User;
 use Carbon\Carbon;
@@ -17,6 +19,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class AuthController extends BaseController
@@ -84,16 +87,85 @@ class AuthController extends BaseController
         $reqv = $req->validate(
             [
                 'email' => 'required|email|exists:users,email',
+            ],
+            [
+                'email.required' => 'Pastikan email terdaftar',
+                'email.exists' => 'Pastikan email terdaftar'
             ]
         );
 
         $forgot = ForgotPasswordToken::create([
             'email' => $reqv['email'],
-            'date' => Carbon::now()->format('d M Y'),
+            'date' => Carbon::now()->format('Y-m-d'),
             'token' => Str::random(32)
         ]);
 
-        return view('page.reset-password', [$token])
+        // Mail::to($forgot->email)->send(new ForgotPassword($forgot->token, $forgot->email));
+
+        return redirect()->route('page.forgot-password')->with('send', true);
+    }
+
+    public function validateForgotPassword(Request $req)
+    {
+        $reqv = $req->validate([
+            'token' => 'required',
+            'email' => 'required'
+        ]);
+
+        $token = $reqv['token'];
+        $email = $reqv['email'];
+
+        $fgToken = ForgotPasswordToken::where('token', $token)
+            ->where('email', $email)
+            ->where('date', Carbon::now()->format('Y-m-d'))
+            ->where('is_valid', true)
+            ->first();
+
+        if (is_null($fgToken)) {
+            abort(404);
+        }
+
+        return redirect()->route('page.resetPassword')->with(['email' => $email, 'token' => $token]);
+    }
+
+    public function resetPassword(Request $req)
+    {
+        $reqv = null;
+        try {
+            $reqv = $req->validate([
+                'email' => 'required|email',
+                'token' => 'required',
+                'password' => 'required|confirmed|min:8'
+            ]);
+        } catch (\Exception $e) {
+            Log::info("invalid reset password request {$e->getMessage()} ");
+            abort(404);
+        }
+
+        $token = $reqv['token'];
+        $email = $reqv['email'];
+        $password = $reqv['password'];
+
+        $fgToken = ForgotPasswordToken::where('token', $token)
+            ->where('email', $email)
+            ->where('date', Carbon::now()->format('Y-m-d'))
+            ->where('is_valid', true)
+            ->first();
+
+        if (is_null($fgToken)) {
+            abort(419);
+        }
+
+        DB::transaction(function () use ($email, $password, $fgToken) {
+            $user = User::where('email', $email)->firstOrFail();
+            $user->password = bcrypt($password);
+            $user->save();
+
+            $fgToken->is_valid = false;
+            $fgToken->save();
+        });
+
+        return redirect()->route('page.resetPassword')->with('send', true);
     }
 
     private function resetPasswordUserByEmail(string $email): string

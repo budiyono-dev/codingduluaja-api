@@ -11,8 +11,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(TableName::FORGOT_PASSWORD_TOKEN, function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->date('token');
+            $table->id();
+            $table->string('email');
+            $table->string('token');
             $table->date('date');
             $table->boolean('is_valid')->default(true);
             $table->timestamps();
