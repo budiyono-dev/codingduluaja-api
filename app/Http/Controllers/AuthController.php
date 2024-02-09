@@ -100,7 +100,7 @@ class AuthController extends BaseController
             'token' => Str::random(32)
         ]);
 
-        // Mail::to($forgot->email)->send(new ForgotPassword($forgot->token, $forgot->email));
+        Mail::to($forgot->email)->send(new ForgotPassword($forgot->token, $forgot->email));
 
         return redirect()->route('page.forgot-password')->with('send', true);
     }
