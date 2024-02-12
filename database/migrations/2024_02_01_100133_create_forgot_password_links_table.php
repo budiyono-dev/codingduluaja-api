@@ -8,31 +8,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     public function up(): void
     {
-        Schema::create(TableName::USERS, function (Blueprint $table) {
+        Schema::create(TableName::FORGOT_PASSWORD_TOKEN, function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
-            $table->string('first_name', 50);
-            $table->string('last_name', 50)->nullable()->default(null);
-            $table->string('sex')->nullable();
-            $table->string('email', 50)->unique();
-            $table->string('password', 100);
+            $table->string('email');
+            $table->string('token');
+            $table->date('date');
+            $table->boolean('is_valid')->default(true);
             $table->timestamps();
 
-            $table->index('username');
-            $table->index('email');
+            $table->index('created_at');
         });
 
-        Schema::table(TableName::USERS, function (Blueprint $table) {
+        Schema::table(TableName::FORGOT_PASSWORD_TOKEN, function (Blueprint $table) {
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists(TableName::USERS);
+        Schema::dropIfExists(TableName::FORGOT_PASSWORD_LINK);
     }
 };

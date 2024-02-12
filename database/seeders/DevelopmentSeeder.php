@@ -5,9 +5,7 @@ namespace Database\Seeders;
 use App\Models\ClientApp;
 use App\Models\ClientResource;
 use App\Models\MasterResource;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -24,7 +22,6 @@ class DevelopmentSeeder extends Seeder
         Log::info('Insert Client Resource');
         $listClientRes = $this->getListClientResource();
         ClientResource::insert($listClientRes);
-
     }
 
     private function genKey(): string
@@ -56,13 +53,13 @@ class DevelopmentSeeder extends Seeder
             ]
         ];
     }
-    private function getListClientResource() : array
-     {
+    private function getListClientResource(): array
+    {
         $listClientRes = [];
         $listMRes = MasterResource::all('id');
         foreach ($listMRes as $mr) {
             $listClientRes[] = [
-                'user_id' => 1, 
+                'user_id' => 1,
                 'master_resource_id' => $mr['id']
             ];
         }

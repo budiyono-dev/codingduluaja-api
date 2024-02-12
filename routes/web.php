@@ -6,6 +6,7 @@ use App\Http\Controllers\AppManagerController;
 use App\Http\Controllers\AppResourceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientAppController;
+use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\DocController;
 use App\Http\Controllers\ToolsController;
 use Illuminate\Support\Facades\Route;
@@ -75,14 +76,23 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('non-auth')->group(function () {
     Route::view('/login', 'page.login')->name('page.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('do.login');
+
     Route::view('/register', 'page.register')->name('page.register');
     Route::post('/register', [AuthController::class, 'register'])->name('do.register');
-    Route::post('/login', [AuthController::class, 'login'])->name('do.login');
-    Route::get('/test-storage', function () {
-        $afile = Storage::disk('local')->get('sql/desa.sql');
-        dd($afile);
-    });
+
+    Route::view('/forgot-password', 'page.forgot-password')->name('page.forgot-password');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('do.forgotPassword');
+    Route::get('/forgot-password/validate', [AuthController::class, 'validateForgotPassword'])->name('do.validateForgotPassword');
+    
+    Route::view('/reset-password', 'page.reset-password')->name('page.resetPassword');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('do.resetPassword');
 });
 
-
+Route::controller(DeploymentController::class)->group(function () {
+    Route::get('cda-su/{id}', 'index')->name('page.su');
+    Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
+    Route::get('cda-su-check/smtp-test-mail', 'sendTestMail')->name('do.su.sendTestMail');
+});
+Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');

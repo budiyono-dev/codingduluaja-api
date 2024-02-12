@@ -18,4 +18,6 @@ class TableName
     const KABUPATEN = 'kabupaten';
     const KECAMATAN = 'kecamatan';
     const DESA = 'desa';
+    const CONFIGURATION = 'configuration';
+    const FORGOT_PASSWORD_TOKEN = 'forgot_password_token';
 }

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TestSMPTP;
 use App\Models\Configuration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 
@@ -16,7 +19,7 @@ class DeploymentController extends Controller
     {
         $value = config('cda.init_su_url');
 
-        if(\Illuminate\Support\Facades\Schema::hasTable('configuration')) {
+        if(Schema::hasTable('configuration')) {
             $config = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
 
             if(!is_null($config) && !is_null($config['value']) &&  !$config['value'] !== '') {
@@ -35,7 +38,6 @@ class DeploymentController extends Controller
         DB::transaction(function() {
             Log::info('refrech id for admin console');
             $conf = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
-
             if (is_null($conf)) {
                 $conf = new Configuration();
                 $conf->group = 'admin';
@@ -45,6 +47,10 @@ class DeploymentController extends Controller
             $conf->save();
         });
         return "key berhasil di update ";
+    }
+
+    public function sendTestMail(){
+        Mail::to('budiyono.dev@gmail.com')->send(new TestSMPTP());
     }
 
     public function doAction(Request $req, string $id)
@@ -76,7 +82,6 @@ class DeploymentController extends Controller
         } else {
             abort(404);
         }
-
         Log::info("artisan comand run $output");
 
         return redirect()->route('page.su', ['id' => $id])->with('command-output', $output);;
