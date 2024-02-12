@@ -23,9 +23,9 @@ class AppServiceProvider extends ServiceProvider
             return new JwtHelper();
         });
 
-        $this->app->singleton(Wilayah::class, function () {
+        $this->app->singleton(Wilayah::class, function (){
             return new WilayahImpl(
-                $app->make(ResponseHelper::class)
+                $this->app->make(ResponseHelper::class)
             );
         });
     }

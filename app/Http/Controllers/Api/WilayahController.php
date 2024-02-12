@@ -72,49 +72,47 @@ class WilayahController extends Controller
         }
     }
 
+    private function search(string $search, array $column, string $url, array $validated, bool $isBps){
+        $data = ['listWilayah' => [],'actionTurunan' => []];
+
+        if ($search === 'kabupaten') {
+            $data['listWilayah'] = Kabupaten::select($column)
+                ->where('provinsi_id', $validated['provinsi_id'])->get();
+            $data['actionTurunan'] = $this->constructActionTurunan('Show Kecamatan', 'kecamatan', 'kabupaten_id', $url);
+        } elseif ($search === 'kecamatan') {
+            $data['listWilayah'] =  Kecamatan::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
+                ->where('kabupaten_id', $validated['kabupaten_id'])->get();
+            $data['actionTurunan'] = $this->constructActionTurunan('Show Desa', 'desa', 'kecamatan_id', $url);
+        } elseif ($search === 'desa') {
+            $data['listWilayah'] = Desa::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
+                ->where('kecamatan_id', $validated['kecamatan_id'])->get();
+        }
+
+        return $data;
+    }
+
     private function getWilayah(SearchWilayahRequest $req, bool $isBps)
     {
-        $title = $isBps ? 'Wilayah BPS' : 'Wilayah Dagri';
+        $validated = $req->validated();
+        $data = [
+                'title' => $isBps ? 'Wilayah BPS' : 'Wilayah Dagri',
+                'listWilayah' => [],
+                'actionTurunan' => [],
+                'url_find' =>  $isBps
+                    ? route('page.res.findBps', ['wilayah' => ':wil', 'id' => ':id'])
+                    : route('page.res.findDagri', ['wilayah' => ':wil', 'id' => ':id'])
+            ];
+
         $column = $isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI;
         $url = $isBps ? route('page.res.wilayahBps') : route('page.res.wilayahDagri');
-        $url_find = $isBps
-            ? route('page.res.findBps', ['wilayah' => ':wil', 'id' => ':id'])
-            : route('page.res.findDagri', ['wilayah' => ':wil', 'id' => ':id']);
-        $validated = $req->validated();
 
-        $listWilayah = [];
-        $actionTurunan = [];
         if (array_key_exists('search', $validated)) {
-            $search = $validated['search'];
-            if ($search === 'kabupaten') {
-                $listWilayah =  Kabupaten::select($column)
-                    ->where('provinsi_id', $validated['provinsi_id'])
-                    ->get();
-                $actionTurunan = $this->constructActionTurunan('Show Kecamatan', 'kecamatan', 'kabupaten_id', $url);
-            } elseif ($search === 'kecamatan') {
-                $listWilayah =  Kecamatan::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
-                    ->where('kabupaten_id', $validated['kabupaten_id'])
-                    ->get();
-                $actionTurunan = $this->constructActionTurunan('Show Desa', 'desa', 'kecamatan_id', $url);
-            } elseif ($search === 'desa') {
-                $listWilayah =  Desa::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
-                    ->where('kecamatan_id', $validated['kecamatan_id'])
-                    ->get();
-            } else {
-                ['listWilayah' => $listWilayah, 'actionTurunan' => $actionTurunan] =  $this->getProvinsi($column, $url);
-            }
+            $data = [...$data, ...$this->search($validated['search'], $column, $url, $validated, $isBps)];
         } else {
-            ['listWilayah' => $listWilayah, 'actionTurunan' => $actionTurunan] =  $this->getProvinsi($column, $url);
+            $data = [...$data, ...$this->getProvinsi($column, $url)];
         }
-        return view(
-            'page.res.wilayah-bps',
-            [
-                'title' => $title,
-                'listWilayah' => $listWilayah,
-                'actionTurunan' => $actionTurunan,
-                'url_find' => $url_find
-            ]
-        );
+
+        return view('page.res.wilayah-bps',$data);
     }
 
     private function getProvinsi(array $column, string $url): array
