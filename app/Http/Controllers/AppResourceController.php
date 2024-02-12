@@ -95,10 +95,8 @@ class AppResourceController extends Controller
         Log::info('Connect Client To Resource');
         DB::transaction(function () use ($id, $req) {
             $validReq = $req->validated();
-            $userId = Auth::user()->id;
-            // dd($id, $req);
             $now = Carbon::now();
-            $clientResource = ClientResource::findOrFail($id);
+            ClientResource::findOrFail($id);
 
             Log::info("'connect client {$validReq['sel_client']} to resource {$id}");
 
@@ -119,7 +117,7 @@ class AppResourceController extends Controller
         DB::transaction(function () use ($id, $req) {
             $validReq = $req->validated();
 
-            $clientResource = ClientResource::findOrFail($id);
+            ClientResource::findOrFail($id);
 
             Log::info("disconnect client {$validReq['client_id']} from resource {$id}");
 

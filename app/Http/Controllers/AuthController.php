@@ -167,27 +167,4 @@ class AuthController extends BaseController
 
         return redirect()->route('page.resetPassword')->with('send', true);
     }
-
-    private function resetPasswordUserByEmail(string $email): string
-    {
-        $newPassword = Str::random(8);
-
-        $user = User::where('email', $email);
-        $user->password = bcrypt($newPassword);
-        $user->save();
-
-        return $newPassword;
-    }
-
-    // public function createToken(CreateTokenRequest $request): JsonResponse
-    // {
-
-    //     // craete token for user with expired
-    //     $user = Auth::user();
-    //     $username = $user->username;
-    //     $applicationId = $request->validated()['applicationId'];
-
-    //     dd($username, $applicationId);
-    //     return response()->json(['token' => $this->jwtHelper->createToken()]);
-    // }
 }

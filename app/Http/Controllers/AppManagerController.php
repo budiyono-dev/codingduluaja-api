@@ -82,7 +82,6 @@ class AppManagerController extends Controller
             $countActiveToken = Token::where('identifier', $identifier)->count();
 
             if ($countActiveToken >= 1) {
-                // throw new TokenException('you have active token');
                 throw TokenException::limit();
             }
 
@@ -155,6 +154,7 @@ class AppManagerController extends Controller
     public function revokeToken(Request $req): JsonResponse
     {
         Log::info('revokeToken');
+        $response = null;
         try {
 
             $validatedReq = $req->validate([
@@ -171,36 +171,37 @@ class AppManagerController extends Controller
 
             $cRes = ClientResource::find($clientResId);
             if (is_null($cRes)) {
-                return $this->tokenNotFoundError();
+                $response = $this->tokenNotFoundError();
             }
             $cApp = ClientApp::where('id', $clientAppId)
                 ->where('user_id', $userId)
                 ->get();
             if (is_null($cApp)) {
-                return $this->tokenNotFoundError();
+                $response = $this->tokenNotFoundError();
             }
 
             $identifier = "{$userId};{$clientAppId};{$clientResId}";
             $token = Token::where('identifier', $identifier)->first();
 
             if (is_null($token)) {
-                return $this->tokenNotFoundError();
+                $response = $this->tokenNotFoundError();
             }
             DB::transaction(function () use ($token) {
                 $token->delete();
             });
 
-            return $this
+            $response = $this
                 ->responseHelper
                 ->success('', 'succces revoke token', ResponseCode::SUCCESS_REVOKE_TOKEN, null);
         } catch (Exception $e) {
             Log::info("Error revokeToken {$e->getMessage()}");
-            return $this->responseHelper
+            $response = $this->responseHelper
                 ->serverError(
                     '',
                     ['error' => $e->getMessage()]
                 );
         }
+        return $response;
     }
 
     private function tokenNotFoundError(): JsonResponse

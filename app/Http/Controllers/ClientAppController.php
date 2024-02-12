@@ -54,7 +54,7 @@ class ClientAppController extends Controller
             if ($connectedResource->isNotEmpty()) {
                 return redirect()->route('page.clientApp')->withErrors([
                     'error' => 'Application Already In Use',
-                ]);;
+                ]);
             }
 
             $clientApp->delete();
