@@ -66,13 +66,13 @@ class DeploymentController extends Controller
 
         if ($action === 'migrate:fresh') {
             $output = $this->migrateFresh();
-        } else if ($action === 'migrate') {
+        } elseif ($action === 'migrate') {
             $output = $this->migrateDB();
-        } else if ($action === 'down') {
+        } elseif ($action === 'down') {
             $output = $this->downApp();
-        } else if ($action === 'up') {
+        } elseif ($action === 'up') {
             $output = $this->upApp();
-        } else if ($action === 'seed') {
+        } elseif ($action === 'seed') {
             $class = $vReq['sel_seed_class'];
             if (is_null($class) || $class === '') {
                 $output = "class $class not found";
@@ -84,7 +84,7 @@ class DeploymentController extends Controller
         }
         Log::info("artisan comand run $output");
 
-        return redirect()->route('page.su', ['id' => $id])->with('command-output', $output);;
+        return redirect()->route('page.su', ['id' => $id])->with('command-output', $output);
     }
 
     private function migrateFresh(): string

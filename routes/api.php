@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ToDoListController;
 use App\Constants\ApiPath;
-use App\Http\Controllers\Api\WilayahController;
+use App\Http\Controllers\Api\WilayahControllerApi;
 
-Route::get('/testing', function (Request $req) {
+Route::get('/testing', function () {
     return ['haklsuhkasdh' => 'kajshkdjsbakdb'];
 });
 
@@ -21,7 +20,7 @@ Route::middleware(['req', 'token'])->group(function () {
             Route::delete('/{id}', 'deleteTodoList');
         });
     });
-    Route::controller(WilayahController::class)->group(function () {
+    Route::controller(WilayahControllerApi::class)->group(function () {
         Route::prefix(ApiPath::WILAYAH_BPS)->group(function () {
             Route::get('/provinsi', 'getListProvinsiBps');
             Route::get('/provinsi/{id}', 'getProvinsiBps');

@@ -10,11 +10,10 @@ use App\Models\Api\Wilayah\Desa;
 use App\Models\Api\Wilayah\Kabupaten;
 use App\Models\Api\Wilayah\Kecamatan;
 use App\Models\Api\Wilayah\Provinsi;
+use App\Services\Wilayah\Wilayah;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
 use App\Traits\ApiContext;
-use Illuminate\Http\JsonResponse;
 
 class WilayahController extends Controller
 {
@@ -22,17 +21,12 @@ class WilayahController extends Controller
 
     public function __construct(
         protected ResponseHelper $responseHelper,
+        protected Wilayah $wilayah
     ) {
     }
 
     private const COLUMN_BPS = ['id', 'kode_bps as kode', 'nama_bps as nama'];
     private const COLUMN_DAGRI = ['id', 'kode_dagri as kode', 'nama_dagri as nama'];
-
-    private const COLUMN_GET_LIST_BPS = ['id', 'nama_bps as nama'];
-    private const COLUMN_GET_LIST_DAGRI = ['id', 'nama_dagri as nama'];
-
-    private const COLUMN_GET_BPS = ['id', 'kode_bps as kode', 'nama_bps as nama'];
-    private const COLUMN_GET_DAGRI = ['id', 'kode_dagri as kode', 'nama_dagri as nama'];
 
     public function indexBps(SearchWilayahRequest $req)
     {
@@ -139,188 +133,5 @@ class WilayahController extends Controller
             'param' => '<input type="hidden" name="' . $param . '" value=":id">',
             'url' => $url
         ];
-    }
-
-    // API Controller
-    // all provinsi id => {id nama_bps}
-    public function getListProvinsiBps(): JsonResponse
-    {
-        return $this->getListProvinsi(true);
-    }
-
-    public function getListProvinsiDagri(): JsonResponse
-    {
-        return $this->getListProvinsi(false);
-    }
-
-    private function getListProvinsi(bool $isBps): JsonResponse
-    {
-        $data = Provinsi::all($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI);
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get List Provinsi',
-            ResponseCode::SUCCESS_GET_DATA,
-            $data
-        );
-    }
-
-    // {id, kode_bps, nama_bps}
-    public function getProvinsiBps(string $id): JsonResponse
-    {
-        return $this->getProvinsiApi($id, true);
-    }
-
-    public function getProvinsiDagri(string $id): JsonResponse
-    {
-        return $this->getProvinsiApi($id, false);
-    }
-
-    private function getProvinsiApi(string $id, bool $isBps): JsonResponse
-    {
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get Provinsi',
-            ResponseCode::SUCCESS_GET_DATA,
-            Provinsi::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
-        );
-    }
-
-    // {id, nama_bps}
-    public function getListKabupatenBps(Request $req): JsonResponse
-    {
-        return $this->getListKabupaten($req, true);
-    }
-
-    public function getListKabupatenDagri(Request $req): JsonResponse
-    {
-        return $this->getListKabupaten($req, false);
-    }
-
-    private function getListKabupaten(Request $req, bool $isBps): JsonResponse
-    {
-        $validated = $req->validate(['provinsi_id' => 'required|string']);
-        $data = Kabupaten::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
-            ->where('provinsi_id', $validated['provinsi_id'])->get();
-
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get List Kabupaten',
-            ResponseCode::SUCCESS_GET_DATA,
-            $data
-        );
-    }
-
-
-    // {id, kode_bps, nama_bps}
-    public function getKabupatenBps(string $id): JsonResponse
-    {
-        return $this->getKabupaten($id, true);
-    }
-
-    public function getKabupatenDagri(string $id): JsonResponse
-    {
-        return $this->getKabupaten($id, false);
-    }
-
-    private function getKabupaten(string $id, bool $isBps): JsonResponse
-    {
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get Kabupaten',
-            ResponseCode::SUCCESS_GET_DATA,
-            Kabupaten::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
-        );
-    }
-
-    // {id, nama_bps}
-    public function getListKecamatanBps(Request $req): JsonResponse
-    {
-        return $this->getListKecamatan($req, true);
-    }
-
-    public function getListKecamatanDagri(Request $req): JsonResponse
-    {
-        return $this->getListKecamatan($req, false);
-    }
-
-    private function getListKecamatan(Request $req, bool $isBps): JsonResponse
-    {
-        $validated = $req->validate(['kabupaten_id' => 'required|string']);
-        $data = Kecamatan::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
-            ->where('kabupaten_id', $validated['kabupaten_id'])->get();
-
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get List Kecamatan',
-            ResponseCode::SUCCESS_GET_DATA,
-            $data
-        );
-    }
-
-    // {id, kode_bps, nama_bps}
-    public function getKecamatanBps(string $id): JsonResponse
-    {
-        return $this->getKecamatan($id, true);
-    }
-
-    public function getKecamatanDagri(string $id): JsonResponse
-    {
-        return $this->getKecamatan($id, false);
-    }
-
-    private function getKecamatan(string $id, bool $isBps): JsonResponse
-    {
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get Kecamatan',
-            ResponseCode::SUCCESS_GET_DATA,
-            Kecamatan::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
-        );
-    }
-
-    // {id, nama_bps}
-    public function getListDesaBps(Request $req): JsonResponse
-    {
-        return $this->getListDesa($req, true);
-    }
-
-    public function getListDesaDagri(Request $req): JsonResponse
-    {
-        return $this->getListDesa($req, false);
-    }
-
-    private function getListDesa(Request $req, bool $isBps): JsonResponse
-    {
-        $validated = $req->validate(['kecamatan_id' => 'required|string']);
-        $data = Desa::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
-            ->where('kecamatan_id', $validated['kecamatan_id'])->get();
-
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get List Desa',
-            ResponseCode::SUCCESS_GET_DATA,
-            $data
-        );
-    }
-
-    // {id, kode_bps, nama_bps}
-    public function getDesaBps(string $id): JsonResponse
-    {
-        return $this->getDesa($id, true);
-    }
-
-    public function getDesaDagri(string $id): JsonResponse
-    {
-        return $this->getDesa($id, false);
-    }
-
-    private function getDesa(string $id, bool $isBps): JsonResponse
-    {
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get Desa',
-            ResponseCode::SUCCESS_GET_DATA,
-            Desa::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
-        );
     }
 }

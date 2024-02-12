@@ -147,7 +147,6 @@ class ToDoListController extends Controller
         $todolist = Todolist::where('user_id', Auth::user()->id)
             ->paginate(\App\Helper\PaginationUtils::PAGE_SIZE)
             ->through(function ($t) {
-                $strCreated = Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->toDateTimeString();
                 return collect([
                     'id' => $t->id,
                     'name' => $t->name,
@@ -156,19 +155,7 @@ class ToDoListController extends Controller
                     'date_fmt' => Carbon::createFromFormat('Y-m-d', $t->date)->format('d F Y'),
                     'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->format('d/m/Y H:i')
                 ]);
-                // return $t;
             });
-        // dd($todoli/st);
         return view('page.res.todolist', ['todolist' => $todolist]);
-    }
-
-    private function successResponse(string $msg, string $responseCode, $data): JsonResponse
-    {
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            $msg,
-            $responseCode,
-            $data
-        );
     }
 }

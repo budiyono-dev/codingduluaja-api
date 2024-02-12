@@ -31,14 +31,30 @@ class DocController extends Controller
     private function getJsonResponse(bool $isBps): array
     {
         return [
-            'resGetListProvinsi' => $isBps ? __('responsejson.bps.resGetListProvinsi') :  __('responsejson.dagri.resGetListProvinsi'),
-            'resGetDetailProvinsi' => $isBps ? __('responsejson.bps.resGetDetailProvinsi') :  __('responsejson.dagri.resGetDetailProvinsi'),
-            'resGetListKabupaten' => $isBps ? __('responsejson.bps.resGetListKabupaten') :  __('responsejson.dagri.resGetListKabupaten'),
-            'resGetDetailKabupaten' => $isBps ? __('responsejson.bps.resGetDetailKabupaten') :  __('responsejson.dagri.resGetDetailKabupaten'),
-            'resGetListKecamatan' => $isBps ? __('responsejson.bps.resGetListKecamatan') :  __('responsejson.dagri.resGetListKecamatan'),
-            'resGetDetailKecamatan' => $isBps ? __('responsejson.bps.resGetDetailKecamatan') :  __('responsejson.dagri.resGetDetailKecamatan'),
-            'resGetListDesa' => $isBps ? __('responsejson.bps.resGetListDesa') :  __('responsejson.dagri.resGetListDesa'),
-            'resGetDetailDesa' => $isBps ? __('responsejson.bps.resGetDetailDesa') :  __('responsejson.dagri.resGetDetailDesa')
+            'resGetListProvinsi' => $isBps
+                ? __('responsejson.bps.resGetListProvinsi')
+                :  __('responsejson.dagri.resGetListProvinsi'),
+            'resGetDetailProvinsi' => $isBps
+                ? __('responsejson.bps.resGetDetailProvinsi')
+                :  __('responsejson.dagri.resGetDetailProvinsi'),
+            'resGetListKabupaten' => $isBps
+                ? __('responsejson.bps.resGetListKabupaten')
+                :  __('responsejson.dagri.resGetListKabupaten'),
+            'resGetDetailKabupaten' => $isBps
+                ? __('responsejson.bps.resGetDetailKabupaten')
+                :  __('responsejson.dagri.resGetDetailKabupaten'),
+            'resGetListKecamatan' => $isBps
+                ? __('responsejson.bps.resGetListKecamatan')
+                :  __('responsejson.dagri.resGetListKecamatan'),
+            'resGetDetailKecamatan' => $isBps
+                ? __('responsejson.bps.resGetDetailKecamatan')
+                :  __('responsejson.dagri.resGetDetailKecamatan'),
+            'resGetListDesa' => $isBps
+                ? __('responsejson.bps.resGetListDesa')
+                :  __('responsejson.dagri.resGetListDesa'),
+            'resGetDetailDesa' => $isBps
+                ? __('responsejson.bps.resGetDetailDesa')
+                :  __('responsejson.dagri.resGetDetailDesa')
         ];
     }
 }
