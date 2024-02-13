@@ -19,10 +19,10 @@ class DeploymentController extends Controller
     {
         $value = config('cda.init_su_url');
 
-        if(Schema::hasTable('configuration')) {
+        if (Schema::hasTable('configuration')) {
             $config = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
 
-            if(!is_null($config) && !is_null($config['value']) &&  !$config['value'] !== '') {
+            if (!is_null($config) && !is_null($config['value']) &&  !$config['value'] !== '') {
                 $value = $config['value'];
             }
         }
@@ -35,7 +35,7 @@ class DeploymentController extends Controller
 
     public function refreshAdminConfig()
     {
-        DB::transaction(function() {
+        DB::transaction(function () {
             Log::info('refrech id for admin console');
             $conf = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
             if (is_null($conf)) {
@@ -49,7 +49,8 @@ class DeploymentController extends Controller
         return "key berhasil di update ";
     }
 
-    public function sendTestMail(){
+    public function sendTestMail()
+    {
         Mail::to('budiyono.dev@gmail.com')->send(new TestSMPTP());
     }
 

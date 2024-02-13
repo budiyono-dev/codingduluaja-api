@@ -64,7 +64,7 @@ class AppManagerController extends Controller
                 'client_resource_id' => 'required',
                 'exp_id' => 'required'
             ]);
-            
+
             $user = Auth::user();
             $userId = $user->id;
             $clientAppId = $validatedReq['client_app_id'];
@@ -72,7 +72,7 @@ class AppManagerController extends Controller
             $expId = $validatedReq['exp_id'];
 
             Log::info("generateToken {$userId} req " . json_encode($validatedReq));
-            
+
             ClientResource::findOrFail($clientResId);
             $exp = ExpiredToken::findOrFail($expId);
             $clientApp = ClientApp::where('id', $clientAppId)
@@ -161,7 +161,7 @@ class AppManagerController extends Controller
                 'client_app_id' => 'required',
                 'client_resource_id' => 'required'
             ]);
-            
+
             $user = Auth::user();
             $userId = $user->id;
             $clientAppId = $validatedReq['client_app_id'];

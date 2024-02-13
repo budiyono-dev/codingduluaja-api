@@ -72,8 +72,9 @@ class WilayahController extends Controller
         }
     }
 
-    private function search(string $search, array $column, string $url, array $validated, bool $isBps){
-        $data = ['listWilayah' => [],'actionTurunan' => []];
+    private function search(string $search, array $column, string $url, array $validated, bool $isBps)
+    {
+        $data = ['listWilayah' => [], 'actionTurunan' => []];
 
         if ($search === 'kabupaten') {
             $data['listWilayah'] = Kabupaten::select($column)
@@ -95,13 +96,13 @@ class WilayahController extends Controller
     {
         $validated = $req->validated();
         $data = [
-                'title' => $isBps ? 'Wilayah BPS' : 'Wilayah Dagri',
-                'listWilayah' => [],
-                'actionTurunan' => [],
-                'url_find' =>  $isBps
-                    ? route('page.res.findBps', ['wilayah' => ':wil', 'id' => ':id'])
-                    : route('page.res.findDagri', ['wilayah' => ':wil', 'id' => ':id'])
-            ];
+            'title' => $isBps ? 'Wilayah BPS' : 'Wilayah Dagri',
+            'listWilayah' => [],
+            'actionTurunan' => [],
+            'url_find' =>  $isBps
+                ? route('page.res.findBps', ['wilayah' => ':wil', 'id' => ':id'])
+                : route('page.res.findDagri', ['wilayah' => ':wil', 'id' => ':id'])
+        ];
 
         $column = $isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI;
         $url = $isBps ? route('page.res.wilayahBps') : route('page.res.wilayahDagri');
@@ -112,7 +113,7 @@ class WilayahController extends Controller
             $data = [...$data, ...$this->getProvinsi($column, $url)];
         }
 
-        return view('page.res.wilayah-bps',$data);
+        return view('page.res.wilayah-bps', $data);
     }
 
     private function getProvinsi(array $column, string $url): array

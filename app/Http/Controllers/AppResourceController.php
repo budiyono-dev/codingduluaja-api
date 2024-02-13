@@ -23,12 +23,12 @@ class AppResourceController extends Controller
     {
         $userId = Auth::user()->id;
 
-        $idResource = ClientResource::select('master_resource_id')->where('user_id', )->get()->toArray();
+        $idResource = ClientResource::select('master_resource_id')->where('user_id',)->get()->toArray();
         $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
         $listClientApp = ClientApp::select('id', 'name')->where('user_id', $userId)->get();
 
-        $mapped = $listResource->map(function(ClientResource $r){
-            $connectedApp = $r->connectedApp->map(function(ClientApp $app){
+        $mapped = $listResource->map(function (ClientResource $r) {
+            $connectedApp = $r->connectedApp->map(function (ClientApp $app) {
                 return (object) [
                     'id' => $app->id,
                     'name' => $app->name
@@ -104,8 +104,8 @@ class AppResourceController extends Controller
                 ->insert([
                     'client_resource_id' => $id,
                     'client_app_id' => $validReq['sel_client'],
-                    'created_at'=> $now,
-                    'updated_at'=> $now
+                    'created_at' => $now,
+                    'updated_at' => $now
                 ]);
         });
         return redirect()->route('page.appResource');
