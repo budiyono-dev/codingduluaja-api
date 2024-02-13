@@ -20,4 +20,9 @@ class TableName
     const DESA = 'desa';
     const CONFIGURATION = 'configuration';
     const FORGOT_PASSWORD_TOKEN = 'forgot_password_token';
+
+    // User Api
+    const USER_API = 'user_api';
+    const ADDRESS_USER_API = 'user_api_address';
+    const IMAGE_USER_API = 'user_api_image';
 }
