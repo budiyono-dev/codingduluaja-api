@@ -17,8 +17,13 @@ class UserApiController extends Controller
         protected ResponseHelper $responseHelper
     ) {
     }
-    public function get(): JsonResponse
+    public function get(Request $req): JsonResponse
     {
+        $req->validated([
+            'keyword'=> 'string',
+            'order_by' =>'string|in',
+            'search_by' => 'string|in'
+        ]);
         $user = new UserApi();
         $user->name('name');
         return $this->responseHelper->resourceNotFound('blm dibuat');
