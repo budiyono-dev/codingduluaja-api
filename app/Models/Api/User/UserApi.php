@@ -10,6 +10,8 @@ class UserApi extends Model
 {
     use HasFactory;
     protected $table = TableName::USER_API;
+    protected $fillable = ['user_id', 'name', 'nik', 'phone', 'email'];
+
 
     public function address(){
         return $this->hasOne(AddressUserApi::class);

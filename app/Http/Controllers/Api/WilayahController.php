@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Constants\ResponseCode;
 use App\Helper\ResponseHelper;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use App\Http\Requests\Api\SearchWilayahRequest;
 use App\Models\Api\Wilayah\Desa;
 use App\Models\Api\Wilayah\Kabupaten;

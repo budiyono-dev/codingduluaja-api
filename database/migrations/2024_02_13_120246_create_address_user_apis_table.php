@@ -12,11 +12,11 @@ return new class extends Migration
         Schema::create(TableName::ADDRESS_USER_API, function (Blueprint $table) {
             $table->id();
             $table->unsignedBiginteger('user_api_id');
-            $table->string('country');
-            $table->string('state');
-            $table->string('city');
-            $table->string('postcode');
-            $table->string('detail');
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->string('postcode')->nullable();
+            $table->string('detail')->nullable();
             $table->timestamps();
 
             $table->foreign('user_api_id')->references('id')->on(TableName::USER_API);

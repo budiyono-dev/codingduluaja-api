@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helper\ResponseHelper;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use App\Models\Api\User\UserApi;
 use App\Traits\ApiContext;
 use Illuminate\Http\JsonResponse;

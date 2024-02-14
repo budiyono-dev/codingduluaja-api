@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\TestSMPTP;
 use App\Models\Configuration;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

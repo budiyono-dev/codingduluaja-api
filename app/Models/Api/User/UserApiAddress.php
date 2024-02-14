@@ -6,8 +6,10 @@ use App\Constants\TableName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImageUserApi extends Model
+class UserApiAddress extends Model
 {
     use HasFactory;
-    protected $table = TableName::IMAGE_USER_API;
+    protected $table = TableName::ADDRESS_USER_API;
+    protected $fillable = ['user_api_id', 'country', 'state', 'city', 'postcode', 'detail'];
+
 }

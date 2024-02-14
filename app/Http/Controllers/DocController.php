@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Constants\ApiPath;
+use Illuminate\Routing\Controller;
 
 class DocController extends Controller
 {

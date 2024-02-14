@@ -14,10 +14,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBiginteger('user_id');
             $table->string('name');
-            $table->string('username');
-            $table->string('nik');
-            $table->string('phone');
-            $table->string('email');
+            $table->string('nik')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on(TableName::USERS);

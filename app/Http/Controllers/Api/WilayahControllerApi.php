@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use App\Services\Wilayah\Wilayah;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
