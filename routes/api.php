@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ToDoListController;
 use App\Constants\ApiPath;
+use App\Http\Controllers\Api\UserApiController;
 use App\Http\Controllers\Api\WilayahControllerApi;
 
 Route::get('/testing', function () {
@@ -11,6 +12,7 @@ Route::get('/testing', function () {
 
 
 Route::middleware(['req', 'token'])->group(function () {
+
     Route::controller(ToDoListController::class)->group(function () {
         Route::prefix(ApiPath::TODOLIST)->group(function () {
             Route::post('', 'createTodoList');
@@ -20,6 +22,7 @@ Route::middleware(['req', 'token'])->group(function () {
             Route::delete('/{id}', 'deleteTodoList');
         });
     });
+
     Route::controller(WilayahControllerApi::class)->group(function () {
         Route::prefix(ApiPath::WILAYAH_BPS)->group(function () {
             Route::get('/provinsi', 'getListProvinsiBps');
@@ -40,6 +43,16 @@ Route::middleware(['req', 'token'])->group(function () {
             Route::get('/kecamatan/{id}', 'getKecamatanDagri');
             Route::get('/desa', 'getListDesaDagri');
             Route::get('/desa/{id}', 'getDesaDagri');
+        });
+    });
+
+    Route::controller(UserApiController::class)->group(function(){
+        Route::prefix(ApiPath::USER_API)->group(function(){
+            Route::get('', 'get');
+            Route::post('', 'create');
+            Route::get('/{id}', 'detail');
+            Route::put('/{id}', 'edit');
+            Route::delete('/{id}', 'delete');
         });
     });
 });

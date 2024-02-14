@@ -22,6 +22,10 @@ return new class extends Migration
             'name' => 'Wilayah DAGRI',
             'path' => ApiPath::WILAYAH_DAGRI
         ]);
+        MasterResource::create([
+            'name' => 'User Api',
+            'path' => ApiPath::USER_API
+        ]);
     }
 
     public function down(): void
@@ -29,5 +33,6 @@ return new class extends Migration
         MasterResource::find('name', 'Todolist')->first()->delete();
         MasterResource::find('name', 'Wilayah BPS')->first()->delete();
         MasterResource::find('name', 'Wilayah DAGRI')->first()->delete();
+        MasterResource::find('name', 'User Api')->first()->delete();
     }
 };

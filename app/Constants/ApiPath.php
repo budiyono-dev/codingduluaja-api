@@ -8,5 +8,6 @@ class ApiPath
     const MAHASISWA = '/mahasiswa';
     const WILAYAH_BPS = '/wilayah/bps';
     const WILAYAH_DAGRI = '/wilayah/dagri';
+    const USER_API = '/user';
     
 }

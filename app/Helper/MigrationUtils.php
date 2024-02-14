@@ -17,7 +17,7 @@ class MigrationUtils
         );
 
         $menu->save();
-        
+
         return $menu;
     }
 
@@ -40,7 +40,7 @@ class MigrationUtils
     public static function deleteMenuParent(int $sequence): void
     {
         $menu = MenuParent::where('sequence', $sequence)->first();
-        
+
         $items = MenuItem::where('menu_parent_id', $menu->id);
         $items->delete();
 

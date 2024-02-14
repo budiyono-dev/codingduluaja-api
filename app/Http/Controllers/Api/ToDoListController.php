@@ -6,7 +6,7 @@ use App\Constants\ResponseCode;
 use App\Dto\TodolistDto;
 use App\Exceptions\ApiException;
 use App\Helper\ResponseHelper;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
 use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Http\Requests\Api\EditTodolistRequest;
@@ -127,7 +127,7 @@ class ToDoListController extends Controller
             $validatedReq = $req->validated();
             $qty = $validatedReq['sel_qty'];
             Log::info("create dummy data todolist for {$userId} qty : {$qty}");
-            $faker = Factory::create();
+            $faker = Factory::create('id_ID');
             for ($i = 0; $i < $qty; $i++) {
                 $now = Carbon::now();
                 $end = $now->copy()->addDays(14);
