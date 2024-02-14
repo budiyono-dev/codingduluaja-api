@@ -19,13 +19,19 @@ class UserApiController extends Controller
     }
     public function get(Request $req): JsonResponse
     {
-        $req->validated([
-            'keyword'=> 'string',
-            'order_by' =>'string|in',
-            'search_by' => 'string|in'
+        [
+            'keyword' => $keyword,
+            'order_by' => $orderBy,
+            'search_by' => $searchBy,
+            'order_direction' => $orderDirection,
+
+        ] = $req->validated([
+            'keyword' => 'string|min:1',
+            'order_by' => 'string|in:name,created_at,updated_at',
+            'search_by' => 'string|in:name,nik,phone,email',
+            'order_direction' => 'string|in:desc,asc',
         ]);
-        $user = new UserApi();
-        $user->name('name');
+
         return $this->responseHelper->resourceNotFound('blm dibuat');
     }
     public function create(): JsonResponse
