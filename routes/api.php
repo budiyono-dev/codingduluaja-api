@@ -46,7 +46,7 @@ Route::middleware(['req', 'token'])->group(function () {
         });
     });
 
-    Route::controller(UserApiController::class, function(){
+    Route::controller(UserApiController::class)->group(function(){
         Route::prefix(ApiPath::USER_API)->group(function(){
             Route::get('', 'get');
             Route::post('', 'create');

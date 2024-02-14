@@ -14,11 +14,11 @@ class UserApi extends Model
 
 
     public function address(){
-        return $this->hasOne(AddressUserApi::class);
+        return $this->hasOne(UserApiAddress::class);
     }
 
     public function image(){
-        return $this->hasOne(ImageUserApi::class);
+        return $this->hasOne(UserApiImage::class);
     }
 
 }
