@@ -7,6 +7,7 @@ use App\Traits\ApiContext;
 use App\Models\Api\User\UserApi;
 use App\Constants\ResponseCode;
 use App\Helper\ResponseHelper;
+use App\Http\Requests\Api\User\CreateUserApiRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,30 +23,13 @@ class UserApiController extends Controller
     
     public function get(Request $req): JsonResponse
     {
-        // [
-        //     'search' => $search,
-        //     'order_by' => $orderBy,
-        //     'search_by' => $searchBy,
-        //     'order_direction' => $orderDirection,
-
-        // ] = $req->validate([
-        //     'search' => 'string|min:1',
-        //     'order_by' => 'string|in:name,created_at,updated_at',
-        //     'search_by' => 'string|in:name,nik,phone,email',
-        //     'order_direction' => 'string|in:desc,asc',
-        // ]);
         $reqv = $req->validate([
                 'search' => 'string|min:1',
                 'order_by' => 'string|in:name,created_at,updated_at',
                 'search_by' => 'string|in:name,nik,phone,email',
                 'order_direction' => 'string|in:desc,asc',
             ]);
-        // return $this->responseHelper->success(
-        //     $this->getRequestId(),
-        //     'Successfully Get User',
-        //     ResponseCode::SUCCESS_GET_DATA,
-        //     ['s'=>json_encode($search)]
-        // );
+
         $user_id = $this->getUserId();
         $data = [];
 
@@ -61,7 +45,7 @@ class UserApiController extends Controller
         
         return $this->responseHelper->success(
             $this->getRequestId(),
-            'Successfully Get User',
+            'Successfully Get List User',
             ResponseCode::SUCCESS_GET_DATA,
             UserApiDto::fromUserApiCollection($data)
         );
@@ -87,7 +71,16 @@ class UserApiController extends Controller
     }
     public function detail(string $id): JsonResponse
     {
-        return $this->responseHelper->resourceNotFound('blm dibuat');
+        $user = UserApi::findOrFail($id);
+        if ($user->user_id != $this->getUserId()){
+            return $this->responseHelper->notFound('user');
+        }
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'Successfully Get User',
+            ResponseCode::SUCCESS_GET_DATA,
+            UserApiDto::fromUserApi($user)
+        );
     }
     public function edit(string $id): JsonResponse
     {
