@@ -1,0 +1,27 @@
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzOTM2MDM0LCJleHAiOjE3MDQxOTUyMzR9.4xiI45pW81nM3Wb4QT7FiMDPGo1+x7kKGIAybnN5w8I=
+
+### Get List
+GET http://localhost:8000/api/todolist
+x-authorization: {{token}} 
+
+### Get Single
+GET http://localhost:8000/api/todolist/1
+x-authorization: {{token}}
+
+### Delete todolist
+DELETE http://localhost:8000/api/todolist/4
+x-authorization: {{token}}
+
+### Create Todolist 
+POST http://localhost:8000/api/todolist
+x-authorization: {{token}}
+content-type: application/json
+
+{
+    "date": "24-12-2023",
+    "name": "watching footbal",
+    "description": "MU VS Liverpol"
+}
+
+
+
