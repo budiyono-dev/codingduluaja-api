@@ -1,25 +1,3 @@
-@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pFPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzAzOTM2MDM0LCJleHAiOjE3MDQxOTUyMzR9.4xiI45pW81nM3Wb4QT7FiMDPGo1+x7kKGIAybnN5w8I=
-
-### Edit Todolist
-PUT http://localhost:8000/api/todolist/111
-x-authorization: {{token}}
-content-type: application/json
-
-{
-    "date": "21-12-2023",
-    "name": "watching tv",
-    "description": "watching naruto"
-}
-
-### Create Dummy Todolist
-POST http://localhost:8000/api/todolist/dummy
-x-authorization: {{token}}
-content-type: application/json
-
-{
-    "qty": 1
-}
-
 ### Provinsi BPS
 @tokenbps=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzA0MDMwNDUyLCJleHAiOjE3MDQyODk2NTJ9.iGi6tNg0bcQcRvfIszTYq0cNI5pbzys0ah11vRGFS2c=
 ### GET List Provinsi

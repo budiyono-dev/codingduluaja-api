@@ -14,16 +14,15 @@ class CreateUserApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => '',
-            'nik' => '',
-            'phone' => '',
-            'email' => '',
-            'img' => '',
-            'address.country' => '',
-            'address.state' => '',
-            'address.city' => '',
-            'address.postcode' => '',
-            'address.detail' => '',
+            'name' => 'required|string|min:1|max:50',
+            'nik' => 'regex:/^[0-9]{16}$/',
+            'phone' => 'string|max:20',
+            'email' => 'required|email|ax:50',
+            'address.country' => 'string|min:1|max:50',
+            'address.state' => 'string|min:1|max:50',
+            'address.city' => 'string|max:50',
+            'address.postcode' => 'string|max:20',
+            'address.detail' => 'string|max:255',
         ];
     }
 }

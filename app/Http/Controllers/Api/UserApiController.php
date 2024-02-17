@@ -11,6 +11,7 @@ use App\Http\Requests\Api\User\CreateUserApiRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserApiController extends Controller
 {
@@ -65,8 +66,17 @@ class UserApiController extends Controller
 
     }
 
-    public function create(): JsonResponse
+    public function create(Request $r): JsonResponse
     {
+        $rv = $r->validate([
+            'req' => 'required|string',
+            'img' => 'mimes:png,jpeg|max:1024'
+        ]);
+        $fr = new CreateUserApiRequest();
+        // dd($rv, json_decode($rv['req']));
+        $valid  = Validator::make(json_decode($rv['req'], true), $fr->rules());
+        // dd($valid->fails());
+        dd($valid->validate());
         return $this->responseHelper->resourceNotFound('blm dibuat');
     }
     public function detail(string $id): JsonResponse
