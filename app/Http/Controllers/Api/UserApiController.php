@@ -73,10 +73,10 @@ class UserApiController extends Controller
             'img' => 'mimes:png,jpeg|max:1024'
         ]);
         $fr = new CreateUserApiRequest();
-        // dd($rv, json_decode($rv['req']));
-        $valid  = Validator::make(json_decode($rv['req'], true), $fr->rules());
-        // dd($valid->fails());
-        dd($valid->validate());
+        $validator  = Validator::make(json_decode($rv['req'], true), $fr->rules());
+        $vUserReq = $validator->validate()
+
+
         return $this->responseHelper->resourceNotFound('blm dibuat');
     }
     public function detail(string $id): JsonResponse
