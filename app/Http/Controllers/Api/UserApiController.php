@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserApiController extends Controller
 {
@@ -66,18 +67,56 @@ class UserApiController extends Controller
 
     }
 
-    public function create(Request $r): JsonResponse
+    public function create(CreateUserApiRequest $r): JsonResponse
     {
-        $rv = $r->validate([
-            'req' => 'required|string',
-            'img' => 'mimes:png,jpeg|max:1024'
-        ]);
-        $fr = new CreateUserApiRequest();
-        $validator  = Validator::make(json_decode($rv['req'], true), $fr->rules());
-        $vUserReq = $validator->validate()
+        $rv = $r->validate();
+        DB::transaction(function () use ($req) {
+            $user = UserApi::create([
+                'user_id' => $this->getUserId(),
+                'name' => $rv['name'],
+                'nik' => $rv['nik'], 
+                'phone' => $rv['phone'], 
+                'email' => $rv['email']
+            ]);
+            UserApiAddress::create([
+                'user_api_id' => $user->id,
+                'country' => $rv['address']['country'],
+                'state' => $rv['address']['state'],
+                'city' => $rv['address']['city'],
+                'postcode' => $rv['address']['postcode'],
+                'detail' => $rv['address']['detail'],
+            ]);
 
+            $img = $this->createDefaultImage($user->name);
+
+            UserApiImage::create([
+                'user_api_id' => $user->id,
+                'path' => dirname($img),
+                'filename' => $basename($img)
+            ]);
+        });
 
         return $this->responseHelper->resourceNotFound('blm dibuat');
+    }
+
+    private function createDefaultImage(string $name): string
+    {
+        $dirUser = '/api/user/' . $u->id . '/img/';
+        $path = Storage::disk('local')->path($dirUser);
+        Storage::disk('local')->makeDirectory($dirUser);
+        
+        $finalPath = $path .'/'. Str::uuid()->toString();
+        Avatar::create($user->name)
+            ->setDimension(400, 400)
+            ->setFontSize(200)
+            ->save($finalPath);
+        return $finalPath;
+    }
+
+
+    public function getUserImage(){
+    }
+    public function createUserImage(){
     }
     public function detail(string $id): JsonResponse
     {
