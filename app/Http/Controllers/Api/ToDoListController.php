@@ -32,7 +32,7 @@ class ToDoListController extends Controller
 
     public function createTodoList(CreateTodolistRequest $req): JsonResponse
     {
-        Log::info("Create Todolist = {$this->getRequestId()}");
+        Log::info("[TODOLIST-API] Create Todolist = {$this->getRequestId()}");
         DB::transaction(function () use ($req) {
             $validatedReq = $req->validated();
             Todolist::create([
@@ -52,7 +52,7 @@ class ToDoListController extends Controller
 
     public function getTodoList(): JsonResponse
     {
-        Log::info("get all todolist = {$this->getRequestId()}");
+        Log::info("[TODOLIST-API] get all todolist = {$this->getRequestId()}");
         $data = Todolist::where('user_id', $this->getUserId())->get()->map(function (Todolist $t) {
             return TodolistDto::fromTodolist($t);
         });
@@ -67,7 +67,7 @@ class ToDoListController extends Controller
 
     public function getDetail(int $id): JsonResponse
     {
-        Log::info("get detail = {$this->getRequestId()}");
+        Log::info("[TODOLIST-API] get detail = {$this->getRequestId()}");
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Successfully Get Todolist',
@@ -78,7 +78,7 @@ class ToDoListController extends Controller
 
     public function editTodoList(int $id, EditTodolistRequest $req): JsonResponse
     {
-        Log::info("edit Todolist = {$this->getRequestId()}");
+        Log::info("[TODOLIST-API] edit Todolist = {$this->getRequestId()}");
         DB::transaction(function () use ($id, $req) {
             $todo = Todolist::findOrFail($id);
             $validatedReq = $req->validated();
@@ -105,7 +105,7 @@ class ToDoListController extends Controller
 
     public function deleteTodoList($id)
     {
-        Log::info("delete Todolist = {$this->getRequestId()}");
+        Log::info("[TODOLIST-API] delete Todolist = {$this->getRequestId()}");
         DB::transaction(function () use ($id) {
             $todolist = Todolist::findOr($id, function () {
                 throw ApiException::notFound();
@@ -126,7 +126,7 @@ class ToDoListController extends Controller
             $userId = Auth::user()->id;
             $validatedReq = $req->validated();
             $qty = $validatedReq['sel_qty'];
-            Log::info("create dummy data todolist for {$userId} qty : {$qty}");
+            Log::info("[TODOLIST-API] create dummy data todolist for {$userId} qty : {$qty}");
             $faker = Factory::create('id_ID');
             for ($i = 0; $i < $qty; $i++) {
                 $now = Carbon::now();

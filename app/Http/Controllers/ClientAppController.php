@@ -27,7 +27,7 @@ class ClientAppController extends Controller
 
     public function createApp(CreateClientAppRequest $req): RedirectResponse
     {
-        Log::info('Create Client App');
+        Log::info('[CLIENT-APP] Create Client App');
         DB::transaction(function () use ($req) {
             $validated = $req->validated();
 
@@ -39,7 +39,7 @@ class ClientAppController extends Controller
             $c->app_key = Str::replace('-', '', Str::uuid());
 
             $c->save();
-            Log::info($c);
+            Log::info('[CLIENT-APP] '.$c);
         });
 
         return redirect()->route('page.clientApp');
@@ -47,7 +47,7 @@ class ClientAppController extends Controller
 
     public function delete(int $id): RedirectResponse
     {
-        Log::info("Delete Client App : {$id}");
+        Log::info("[CLIENT-APP] Delete Client App : {$id}");
         DB::transaction(function () use ($id) {
             $clientApp = ClientApp::find($id);
 

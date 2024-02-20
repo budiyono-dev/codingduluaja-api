@@ -62,7 +62,7 @@ class AppResourceController extends Controller
 
     public function addResource(AddResourceRequest $req): RedirectResponse
     {
-        Log::info('Add Resource');
+        Log::info('[APP-RESOURCE] Add Resource');
         DB::transaction(function () use ($req) {
             $validated = $req->validated();
             $userId = Auth::user()->id;
@@ -72,7 +72,7 @@ class AppResourceController extends Controller
             $c->master_resource_id = $validated['sel_m_resource'];
 
             $c->save();
-            Log::info($c);
+            Log::info('[APP-RESOURCE] '.$c);
         });
 
         return redirect()->route('page.appResource');
@@ -80,7 +80,7 @@ class AppResourceController extends Controller
 
     public function delete(int $id): RedirectResponse
     {
-        Log::info("Delete Resource : {$id}");
+        Log::info("[APP-RESOURCE] Delete Resource : {$id}");
         DB::transaction(function () use ($id) {
             $clientResource = ClientResource::findOrFail($id);
             DB::table(TableName::CONNECTED_APP)
@@ -93,13 +93,13 @@ class AppResourceController extends Controller
 
     public function connectClient(int $id, ConnectClientRequest $req): RedirectResponse
     {
-        Log::info('Connect Client To Resource');
+        Log::info('[APP-RESOURCE] Connect Client To Resource');
         DB::transaction(function () use ($id, $req) {
             $validReq = $req->validated();
             $now = Carbon::now();
             ClientResource::findOrFail($id);
 
-            Log::info("'connect client {$validReq['sel_client']} to resource {$id}");
+            Log::info("[APP-RESOURCE] 'connect client {$validReq['sel_client']} to resource {$id}");
 
             DB::table(TableName::CONNECTED_APP)
                 ->insert([
@@ -114,13 +114,13 @@ class AppResourceController extends Controller
 
     public function disconnectClient(int $id, DisconnectClientRequest $req): RedirectResponse
     {
-        Log::info('Disconnect Client from Resource');
+        Log::info('[APP-RESOURCE] Disconnect Client from Resource');
         DB::transaction(function () use ($id, $req) {
             $validReq = $req->validated();
 
             ClientResource::findOrFail($id);
 
-            Log::info("disconnect client {$validReq['client_id']} from resource {$id}");
+            Log::info("[APP-RESOURCE] disconnect client {$validReq['client_id']} from resource {$id}");
 
             DB::table(TableName::CONNECTED_APP)
                 ->where('client_resource_id', $id)
