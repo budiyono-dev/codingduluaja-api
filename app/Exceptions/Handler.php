@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -67,8 +68,8 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (NotFoundHttpException $e, $request) {
-            Log::info('[HANDLER] not found ');
             if ($this->isApiRequest($request)) {
+                Log::info('[HANDLER] not found ');
                 $reqId = $this->getRequestId();
                 if ($e->getPrevious() instanceof ModelNotFoundException) {
                     return $this->responseHelper->notFound($reqId, 'Data not found', ResponseCode::MODEL_NOT_FOUND);
@@ -78,10 +79,17 @@ class Handler extends ExceptionHandler
             }
         });
 
+        $this->renderable(function (MethodNotAllowedHttpException $e, $request){
+            if ($this->isApiRequest($request)) {
+                Log::info('[HANDLER] method not allowed ');
+                return $this->responseHelper->methodNotAllowed(['error' => 'Method is not supported']);
+            }
+        });
+
         $this->renderable(function (Exception $e, $request) {
             if ($this->isApiRequest($request)) {
                 $reqId = $this->getRequestId();
-                Log::info("[HANDLER] [HANDLER] error 500 : {$e->getMessage()}, request_id : {$reqId}");
+                Log::info("[HANDLER] error 500 : {$e->getMessage()}, request_id : {$reqId}");
                 return $this->responseHelper->serverError($reqId, ['error' => 'System Error']);
             }
         });

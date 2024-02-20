@@ -11,6 +11,8 @@ use App\Constants\ResponseCode;
 use App\Helper\ResponseHelper;
 use App\Http\Requests\Api\User\CreateUserApiRequest;
 use App\Http\Requests\Api\User\SearchUserApiRequest;
+use App\Http\Requests\Api\User\UploadImageUserApiRequest;
+use App\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -80,18 +82,18 @@ class UserApiController extends Controller
         DB::transaction(function () use ($rv) {
             $user = UserApi::create([
                 'user_id' => $this->getUserId(),
-                'name' => $rv['name'],
-                'nik' => $rv['nik'],
-                'phone' => $rv['phone'],
-                'email' => $rv['email']
+                'name' => $rv['name'] ?? null,
+                'nik' => $rv['nik'] ?? null,
+                'phone' => $rv['phone'] ?? null,
+                'email' => $rv['email'] ?? null
             ]);
             UserApiAddress::create([
                 'user_api_id' => $user->id,
-                'country' => $rv['address']['country'],
-                'state' => $rv['address']['state'],
-                'city' => $rv['address']['city'],
-                'postcode' => $rv['address']['postcode'],
-                'detail' => $rv['address']['detail'],
+                'country' => $rv['address']['country'] ?? null,
+                'state' => $rv['address']['state'] ?? null,
+                'city' => $rv['address']['city'] ?? null,
+                'postcode' => $rv['address']['postcode'] ?? null,
+                'detail' => $rv['address']['detail'] ?? null
             ]);
 
             $img = $this->createDefaultImage($user->name);
@@ -108,7 +110,7 @@ class UserApiController extends Controller
 
     private function createDefaultImage(string $name): string
     {
-        $dirUser = '/api/user/' . $this->getUserId() . '/img/';
+        $dirUser = '/api/user/' . $this->getUserId() . '/img';
         $path = Storage::disk('local')->path($dirUser);
         Storage::disk('local')->makeDirectory($dirUser);
 
@@ -125,14 +127,29 @@ class UserApiController extends Controller
 
     public function getImage(string $id)
     {
-        // TODO: Implement
+        Log::info('[USER_API] getImage of user ' . $id);
+        $u = UserApi::where('user_id', $this->getUserId())->where('id', $id)->firstOrFail();
+        $rootPath = Storage::disk('local')->path('');
+
+        $imgId = $u->image->id ?? null;
+        if (is_null($imgId)) {
+            return $this->responseHelper
+                ->notFound($this->getRequestId(), "Image not found", ResponseCode::RESOURCE_NOT_FOUND);
+        }
+
+        $fp = $rootPath . $u->image->path . '/' . $u->image->filename;
+        return response()->file($fp, ['Content-Type' => 'image/png']);
     }
-    public function updateImage(string $id)
+    
+    public function updateImage(string $id, UploadImageUserApiRequest $r)
     {
+        $rv = $r->validated();
+        dd($rv);
         // TODO: Implement
     }
     public function detail(string $id): JsonResponse
     {
+        Log::info('[USER_API] get detail of user ' . $id);
         $user = UserApi::findOrFail($id);
         if ($user->user_id != $this->getUserId()) {
             return $this->responseHelper->notFound('user');

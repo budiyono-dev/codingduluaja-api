@@ -21,5 +21,6 @@ class ResponseCode
     // error access
     const UNAUTHORIZED = 'CDA-A-001';
     const FORBIDDEN = 'CDA-A-002';
+    const METHOD_NOT_ALLOWED = 'CDA-A-003';
 
 }
