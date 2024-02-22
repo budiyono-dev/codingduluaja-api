@@ -19,6 +19,18 @@ class ConfigUtils {
         return $qty;
     }
 
+    public static function getPageSize(){
+        $qty = 0;
+        $config = Configuration::where('group', 'pagintaion')->where('key', 'page.size')->first();
+
+        if(ConfigUtils::validateConfig($config)){
+            $qty = $config['value'];
+        } else {
+            $qty = config('cda.page_size');
+        }
+        return $qty;
+    }
+
     private static function validateConfig(Configuration|null $config) {
         if (!is_null($config) && !is_null($config['value']) &&  !$config['value'] !== '') {
             return true;

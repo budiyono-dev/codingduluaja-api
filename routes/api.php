@@ -55,6 +55,7 @@ Route::middleware(['req', 'token'])->group(function () {
             Route::delete('/{id}', 'delete');
             Route::get('/image/{id}', 'getImage');
             Route::put('/image/{id}', 'updateImage');
+            Route::post('/image/{id}', 'updateImage');
         });
     });
 });

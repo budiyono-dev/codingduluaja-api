@@ -8,7 +8,9 @@ use App\Models\Api\User\UserApiImage;
 use App\Traits\ApiContext;
 use App\Models\Api\User\UserApi;
 use App\Constants\ResponseCode;
+use App\Helper\ConfigUtils;
 use App\Helper\ResponseHelper;
+use App\Helper\StringUtil;
 use App\Http\Requests\Api\User\CreateUserApiRequest;
 use App\Http\Requests\Api\User\SearchUserApiRequest;
 use App\Http\Requests\Api\User\UploadImageUserApiRequest;
@@ -30,7 +32,8 @@ class UserApiController extends Controller
     use ApiContext;
 
     public function __construct(
-        protected ResponseHelper $responseHelper
+        protected ResponseHelper $responseHelper,
+        protected ConfigUtils $configUtils
     ) {
     }
 
@@ -45,14 +48,15 @@ class UserApiController extends Controller
             $rv['search'] ?? null,
             $rv['order_by'] ?? null,
             $rv['search_by'] ?? null,
-            $rv['order_direction'] ?? null
+            $rv['order_direction'] ?? null,
+            $rv['pageSize'] ?? null
         );
 
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Successfully Get List User',
             ResponseCode::SUCCESS_GET_DATA,
-            UserApiDto::fromUserApiCollection($data)
+            $data
         );
     }
 
@@ -60,7 +64,8 @@ class UserApiController extends Controller
         string $search = null,
         string $orderBy = null,
         string $searchBy = null,
-        string $orderDirection = null
+        string $orderDirection = null,
+        int $pageSize = null
     ) {
         $query = UserApi::where('user_id', $this->getUserId())
             ->with(['address', 'image']);
@@ -73,7 +78,10 @@ class UserApiController extends Controller
             $query = $query->orderBy($orderBy, $orderDirection);
         }
 
-        return $query->get();
+        return $query->simplePaginate($pageSize ?? $this->configUtils->getPageSize())
+            ->through(function ($u) {
+                return UserApiDto::fromUserApi($u);
+            });
     }
 
     public function create(CreateUserApiRequest $r): JsonResponse
@@ -110,11 +118,11 @@ class UserApiController extends Controller
 
     private function createDefaultImage(string $name): string
     {
-        $dirUser = '/api/user/' . $this->getUserId() . '/img';
+        $dirUser = implode(DIRECTORY_SEPARATOR, ['api', 'use', $this->getUserId(), 'img']);
         $path = Storage::disk('local')->path($dirUser);
         Storage::disk('local')->makeDirectory($dirUser);
 
-        $finalPath = $path . '/' . Str::uuid()->toString();
+        $finalPath = $path . DIRECTORY_SEPARATOR . Str::uuid()->toString();
         $avatar = new Avatar();
         $avatar->create($name)
             ->setDimension(400, 400)
@@ -137,16 +145,36 @@ class UserApiController extends Controller
                 ->notFound($this->getRequestId(), "Image not found", ResponseCode::RESOURCE_NOT_FOUND);
         }
 
-        $fp = $rootPath . $u->image->path . '/' . $u->image->filename;
+        $fp = $rootPath . $u->image->path . DIRECTORY_SEPARATOR . $u->image->filename;
         return response()->file($fp, ['Content-Type' => 'image/png']);
     }
-    
+
     public function updateImage(string $id, UploadImageUserApiRequest $r)
     {
         $rv = $r->validated();
-        dd($rv);
-        // TODO: Implement
+        $file = $rv['file'];
+
+        $u = UserApi::where('user_id', $this->getUserId())->where('id', $id)->firstOrFail();
+        $imgPath = implode(DIRECTORY_SEPARATOR, ['api', 'user', $this->getUserId(), 'img']);
+        $filename = StringUtil::uuidWihoutStrip() .'_'. $file->getClientOriginalName();
+
+        $file->storeAs($imgPath, $filename);
+
+        $img = $u->image;
+        $img->filename = $filename;
+        $img->save();
+
+        $img->filename = StringUtil::removeUuidPrefix($filename);
+
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'Successfully Get User',
+            ResponseCode::SUCCESS_UPDATE,
+            UserApiDto::fromUserApi($u)
+        );
     }
+
+
     public function detail(string $id): JsonResponse
     {
         Log::info('[USER_API] get detail of user ' . $id);

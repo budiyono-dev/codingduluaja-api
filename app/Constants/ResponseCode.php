@@ -14,10 +14,11 @@ class ResponseCode
     const SUCCESS_EDIT_DATA = 'CDA-S-002';
     const SUCCESS_DELETE_DATA = 'CDA-S-003';
     const SUCCESS_REVOKE_TOKEN = 'CDA-S-004';
+    const SUCCESS_UPDATE = 'CDA-S-005';
 
     // input validation
     const FORM_VALIDATION = 'CDA-V-001';
-    
+
     // error access
     const UNAUTHORIZED = 'CDA-A-001';
     const FORBIDDEN = 'CDA-A-002';

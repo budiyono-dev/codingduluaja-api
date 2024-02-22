@@ -37,7 +37,7 @@ class UserApiDto {
         );
         $img = new UserApiDtoImage($userImg->filename);
 
-        $userDto = new UserApiDto(
+        return new UserApiDto(
             $user->id,
             $user->name,
             $user->nik,
@@ -48,8 +48,6 @@ class UserApiDto {
             $addr,
             $img
         );
-
-        return $userDto;
     }
 }
 
