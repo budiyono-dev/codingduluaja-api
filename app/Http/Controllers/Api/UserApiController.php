@@ -156,7 +156,7 @@ class UserApiController extends Controller
 
         $u = UserApi::where('user_id', $this->getUserId())->where('id', $id)->firstOrFail();
         $imgPath = implode(DIRECTORY_SEPARATOR, ['api', 'user', $this->getUserId(), 'img']);
-        $filename = StringUtil::uuidWihoutStrip() .'_'. $file->getClientOriginalName();
+        $filename = StringUtil::uuidWihoutStrip() . '_' . $file->getClientOriginalName();
 
         $file->storeAs($imgPath, $filename);
 
@@ -174,13 +174,12 @@ class UserApiController extends Controller
         );
     }
 
-
     public function detail(string $id): JsonResponse
     {
         Log::info('[USER_API] get detail of user ' . $id);
         $user = UserApi::findOrFail($id);
         if ($user->user_id != $this->getUserId()) {
-            return $this->responseHelper->notFound('user');
+            return $this->responseHelper->notFound($this->getRequestId(), 'user', ResponseCode::MODEL_NOT_FOUND);
         }
         return $this->responseHelper->success(
             $this->getRequestId(),
@@ -189,12 +188,51 @@ class UserApiController extends Controller
             UserApiDto::fromUserApi($user)
         );
     }
-    public function edit(string $id): JsonResponse
+
+    public function edit(CreateUserApiRequest $r, Request $req): JsonResponse
     {
+        $v = $req->validate([
+            'id' => 'required',
+        ]);
+        $user = UserApi::findOrFail($v['id']);
+        $rv = $r->validated();
+
+        DB::transaction(function () use ($rv, $user) {
+            $user->name = $rv['name'] ?? null;
+            $user->nik = $rv['nik'] ?? null;
+            $user->phone = $rv['phone'] ?? null;
+            $user->email = $rv['email'] ?? null;
+
+            $user->save();
+
+            $address = $user->address;
+            $address->country = $rv['address']['country'] ?? null;
+            $address->state = $rv['address']['state'] ?? null;
+            $address->city = $rv['address']['city'] ?? null;
+            $address->postcode = $rv['address']['postcode'] ?? null;
+            $address->detail = $rv['address']['detail'] ?? null;
+
+            $address->save();
+        });
+
         return $this->responseHelper->resourceNotFound('blm dibuat');
     }
+
     public function delete(string $id): JsonResponse
     {
-        return $this->responseHelper->resourceNotFound('blm dibuat');
+        Log::info('[USER_API] delete user ' . $id);
+        $user = UserApi::findOrFail($id);
+        if ($user->user_id != $this->getUserId()) {
+            return $this->responseHelper->notFound($this->getRequestId(), 'user', ResponseCode::MODEL_NOT_FOUND);
+        }
+        DB::transaction(function () use ($user) {
+            $user->delete();
+        });
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'Successfully Delete User',
+            ResponseCode::SUCCESS_DELETE_DATA,
+            UserApiDto::fromUserApi($user)
+        );
     }
 }
