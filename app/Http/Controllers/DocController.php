@@ -17,7 +17,7 @@ class DocController extends Controller
         return view('page.doc.wilayah', [
             'endpoint' => config('app.url') . '/api' . ApiPath::WILAYAH_BPS,
             'title' => 'Wilayah BPS',
-            'jsonResponse' => $this->getJsonResponse(true)
+            'jsonResponse' => $this->getWilayahJsonResponse(true)
         ]);
     }
     public function wilayahDagri()
@@ -25,11 +25,19 @@ class DocController extends Controller
         return view('page.doc.wilayah', [
             'endpoint' => config('app.url') . '/api' . ApiPath::WILAYAH_DAGRI,
             'title' => 'Wilayah Dagri',
-            'jsonResponse' => $this->getJsonResponse(false)
+            'jsonResponse' => $this->getWilayahJsonResponse(false)
+        ]);
+    }
+    public function userApi()
+    {
+        return view('page.doc.user-api', [
+            'endpoint' => config('app.url') . '/api' . ApiPath::USER_API,
+            'title' => 'User',
+            'jsonResponse' => null
         ]);
     }
 
-    private function getJsonResponse(bool $isBps): array
+    private function getWilayahJsonResponse(bool $isBps): array
     {
         return [
             'resGetListProvinsi' => $isBps

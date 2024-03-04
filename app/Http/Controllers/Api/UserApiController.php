@@ -11,13 +11,16 @@ use App\Constants\ResponseCode;
 use App\Helper\ConfigUtils;
 use App\Helper\ResponseHelper;
 use App\Helper\StringUtil;
+use App\Http\Requests\Api\User\CreateDummyUserRequest;
 use App\Http\Requests\Api\User\CreateUserApiRequest;
 use App\Http\Requests\Api\User\SearchUserApiRequest;
 use App\Http\Requests\Api\User\UploadImageUserApiRequest;
 use App\Models\User;
+use Faker\Factory;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -35,6 +38,60 @@ class UserApiController extends Controller
         protected ResponseHelper $responseHelper,
         protected ConfigUtils $configUtils
     ) {
+    }
+
+    public function index()
+    {
+        $data = UserApi::where('user_id', Auth::user()->id)->get()
+            ->map(function ($u) {
+                return UserApiDto::fromUserApiFormatedDate($u, 'd-m-Y H:i:s');
+            });
+        // dd($data);
+        return view('page.res.user-api', [
+            'title' => 'User API',
+            'user' => $data
+        ]);
+    }
+
+    public function dummy(CreateDummyUserRequest $r)
+    {
+        $rv = $r->validated();
+        $qty = $rv['sel_qty'];
+        $userId = Auth::user()->id;
+        
+        $faker = Factory::create('id_ID');
+        $dirUser = '/api/user/' . $userId . '/img';
+        $path = Storage::disk('local')->path($dirUser);
+        Storage::disk('local')->makeDirectory($dirUser);
+
+        for ($i = 0; $i < $qty; $i++) {
+            $user = UserApi::create([
+                'user_id' => $userId,
+                'name' => $faker->firstName() . ' ' . $faker->lastName(),
+                'nik' => $faker->nik(),
+                'phone' => $faker->e164PhoneNumber(),
+                'email' => $faker->safeEmail()
+            ]);
+
+            UserApiAddress::create([
+                'user_api_id' => $user->id,
+                'country' => $faker->country(),
+                'state' => $faker->state(),
+                'city' => $faker->city(),
+                'postcode' => $faker->postcode(),
+                'detail' => $faker->address(),
+            ]);
+
+            $img = $faker->image($path);
+            $filename = basename($img);
+
+            UserApiImage::create([
+                'user_api_id' => $user->id,
+                'path' => $dirUser,
+                'filename' => $filename
+            ]);
+        }
+        return redirect()->route('page.res.userApi');
     }
 
     public function get(SearchUserApiRequest $r): JsonResponse

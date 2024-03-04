@@ -1,6 +1,7 @@
 <?php
 namespace App\Dto;
 use App\Models\Api\User\UserApi;
+use Carbon\Carbon;
 
 class UserApiDto {
     public function __construct(
@@ -48,6 +49,14 @@ class UserApiDto {
             $addr,
             $img
         );
+    }
+
+    public static function fromUserApiFormatedDate(UserApi $user, string $format): UserApiDto
+    {
+        $u = UserApiDto::fromUserApi($user);
+        $u->created_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->created_at)->format($format);
+        $u->updated_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->created_at)->format($format);
+        return $u;
     }
 }
 
