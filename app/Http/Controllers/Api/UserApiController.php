@@ -106,7 +106,7 @@ class UserApiController extends Controller
             $rv['order_by'] ?? null,
             $rv['search_by'] ?? null,
             $rv['order_direction'] ?? null,
-            $rv['pageSize'] ?? null
+            $rv['page_size'] ?? null
         );
 
         return $this->responseHelper->success(
@@ -134,7 +134,7 @@ class UserApiController extends Controller
         if (!is_null($orderBy) && !empty($orderBy) && !is_null($orderDirection) && !empty($orderDirection)) {
             $query = $query->orderBy($orderBy, $orderDirection);
         }
-
+        
         return $query->simplePaginate($pageSize ?? $this->configUtils->getPageSize())
             ->through(function ($u) {
                 return UserApiDto::fromUserApi($u);

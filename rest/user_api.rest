@@ -1,7 +1,13 @@
-@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJ0ZXN0ZXIgQ29kaW5nZHVsdWFqYSIsImlhdCI6MTcwODA5MjM5MiwiZXhwIjoxNzA4MzUxNTkyfQ==.Uw61QARGzcM+KoqTcRr0CWiTFPQfzbJ5/5Z4ZCeex7c=
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJ0ZXN0ZXIgQ29kaW5nZHVsdWFqYSIsImlhdCI6MTcwOTcwOTE1MywiZXhwIjoxNzA5OTY4MzUzfQ==.yzlISHMUsAZNyHuMVLNua2o4KEdoi2FkSIsv8EsWUxo=
 
 ### Get List
 GET http://localhost:8000/api/user
+?page_size=5
+&page=1
+&search=Yanto
+&search_by=name
+&order_by=name
+&order_direction=desc
 x-authorization: {{token}} 
 
 ### Get Single

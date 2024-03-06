@@ -3,16 +3,16 @@
 
         <div class="doc-main doc">
             <h1 class="fs-2" id="apiName">{{ $title }} Api</h3>
-            <p>{{ $title }} Api merupakan api yang disediakan untuk menampilkan data infomasi wilayah berdasarkan data bps. <b>Disclaimer</b> : data wilayah bisa jadi tidak sesuai, silahkan cek di laman resmi bps</p>
+            <p>{{ $title }} Api merupakan api yang disediakan untuk menampilkan data dummy user.</p>
             <h3 class="fs-4" id="listEndpoint">List Endpoint</h3>
             <p>Berikut list endpoint yang disediakan untuk {{ $title }} Api, pastikan menambahkan token kedalam <strong>Header</strong> untuk setiap request. <code>X-Authorization: Bearer @{{your_token}}</code></p>
 
-            <h3 class="fs-6 fw-bold" id="getListProvinsi">Get List Provinsi</h3>
-            <p>Menampilkan semua data provinsi, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/provinsi</code>, contoh response :</p>
-            <pre class="card" ><code class="language-json" id="resListProvinsi"></code></pre>
+            <h3 class="fs-6 fw-bold" id="getListUser">Get List User</h3>
+            <p>Menampilkan semua data user, method : <code>GET</code>, endpoint : <code>{{$endpoint}}</code>, contoh response :</p>
+            <pre class="card" ><code class="language-json" id="resListUser"></code></pre>
 
             <h3 class="fs-6 fw-bold" id="getDetailProvinsi">Get Detail Provinsi</h3>
-            <p>Menampilkan data provinsi berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/provinsi/{id}</code>, contoh response :</p>
+            <p>Menampilkan data provinsi berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/{id}</code>, contoh response :</p>
             <pre class="card" ><code class="language-json" id="resDetailProvinsi"></code></pre>
 
             <h3 class="fs-6 fw-bold" id="getListKabupaten">Get List Kabupaten</h3>
@@ -130,7 +130,7 @@
                 <li><a class="link-dark" href="#apiName">{{ $title }} Api</a></li>
                 <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
                     <ul>
-                        <li><a class="link-dark" href="#getListProvinsi">Get List Provinsi</a></li>
+                        <li><a class="link-dark" href="#getListUser">Get List User</a></li>
                         <li><a class="link-dark" href="#getDetailProvinsi">Get Detail Provinsi</a></li>
                         <li><a class="link-dark" href="#getListKabupaten">Get List Kabupaten</a></li>
                         <li><a class="link-dark" href="#getDetailKabupaten">Get Detail Kabupaten</a></li>
@@ -168,7 +168,7 @@
             const formatJson = (stringJson) => {
                 return JSON.stringify(JSON.parse(stringJson), null, 4);
             }
-            document.getElementById('resListProvinsi').innerHTML = formatJson(jsonResponse.resGetListProvinsi);
+            document.getElementById('resListUser').innerHTML = formatJson(jsonResponse.resListUser);
             document.getElementById('resDetailProvinsi').innerHTML = formatJson(jsonResponse.resGetDetailProvinsi);
             document.getElementById('resListKabupaten').innerHTML = formatJson(jsonResponse.resGetListKabupaten);
             document.getElementById('resDetailKabupaten').innerHTML = formatJson(jsonResponse.resGetDetailKabupaten);
