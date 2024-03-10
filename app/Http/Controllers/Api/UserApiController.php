@@ -15,7 +15,6 @@ use App\Http\Requests\Api\User\CreateDummyUserRequest;
 use App\Http\Requests\Api\User\CreateUserApiRequest;
 use App\Http\Requests\Api\User\SearchUserApiRequest;
 use App\Http\Requests\Api\User\UploadImageUserApiRequest;
-use App\Models\User;
 use Faker\Factory;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
@@ -23,12 +22,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Optional;
 use Laravolt\Avatar\Avatar;
 use Illuminate\Support\Str;
-use League\MimeTypeDetection\EmptyExtensionToMimeTypeMap;
 
 class UserApiController extends Controller
 {
@@ -46,7 +42,7 @@ class UserApiController extends Controller
             ->map(function ($u) {
                 return UserApiDto::fromUserApiFormatedDate($u, 'd-m-Y H:i:s');
             });
-        // dd($data);
+
         return view('page.res.user-api', [
             'title' => 'User API',
             'user' => $data
@@ -58,7 +54,7 @@ class UserApiController extends Controller
         $rv = $r->validated();
         $qty = $rv['sel_qty'];
         $userId = Auth::user()->id;
-        
+
         $faker = Factory::create('id_ID');
         $dirUser = '/api/user/' . $userId . '/img';
         $path = Storage::disk('local')->path($dirUser);
@@ -103,10 +99,10 @@ class UserApiController extends Controller
 
         $data = $this->search(
             $rv['search'] ?? null,
-            $rv['order_by'] ?? null,
-            $rv['search_by'] ?? null,
-            $rv['order_direction'] ?? null,
-            $rv['page_size'] ?? null
+            $rv['order_by'] ?? 'created_at',
+            $rv['search_by'] ?? 'name',
+            $rv['order_direction'] ?? 'desc',
+            $rv['page_size'] ?? $this->configUtils->getPageSize()
         );
 
         return $this->responseHelper->success(
@@ -117,13 +113,8 @@ class UserApiController extends Controller
         );
     }
 
-    private function search(
-        string $search = null,
-        string $orderBy = null,
-        string $searchBy = null,
-        string $orderDirection = null,
-        int $pageSize = null
-    ) {
+    private function search(?string $search, string $orderBy, string $searchBy, string $orderDirection, int $pageSize)
+    {
         $query = UserApi::where('user_id', $this->getUserId())
             ->with(['address', 'image']);
 
@@ -134,8 +125,8 @@ class UserApiController extends Controller
         if (!is_null($orderBy) && !empty($orderBy) && !is_null($orderDirection) && !empty($orderDirection)) {
             $query = $query->orderBy($orderBy, $orderDirection);
         }
-        
-        return $query->simplePaginate($pageSize ?? $this->configUtils->getPageSize())
+
+        return $query->simplePaginate($pageSize)
             ->through(function ($u) {
                 return UserApiDto::fromUserApi($u);
             });

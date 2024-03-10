@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 
 class DocController extends Controller
 {
-    private array $head = ['#','Field Name','Type','Length','Mandatory','Description'];
+    private array $head = ['#', 'Field Name', 'Type', 'Length', 'Mandatory', 'Description'];
 
     public function todolist()
     {
@@ -32,13 +32,33 @@ class DocController extends Controller
     }
     public function userApi()
     {
+        $userSearchParam = [
+            [1, 'search', 'string', '-', 'N', 'text to search'],
+            [2, 'order_by', 'string', '-', 'N', 'ordering data by created_at (default), name or updated_at'],
+            [3, 'search_by', 'string', '-', 'N', 'searching by name (default), nik, phone or email'],
+            [4, 'order_direction', 'string', '-', 'N', 'ordering asc (ascending) or desc (descending)'],
+            [5, 'page_size', 'string', '-', 'N', 'page size (3,5,10, or 20)'],
+        ];
+        $createUser = [
+            [1, 'name', 'string', 'min:1,max:50', 'Y', 'name'],
+            [2, 'nik', 'string', 'min:16,max:16', 'Y', '16 characters NIK'],
+            [3, 'phone', 'string', 'max:20', 'N', 'phone number'],
+            [4, 'email', 'string', 'max:20', 'Y', 'email address'],
+            [5, 'country', 'string', 'min:1,max:50', 'N', 'country name'],
+            [6, 'state', 'string', 'min:1,max:50', 'N', 'state name'],
+            [7, 'city', 'string', 'min:1,max:50', 'N', 'city name'],
+            [8, 'postcode', 'string', 'max:20', 'N', 'postal code'],
+            [9, 'detail', 'string', 'max:255', 'N', 'detail address']
+        ];
 
         return view('page.doc.user-api', [
             'endpoint' => config('app.url') . '/api' . ApiPath::USER_API,
             'title' => 'User',
             'jres' => $this->getUserJsonResponse(),
             'tprop' => [
-                'head' => $this->head
+                'head' => $this->head,
+                'userSearchParam' => $userSearchParam,
+                'createUser' => $createUser
             ]
         ]);
     }
@@ -58,15 +78,16 @@ class DocController extends Controller
         ];
     }
 
-    private function getUserJsonResponse(){
+    private function getUserJsonResponse()
+    {
         return [
-            'listUser' => __('listUser'),
-            'createUser' => __('createUser'),
-            'detailUser' => __('detailUser'),
-            'updateUser' => __('updateUser'),
-            'deleteUser' => __('deleteUser'),
-            'updateImageUser' => __('updateImageUser'),
-            'getImageUser' => __('getImageUser'),
+            'list' => __('list'),
+            'create' => __('create'),
+            'detail' => __('detail'),
+            'update' => __('update'),
+            'delete' => __('delete'),
+            'updateImage' => __('updateImage'),
+            'getImage' => __('getImage'),
         ];
     }
 }

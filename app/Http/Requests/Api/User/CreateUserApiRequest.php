@@ -15,7 +15,7 @@ class CreateUserApiRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:1|max:50',
-            'nik' => 'nullable|regex:/^[0-9]{16}$/',
+            'nik' => 'nullable|string|regex:/^[0-9]{16}$/',
             'phone' => 'nullable|string|max:20',
             'email' => 'required|email|ax:50',
             'address.country' => 'nullable|string|min:1|max:50',

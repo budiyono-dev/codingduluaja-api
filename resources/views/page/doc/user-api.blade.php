@@ -6,6 +6,7 @@
             <p>{{ $title }} Api merupakan api yang disediakan untuk menampilkan data dummy user.</p>
             <h3 class="fs-4" id="listEndpoint">List Endpoint</h3>
             <p>Berikut list endpoint yang disediakan untuk {{ $title }} Api, pastikan menambahkan token kedalam <strong>Header</strong> untuk setiap request. <code>X-Authorization: Bearer @{{your_token}}</code></p>
+            <x-doc.table :row="$tprop['userSearchParam']" :head="$tprop['head']"></x-doc.table>
 
             <h3 class="fs-6 fw-bold" id="getListUser">Get List User</h3>
             <p>Menampilkan semua data user, method : <code>GET</code>, endpoint : <code>{{$endpoint}}</code>, contoh response :</p>
@@ -30,14 +31,7 @@
             <h3 class="fs-6 fw-bold" id="getListKecamatan">Get List Kecamatan</h3>
             <p>Menampilkan semua data kecamatan dari kabupaten tertentu, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/kecamatan</code></p>
             <p>Request parameter :</p>
-            @php 
-                $data1 = [  [1,'search','String','-','N','text to search'],
-                            [2,'order_by','String','-','N','text to search'],
-                            [3,'search_by','String','-','N','text to search'],
-                            [4,'order_direction','String','-','N','text to search'],
-                            [5,'page_size','String','-','N','text to search']];
-            @endphp
-            <x-doc.table :row="$data1" :head="$head"></x-doc.table>
+
             <p>contoh response :</p>
             <pre class="card" ><code class="language-json" id="resListKecamatan"></code></pre>
 
