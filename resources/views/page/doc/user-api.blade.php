@@ -18,28 +18,7 @@
             <h3 class="fs-6 fw-bold" id="getListKabupaten">Get List Kabupaten</h3>
             <p>Menampilkan semua data kabupaten dari provinsi tertentu, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/kabupaten</code></p>
             <p>Request parameter :</p>
-            <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Field Name</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Length</th>
-                        <th scope="col">Mandatory</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="row">1</td>
-                        <td>provinsi_id</td>
-                        <td>String</td>
-                        <td>-</td>
-                        <td>Y</td>
-                        <td>provinsi id</td>
-                    </tr>
-                </tbody>
-            </table>
+            
             <p>contoh response :</p>
             <pre class="card" ><code class="language-json" id="resListKabupaten"></code></pre>
             
@@ -51,32 +30,16 @@
             <h3 class="fs-6 fw-bold" id="getListKecamatan">Get List Kecamatan</h3>
             <p>Menampilkan semua data kecamatan dari kabupaten tertentu, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/kecamatan</code></p>
             <p>Request parameter :</p>
-            <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Field Name</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Length</th>
-                        <th scope="col">Mandatory</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="row">1</td>
-                        <td>kabupaten_id</td>
-                        <td>String</td>
-                        <td>-</td>
-                        <td>Y</td>
-                        <td>kabupaten id</td>
-                    </tr>
-                </tbody>
-            </table>
+            @php 
+                $data1 = [  [1,'search','String','-','N','text to search'],
+                            [2,'order_by','String','-','N','text to search'],
+                            [3,'search_by','String','-','N','text to search'],
+                            [4,'order_direction','String','-','N','text to search'],
+                            [5,'page_size','String','-','N','text to search']];
+            @endphp
+            <x-doc.table :row="$data1" :head="$head"></x-doc.table>
             <p>contoh response :</p>
             <pre class="card" ><code class="language-json" id="resListKecamatan"></code></pre>
-
-            
 
             <h3 class="fs-6 fw-bold" id="getDetailKecamatan">Get Detail Kecamatan</h3>
             <p>Menampilkan detail kecamatan berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/kecamatan/{id}</code>, contoh response :</p>
@@ -85,28 +48,7 @@
             <h3 class="fs-6 fw-bold" id="getListDesa">Get List Desa</h3>
             <p>Menampilkan semua data desa dari kecamatan tertentu, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/desa</code></p>
             <p>Request parameter :</p>
-            <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Field Name</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Length</th>
-                        <th scope="col">Mandatory</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="row">1</td>
-                        <td>kecamatan_id</td>
-                        <td>String</td>
-                        <td>-</td>
-                        <td>Y</td>
-                        <td>kecamatan id</td>
-                    </tr>
-                </tbody>
-            </table>
+            
             <p>contoh response :</p>
             <pre class="card" ><code class="language-json" id="resListDesa"></code></pre>
 
@@ -151,8 +93,8 @@
     </div>
     @push('script')
         <script type="text/javascript">
-            const jsonResponse = {!! json_encode($jsonResponse) !!};
-            console.table(jsonResponse);
+            const jres = {!! json_encode($jres) !!};
+            console.table(jres);
             let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
 
             const resetActive = () => {
@@ -168,17 +110,16 @@
             const formatJson = (stringJson) => {
                 return JSON.stringify(JSON.parse(stringJson), null, 4);
             }
-            document.getElementById('resListUser').innerHTML = formatJson(jsonResponse.resListUser);
-            document.getElementById('resDetailProvinsi').innerHTML = formatJson(jsonResponse.resGetDetailProvinsi);
-            document.getElementById('resListKabupaten').innerHTML = formatJson(jsonResponse.resGetListKabupaten);
-            document.getElementById('resDetailKabupaten').innerHTML = formatJson(jsonResponse.resGetDetailKabupaten);
-            document.getElementById('resListKecamatan').innerHTML = formatJson(jsonResponse.resGetListKecamatan);
-            document.getElementById('resDetailKecamatan').innerHTML = formatJson(jsonResponse.resGetDetailKecamatan);
-            document.getElementById('resListDesa').innerHTML = formatJson(jsonResponse.resGetListDesa);
-            document.getElementById('resDetailDesa').innerHTML = formatJson(jsonResponse.resGetDetailDesa);
+            document.getElementById('resListUser').innerHTML = formatJson(jres.listUser);
+            document.getElementById('resDetailProvinsi').innerHTML = formatJson(jres.createUser);
+            document.getElementById('detailUser').innerHTML = formatJson(jres.detailUser);
+            document.getElementById('updateUser').innerHTML = formatJson(jres.updateUser);
+            document.getElementById('deleteUser').innerHTML = formatJson(jres.deleteUser);
+            document.getElementById('updateImageUser').innerHTML = formatJson(jres.updateImageUser);
+            document.getElementById('getImageUser').innerHTML = formatJson(jres.getImageUser);
             
-            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('responsejson.error.unauthorized')) !!}, null, 4);
-            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('responsejson.error.notFound')) !!}, null, 4);
+            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('res.error.unauthorized')) !!}, null, 4);
+            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('res.error.notFound')) !!}, null, 4);
         </script>
     @endpush
 </x-layout.main-sidebar>
