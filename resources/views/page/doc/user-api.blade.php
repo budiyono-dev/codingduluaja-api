@@ -80,7 +80,7 @@
             <ul>
                 <li><a class="link-dark" href="#apiName">{{ $title }} Api</a></li>
                 <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
-                    <ul>
+                    <ul id="enpoints">
                         <li><a class="link-dark" href="#list">Get List User</a></li>
                         <li><a class="link-dark" href="#getDetailProvinsi">Get Detail Provinsi</a></li>
                         <li><a class="link-dark" href="#getListKabupaten">Get List Kabupaten</a></li>
@@ -119,6 +119,9 @@
             const formatJson = (stringJson) => {
                 return JSON.stringify(JSON.parse(stringJson), null, 4);
             }
+            (function(){
+                
+            })();
             document.getElementById('resList').innerHTML = formatJson(jres.list);
             document.getElementById('resDetail').innerHTML = formatJson(jres.detail);
             document.getElementById('resDelete').innerHTML = formatJson(jres.delete);
