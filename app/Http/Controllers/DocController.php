@@ -81,13 +81,12 @@ class DocController extends Controller
     private function getUserJsonResponse()
     {
         return [
-            'list' => __('list'),
-            'create' => __('create'),
-            'detail' => __('detail'),
-            'update' => __('update'),
-            'delete' => __('delete'),
-            'updateImage' => __('updateImage'),
-            'getImage' => __('getImage'),
+            'list' => __('res.user.list'),
+            'create' => __('res.user.create'),
+            'detail' => __('res.user.detail'),
+            'update' => __('res.user.update'),
+            'delete' => __('res.user.delete'),
+            'updateImage' => __('res.user.updateImage'),
         ];
     }
 }

@@ -274,13 +274,15 @@ class UserApiController extends Controller
             return $this->responseHelper->notFound($this->getRequestId(), 'user', ResponseCode::MODEL_NOT_FOUND);
         }
         DB::transaction(function () use ($user) {
+            $user->address->delete();
+            $user->image->delete();
             $user->delete();
         });
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Successfully Delete User',
             ResponseCode::SUCCESS_DELETE_DATA,
-            UserApiDto::fromUserApi($user)
+            null
         );
     }
 }
