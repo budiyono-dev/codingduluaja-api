@@ -80,15 +80,7 @@
             <ul>
                 <li><a class="link-dark" href="#apiName">{{ $title }} Api</a></li>
                 <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
-                    <ul id="enpoints">
-                        <li><a class="link-dark" href="#list">Get List User</a></li>
-                        <li><a class="link-dark" href="#getDetailProvinsi">Get Detail Provinsi</a></li>
-                        <li><a class="link-dark" href="#getListKabupaten">Get List Kabupaten</a></li>
-                        <li><a class="link-dark" href="#getDetailKabupaten">Get Detail Kabupaten</a></li>
-                        <li><a class="link-dark" href="#getListKecamatan">Get List Kecamatan</a></li>
-                        <li><a class="link-dark" href="#getDetailKecamatan">Get Detail Kecamatan</a></li>
-                        <li><a class="link-dark" href="#getListDesa">Get List Desa</a></li>
-                        <li><a class="link-dark" href="#getDetailDesa">Get Detail Desa</a></li>
+                    <ul id="endpoints">
                     </ul>
                 </li>
                 <li><a class="link-dark" href="#listError">Error Example</a>
@@ -102,8 +94,9 @@
     </div>
     @push('script')
         <script type="text/javascript">
+            genLinkDoc();
             const jres = {!! json_encode($jres) !!};
-            console.log(jres);
+            // console.log(jres);
             let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
 
             const resetActive = () => {
@@ -119,9 +112,6 @@
             const formatJson = (stringJson) => {
                 return JSON.stringify(JSON.parse(stringJson), null, 4);
             }
-            (function(){
-                
-            })();
             document.getElementById('resList').innerHTML = formatJson(jres.list);
             document.getElementById('resDetail').innerHTML = formatJson(jres.detail);
             document.getElementById('resDelete').innerHTML = formatJson(jres.delete);

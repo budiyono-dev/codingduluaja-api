@@ -239,6 +239,18 @@
 
         }
 
+        const genLinkDoc = () => {
+            let ep = document.getElementById('endpoints');
+            let classLink = localTheme === 'dark' ? 'link-light' : 'link-dark';
+            console.log("el",localTheme);
+            if (ep.innerHTML != ''){
+                document.querySelectorAll('.endpoint').forEach((el)=>{
+                    // console.log(el.id, el.innerText);
+                    ep.innerHTML += `<li><a class="${classLink}" href="#${el.id}">${el.innerText}</a></li>`
+                });
+            }
+        }
+
 
         // ============== Document Ready Function ================
         const errMsg = {!! json_encode($errors->all()) !!}
