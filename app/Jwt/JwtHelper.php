@@ -45,7 +45,7 @@ class JwtHelper
         );
 
         // create signature
-        Log::debug("token created {$encodedHeader}, {$encodedPayload}, {$key}");
+        Log::debug("[JWT] token created {$encodedHeader}, {$encodedPayload}, {$key}");
         $encodedSignature = base64_encode(
             $this->createSignature($encodedHeader, $encodedPayload, $key)
         );
@@ -55,14 +55,14 @@ class JwtHelper
 
     public function validateToken(string $token, string $key) : void
     {
-        Log::debug("validate token {$token}, {$key}");
+        Log::debug("[JWT] validate token {$token}, {$key}");
         list($header, $payload, $signature) = explode('.', $token);
 
         $encodeSignature = base64_encode(
             $this->createSignature($header, $payload, $key)
         );
 
-        Log::info("calulcate sign : {$encodeSignature} <=> {$signature}");
+        Log::info("[JWT] calulcate sign : {$encodeSignature} <=> {$signature}");
 
         if ($encodeSignature !== $signature) {
             throw TokenException::invalid();

@@ -39,4 +39,9 @@ class ApiException extends Exception
         return new static(403, ResponseCode::FORBIDDEN, $message);
     }
 
+    public static function systemError(): ApiException
+    {
+        return new static(500, ResponseCode::INTERNAL_SERVER_ERROR, "Internal Server Error");
+    }
+
 }

@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="{{ asset('assets/hjs/highlight.min.js') }}"></script>
+    <script src="{{ asset('assets/hjs/json.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/hjs/github-dark.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/bs/css/bootstrap.min.css') }}">
     <script>
         hljs.highlightAll();
     </script>
@@ -161,9 +161,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-    </script>
+    <script src="{{ asset('assets/bs/js/bootstrap.min.js')}}"></script>
     <script>
         const simpleToast = document.getElementById('simple-toast');
         const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast)
@@ -176,11 +174,6 @@
 
 
         // ============= GLOBAL FUNCTION =================
-
-        const refreshTooltips = () => {
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-            [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-        }
 
         // show simple toas
         const showSimpleToast = (msg = 'nofitication', type) => {
@@ -246,11 +239,22 @@
 
         }
 
+        const genLinkDoc = () => {
+            let ep = document.getElementById('endpoints');
+            let classLink = localTheme === 'dark' ? 'link-light' : 'link-dark';
+            console.log("el",localTheme);
+            if (ep.innerHTML != ''){
+                document.querySelectorAll('.endpoint').forEach((el)=>{
+                    // console.log(el.id, el.innerText);
+                    ep.innerHTML += `<li><a class="${classLink}" href="#${el.id}">${el.innerText}</a></li>`
+                });
+            }
+        }
+
 
         // ============== Document Ready Function ================
         const errMsg = {!! json_encode($errors->all()) !!}
 
-        refreshTooltips();
 
         if (errMsg.length > 0) {
             showSimpleToast(errMsg.join('<br>'));

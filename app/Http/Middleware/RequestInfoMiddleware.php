@@ -22,7 +22,7 @@ class RequestInfoMiddleware
             'path' => $req->path(),
             'ip' => $req->ip()
         ];
-        Log::info('REQUEST INFO : '.json_encode($reqInfo));
+        Log::info('[REQUEST INFO] requqest : '.json_encode($reqInfo));
 
         $req->attributes->add(
             [
@@ -33,10 +33,9 @@ class RequestInfoMiddleware
             ]
         );
         $res = $next($req);
+        $reqInfo['status'] = $res->getStatusCode();
 
-        $reqInfo['status'] = $res->status();
-
-        Log::info('RESPONSE INFO : '.json_encode($reqInfo));
+        Log::info('[RESPONSE INFO] response : '.json_encode($reqInfo));
 
         return $res;
     }

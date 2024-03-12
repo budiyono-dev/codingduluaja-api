@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -41,14 +42,14 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (TokenException $e, $request) {
             if ($this->isApiRequest($request)) {
-                Log::info("token exception = {$e->getMessage()}");
+                Log::info("[HANDLER] token exception = {$e->getMessage()}");
                 return $this->responseHelper->unAuthorize($this->getRequestId());
             }
         });
 
         $this->renderable(function (ApiException $e, $request) {
             if ($this->isApiRequest($request)) {
-                Log::info("api exception = {$e->getMessage()}");
+                Log::info("[HANDLER] api exception = {$e->getMessage()}");
                 return $this->responseHelper
                     ->error($this->getRequestId(), $e->getErrorCode(), $e->getMessage(), $e->getHttpCode(), null);
             }
@@ -56,7 +57,7 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (ValidationException $e, $request) {
             if ($this->isApiRequest($request)) {
-                Log::info("Validation Exception " . json_encode($e->validator->errors()->all()));
+                Log::info("[HANDLER] Validation Exception " . json_encode($e->validator->errors()->all()));
                 return $this->responseHelper
                     ->validationError(
                         $this->getRequestId(),
@@ -67,8 +68,8 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (NotFoundHttpException $e, $request) {
-            Log::info('not found ');
             if ($this->isApiRequest($request)) {
+                Log::info('[HANDLER] not found ');
                 $reqId = $this->getRequestId();
                 if ($e->getPrevious() instanceof ModelNotFoundException) {
                     return $this->responseHelper->notFound($reqId, 'Data not found', ResponseCode::MODEL_NOT_FOUND);
@@ -78,10 +79,17 @@ class Handler extends ExceptionHandler
             }
         });
 
+        $this->renderable(function (MethodNotAllowedHttpException $e, $request){
+            if ($this->isApiRequest($request)) {
+                Log::info('[HANDLER] method not allowed ');
+                return $this->responseHelper->methodNotAllowed(['error' => 'Method is not supported']);
+            }
+        });
+
         $this->renderable(function (Exception $e, $request) {
             if ($this->isApiRequest($request)) {
                 $reqId = $this->getRequestId();
-                Log::info("error 500 : {$e->getMessage()}, request_id : {$reqId}");
+                Log::info("[HANDLER] error 500 : {$e->getMessage()}, request_id : {$reqId}");
                 return $this->responseHelper->serverError($reqId, ['error' => 'System Error']);
             }
         });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ToDoListController;
+use App\Http\Controllers\Api\UserApiController;
 use App\Http\Controllers\Api\WilayahController;
 use App\Http\Controllers\AppManagerController;
 use App\Http\Controllers\AppResourceController;
@@ -10,7 +11,6 @@ use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\DocController;
 use App\Http\Controllers\ToolsController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 Route::middleware('auth')->group(function () {
     Route::view('/', 'page.welcome')->name('page.dashboard');
@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/todolist', 'todolist')->name('page.doc.todolist');
             Route::get('/wilayah/bps', 'wilayahBps')->name('page.doc.wilayahBps');
             Route::get('/wilayah/dagri', 'wilayahDagri')->name('page.doc.wilayahDagri');
+            Route::get('/user', 'userApi')->name('page.doc.userApi');
         });
     });
 
@@ -64,6 +65,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/wilayah/dagri', 'indexDagri')->name('page.res.wilayahDagri');
             Route::get('/wilayah/bps/{wilayah}/{id}', 'findBps')->name('page.res.findBps');
             Route::get('/wilayah/dagri/{wilayah}/{id}', 'findDagri')->name('page.res.findDagri');
+        });
+        Route::controller(UserApiController::class)->group(function () {
+            Route::get('/user', 'index')->name('page.res.userApi');
+            Route::post('/user/dummy', 'dummy')->name('do.userApi.dummy');
         });
     });
 

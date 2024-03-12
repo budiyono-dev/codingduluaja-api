@@ -20,6 +20,10 @@ return [
         'doc_wilayah_dagri' => 'Wilayah DAGRI',
         'res_wilayah_dagri' => 'Wilayah DAGRI',
 
-        'tools_base64' => 'Base64 Tools'
+        'tools_base64' => 'Base64 Tools',
+
+        'doc_user_api' => 'User API',
+        'res_user_api' => 'User API',
+
     ]
 ];
