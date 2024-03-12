@@ -8,6 +8,7 @@ use App\Models\Api\User\UserApiImage;
 use App\Traits\ApiContext;
 use App\Models\Api\User\UserApi;
 use App\Constants\ResponseCode;
+use App\Exceptions\ApiException;
 use App\Helper\ConfigUtils;
 use App\Helper\ResponseHelper;
 use App\Helper\StringUtil;
@@ -23,8 +24,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Laravolt\Avatar\Avatar;
 use Illuminate\Support\Str;
+use Intervention\Image\Exception\NotWritableException;
+
+use function PHPUnit\Framework\throwException;
 
 class UserApiController extends Controller
 {
@@ -152,32 +157,46 @@ class UserApiController extends Controller
                 'detail' => $rv['address']['detail'] ?? null
             ]);
 
-            $img = $this->createDefaultImage($user->name);
-
-            UserApiImage::create([
-                'user_api_id' => $user->id,
-                'path' => dirname($img),
-                'filename' => basename($img)
-            ]);
+            $img = $this->createDefaultImage($user->id, $user->name);
+            $img->save();
         });
 
-        return $this->responseHelper->resourceNotFound('blm dibuat');
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'User created successfully',
+            ResponseCode::SUCCESS_CREATE_DATA,
+            null
+        );
     }
 
-    private function createDefaultImage(string $name): string
+    private function createDefaultImage(string $userId, string $name): UserApiImage
     {
-        $dirUser = implode(DIRECTORY_SEPARATOR, ['api', 'use', $this->getUserId(), 'img']);
+        Log::info("[USER_API] {$this->getRequestId()} creating default image");
+        $dirUser = implode(DIRECTORY_SEPARATOR, ['api', 'user', $this->getUserId(), 'img']);
         $path = Storage::disk('local')->path($dirUser);
-        Storage::disk('local')->makeDirectory($dirUser);
 
-        $finalPath = $path . DIRECTORY_SEPARATOR . Str::uuid()->toString();
+        Log::info("[USER_API] check directory exists: {$path}");
+        if (!File::isDirectory($path)) {
+            Storage::disk('local')->makeDirectory($dirUser);
+        }
+        if (!File::isWritable($path)) {
+            Log::error("[USER_API] cannot write to path: {$path}");
+            throw ApiException::systemError();
+        }
+
+        $filename = StringUtil::uuidWihoutStrip() . '.png';
+        $fp = $path . DIRECTORY_SEPARATOR . $filename;
         $avatar = new Avatar();
         $avatar->create($name)
             ->setDimension(400, 400)
             ->setFontSize(200)
-            ->save($finalPath);
+            ->save($fp);
 
-        return $finalPath;
+        $img = new UserApiImage();
+        $img->user_api_id = $userId;
+        $img->path = $dirUser;
+        $img->filename = $filename;
+        return $img;
     }
 
 
@@ -216,9 +235,9 @@ class UserApiController extends Controller
 
         return $this->responseHelper->success(
             $this->getRequestId(),
-            'Successfully Get User',
-            ResponseCode::SUCCESS_UPDATE,
-            UserApiDto::fromUserApi($u)
+            'Image Updated Successfully',
+            ResponseCode::SUCCESS_EDIT_DATA,
+            null
         );
     }
 
@@ -237,14 +256,11 @@ class UserApiController extends Controller
         );
     }
 
-    public function edit(CreateUserApiRequest $r, Request $req): JsonResponse
+    public function edit(int $id, CreateUserApiRequest $r): JsonResponse
     {
-        $v = $req->validate([
-            'id' => 'required',
-        ]);
-        $user = UserApi::findOrFail($v['id']);
+        Log::info("[USER_API] Edit User {$id}");
         $rv = $r->validated();
-
+        $user = UserApi::findOrFail($id);
         DB::transaction(function () use ($rv, $user) {
             $user->name = $rv['name'] ?? null;
             $user->nik = $rv['nik'] ?? null;
@@ -263,7 +279,12 @@ class UserApiController extends Controller
             $address->save();
         });
 
-        return $this->responseHelper->resourceNotFound('blm dibuat');
+        return $this->responseHelper->success(
+            $this->getRequestId(),
+            'Data Updated Successfully',
+            ResponseCode::SUCCESS_EDIT_DATA,
+            null
+        );
     }
 
     public function delete(string $id): JsonResponse

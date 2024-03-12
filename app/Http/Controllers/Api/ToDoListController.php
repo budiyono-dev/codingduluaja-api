@@ -45,7 +45,7 @@ class ToDoListController extends Controller
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Data Inserted Successfully',
-            ResponseCode::SUCCESS_GET_DATA,
+            ResponseCode::SUCCESS_CREATE_DATA,
             null
         );
     }

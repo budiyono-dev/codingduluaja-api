@@ -15,6 +15,7 @@ class ResponseCode
     const SUCCESS_DELETE_DATA = 'CDA-S-003';
     const SUCCESS_REVOKE_TOKEN = 'CDA-S-004';
     const SUCCESS_UPDATE = 'CDA-S-005';
+    const SUCCESS_CREATE_DATA = 'CDA-S-006';
 
     // input validation
     const FORM_VALIDATION = 'CDA-V-001';

@@ -15,56 +15,57 @@
                 <p>Menampilkan semua data user, method : <code>GET</code>, endpoint : <code>{{ $endpoint }}</code>,
                     contoh response :
                 </p>
-                <pre class="card"><code class="language-json" id="resList"></code></pre>
+                <x-doc.json id="resList"/>
 
-                <h3 class="fs-6 fw-bold" id="detail">Get Detail User</h3>
+                <x-doc.judul id="detail" title="Get Detail User"/>
                 <p>Menampilkan data user berdasarkan id, method : <code>GET</code>, endpoint :
                     <code>{{ $endpoint }}/{id}</code>, contoh response :
                 </p>
-                <pre class="card"><code class="language-json" id="resDetail"></code></pre>
+                <x-doc.json id="resDetail"/>
 
-                <h3 class="fs-6 fw-bold" id="getImage">Get User Image</h3>
+                <x-doc.judul id="getImage" title="Get User Image"/>
                 <p>Menampilkan gambar dari user tertentu, method : <code>GET</code>, endpoint :
                     <code>{{ $endpoint }}/image/{id}</code>, id disini merupakan user id.
                     Response get user image merupakan sebuah gambar
                 </p>
+                
+                <x-doc.judul id="updateImage" title="Update User Image"/>
+                <p>Menyunting gambar dari user tertentu, method : <code>PUT</code>, endpoint :
+                    <code>{{ $endpoint }}/image/{id}</code>, id disini merupakan user id.
+                    Response get user image merupakan sebuah gambar
+                </p>
+                <p>Request parameter :</p>
+                <x-doc.table :row="$tprop['updateImage']" :head="$tprop['head']"></x-doc.table>
+                <p>contoh request :</p>
+                <x-doc.json id="resUpdateImage"/>
 
-                <h3 class="fs-6 fw-bold" id="delete">Delete User</h3>
+                <x-doc.judul id="delete" title="Delete User"/>
                 <p>Menghapus user berdasarkan id, method : <code>DELETE</code>, endpoint :
                     <code>{{ $endpoint }}/{id}</code>, contoh response :
                 </p>
-                <pre class="card"><code class="language-json" id="resDelete"></code></pre>
+                <x-doc.json id="resDelete"/>
 
-                <h3 class="fs-6 fw-bold" id="getListKecamatan">Get List Kecamatan</h3>
-                <p>Menampilkan semua data kecamatan dari kabupaten tertentu, method : <code>GET</code>, endpoint :
-                    <code>{{ $endpoint }}/kecamatan</code>
+                <x-doc.judul id="create" title="Create User"/>
+                <p>Menambahkan Data User, method : <code>POST</code>, endpoint :
+                    <code>{{ $endpoint }}</code>
                 </p>
                 <p>Request parameter :</p>
-
+                <x-doc.table :row="$tprop['createUser']" :head="$tprop['head']"></x-doc.table>
+                <p>contoh request :</p>
+                <x-doc.json id="reqCreate"/>
                 <p>contoh response :</p>
-                <pre class="card"><code class="language-json" id="resListKecamatan"></code></pre>
+                <x-doc.json id="resCreate"/>
 
-                <h3 class="fs-6 fw-bold" id="getDetailKecamatan">Get Detail Kecamatan</h3>
-                <p>Menampilkan detail kecamatan berdasarkan id, method : <code>GET</code>, endpoint :
-                    <code>{{ $endpoint }}/kecamatan/{id}</code>, contoh response :
-                </p>
-                <pre class="card"><code class="language-json" id="resDetailKecamatan"></code></pre>
-
-                <h3 class="fs-6 fw-bold" id="getListDesa">Get List Desa</h3>
-                <p>Menampilkan semua data desa dari kecamatan tertentu, method : <code>GET</code>, endpoint :
-                    <code>{{ $endpoint }}/desa</code>
+                <x-doc.judul id="update" title="Update User"/>
+                <p>Menyunting Data User, method : <code>PUT</code>, endpoint :
+                    <code>{{ $endpoint }}/{id}</code>
                 </p>
                 <p>Request parameter :</p>
-
+                <x-doc.table :row="$tprop['createUser']" :head="$tprop['head']"></x-doc.table>
+                <p>contoh request :</p>
+                <x-doc.json id="reqUpdate"/>
                 <p>contoh response :</p>
-                <pre class="card"><code class="language-json" id="resListDesa"></code></pre>
-
-
-                <h3 class="fs-6 fw-bold" id="getDetailDesa">Get Detail Desa</h3>
-                <p>Menampilkan detail desa berdasarkan id, method : <code>GET</code>, endpoint :
-                    <code>{{ $endpoint }}/desa/{id}</code>, contoh response :
-                </p>
-                <pre class="card"><code class="language-json" id="resDetailDesa"></code></pre>
+                <x-doc.json id="resUpdate"/>
 
                 <h3 class="fs-4" id="listError">Error Example</h3>
                 <p>Berikut contoh error response :</p>
@@ -115,10 +116,11 @@
             document.getElementById('resList').innerHTML = formatJson(jres.list);
             document.getElementById('resDetail').innerHTML = formatJson(jres.detail);
             document.getElementById('resDelete').innerHTML = formatJson(jres.delete);
-            // document.getElementById('update').innerHTML = formatJson(jres.update);
-            // document.getElementById('delete').innerHTML = formatJson(jres.delete);
-            // document.getElementById('updateImage').innerHTML = formatJson(jres.updateImage);
-            // document.getElementById('getImage').innerHTML = formatJson(jres.getImage);
+            document.getElementById('resCreate').innerHTML = formatJson(jres.create);
+            document.getElementById('reqCreate').innerHTML = formatJson(jres.reqCreate);
+            document.getElementById('resUpdate').innerHTML = formatJson(jres.update);
+            document.getElementById('reqUpdate').innerHTML = formatJson(jres.reqUpdate);
+            document.getElementById('resUpdateImage').innerHTML = formatJson(jres.updateImage);
 
             document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('res.error.unauthorized')) !!}, null, 4);
             document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('res.error.notFound')) !!}, null, 4);

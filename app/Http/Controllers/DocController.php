@@ -51,6 +51,10 @@ class DocController extends Controller
             [9, 'detail', 'string', 'max:255', 'N', 'detail address']
         ];
 
+        $updateImageUser = [
+            [1, 'file', 'image:jpg,png', 'max:200kb', 'Y', 'Multipart/form-data for update user image'],
+        ];
+
         return view('page.doc.user-api', [
             'endpoint' => config('app.url') . '/api' . ApiPath::USER_API,
             'title' => 'User',
@@ -58,7 +62,8 @@ class DocController extends Controller
             'tprop' => [
                 'head' => $this->head,
                 'userSearchParam' => $userSearchParam,
-                'createUser' => $createUser
+                'createUser' => $createUser,
+                'updateImage' => $updateImageUser
             ]
         ]);
     }
@@ -83,9 +88,11 @@ class DocController extends Controller
         return [
             'list' => __('res.user.list'),
             'create' => __('res.user.create'),
+            'reqCreate' => __('res.user.reqCreate'),
             'detail' => __('res.user.detail'),
             'update' => __('res.user.update'),
             'delete' => __('res.user.delete'),
+            'reqUpdate' => __('res.user.reqUpdate'),
             'updateImage' => __('res.user.updateImage'),
         ];
     }
