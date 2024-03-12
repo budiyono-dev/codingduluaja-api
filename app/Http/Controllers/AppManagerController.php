@@ -58,7 +58,7 @@ class AppManagerController extends Controller
 
     public function generateToken(Request $req): JsonResponse
     {
-        Log::info('generateToken');
+        Log::info('[APP-MANAGER] generateToken');
         try {
             $validatedReq = $req->validate([
                 'client_app_id' => 'required',
@@ -72,7 +72,7 @@ class AppManagerController extends Controller
             $clientResId = $validatedReq['client_resource_id'];
             $expId = $validatedReq['exp_id'];
 
-            Log::info("generateToken {$userId} req " . json_encode($validatedReq));
+            Log::info("[APP-MANAGER] generateToken {$userId} req " . json_encode($validatedReq));
 
             ClientResource::findOrFail($clientResId);
             $exp = ExpiredToken::findOrFail($expId);
@@ -102,7 +102,7 @@ class AppManagerController extends Controller
             });
             return response()->json(['token' => $token]);
         } catch (ValidationException | TokenException $e) {
-            Log::info("Error generateToken {$e->getMessage()}");
+            Log::info("[APP-MANAGER] Error generateToken {$e->getMessage()}");
             $errors = [];
             if ($e instanceof ValidationException) {
                 $errors = $e->validator->errors()->toArray();
@@ -116,7 +116,7 @@ class AppManagerController extends Controller
                     $errors
                 );
         } catch (Exception $e) {
-            Log::info("Error generateToken {$e->getMessage()}");
+            Log::info("[APP-MANAGER] Error generateToken {$e->getMessage()}");
             return $this->responseHelper
                 ->serverError(
                     '',
@@ -142,19 +142,19 @@ class AppManagerController extends Controller
                     ->notFound('', 'Token Not Found', ResponseCode::MODEL_NOT_FOUND);
             }
 
-            Log::info("show token of user_id = {$userId}, c_app = {$clientAppId}, c_res = {$clientResId}");
+            Log::info("[APP-MANAGER] show token of user_id = {$userId}, c_app = {$clientAppId}, c_res = {$clientResId}");
             return $this
                 ->responseHelper
                 ->success('', 'succces get data token', ResponseCode::SUCCESS_GET_DATA, $token);
         } catch (Exception $e) {
-            Log::info("Error showToken {$e->getMessage()}");
+            Log::info("[APP-MANAGER] Error showToken {$e->getMessage()}");
             return $this->responseHelper->serverError('', ['error' => $e->getMessage()]);
         }
     }
 
     public function revokeToken(Request $req): JsonResponse
     {
-        Log::info('revokeToken');
+        Log::info('[APP-MANAGER] revokeToken');
         $response = null;
         try {
 
@@ -168,7 +168,7 @@ class AppManagerController extends Controller
             $clientAppId = $validatedReq['client_app_id'];
             $clientResId = $validatedReq['client_resource_id'];
 
-            Log::info("revokeToken {$userId} req " . json_encode($validatedReq));
+            Log::info("[APP-MANAGER] revokeToken {$userId} req " . json_encode($validatedReq));
 
             $cRes = ClientResource::find($clientResId);
             if (is_null($cRes)) {
@@ -195,7 +195,7 @@ class AppManagerController extends Controller
                 ->responseHelper
                 ->success('', 'succces revoke token', ResponseCode::SUCCESS_REVOKE_TOKEN, null);
         } catch (Exception $e) {
-            Log::info("Error revokeToken {$e->getMessage()}");
+            Log::info("[APP-MANAGER] Error revokeToken {$e->getMessage()}");
             $response = $this->responseHelper
                 ->serverError(
                     '',

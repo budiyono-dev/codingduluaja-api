@@ -151,8 +151,8 @@
     </div>
     @push('script')
         <script type="text/javascript">
-            const jsonResponse = {!! json_encode($jsonResponse) !!};
-            console.table(jsonResponse);
+            const jr = {!! json_encode($jres) !!};
+            console.table(jr);
             let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
 
             const resetActive = () => {
@@ -168,17 +168,17 @@
             const formatJson = (stringJson) => {
                 return JSON.stringify(JSON.parse(stringJson), null, 4);
             }
-            document.getElementById('resListProvinsi').innerHTML = formatJson(jsonResponse.resGetListProvinsi);
-            document.getElementById('resDetailProvinsi').innerHTML = formatJson(jsonResponse.resGetDetailProvinsi);
-            document.getElementById('resListKabupaten').innerHTML = formatJson(jsonResponse.resGetListKabupaten);
-            document.getElementById('resDetailKabupaten').innerHTML = formatJson(jsonResponse.resGetDetailKabupaten);
-            document.getElementById('resListKecamatan').innerHTML = formatJson(jsonResponse.resGetListKecamatan);
-            document.getElementById('resDetailKecamatan').innerHTML = formatJson(jsonResponse.resGetDetailKecamatan);
-            document.getElementById('resListDesa').innerHTML = formatJson(jsonResponse.resGetListDesa);
-            document.getElementById('resDetailDesa').innerHTML = formatJson(jsonResponse.resGetDetailDesa);
+            document.getElementById('resListProvinsi').innerHTML = formatJson(jr.listProvinsi);
+            document.getElementById('resDetailProvinsi').innerHTML = formatJson(jr.detailProvinsi);
+            document.getElementById('resListKabupaten').innerHTML = formatJson(jr.listKabupaten);
+            document.getElementById('resDetailKabupaten').innerHTML = formatJson(jr.detailKabupaten);
+            document.getElementById('resListKecamatan').innerHTML = formatJson(jr.listKecamatan);
+            document.getElementById('resDetailKecamatan').innerHTML = formatJson(jr.detailKecamatan);
+            document.getElementById('resListDesa').innerHTML = formatJson(jr.listDesa);
+            document.getElementById('resDetailDesa').innerHTML = formatJson(jr.detailDesa);
             
-            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('responsejson.error.unauthorized')) !!}, null, 4);
-            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('responsejson.error.notFound')) !!}, null, 4);
+            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('res.error.unauthorized')) !!}, null, 4);
+            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('res.error.notFound')) !!}, null, 4);
         </script>
     @endpush
 </x-layout.main-sidebar>

@@ -14,12 +14,12 @@ class DevelopmentSeeder extends Seeder
 
     public function run(): void
     {
-        Log::info('Seeding Development Seeder');
+        Log::info('[DEPLOYMENT-SEEDER] Seeding Development Seeder');
         $listClientApp = $this->getListClientApp();
-        Log::info('Insert Client App');
+        Log::info('[DEPLOYMENT-SEEDER] Insert Client App');
         ClientApp::insert($listClientApp);
 
-        Log::info('Insert Client Resource');
+        Log::info('[DEPLOYMENT-SEEDER] Insert Client Resource');
         $listClientRes = $this->getListClientResource();
         ClientResource::insert($listClientRes);
     }

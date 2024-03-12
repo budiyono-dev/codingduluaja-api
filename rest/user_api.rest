@@ -1,0 +1,33 @@
+@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJ0ZXN0ZXIgQ29kaW5nZHVsdWFqYSIsImlhdCI6MTcwOTcwOTE1MywiZXhwIjoxNzA5OTY4MzUzfQ==.yzlISHMUsAZNyHuMVLNua2o4KEdoi2FkSIsv8EsWUxo=
+
+### Get List
+GET http://localhost:8000/api/user
+?page_size=5
+&page=1
+&search=Yanto
+&search_by=name
+&order_by=name
+&order_direction=desc
+x-authorization: {{token}} 
+
+### Get Single
+GET http://localhost:8000/api/user/1
+x-authorization: {{token}}
+
+### Delete user
+DELETE http://localhost:8000/api/user/4
+x-authorization: {{token}}
+
+### Create user 
+POST http://localhost:8000/api/user
+x-authorization: {{token}}
+content-type: application/json
+
+{
+    "date": "24-12-2023",
+    "name": "watching footbal",
+    "description": "MU VS Liverpol"
+}
+
+
+

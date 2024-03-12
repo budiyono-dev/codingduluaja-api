@@ -35,7 +35,7 @@ class TokenMiddleware
 
         $appKey = $this->validate($request, $token);
 
-        Log::info("middleware validate token = {$token}");
+        Log::info("[TOKEN] middleware validate token = {$token}");
         $this->jwtHelper->validateToken($token, $appKey);
 
         return $next($request);
@@ -88,7 +88,7 @@ class TokenMiddleware
 
         $currentPath = Str::after($apiCtx[CdaContext::PATH], 'api');
 
-        Log::debug("{$path}  <= === => {$currentPath}");
+        Log::debug("[TOKEN] {$path}  <= === => {$currentPath}");
 
         if (!Str::startsWith($currentPath, $path)) {
             throw TokenException::invalidResource();

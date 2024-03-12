@@ -37,7 +37,7 @@ class DeploymentController extends Controller
     public function refreshAdminConfig()
     {
         DB::transaction(function () {
-            Log::info('refrech id for admin console');
+            Log::info('[DEPLOYMENT] refrech id for admin console');
             $conf = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
             if (is_null($conf)) {
                 $conf = new Configuration();
@@ -64,7 +64,7 @@ class DeploymentController extends Controller
         $output = '';
 
         $action = $vReq['sel_action'];
-        Log::info("artisan comand run $action");
+        Log::info("[DEPLOYMENT] artisan comand run $action");
 
         if ($action === 'migrate:fresh') {
             $output = $this->migrateFresh();
@@ -84,7 +84,7 @@ class DeploymentController extends Controller
         } else {
             abort(404);
         }
-        Log::info("artisan comand run $output");
+        Log::info("[DEPLOYMENT] artisan comand run $output");
 
         return redirect()->route('page.su', ['id' => $id])->with('command-output', $output);
     }

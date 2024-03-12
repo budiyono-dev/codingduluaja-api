@@ -67,7 +67,7 @@ class WilayahController extends Controller
             }
             return $this->responseHelper->resourceNotFound('');
         } catch (Exception $e) {
-            Log::info("message {$e->getMessage()}");
+            Log::info("[WILAYAH-API] message {$e->getMessage()}");
             return $this->responseHelper->resourceNotFound('');
         }
     }
