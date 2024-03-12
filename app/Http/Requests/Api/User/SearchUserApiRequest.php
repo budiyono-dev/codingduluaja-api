@@ -14,10 +14,11 @@ class SearchUserApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'string|min:1',
-            'order_by' => 'string|in:name,created_at,updated_at',
-            'search_by' => 'string|in:name,nik,phone,email',
-            'order_direction' => 'string|in:desc,asc'
+            'search' => 'nullable|string|min:1',
+            'order_by' => 'nullable|string|in:name,created_at,updated_at',
+            'search_by' => 'nullable|string|in:name,nik,phone,email',
+            'order_direction' => 'nullable|string|in:desc,asc',
+            'page_size' => 'nullable|integer|in:3,5,10,20',
         ];
     }
 }

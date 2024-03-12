@@ -18,11 +18,13 @@ return new class extends Migration
         MigrationUtils::insertMenuItem($menuResourceManager->id, 'menu.item.res_todolist', 'page.res.todolist', 1);
         MigrationUtils::insertMenuItem($menuResourceManager->id, 'menu.item.res_wilayah_bps', 'page.res.wilayahBps', 2);
         MigrationUtils::insertMenuItem($menuResourceManager->id, 'menu.item.res_wilayah_dagri', 'page.res.wilayahDagri', 3);
+        MigrationUtils::insertMenuItem($menuResourceManager->id, 'menu.item.res_user_api', 'page.res.userApi', 4);
 
         $menuDocumentation = MigrationUtils::insertMenuParent('menu.parent.documentation', 3);
         MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.doc_todolist', 'page.doc.todolist', 1);
         MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.doc_wilayah_bps', 'page.doc.wilayahBps', 2);
         MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.doc_wilayah_dagri', 'page.doc.wilayahDagri', 3);
+        MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.doc_user_api', 'page.doc.userApi', 4);
 
         $menuDocumentation = MigrationUtils::insertMenuParent('menu.parent.tools', 4);
         MigrationUtils::insertMenuItem($menuDocumentation->id, 'menu.item.tools_base64', 'page.tools.base64', 1);

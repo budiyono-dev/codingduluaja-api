@@ -123,16 +123,16 @@
             daftarIsi.forEach(el => {
                 el.addEventListener('click', toggleActiveDaftarIsi);
             });
-            document.getElementById('resGetAll').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resGetAll')) !!}, null, 4);;
-            document.getElementById('resGetSingle').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resGetSingle')) !!}, null, 4);;
-            document.getElementById('resCreate').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resCreate')) !!}, null, 4);;
-            document.getElementById('reqCreate').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.reqCreate')) !!}, null, 4);;
-            document.getElementById('resEdit').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resEdit')) !!}, null, 4);;
-            document.getElementById('reqEdit').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.reqEdit')) !!}, null, 4);;
-            document.getElementById('resDelete').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resDelete')) !!}, null, 4);;
-            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('responsejson.error.unauthorized')) !!}, null, 4);;
-            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('responsejson.error.notFound')) !!}, null, 4);;
-            document.getElementById('resNotValid').innerHTML = JSON.stringify({!! __(__('responsejson.todolist.resNotValid')) !!}, null, 4);;
+            document.getElementById('resGetAll').innerHTML = JSON.stringify({!! __(__('res.todolist.resGetAll')) !!}, null, 4);;
+            document.getElementById('resGetSingle').innerHTML = JSON.stringify({!! __(__('res.todolist.resGetSingle')) !!}, null, 4);;
+            document.getElementById('resCreate').innerHTML = JSON.stringify({!! __(__('res.todolist.resCreate')) !!}, null, 4);;
+            document.getElementById('reqCreate').innerHTML = JSON.stringify({!! __(__('res.todolist.reqCreate')) !!}, null, 4);;
+            document.getElementById('resEdit').innerHTML = JSON.stringify({!! __(__('res.todolist.resEdit')) !!}, null, 4);;
+            document.getElementById('reqEdit').innerHTML = JSON.stringify({!! __(__('res.todolist.reqEdit')) !!}, null, 4);;
+            document.getElementById('resDelete').innerHTML = JSON.stringify({!! __(__('res.todolist.resDelete')) !!}, null, 4);;
+            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('res.error.unauthorized')) !!}, null, 4);;
+            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('res.error.notFound')) !!}, null, 4);;
+            document.getElementById('resNotValid').innerHTML = JSON.stringify({!! __(__('res.todolist.resNotValid')) !!}, null, 4);;
         </script>
     @endpush
 </x-layout.main-sidebar>
