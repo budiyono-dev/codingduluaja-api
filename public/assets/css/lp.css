@@ -1,0 +1,66 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    display: flex;
+    padding: 1rem 10% 1rem 5%;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: tomato; */
+    border-bottom: 0.1rem solid black;
+
+    &>.brand {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    & nav>ul {
+        /* background-color: tomato; */
+        padding: 0;
+        &> li {
+            display: inline-block;
+            &> a {
+                /* display: inline-block; */
+                padding: 0 1rem;
+                font-weight: bold;
+                color: inherit;
+            }
+        }
+    }
+}
+
+main {
+    text-align: center;
+    margin: 0 auto;
+    #about{
+        min-height: 500px;
+        background-color: tomato;
+    }
+    #api{
+        min-height: 500px;
+        background-color: aliceblue;
+
+    }
+    #doc{
+        min-height: 500px;
+        background-color: greenyellow;
+    }
+    #faq {
+        min-height: 500px;
+        background-color: hotpink;
+
+    }
+}
+
+footer {
+    text-align: center;
+    min-height: 300px;
+    margin: 0 auto;
+}
