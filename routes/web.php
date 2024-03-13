@@ -13,7 +13,7 @@ use App\Http\Controllers\ToolsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
-    Route::view('/', 'page.welcome')->name('page.dashboard');
+    Route::view('/dasboard', 'page.welcome')->name('page.dashboard');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
 
@@ -102,3 +102,4 @@ Route::controller(DeploymentController::class)->group(function () {
 });
 Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
+Route::view('/', 'page.landing-page')->name('page.langind-page');
