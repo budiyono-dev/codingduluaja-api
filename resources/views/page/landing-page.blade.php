@@ -23,16 +23,17 @@
         </nav>
     </header>
     <main>
-        <section id="about">
-            prolog
+        <section id="about" class="page">
+            <h2>Codingduluaja API</h2>
+            <p>coding dulu aja pahamnya nanti</p>
         </section>
-        <section id="api">
+        <section id="api" class="page">
             api
         </section>
-        <section id="doc">
+        <section id="doc" class="page">
             doc
         </section>
-        <section id="faq">
+        <section id="faq" class="page">
             faq
         </section>
     </main>
