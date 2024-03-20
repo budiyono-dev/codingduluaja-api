@@ -19,17 +19,12 @@ use App\Http\Requests\Api\User\UploadImageUserApiRequest;
 use Faker\Factory;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Laravolt\Avatar\Avatar;
-use Illuminate\Support\Str;
-use Intervention\Image\Exception\NotWritableException;
-
-use function PHPUnit\Framework\throwException;
 
 class UserApiController extends Controller
 {
