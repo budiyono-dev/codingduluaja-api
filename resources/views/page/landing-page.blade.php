@@ -26,6 +26,7 @@
         <section id="about" class="page">
             <h2>Codingduluaja API</h2>
             <p>coding dulu aja pahamnya nanti</p>
+            <button type="button">Documentation</button>
         </section>
         <section id="api" class="page">
             api
