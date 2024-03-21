@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helper\ImagePlaceholder;
 use App\Helper\ResponseHelper;
 use App\Jwt\JwtHelper;
 use App\Services\Wilayah\Wilayah;
@@ -10,9 +11,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         $this->app->singleton(ResponseHelper::class, function () {
@@ -28,13 +26,14 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->make(ResponseHelper::class)
             );
         });
+
+        $this->app->singleton(ImagePlaceholder::class, function(){
+            return new ImagePlaceholder();
+        });
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        // Paginator::useBootstrap();
+        // not required yet
     }
 }

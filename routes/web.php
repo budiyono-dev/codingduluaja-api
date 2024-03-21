@@ -11,8 +11,6 @@ use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\DocController;
 use App\Http\Controllers\ToolsController;
 use Illuminate\Support\Facades\Route;
-use Intervention\Image\Laravel\Facades\Image;
-use Intervention\Image\Typography\FontFactory;
 
 Route::middleware('auth')->group(function () {
     Route::view('/', 'page.welcome')->name('page.dashboard');
@@ -104,17 +102,3 @@ Route::controller(DeploymentController::class)->group(function () {
 });
 Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
-Route::get('/testing-image', function(){
-    $img = Image::create(512, 512)->fill('ccc')->text('The quick brown fox', 512/2, 512/2, function (FontFactory $font) {
-        $font->color('fff');
-        $font->file(asset('assets/font/SpaceMono-Regular.ttf'));
-        $font->size(20);
-        $font->stroke('ff5500', 2);
-        $font->align('center');
-        $font->valign('middle');
-        $font->lineHeight(1.6);
-        // $font->angle(10);
-        // $font->wrap(250);
-    });
-    $img->save(public_path('dummy.jpg'));
-});
