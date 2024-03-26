@@ -1,10 +1,12 @@
 :root {
     --main: #fdfefe;
+    --main-permanent: #fdfefe;
     --secondary: #242626;
     --brown: #515143;
     --link: #EE6C4D;
     --hovercolor: #E0FBFC;
     --hover2: #98C1D9;
+    --bg2: #003349;
     color-scheme: light;
 }
 
@@ -84,17 +86,45 @@ header {
             color: inherit;
             cursor: pointer;
             margin: 1rem;
-            &:hover{
+
+            &:hover {
                 color: var(--link);
-            };
+            }
         }
 
+    }
+}
+
+.card {
+    border: 2px solid var(--secondary);
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    margin: 1rem 20%;
+    box-sizing: border-box;
+
+    & .title {
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 0.3rem;
+    }
+
+    & p {
+        margin: 0.2rem 0;
     }
 }
 
 main {
     text-align: center;
     margin: 0 auto;
+
+    & section:nth-child(even) {
+        background-color: var(--bg2);
+        color: var(--main-permanent);
+
+        &>.card {
+            border-color: var(--main-permanent);
+        }
+    }
 
     & .page {
         min-height: 500px;
@@ -104,8 +134,6 @@ main {
     }
 
     #about {
-
-        /* background-color: var(--secondary); */
         display: flex;
         text-align: center;
         justify-content: center;
@@ -122,36 +150,48 @@ main {
             padding: 0.7rem 1.2rem;
             border-radius: 10px;
             border: 1px solid var(--secondary);
-            /*background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(224,103,255,1) 51%, rgba(0,212,255,1) 100%);*/
-            /*color: var(--link);*/
             color: var(--main);
             background-color: var(--link);
-            /*background-color: var(--hover2);*/
-            &:hover{
+
+            &:hover {
                 color: var(--secondary);
                 background-color: var(--hover2);
                 cursor: pointer;
-            };
+            }
         }
     }
 
+
+
     #api {
-        background-color: aliceblue;
-
+        color: var(--main-permanent);
+        &>.card {
+            border-color: var(--main-permanent);
+        }
     }
 
-    #doc {
-        background-color: greenyellow;
+    #donate {
+        color: var(--main-permanent);
+        & .card {
+            border-color: var(--main-permanent);
+
+            & a {
+                color: var(--main-permanent);
+                text-decoration: none;
+                &:hover {
+                    color: var(--link);
+                }
+            }
+        }
     }
 
-    #faq {
-        background-color: hotpink;
-
-    }
+    #faq {}
 }
 
 footer {
     text-align: center;
-    min-height: 300px;
+    /* min-height: 100px; */
     margin: 0 auto;
+    /* background-color: var(--bg2); */
+    /* color: var(--main-permanent); */
 }
