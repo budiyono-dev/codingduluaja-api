@@ -10,6 +10,7 @@ use App\Models\Api\User\UserApi;
 use App\Constants\ResponseCode;
 use App\Exceptions\ApiException;
 use App\Helper\ConfigUtils;
+use App\Helper\ImagePlaceholder;
 use App\Helper\ResponseHelper;
 use App\Helper\StringUtil;
 use App\Http\Requests\Api\User\CreateDummyUserRequest;
@@ -19,17 +20,11 @@ use App\Http\Requests\Api\User\UploadImageUserApiRequest;
 use Faker\Factory;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Laravolt\Avatar\Avatar;
-use Illuminate\Support\Str;
-use Intervention\Image\Exception\NotWritableException;
-
-use function PHPUnit\Framework\throwException;
 
 class UserApiController extends Controller
 {
@@ -37,7 +32,8 @@ class UserApiController extends Controller
 
     public function __construct(
         protected ResponseHelper $responseHelper,
-        protected ConfigUtils $configUtils
+        protected ConfigUtils $configUtils,
+        protected ImagePlaceholder $imagePlaceholder
     ) {
     }
 
@@ -185,13 +181,8 @@ class UserApiController extends Controller
         }
 
         $filename = StringUtil::uuidWihoutStrip() . '.png';
-        $fp = $path . DIRECTORY_SEPARATOR . $filename;
-        $avatar = new Avatar();
-        $avatar->create($name)
-            ->setDimension(400, 400)
-            ->setFontSize(200)
-            ->save($fp);
-
+        $this->imagePlaceholder->placeholderByName($name, $path, $filename);
+        
         $img = new UserApiImage();
         $img->user_api_id = $userId;
         $img->path = $dirUser;
