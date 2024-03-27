@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Log;
 use function App\Exceptions\ApiException;
 use App\Constants\TableName;
 use App\Services\ResourceService;
-use App\Enums\MasterResource;
+use App\Enums\MasterResourceType;
 
 class ToDoListController extends Controller
 {
@@ -130,7 +130,7 @@ class ToDoListController extends Controller
             $userId = Auth::user()->id;
             $validatedReq = $req->validated();
             
-            if ($this->resourceService->isConnectedResource(MasterResource::TODOLIST)) {
+            if ($this->resourceService->isConnectedResource(MasterResourceType::TODOLIST)) {
                 abort(403);
             }
 

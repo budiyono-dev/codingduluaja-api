@@ -2,7 +2,11 @@
 
 namespace App\Enums;
 
-enum MasterResource
+enum MasterResourceType
 {
     case TODOLIST;
+    case MAHASISWA;
+    case WILAYAH_BPS;
+    case WILAYAH_DAGRI;
+    case USER_API;
 }

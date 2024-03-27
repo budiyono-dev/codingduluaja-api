@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Enums\MasterResource;
+use App\Enums\MasterResourceType;
 
 interface ResourceService
 {
-    public function isConnectedResource(MasterResource $resource): bool;
+    public function isConnectedResource(MasterResourceType $resource): bool;
 }
