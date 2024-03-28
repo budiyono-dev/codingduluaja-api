@@ -142,8 +142,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modals" {{-- data-bs-backdrop="static" --}} data-bs-keyboard="false" tabindex="-1"
-        {{-- aria-labelledby="staticBackdropLabel" --}} aria-hidden="true">
+    <div class="modal fade" id="modals" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content d-flex justify-content-center align-items-center">
                 <div class="modal-header w-100">

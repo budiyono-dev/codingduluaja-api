@@ -9,6 +9,7 @@ use App\Http\Requests\DisconnectClientRequest;
 use App\Models\ClientApp;
 use App\Models\ClientResource;
 use App\Models\MasterResource;
+use App\Services\ResourceService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -20,11 +21,16 @@ use Illuminate\Support\Facades\Log;
 
 class AppResourceController extends Controller
 {
+    public function __construct(
+        protected ResourceService $resourceService
+    ) {
+        //
+    }
     public function index(): View
     {
         $userId = Auth::user()->id;
 
-        $idResource = ClientResource::select('master_resource_id')->where('user_id',)->get()->toArray();
+        $idResource = ClientResource::select('master_resource_id')->where('user_id', $userId)->get()->toArray();
         $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
         $listClientApp = ClientApp::select('id', 'name')->where('user_id', $userId)->get();
 
@@ -83,6 +89,9 @@ class AppResourceController extends Controller
         Log::info("[APP-RESOURCE] Delete Resource : {$id}");
         DB::transaction(function () use ($id) {
             $clientResource = ClientResource::findOrFail($id);
+            
+            $this->resourceService->clearResource($clientResource->user_id, $clientResource->master_resource_id);
+            
             DB::table(TableName::CONNECTED_APP)
                 ->where('client_resource_id', $clientResource->id)
                 ->delete();
