@@ -54,8 +54,8 @@ class UserApiDto {
     public static function fromUserApiFormatedDate(UserApi $user, string $format): UserApiDto
     {
         $u = UserApiDto::fromUserApi($user);
-        $u->created_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->created_at)->format($format);
-        $u->updated_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->created_at)->format($format);
+        $u->created_at = $user->created_at->format($format);
+        $u->updated_at = $user->created_at->format($format);
         return $u;
     }
 }

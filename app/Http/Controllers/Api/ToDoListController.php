@@ -20,13 +20,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use function App\Exceptions\ApiException;
+use App\Constants\TableName;
+use App\Services\ResourceService;
+use App\Enums\MasterResourceType;
 
 class ToDoListController extends Controller
 {
     use ApiContext;
 
     public function __construct(
-        protected ResponseHelper $responseHelper
+        protected ResponseHelper $responseHelper,
+        protected ResourceService $resourceService
     ) {
     }
 
@@ -125,6 +129,11 @@ class ToDoListController extends Controller
         DB::transaction(function () use ($req) {
             $userId = Auth::user()->id;
             $validatedReq = $req->validated();
+            
+            if ($this->resourceService->isConnectedResource(MasterResourceType::TODOLIST)) {
+                abort(403);
+            }
+
             $qty = $validatedReq['sel_qty'];
             Log::info("[TODOLIST-API] create dummy data todolist for {$userId} qty : {$qty}");
             $faker = Factory::create('id_ID');
@@ -153,7 +162,7 @@ class ToDoListController extends Controller
                     'description' => $t->description,
                     'date' => $t->date,
                     'date_fmt' => Carbon::createFromFormat('Y-m-d', $t->date)->format('d F Y'),
-                    'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $t->created_at)->format('d/m/Y H:i')
+                    'created_at' => $t->created_at->format('d/m/Y H:i')
                 ]);
             });
         return view('page.res.todolist', ['todolist' => $todolist]);
