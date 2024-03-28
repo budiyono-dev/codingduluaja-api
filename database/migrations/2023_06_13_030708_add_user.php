@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants\TableName;
+use App\Constants\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
@@ -10,6 +11,7 @@ return new class extends Migration
     {
         DB::table(TableName::USERS)->insert([
             'username' => 'testerCda',
+            'role' => UserRole::admin()->getCode(),
             'first_name' => 'tester',
             'last_name' => 'Codingduluaja',
             'sex' => 'male',
