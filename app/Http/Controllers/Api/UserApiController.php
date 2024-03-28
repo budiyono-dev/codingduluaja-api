@@ -8,6 +8,7 @@ use App\Models\Api\User\UserApiImage;
 use App\Traits\ApiContext;
 use App\Models\Api\User\UserApi;
 use App\Constants\ResponseCode;
+use App\Enums\MasterResourceType;
 use App\Exceptions\ApiException;
 use App\Helper\ConfigUtils;
 use App\Helper\ImagePlaceholder;
@@ -17,6 +18,7 @@ use App\Http\Requests\Api\User\CreateDummyUserRequest;
 use App\Http\Requests\Api\User\CreateUserApiRequest;
 use App\Http\Requests\Api\User\SearchUserApiRequest;
 use App\Http\Requests\Api\User\UploadImageUserApiRequest;
+use App\Services\ResourceService;
 use Faker\Factory;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
@@ -33,7 +35,8 @@ class UserApiController extends Controller
     public function __construct(
         protected ResponseHelper $responseHelper,
         protected ConfigUtils $configUtils,
-        protected ImagePlaceholder $imagePlaceholder
+        protected ImagePlaceholder $imagePlaceholder,
+        protected ResourceService $resourceService
     ) {
     }
 
@@ -53,6 +56,11 @@ class UserApiController extends Controller
     public function dummy(CreateDummyUserRequest $r)
     {
         $rv = $r->validated();
+
+        if ($this->resourceService->isConnectedResource(MasterResourceType::USER_API)) {
+            abort(403);
+        }
+        
         $qty = $rv['sel_qty'];
         $userId = Auth::user()->id;
 
