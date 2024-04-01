@@ -15,6 +15,7 @@ class ClientApp extends Model
 
     public function connectedClientResource(): BelongsToMany
     {
-        return $this->belongsToMany(ClientResource::class, TableName::CONNECTED_APP, 'client_app_id', 'client_resource_id');
+        return $this
+            ->belongsToMany(ClientResource::class, TableName::CONNECTED_APP, 'client_app_id', 'client_resource_id');
     }
 }
