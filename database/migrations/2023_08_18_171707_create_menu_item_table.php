@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table->index('sequence');
             $table->unique(['menu_parent_id', 'sequence']);
+            $table->foreign('menu_parent_id')->references('id')->on(TableName::MENU_PARENT);
         });
     }
 

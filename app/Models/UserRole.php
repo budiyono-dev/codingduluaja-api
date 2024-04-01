@@ -13,10 +13,10 @@ class UserRole extends Model
     protected $table = TableName::USER_ROLE;
     protected $fillable = ['code', 'name'];
     protected $primaryKey = 'code';
-	public $incrementing = false;
+    public $incrementing = false;
 
 
-	public function user(): HasMany
+    public function user(): HasMany
     {
         return $this->hasMany(User::class, 'role_code', 'code');
     }
