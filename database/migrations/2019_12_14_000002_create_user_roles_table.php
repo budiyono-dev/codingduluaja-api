@@ -10,10 +10,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(TableName::USER_ROLE, function (Blueprint $table) {
-            $table->id();
-            $table->string('code', 20)->unique();
+            $table->string('code', 20)->primary();
             $table->string('name', 20);
             $table->timestamps();
+        });
+
+        Schema::table(TableName::USER_ROLE, function (Blueprint $table) {
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
         });
     }
 
