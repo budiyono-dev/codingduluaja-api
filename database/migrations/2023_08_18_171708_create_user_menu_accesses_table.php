@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('user_menu_accesses', function (Blueprint $table) {
+        Schema::create(TableName::USER_MENU_ACCESS, function (Blueprint $table) {
             $table->id();
             $table->string('role_code');
             $table->unsignedBigInteger('menu_access_id');
@@ -22,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('user_menu_accesses');
+        Schema::dropIfExists(TableName::USER_MENU_ACCESS);
     }
 };

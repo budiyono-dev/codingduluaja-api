@@ -3,12 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Constants\TableName;
 
 return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('menu_access_details', function (Blueprint $table) {
+        Schema::create(TableName::MENU_ACCESS_DETAIL, function (Blueprint $table) {
             $table->id();
             $table->unsignedBiginteger('menu_access_id');
             $table->unsignedBiginteger('menu_item_id');
@@ -19,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('menu_access_details');
+        Schema::dropIfExists(TableName::MENU_ACCESS_DETAIL);
     }
 };
