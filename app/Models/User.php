@@ -20,7 +20,7 @@ class User extends Authenticatable
         'sex',
         'email',
         'password',
-        'role'
+        'role_code'
     ];
 
     public function getAuthPasswordName()

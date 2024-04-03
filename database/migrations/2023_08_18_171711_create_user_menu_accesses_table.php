@@ -15,8 +15,8 @@ return new class extends Migration
             $table->unsignedBigInteger('menu_access_id');
             $table->timestamps();
 
-            $table->foreign('role_code')->references('id')->on(TableName::USER_ROLE);
-            $table->foreign('menu_access_id')->references('id')->on(TableName::CLIENT_APP);
+            $table->foreign('role_code')->references('code')->on(TableName::USER_ROLE);
+            $table->foreign('menu_access_id')->references('id')->on(TableName::MENU_ACCESS);
         });
     }
 

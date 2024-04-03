@@ -13,17 +13,13 @@ return new class extends Migration
         $admin = UserRole::admin()->getCode();
 
         $menuAccess1 = MigrationUtils::addUserMenuAccess($admin, 1);
-        MigrationUtils::addUserMenuAccessDetail($menuAccess1->id, [
-            'parent_name' => '',
-            'parent_sequence' => '',
-            'item_name' => '',
-            'item_page' => '',
-            'item_sequence' => ''
-        ]);
+        MigrationUtils::addUserMenuAccessDetail($menuAccess1->id, 
+            [1,2,3,4,5,6]
+        );
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('menu_access_details');
+        // Schema::dropIfExists('menu_access_details');
     }
 };
