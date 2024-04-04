@@ -7,6 +7,7 @@ use App\Models\MenuParent;
 use App\Models\MenuItem;
 use App\Models\User;
 use App\Models\UserMenuAccess;
+use App\Models\MenuAccess;
 
 class MigrationUtils
 {
@@ -78,31 +79,34 @@ class MigrationUtils
         $user->save();
     }
 
-    public static function addUserMenuAccess(string $roleCode, int $menuAccessId): UserMenuAccess
+    public static function addMenuAccess(string $name, string $description): MenuAccess
     {
-        $userMenuAccess = new UserMenuAccess();
-        $userMenuAccess->role_code = $roleCode;
-        $userMenuAccess->menu_access_id = $menuAccessId;
+        $userMenuAccess = new MenuAccess();
+        $userMenuAccess->name = $name;
+        $userMenuAccess->description = $description;
         $userMenuAccess->save();
 
         return $userMenuAccess;
     }
 
-    public static function addUserMenuAccessDetail(int $menuAccessId, array $detail):void
+    public static function addMenuAccessDetail(int $menuAccessId, array $items):void
     {
-        $menuItemIds = MenuItem::all()->select(['id'])->get();
-        dd($menuItemIds);
-        foreach ($detail as $d) {
+        foreach ($items as $item) {
             
             $dt = new MenuAccessDetail();
             $dt->menu_access_id = $menuAccessId;
-            $dt->parent_name = $d['parent_name'];
-            $dt->parent_sequence = $d['parent_sequence'];
-            $dt->item_name = $d['item_name'];
-            $dt->item_page = $d['item_page'];
-            $dt->item_sequence = $d['item_sequence'];
-
+            $dt->menu_item_id = $item;
+            $dt->enabled = true;
             $dt->save();
         }
+    }
+
+    public static function addUserMenuAccess(string $roleCode, int $menuAccessId): void
+    {
+        $menuAccess = new UserMenuAccess();
+        $menuAccess->role_code = $roleCode;
+        $menuAccess->menu_access_id = $menuAccessId;
+
+        $menuAccess->save();
     }
 }

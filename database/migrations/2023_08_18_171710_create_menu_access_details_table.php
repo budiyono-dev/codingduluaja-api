@@ -15,6 +15,8 @@ return new class extends Migration
             $table->unsignedBiginteger('menu_item_id');
             $table->boolean('enabled')->default(false);
             $table->timestamps();
+
+            $table->foreign('menu_access_id')->references('id')->on(TableName::MENU_ACCESS);
         });
     }
 

@@ -12,10 +12,16 @@ return new class extends Migration
     {
         $admin = UserRole::admin()->getCode();
 
-        $menuAccess1 = MigrationUtils::addUserMenuAccess($admin, 1);
-        MigrationUtils::addUserMenuAccessDetail($menuAccess1->id, 
+        $menuAccess1 = MigrationUtils::addMenuAccess(
+            'admin',
+            'admin menu access'
+        );
+
+        MigrationUtils::addMenuAccessDetail($menuAccess1->id, 
             [1,2,3,4,5,6]
         );
+
+        MigrationUtils::addUserMenuAccess($admin, $menuAccess1->id);
     }
 
     public function down(): void
