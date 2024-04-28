@@ -12,6 +12,8 @@ use App\Repository\ResourceRepository;
 use App\Repository\Impl\ResourceRepositoryImpl;
 use App\Services\ResourceService;
 use App\Services\Impl\ResourceServiceImpl;
+use App\Services\MenuService;
+use App\Services\Impl\MenuServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,6 +46,10 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->make(ResourceRepository::class)
             );
         });
+
+        $this->app->singleton(MenuService::class, function(){
+            return new MenuServiceImpl();
+        })
     }
 
     public function boot(): void
