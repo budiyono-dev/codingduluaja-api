@@ -12,6 +12,9 @@ use App\Http\Controllers\DocController;
 use App\Http\Controllers\ToolsController;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Auth Route
+ */
 Route::middleware('auth')->group(function () {
     Route::view('/dasboard', 'page.welcome')->name('page.dashboard');
 
@@ -79,6 +82,10 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+
+/**
+ * Non Auth Route
+ */
 Route::middleware('non-auth')->group(function () {
     Route::view('/login', 'page.login')->name('page.login');
     Route::post('/login', [AuthController::class, 'login'])->name('do.login');
@@ -95,11 +102,24 @@ Route::middleware('non-auth')->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('do.resetPassword');
 });
 
+/**
+ * Admin Route
+ */
+Route::middleware('auth')->group(function () {
+});
+
+/**
+ * Operation Route
+ */
 Route::controller(DeploymentController::class)->group(function () {
     Route::get('cda-su/{id}', 'index')->name('page.su');
     Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
     Route::get('cda-su-check/smtp-test-mail', 'sendTestMail')->name('do.su.sendTestMail');
 });
+
+/**
+ * Public Route
+ */
 Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
 Route::view('/', 'page.landing-page')->name('page.langind-page');
