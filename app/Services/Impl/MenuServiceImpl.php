@@ -8,6 +8,7 @@ use App\Models\MenuParent;
 use App\Repository\MenuRepository;
 use App\Repository\UserRepository;
 use App\Services\MenuService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -29,6 +30,12 @@ class MenuServiceImpl implements MenuService
         $code = $role->code;
         $menus = $this->menuRepository->getEligibleMenuByRoldeCode($code);
         return $this->toCollectionDto($menus);
+    }
+
+    public function isUserEligible(Request $req)
+    {
+        dd($req);
+        return false;
     }
 
     private function toCollectionDto(Collection $menus)
