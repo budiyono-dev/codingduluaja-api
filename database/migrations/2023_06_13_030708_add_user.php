@@ -10,8 +10,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $defaultPassword = 'Admin#2024';
-        
+        $defaultPassword = config('cda.default_password');
+
         MigrationUtils::addUser(
             'admin1',
             UserRole::admin()->getCode(),
