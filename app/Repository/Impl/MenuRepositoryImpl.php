@@ -26,6 +26,7 @@ class MenuRepositoryImpl implements MenuRepository
             ->join(TableName::MENU_ITEM . ' as item', 'item.id', '=', 'mad.menu_item_id')
             ->join(TableName::MENU_PARENT . ' as parent', 'parent.id', '=', 'item.menu_parent_id')
             ->where('uma.role_code', $roleCode)
+            ->where('mad.enabled', true)
             ->select(
                 'parent.id as parent_id',
                 'parent.sequence as parent_sequence',

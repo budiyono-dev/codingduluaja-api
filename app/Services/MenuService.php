@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
 
 interface MenuService
 {
-    public function getEligibleMenu();
+    function getEligibleMenu();
+    function isUserEligible(Request $req);
 }
