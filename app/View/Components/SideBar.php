@@ -6,17 +6,24 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use App\Models\MenuParent;
+use App\Services\MenuService;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Session;
 
 class SideBar extends Component
 {
     public function __construct
     (
-        public Collection $menu
+        public Collection $menu,
+        protected MenuService $menuService
     )
     {
-        $this->menu = MenuParent::with('menuItem')->get();
-//        dd($this->menu);
+        $listMenu = Session::get('LIST_MENU');
+        if(is_null($listMenu)){
+            $listMenu = $menuService->getEligibleMenu();
+            Session::put('LIST_MENU', $listMenu);
+        }
+        $this->menu = $listMenu;
     }
 
     public function render(): View|Closure|string

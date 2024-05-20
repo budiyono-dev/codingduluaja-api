@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create(TableName::USERS, function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
-            $table->string('role', 20);
+            $table->string('role_code', 20);
             $table->string('first_name', 50);
             $table->string('last_name', 50)->nullable()->default(null);
             $table->string('sex')->nullable();
@@ -24,6 +24,8 @@ return new class extends Migration
 
             $table->index('username');
             $table->index('email');
+
+            $table->foreign('role_code')->references('code')->on(TableName::USER_ROLE);
         });
 
         Schema::table(TableName::USERS, function (Blueprint $table) {
