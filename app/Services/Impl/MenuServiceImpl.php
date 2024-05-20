@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Route;
 
 class MenuServiceImpl implements MenuService
 {
@@ -34,7 +36,27 @@ class MenuServiceImpl implements MenuService
 
     public function isUserEligible(Request $req)
     {
-        dd($req);
+        $routename = Route::currentRouteName();
+        $listMenu = Session::get('LIST_MENU');
+
+        if(is_null($listMenu) || empty($listMenu)){
+            return false;
+        }
+
+        foreach ($listMenu as $menus) {
+            $items = $menus->menuItem;
+
+            if(is_null($items) || empty($items)){
+                continue;
+            }
+
+            foreach ($items as $item) {
+                if ($routename == $item->page){
+                    return true;
+                }
+            }   
+        }
+
         return false;
     }
 
