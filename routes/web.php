@@ -107,15 +107,11 @@ Route::middleware('non-auth')->group(function () {
  * Admin Route
  */
 Route::middleware('auth')->group(function () {
-});
-
-/**
- * Operation Route
- */
-Route::controller(DeploymentController::class)->group(function () {
-    Route::get('cda-su/{id}', 'index')->name('page.su');
-    Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
-    Route::get('cda-su-check/smtp-test-mail', 'sendTestMail')->name('do.su.sendTestMail');
+    Route::controller(DeploymentController::class)->group(function () {
+        Route::get('cda-su/{id}', 'index')->name('page.su');
+        Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
+        Route::get('cda-su-check/smtp-test-mail', 'sendTestMail')->name('do.su.sendTestMail');
+    });
 });
 
 /**
