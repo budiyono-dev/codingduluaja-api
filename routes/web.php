@@ -112,7 +112,17 @@ Route::middleware('auth')->group(function () {
         Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
         Route::get('cda-su-check/smtp-test-mail', 'sendTestMail')->name('do.su.sendTestMail');
     });
+
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/admin/menu-access', 'pageMenuAccess')->name('page.admin.menuAccess');
+        Route::post('/admin/migration', 'pageMigration')->name('page.admin.migration');
+        Route::get('/admin/logging', 'pageLogging')->name('page.admin.logging');
+    });
 });
+
+    //    MigrationUtils::addMenuItem(1, $adminMnu->id, 'menu.item.admin_menu_access', 'page.admin.menuAccess', 1);
+    //    MigrationUtils::addMenuItem(2, $adminMenu->id, 'menu.item.admin_migration', 'page.admin.migration', 2);
+    //    MigrationUtils::addMenuItem(3, $adminMenu->id, 'menu.item.admin_logging', 'page.admin.logging', 3);
 
 /**
  * Public Route
