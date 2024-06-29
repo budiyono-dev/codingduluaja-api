@@ -37,6 +37,8 @@
             let bgColour = 'text-bg-danger';
             if (type === 'info') {
                 bgColour = 'text-bg-primary';
+            } else if (type === 'success') {
+                bgColour = 'text-bg-success';
             }
             simpleToast.classList.forEach(className => {
                 if (className.includes('text-bg')) {
@@ -51,6 +53,11 @@
         const errMsg = {!! json_encode($errors->all()) !!}
         if (errMsg.length > 0) {
             showSimpleToast(errMsg.join('<br>'));
+        }
+
+        const statusMessage = {!! json_encode(session('status')) !!}
+        if (statusMessage) {
+            showSimpleToast(statusMessage, 'success');
         }
     </script>
 </body>
