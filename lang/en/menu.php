@@ -1,12 +1,17 @@
 <?php
 return [
     'parent' => [
+        'admin' => 'Admin',
         'application' => 'Application',
         'documentation' => 'Resource Documentation',
         'resourceManager' => 'Resource Manager',
         'tools' => 'Tools'
     ],
     'item' => [
+        'admin_menu_access' => 'Menu Access',
+        'admin_migration' => 'Database Migrations',
+        'admin_logging' => 'Logging',
+
         'app_resource' => 'App Resource',
         'client_app' => 'App Client',
         'app_manager' => 'App Manager',

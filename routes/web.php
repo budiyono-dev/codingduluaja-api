@@ -12,6 +12,9 @@ use App\Http\Controllers\DocController;
 use App\Http\Controllers\ToolsController;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Auth Route
+ */
 Route::middleware('auth')->group(function () {
     Route::view('/dasboard', 'page.welcome')->name('page.dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
@@ -80,6 +83,10 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+
+/**
+ * Non Auth Route
+ */
 Route::middleware('non-auth')->group(function () {
     Route::view('/login', 'page.login')->name('page.login');
     Route::post('/login', [AuthController::class, 'login'])->name('do.login');
@@ -96,11 +103,30 @@ Route::middleware('non-auth')->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('do.resetPassword');
 });
 
-Route::controller(DeploymentController::class)->group(function () {
-    Route::get('cda-su/{id}', 'index')->name('page.su');
-    Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
-    Route::get('cda-su-check/smtp-test-mail', 'sendTestMail')->name('do.su.sendTestMail');
+/**
+ * Admin Route
+ */
+Route::middleware('auth')->group(function () {
+    Route::controller(DeploymentController::class)->group(function () {
+        Route::get('cda-su/{id}', 'index')->name('page.su');
+        Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
+        Route::get('cda-su-check/smtp-test-mail', 'sendTestMail')->name('do.su.sendTestMail');
+    });
+
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/admin/menu-access', 'pageMenuAccess')->name('page.admin.menuAccess');
+        Route::post('/admin/migration', 'pageMigration')->name('page.admin.migration');
+        Route::get('/admin/logging', 'pageLogging')->name('page.admin.logging');
+    });
 });
+
+    //    MigrationUtils::addMenuItem(1, $adminMnu->id, 'menu.item.admin_menu_access', 'page.admin.menuAccess', 1);
+    //    MigrationUtils::addMenuItem(2, $adminMenu->id, 'menu.item.admin_migration', 'page.admin.migration', 2);
+    //    MigrationUtils::addMenuItem(3, $adminMenu->id, 'menu.item.admin_logging', 'page.admin.logging', 3);
+
+/**
+ * Public Route
+ */
 Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
 Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
 Route::view('/', 'page.landing-page')->name('page.langind-page');

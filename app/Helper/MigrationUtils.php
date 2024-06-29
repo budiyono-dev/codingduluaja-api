@@ -11,7 +11,7 @@ use App\Models\MenuAccess;
 
 class MigrationUtils
 {
-    public static function insertMenuParent(int $id, string $name, int $sequence): MenuParent
+    public static function addMenuParent(int $id, string $name, int $sequence): MenuParent
     {
         $menu = new MenuParent();
         $menu->id = $id;
@@ -23,7 +23,7 @@ class MigrationUtils
         return $menu;
     }
 
-    public static function insertMenuItem(int $id, int $menuParentId, string $name, string $page, int $sequence): MenuItem
+    public static function addMenuItem(int $id, int $menuParentId, string $name, string $page, int $sequence): MenuItem
     {
         $item = new MenuItem();
         $item->id = $id;

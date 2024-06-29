@@ -15,6 +15,11 @@ return new class extends Migration
             $table->string('description', 100);
             $table->timestamps();
         });
+
+        Schema::table(TableName::MENU_ACCESS, function (Blueprint $table) {
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
+        });
     }
 
     public function down(): void
