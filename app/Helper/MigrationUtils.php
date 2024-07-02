@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Constants\UserRole as ConstantsUserRole;
 use App\Models\MenuAccessDetail;
 use App\Models\MenuParent;
 use App\Models\MenuItem;
@@ -9,10 +10,11 @@ use App\Models\User;
 use App\Models\UserMenuAccess;
 use App\Models\MenuAccess;
 use App\Models\UserRole;
+use Illuminate\Support\Facades\Hash;
 
 class MigrationUtils
 {
-    public static function insertMenuParent(int $id, string $name, int $sequence): MenuParent
+    public static function addMenuParent(int $id, string $name, int $sequence): MenuParent
     {
         $menu = new MenuParent();
         $menu->id = $id;
@@ -24,7 +26,7 @@ class MigrationUtils
         return $menu;
     }
 
-    public static function insertMenuItem(int $id, int $menuParentId, string $name, string $page, int $sequence): MenuItem
+    public static function addMenuItem(int $id, int $menuParentId, string $name, string $page, int $sequence): MenuItem
     {
         $item = new MenuItem();
         $item->id = $id;
@@ -52,32 +54,41 @@ class MigrationUtils
     {
         MenuParent::whereIn('id', $ids)->delete();
     }
-    
+
     public static function deleteMenuItemByIds(array $ids): void
     {
         MenuItem::whereIn('id', $ids)->delete();
     }
 
-    public static function addUser(
-        string $userName,
-        string $roleCode,
-        string $firstName,
-        string $lastName,
-        string $sex,
-        string $email,
-        string $password
-    ): void
+    public static function addUser(string $name, string $username, string $role, string $email): void
     {
-        $user = new User([
-            'username' => $userName,
-            'role_code' => $roleCode,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'sex' => $sex,
-            'email' => $email,
-            'password' => bcrypt($password)
-        ]);
-        $user->save();
+        $user = new User();
+        $user->name = $name;
+        $user->username = $username;
+        $user->role = $role;
+        $user->email = $email;
+        $user->password = Hash::make(config('app.default_password'));
+        $user->markEmailAsVerified();
+    }
+
+    public static function addUserAdmin(string $name, string $username, string $email): void
+    {
+        self::addUser($name, $username, ConstantsUserRole::admin()->getCode(), $email);
+    }
+
+    public static function addUserUser(string $name, string $username, string $email): void
+    {
+        self::addUser($name, $username, ConstantsUserRole::user()->getCode(), $email);
+    }
+
+    public static function addUserOps(string $name, string $username, string $email): void
+    {
+        self::addUser($name, $username, ConstantsUserRole::ops()->getCode(), $email);
+    }
+
+    public static function addUserSu(string $name, string $username, string $email): void
+    {
+        self::addUser($name, $username, ConstantsUserRole::superUser()->getCode(), $email);
     }
 
     public static function addMenuAccess(string $name, string $description): MenuAccess
@@ -90,10 +101,10 @@ class MigrationUtils
         return $userMenuAccess;
     }
 
-    public static function addMenuAccessDetail(int $menuAccessId, array $items):void
+    public static function addMenuAccessDetail(int $menuAccessId, array $items): void
     {
         foreach ($items as $item) {
-            
+
             $dt = new MenuAccessDetail();
             $dt->menu_access_id = $menuAccessId;
             $dt->menu_item_id = $item;
