@@ -60,6 +60,7 @@
             showSimpleToast(statusMessage, 'success');
         }
     </script>
+    @stack('script')
 </body>
 
 </html>

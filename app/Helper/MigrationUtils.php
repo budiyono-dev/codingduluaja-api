@@ -60,12 +60,12 @@ class MigrationUtils
         MenuItem::whereIn('id', $ids)->delete();
     }
 
-    public static function addUser(string $name, string $username, string $role, string $email): void
+    public static function addUser(string $name, string $username, string $roleCode, string $email): void
     {
         $user = new User();
         $user->name = $name;
         $user->username = $username;
-        $user->role = $role;
+        $user->role_code = $roleCode;
         $user->email = $email;
         $user->password = Hash::make(config('app.default_password'));
         $user->markEmailAsVerified();

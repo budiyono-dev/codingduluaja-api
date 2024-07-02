@@ -22,11 +22,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role', 20);
+            $table->string('role_code', 20);
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('role')->references('code')->on(TableName::USER_ROLE);
+            $table->foreign('role_code')->references('code')->on(TableName::USER_ROLE);
         });
 
         Schema::create(TableName::PASSWORD_RESET_TOKENS, function (Blueprint $table) {
