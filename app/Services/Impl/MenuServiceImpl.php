@@ -54,7 +54,7 @@ class MenuServiceImpl implements MenuService
                 if ($routename == $item->page){
                     return true;
                 }
-            }   
+            }
         }
 
         return false;

@@ -23,7 +23,7 @@ class SideBar extends Component
             $listMenu = $menuService->getEligibleMenu();
             Session::put('LIST_MENU', $listMenu);
         }
-        dd($listMenu);
+        // dd($listMenu);
         $this->menu = $listMenu;
     }
 

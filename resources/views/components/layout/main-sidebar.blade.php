@@ -2,16 +2,56 @@
     @push('styles')
         <style>
             .main-content {
-                /* margin-left: 250px; */
-                transition: all 0.3s ease-out ;
-                /* padding: 20px; */
+                transition: all 0.3s ease-out !important;
                 width: 100%
             }
 
             .toggle-main-content {
                 padding-left: 250px;
-                /* transition: all 0.3s ease-out!important; */
             }
+
+            .cursor-pointer {
+                cursor: pointer;
+            }
+
+            .left-sidebar {
+                width: 235px;
+                position: fixed;
+                top: 0;
+                left: -235px;
+                height: 100%;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                padding-top: 90px;
+                transition: all 0.3s ease-out;
+                box-sizing: border-box;
+            }
+
+            .sidebarshow {
+                left: 0;
+            }
+
+            .btn-toggle {
+                display: inline-flex;
+                align-items: center;
+                padding: .25rem .5rem;
+                font-weight: 600;
+                border: 0;
+
+                &:hover, &:focus {
+                    color: rgba(0, 0, 0, .85);
+                    background-color: #d2f4ea;
+                }
+            }
+
+            .btn-toggle-nav a {
+                display: inline-flex;
+                padding: .1875rem .5rem;
+                text-decoration: none;
+                &:hover, &:focus {
+                    background-color: #d2f4ea;
+                }
+            }
+
         </style>
     @endpush
 
