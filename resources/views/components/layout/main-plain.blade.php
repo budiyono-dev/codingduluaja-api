@@ -30,7 +30,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         const simpleToast = document.getElementById('simple-toast');
-        const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast)
+        const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast);
+        let localTheme = localStorage.getItem("theme");
 
         function showSimpleToast(msg = 'nofitication', type) {
 
@@ -50,6 +51,31 @@
             toastSimpleB.show();
         }
 
+        function changeTheme(theme){
+            let a = document.querySelectorAll("[data-bs-theme]");
+            a.forEach(e => e.dataset.bsTheme = theme);
+
+            if (theme === 'dark') {
+                document.querySelectorAll('.link-dark').forEach(b => {
+                    b.classList.remove('link-dark');
+                    b.classList.add('link-light');
+                });
+            } else {
+                document.querySelectorAll('.link-light').forEach(b => {
+                    b.classList.remove('link-light');
+                    b.classList.add('link-dark');
+                });
+            }
+            localStorage.setItem("theme", theme);
+
+        }
+
+        function toggleDarkMode(){
+            const current = document.documentElement.getAttribute('data-bs-theme');
+            let finalTheme = current == 'dark' ? 'light' : 'dark';
+            changeTheme(finalTheme);
+        }
+
         const errMsg = {!! json_encode($errors->all()) !!}
         if (errMsg.length > 0) {
             showSimpleToast(errMsg.join('<br>'));
@@ -59,6 +85,16 @@
         if (statusMessage) {
             showSimpleToast(statusMessage, 'success');
         }
+
+        if (localTheme) {
+            const current = document.documentElement.getAttribute('data-bs-theme');
+            if (localTheme !== current) {
+                changeTheme(localTheme);
+            }
+
+        }
+
+        
     </script>
     @stack('script')
 </body>

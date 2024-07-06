@@ -47,6 +47,7 @@
                 display: inline-flex;
                 padding: .1875rem .5rem;
                 text-decoration: none;
+                
                 &:hover, &:focus {
                     background-color: #d2f4ea;
                 }
