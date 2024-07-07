@@ -23,4 +23,10 @@ class MenuAccessController extends Controller
             'menuItem' => $menuItem
         ]);
     }
+
+    public function getActiveMenuAccess(int $userMenuAccessId)
+    {
+
+        return null;
+    }
 }

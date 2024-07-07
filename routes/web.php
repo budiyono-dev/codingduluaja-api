@@ -135,6 +135,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(MenuAccessController::class)->group(function () {
         Route::get('/admin/menu-access', 'pageMenuAccess')->name('page.admin.menuAccess');
+        Route::get('/admin/menu-access/parent/{id}', 'getActiveMenuAccess')->name('do.getActiveMenuAccess');
+
     });
 
     Route::controller(AdminController::class)->group(function () {

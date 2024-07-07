@@ -114,7 +114,10 @@
     @push('script')
         <script type="text/javascript">
             function showMenuAccess() {
-                console.log("show menu access");
+                const url = {!! json_encode(route('do.getActiveMenuAccess', ['id' => ':id'])) !!}
+                console.log(url);
+                // const res = await fetch("");
+                // console.log("show menu access", res);
             }
         </script>
     @endpush
