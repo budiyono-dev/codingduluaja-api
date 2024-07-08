@@ -7,10 +7,17 @@ use App\Models\MenuAccess;
 use App\Models\MenuItem;
 use App\Models\MenuParent;
 use App\Models\UserMenuAccess;
+use App\Services\MenuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class MenuAccessController extends Controller
 {
+    public function __construct(
+        protected MenuService $MenuService
+    ){}
+
     public function pageMenuAccess()
     {
         $userMenuAccess = UserMenuAccess::all();
@@ -26,7 +33,7 @@ class MenuAccessController extends Controller
 
     public function getActiveMenuAccess(int $userMenuAccessId)
     {
-
-        return null;
+        $this->menuService->getActiveMenu();
+        return $userId;
     }
 }

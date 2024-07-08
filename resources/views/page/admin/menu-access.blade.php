@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col">
-                <div class="pt-4 pb-4 text-end">
+                <div class="pt-4 pb-4 text-start">
                     <button type="button" class="btn btn-primary">Add Menu Access</button>
                     <button type="button" class="btn btn-primary">Save Update</button>
                 </div>
@@ -19,7 +19,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($userMenuAccess as $key => $uma)
-                                        <tr onclick="showMenuAccess({{ $uma->id }})">
+                                        <tr onclick="showMenuAccess({{ $uma->id }})" class="cursor-pointer">
                                             <th scope="row">{{ $key + 1 }}</th>
                                             <td class="text-start">{{ $uma->role_code }}</td>
                                             <td class="text-start">{{ $uma->menu_access_id }}</td>
@@ -44,7 +44,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr >
+                                    <tr id="loadingMenuParent">
                                         <td colspan="3" class="text-center">
                                             <div class="spinner-border spinner-border-sm" role="status" id="loadingSpinner">
                                                 <span class="visually-hidden">Loading...</span>
@@ -83,7 +83,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr >
+                                    <tr id="loadingMenuItem">
                                         <td colspan="3" class="text-center">
                                             <div class="spinner-border spinner-border-sm" role="status" id="loadingSpinner">
                                                 <span class="visually-hidden">Loading...</span>
@@ -113,11 +113,12 @@
     </div>
     @push('script')
         <script type="text/javascript">
-            function showMenuAccess() {
-                const url = {!! json_encode(route('do.getActiveMenuAccess', ['id' => ':id'])) !!}
+            async function showMenuAccess(menuAccessId) {
+                let url = {!! json_encode(route('do.getActiveMenuAccess', ['id' => ':id'])) !!}
                 console.log(url);
-                // const res = await fetch("");
-                // console.log("show menu access", res);
+                url = url.replace(':id', menuAccessId);
+                const res = await fetch(url);
+                console.log("show menu access", res);
             }
         </script>
     @endpush

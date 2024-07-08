@@ -50,6 +50,7 @@
                 
                 &:hover, &:focus {
                     background-color: #d2f4ea;
+                    color: black;
                 }
             }
 

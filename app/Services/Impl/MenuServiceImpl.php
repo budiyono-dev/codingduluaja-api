@@ -90,4 +90,10 @@ class MenuServiceImpl implements MenuService
         }
         return $allmenu;
     }
+
+    public function getActiveMenu()
+    {
+        
+    }
+
 }

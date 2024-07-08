@@ -8,4 +8,5 @@ interface MenuService
 {
     function getEligibleMenu();
     function isUserEligible(Request $req);
+    function getActiveMenu();
 }
