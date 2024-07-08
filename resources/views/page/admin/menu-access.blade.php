@@ -15,14 +15,20 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Role</th>
                                         <th scope="col">Menu Access</th>
+                                        <th scope="col">Created At</th>
+                                        <th scope="col">Updated At</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($userMenuAccess as $key => $uma)
-                                        <tr onclick="showMenuAccess({{ $uma->id }})" class="cursor-pointer">
+                                        <tr>
                                             <th scope="row">{{ $key + 1 }}</th>
-                                            <td class="text-start">{{ $uma->role_code }}</td>
-                                            <td class="text-start">{{ $uma->menu_access_id }}</td>
+                                            <td class="text-start">{{ $uma->code }}</td>
+                                            <td class="text-start">{{ $uma->name }}</td>
+                                            <td class="text-start">{{ $uma->created_at }}</td>
+                                            <td class="text-start">{{ $uma->updated_at }}</td>
+                                            <td class="text-start"></td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -33,7 +39,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col">
+                    {{-- <div class="col">
                         <div class="table-responsive ">
                             <table class="table table-sm  table-hover table-striped">
                                 <thead>
@@ -106,7 +112,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

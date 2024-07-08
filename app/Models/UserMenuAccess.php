@@ -11,4 +11,11 @@ class UserMenuAccess extends Model
     use HasFactory;
     protected $table = TableName::USER_MENU_ACCESS;
 
+    public function role(){
+        return $this->belongsTo(UserRole::class, 'role_code', 'code');
+    }
+
+    public function menuAccess(){
+        return $this->belongsTo(MenuAccess::class);
+    }
 }

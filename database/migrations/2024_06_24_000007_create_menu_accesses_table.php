@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create(TableName::MENU_ACCESS, function (Blueprint $table) {
             $table->id();
-            $table->string('name', 20);
+            $table->string('name', 20)->unique();
             $table->string('description', 100);
             $table->timestamps();
         });
