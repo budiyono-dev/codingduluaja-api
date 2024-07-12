@@ -22,7 +22,7 @@ class MenuAccessController extends Controller
 
     public function pageMenuAccess()
     {
-        // $userMenuAccess = UserMenuAccess::all();
+        $menuAccess = MenuAccess::all();
         $menuParent = MenuParent::all();
         $menuItem = MenuItem::all();
 
@@ -32,12 +32,9 @@ class MenuAccessController extends Controller
             ->select('ur.code', 'ma.name', 'uma.created_at', 'uma.updated_at')
             ->get();
 
-        dd($userMenuAccess);
-
         return view('page.admin.menu-access', [
             'userMenuAccess' => $userMenuAccess,
-            'menuParent' => $menuParent,
-            'menuItem' => $menuItem
+            'menuAccess' => $menuAccess
         ]);
     }
 
