@@ -63,7 +63,8 @@
                                     <td class="text-start">{{ $uma->name }}</td>
                                     <td class="text-start">{{ $uma->description }}</td>
                                     <td class="text-center d-flex justify-content-evenly align-items-center">
-                                        <a class="btn btn-outline-primary btn-sm" type="button">edit</a>
+                                        <a class="btn btn-outline-primary btn-sm" type="button"
+                                         href="{{ route('do.admin.editMenuAccess', ['id'=> $uma->id ]) }}">edit</a>
                                         <form method="post" action="">
                                             @csrf
                                             <button class="btn btn-outline-danger btn-sm" type="button">delete</button>

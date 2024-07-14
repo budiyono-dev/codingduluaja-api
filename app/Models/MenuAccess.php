@@ -12,7 +12,7 @@ class MenuAccess extends Model
     use HasFactory;
     protected $table = TableName::MENU_ACCESS;
 
-    public function detail()
+    public function details()
     {
         return $this->hasMany(MenuAccessDetail::class);
     }

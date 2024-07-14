@@ -134,7 +134,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::controller(MenuAccessController::class)->group(function () {
-        Route::get('/admin/menu-access', 'pageMenuAccess')->name('page.admin.menuAccess');
+        Route::get('/admin/menu-access', 'index')->name('page.admin.menuAccess');
+        Route::get('/admin/menu-access/{id}', 'edit')->name('do.admin.editMenuAccess');
+        Route::post('/admin/menu-access/{id}', 'delete')->name('do.admin.deleteMenuAccess');
         Route::get('/admin/menu-access/parent/{id}', 'getActiveMenuAccess')->name('do.getActiveMenuAccess');
 
     });

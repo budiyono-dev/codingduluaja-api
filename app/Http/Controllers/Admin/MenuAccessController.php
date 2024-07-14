@@ -20,7 +20,7 @@ class MenuAccessController extends Controller
     ) {
     }
 
-    public function pageMenuAccess()
+    public function index()
     {
         $menuAccess = MenuAccess::all();
         $menuParent = MenuParent::all();
@@ -36,6 +36,25 @@ class MenuAccessController extends Controller
             'userMenuAccess' => $userMenuAccess,
             'menuAccess' => $menuAccess
         ]);
+    }
+
+    public function edit(string $menuAccessId)
+    {
+        $menuAccess = MenuAccess::findOrFail($menuAccessId);
+        $menuParent = MenuParent::all();
+        $menuItem = MenuItem::all();
+        // dd($menuAccess);
+        // $menuParent = 
+        return view('page.admin.edit-menu-access', [
+            'menuAccess' => $menuAccess,
+            'menuParent' => $menuParent,
+            'menuItem' => $menuItem
+        ]);
+    }
+
+    public function delete()
+    {
+
     }
 
     public function getActiveMenuAccess(int $userMenuAccessId)
