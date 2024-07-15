@@ -54,6 +54,14 @@
                 }
             }
 
+            .hover-primary {
+                cursor: pointer;
+                
+                &:hover, &:focus {
+                    background-color: #d2f4ea;
+                }
+            }
+
         </style>
     @endpush
 

@@ -12,6 +12,7 @@ use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Foreach_;
 
 class MenuAccessController extends Controller
 {
@@ -41,6 +42,13 @@ class MenuAccessController extends Controller
     public function edit(string $menuAccessId)
     {
         $menuAccess = MenuAccess::findOrFail($menuAccessId);
+        $activatedMenu = [];
+        foreach ($menuAccess->details as $detail) {
+            if ($detail->enabled) {
+                $activatedMenu[] = $detail->menu_item_id;
+            }
+        }
+        // dd($activatedMenu);
         $menuParent = MenuParent::all();
         $menuItem = MenuItem::all();
         // dd($menuAccess);
@@ -48,7 +56,7 @@ class MenuAccessController extends Controller
         return view('page.admin.edit-menu-access', [
             'menuAccess' => $menuAccess,
             'menuParent' => $menuParent,
-            'menuItem' => $menuItem
+            'activatedMenu' => $activatedMenu
         ]);
     }
 
