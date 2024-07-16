@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\TableName;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EditMenuAccessRequest;
+use App\Http\Requests\MenuAccessRequest;
 use App\Models\MenuAccess;
+use App\Models\MenuAccessDetail;
 use App\Models\MenuItem;
 use App\Models\MenuParent;
 use App\Models\UserMenuAccess;
@@ -12,6 +15,7 @@ use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use PhpParser\Node\Stmt\Foreach_;
 
 class MenuAccessController extends Controller
@@ -29,7 +33,7 @@ class MenuAccessController extends Controller
 
         $userMenuAccess = DB::table(TableName::USER_ROLE . ' as ur')
             ->leftJoin(TableName::USER_MENU_ACCESS . ' as uma', 'ur.code', '=', 'uma.role_code')
-            ->leftJoin(TableName::MENU_ACCESS.' as ma', 'uma.menu_access_id', '=', 'ma.id')
+            ->leftJoin(TableName::MENU_ACCESS . ' as ma', 'uma.menu_access_id', '=', 'ma.id')
             ->select('ur.code', 'ma.name', 'uma.created_at', 'uma.updated_at')
             ->get();
 
@@ -39,7 +43,7 @@ class MenuAccessController extends Controller
         ]);
     }
 
-    public function edit(string $menuAccessId)
+    public function pageEdit(string $menuAccessId)
     {
         $menuAccess = MenuAccess::findOrFail($menuAccessId);
         $activatedMenu = [];
@@ -48,11 +52,8 @@ class MenuAccessController extends Controller
                 $activatedMenu[] = $detail->menu_item_id;
             }
         }
-        // dd($activatedMenu);
         $menuParent = MenuParent::all();
         $menuItem = MenuItem::all();
-        // dd($menuAccess);
-        // $menuParent = 
         return view('page.admin.edit-menu-access', [
             'menuAccess' => $menuAccess,
             'menuParent' => $menuParent,
@@ -60,9 +61,24 @@ class MenuAccessController extends Controller
         ]);
     }
 
+    public function doEdit(EditMenuAccessRequest $request)
+    {
+        $req = $request->validated();
+        $editedId = $req['id'];
+        $cbItems = collect($req['cbItems']);
+        $menuAccess = MenuAccess::findOrFail($editedId);
+        $detail = $menuAccess->details;
+
+        foreach ($detail as $d) {
+            $d->enabled = $cbItems->contains($d->menu_item_id);
+            $d->save();
+        }
+        Session::forget('LIST_MENU');
+        return redirect()->route('page.admin.menuAccess');
+    }
+
     public function delete()
     {
-
     }
 
     public function getActiveMenuAccess(int $userMenuAccessId)

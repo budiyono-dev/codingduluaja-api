@@ -126,7 +126,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 /**
  * Admin Route
  */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'isAdmin'])->group(function () {
     Route::controller(DeploymentController::class)->group(function () {
         Route::get('cda-su/{id}', 'index')->name('page.su');
         Route::post('cda-su/{id}', 'doAction')->name('do.su.action');
@@ -135,7 +135,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(MenuAccessController::class)->group(function () {
         Route::get('/admin/menu-access', 'index')->name('page.admin.menuAccess');
-        Route::get('/admin/menu-access/{id}', 'edit')->name('do.admin.editMenuAccess');
+        Route::post('/admin/menu-access', 'doEdit')->name('do.admin.editMenuAccess');
+        Route::get('/admin/menu-access/{id}', 'pageEdit')->name('page.admin.editMenuAccess');
         Route::post('/admin/menu-access/{id}', 'delete')->name('do.admin.deleteMenuAccess');
         Route::get('/admin/menu-access/parent/{id}', 'getActiveMenuAccess')->name('do.getActiveMenuAccess');
 

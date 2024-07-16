@@ -103,12 +103,15 @@ class MigrationUtils
 
     public static function addMenuAccessDetail(int $menuAccessId, array $items): void
     {
-        foreach ($items as $item) {
+        $listMenuItem = MenuItem::select('id')->orderBy('id')->get()->pluck('id')->all();
+        $cItems = collect($items);
+        foreach ($listMenuItem as $item) {
+            $enable = $cItems->contains($item);
 
             $dt = new MenuAccessDetail();
             $dt->menu_access_id = $menuAccessId;
             $dt->menu_item_id = $item;
-            $dt->enabled = true;
+            $dt->enabled = $enable;
             $dt->save();
         }
     }
