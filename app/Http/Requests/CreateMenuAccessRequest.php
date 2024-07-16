@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MenuAccessRequest extends FormRequest
+class CreateMenuAccessRequest extends FormRequest
 {
     public function authorize(): bool
     {

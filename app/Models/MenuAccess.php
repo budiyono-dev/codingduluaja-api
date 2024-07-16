@@ -11,6 +11,7 @@ class MenuAccess extends Model
 {
     use HasFactory;
     protected $table = TableName::MENU_ACCESS;
+    protected $fillable = ['name', 'description'];
 
     public function details()
     {

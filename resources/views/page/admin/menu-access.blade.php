@@ -27,7 +27,8 @@
                                                 <a class="btn btn-outline-primary btn-sm" type="button">edit</a>
                                                 <form method="post" action="">
                                                     @csrf
-                                                    <button class="btn btn-outline-danger btn-sm" type="button">delete</button>
+                                                    <button class="btn btn-outline-danger btn-sm"
+                                                        type="button">delete</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -43,8 +44,10 @@
                 </div>
             </div>
             <div class="col">
-                <div class="row">
+                <div class="d-flex">
                     <h2 class="my-2 fs-5 fw-bold text-decoration-underline">Menu Access</h2>
+                    <a class="btn btn-primary btn-sm my-2 mx-3 px-3"
+                        href={{ route('page.admin.addMenuAccess') }}>add</a>
                 </div>
                 <div class="table-responsive ">
                     <table class="table table-sm  table-hover table-striped">
@@ -64,11 +67,15 @@
                                     <td class="text-start">{{ $uma->description }}</td>
                                     <td class="text-center d-flex justify-content-evenly align-items-center">
                                         <a class="btn btn-outline-primary btn-sm" type="button"
-                                         href="{{ route('page.admin.editMenuAccess', ['id'=> $uma->id ]) }}">edit</a>
-                                        <form method="post" action="">
-                                            @csrf
-                                            <button class="btn btn-outline-danger btn-sm" type="button">delete</button>
-                                        </form>
+                                            href="{{ route('page.admin.editMenuAccess', ['id' => $uma->id]) }}">edit</a>
+                                        @if ($uma->id !== 1)
+                                            <form method="post"
+                                                action={{ route('do.admin.deleteMenuAccess', ['id' => $uma->id]) }}>
+                                                @csrf
+                                                <button class="btn btn-outline-danger btn-sm"
+                                                    type="submit">delete</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

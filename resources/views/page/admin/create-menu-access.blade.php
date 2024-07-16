@@ -1,8 +1,7 @@
 <x-layout.main-sidebar title="Admin | Menu Access">
     <div class="container">
-        <form action={{ route('do.admin.editMenuAccess') }} method="POST">
+        <form action={{ route('do.admin.createMenuAccess') }} method="POST">
             @csrf
-            <input type="hidden" name="id" value={{ $menuAccess->id }}>
             <section class="my-5 d-flex justify-content-between">
                 <h2 class="fs-4">Edit Menu Access</h2>
                 <button class="btn btn-primary mx-3 px-5" type="submit">Save</button>
@@ -10,12 +9,11 @@
             <section>
                 <div class="mb-3">
                     <label for="menuAccesName" class="form-label">Menu Access Name</label>
-                    <input type="text" name="txtName" class="form-control" id="menuAccesName" readonly
-                        value={{ $menuAccess->name }}>
+                    <input type="text" name="txtName" class="form-control" id="menuAccesName" placeholder="user menu access name">
                 </div>
                 <div class="mb-3">
                     <label for="menuAccesDesc" class="form-label">Menu Access Description</label>
-                    <textarea class="form-control" name="txtDescription" id="menuAccesDesc" rows="3">{{ $menuAccess->description }}</textarea>
+                    <textarea class="form-control" name="txtDescription" id="menuAccesDesc" rows="3"></textarea>
                 </div>
             </section>
             <section>
@@ -58,19 +56,10 @@
     </div>
     @push('script')
         <script>
-            const activatedMenu = {!! json_encode($activatedMenu) !!}
-            
             function resetAllCheckboxes() {
                 document.querySelectorAll(".items-check-box").forEach(el => el.checked = false);
             }
             resetAllCheckboxes();
-            
-            if (activatedMenu && activatedMenu.length > 0) {
-                activatedMenu.forEach(el => {
-                    let item = document.getElementById(`menuItem${el}`);
-                    if (item) item.checked = true;
-                });
-            }
 
             function selectAll(e) {
                 let txt = e.innerText;
