@@ -10,7 +10,7 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control form-control-sm" id="name" name="name"
-                                    placeholder="Enter your name">
+                                    placeholder="Enter your name" value="{{ old('name') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
@@ -18,12 +18,12 @@
                                     id="loading-check-username">
                                 </div>
                                 <input type="text" class="form-control form-control-sm" id="username"
-                                    name="username" placeholder="Enter your username">
+                                    name="username" placeholder="Enter your username" value="{{ old('username') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control form-control-sm" id="email" name="email"
-                                    placeholder="Enter your email">
+                                    placeholder="Enter your email" value="{{ old('email') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>

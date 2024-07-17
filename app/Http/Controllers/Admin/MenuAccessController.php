@@ -29,10 +29,9 @@ class MenuAccessController extends Controller
     public function index()
     {
         $menuAccess = MenuAccess::all();
-        $maNamesAdmin = MenuAccess::where('name', 'admin')->select('name')->first()->pluck('name');
+        $maNamesAdmin = MenuAccess::where('name','=', 'admin')->pluck('name')->first();
         $maNames = MenuAccess::where('name', '!=', 'admin')->select('name')->get()->pluck('name');
-        $menuItem = MenuItem::all();
-
+        
         $userMenuAccess = DB::table(TableName::USER_ROLE . ' as ur')
             ->leftJoin(TableName::USER_MENU_ACCESS . ' as uma', 'ur.code', '=', 'uma.role_code')
             ->leftJoin(TableName::MENU_ACCESS . ' as ma', 'uma.menu_access_id', '=', 'ma.id')

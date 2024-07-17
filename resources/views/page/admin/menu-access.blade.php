@@ -24,14 +24,14 @@
                                         @if ($uma->code === 'ADMIN')
                                             <select class="form-select form-select-sm" value={{ $uma->name }}
                                                 disabled>
-                                                <option value={{ $uma->name }}>{{ $uma->name }}</option>
+                                                <option value={{ $maNamesAdmin }}>{{ $maNamesAdmin }}</option>
                                             </select>
                                         @else
                                             <select class="form-select form-select-sm"
                                                 onchange="changeMA(this, '{{ $uma->code }}')">
                                                 
                                                 <option value="" {{ $uma->name === '' ? 'selected' : '' }} >Select Menu Access</option>
-                                                @foreach ($menuAccessNames as $mam)
+                                                @foreach ($maNames as $mam)
                                                     <option value={{ $mam }} {{ $uma->name === $mam ? 'selected' : '' }}>{{ $mam }}</option>
                                                 @endforeach
                                             </select>
