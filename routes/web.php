@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\MenuAccessController;
+use App\Http\Controllers\Admin\MigrationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ToDoListController;
 use App\Http\Controllers\Api\UserApiController;
@@ -143,8 +144,11 @@ Route::middleware(['auth', 'verified', 'isAdmin'])->group(function () {
         Route::post('/admin/menu-access/{id}', 'doDelete')->name('do.admin.deleteMenuAccess');
     });
 
+    Route::controller(MigrationController::class)->group(function () {
+        Route::get('/admin/migration', 'index')->name('page.admin.migration');
+    });
+
     Route::controller(AdminController::class)->group(function () {
-        Route::get('/admin/migration', 'pageMigration')->name('page.admin.migration');
         Route::get('/admin/logging', 'pageLogging')->name('page.admin.logging');
     });
 });
@@ -156,4 +160,4 @@ Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminCon
 // Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
 Route::view('/', 'page.landing-page')->name('page.langind-page');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
