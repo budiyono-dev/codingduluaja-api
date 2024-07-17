@@ -22,7 +22,7 @@ use PhpParser\Node\Stmt\Foreach_;
 class MenuAccessController extends Controller
 {
     public function __construct(
-        protected MenuService $MenuService
+        protected MenuService $menuService
     ) {
     }
 
@@ -136,7 +136,7 @@ class MenuAccessController extends Controller
         if ($ma->count() <= 0) {
             abort(404);
         }
-        // dd($uma, $uma->count());
+
         DB::transaction(function () use ($uma, $req, $ma) {
             if ($uma->count() <= 0) {
                 $uma = new UserMenuAccess();

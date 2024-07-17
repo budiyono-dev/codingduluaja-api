@@ -16,7 +16,7 @@ class MenuAccessDetail extends Model
         return $this->hasOne(MenuItem::class, 'id', 'menu_item_id');
     }
 
-	public function menuAccess()
+    public function menuAccess()
     {
         return $this->belongsTo(MenuAccess::class);
     }
