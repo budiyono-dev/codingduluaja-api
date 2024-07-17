@@ -25,7 +25,7 @@ class UserRole
 
     public static function admin(): UserRole
     {
-        return new UserRole('ADMIN', 'admin');
+        return new UserRole('ADMIN', 'Admin');
     }
 
     public static function superUser(): UserRole
@@ -40,6 +40,6 @@ class UserRole
 
     public static function user(): UserRole
     {
-        return new UserRole('USER', 'user');
+        return new UserRole('USER', 'User');
     }
 }

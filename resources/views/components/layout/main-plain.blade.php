@@ -33,14 +33,23 @@
         const toastSimpleB = bootstrap.Toast.getOrCreateInstance(simpleToast);
         let localTheme = localStorage.getItem("theme");
 
+        function getBgColor(type) {
+            const bgColor = {
+                'info': 'text-bg-info',
+                'primary': 'text-bg-primary',
+                'secondary': 'text-bg-secondary',
+                'success': 'text-bg-success',
+                'danger': 'text-bg-danger',
+                'black': 'text-bg-black',
+                'white': 'text-bg-white',
+                'default': 'text-bg-primary'
+            };
+            return (bgColor[type] || bgColor['default']);
+        }
+
         function showSimpleToast(msg = 'nofitication', type) {
 
-            let bgColour = 'text-bg-danger';
-            if (type === 'info') {
-                bgColour = 'text-bg-primary';
-            } else if (type === 'success') {
-                bgColour = 'text-bg-success';
-            }
+            let bgColour = getBgColor(type);
             simpleToast.classList.forEach(className => {
                 if (className.includes('text-bg')) {
                     simpleToast.classList.remove(className);
@@ -51,7 +60,7 @@
             toastSimpleB.show();
         }
 
-        function changeTheme(theme){
+        function changeTheme(theme) {
             let a = document.querySelectorAll("[data-bs-theme]");
             a.forEach(e => e.dataset.bsTheme = theme);
 
@@ -70,7 +79,7 @@
 
         }
 
-        function toggleDarkMode(){
+        function toggleDarkMode() {
             const current = document.documentElement.getAttribute('data-bs-theme');
             let finalTheme = current == 'dark' ? 'light' : 'dark';
             changeTheme(finalTheme);
@@ -83,7 +92,12 @@
 
         const statusMessage = {!! json_encode(session('status')) !!}
         if (statusMessage) {
-            showSimpleToast(statusMessage, 'success');
+            const msgSts = statusMessage.split('|');
+            if (msgSts.length > 1) {
+                showSimpleToast(msgSts[0], msgSts[1]);
+            } else {
+                showSimpleToast(statusMessage, 'success');
+            }
         }
 
         if (localTheme) {
@@ -94,7 +108,21 @@
 
         }
 
-        
+        function swal2(callback) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    callback();
+                }
+            });
+        }
     </script>
     @stack('script')
 </body>

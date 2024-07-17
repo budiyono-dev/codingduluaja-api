@@ -29,7 +29,8 @@ class MenuAccessController extends Controller
     public function index()
     {
         $menuAccess = MenuAccess::all();
-        $menuParent = MenuParent::all();
+        $maNamesAdmin = MenuAccess::where('name', 'admin')->select('name')->first()->pluck('name');
+        $maNames = MenuAccess::where('name', '!=', 'admin')->select('name')->get()->pluck('name');
         $menuItem = MenuItem::all();
 
         $userMenuAccess = DB::table(TableName::USER_ROLE . ' as ur')
@@ -40,7 +41,9 @@ class MenuAccessController extends Controller
 
         return view('page.admin.menu-access', [
             'userMenuAccess' => $userMenuAccess,
-            'menuAccess' => $menuAccess
+            'menuAccess' => $menuAccess,
+            'maNamesAdmin' => $maNamesAdmin,
+            'maNames' => $maNames
         ]);
     }
 
@@ -112,6 +115,39 @@ class MenuAccessController extends Controller
         if ($id === 1) {
             abort(403);
         }
+
+        DB::transaction(function () use ($id) {
+            $ma = MenuAccess::findOrFail($id);
+            MenuAccessDetail::where('menu_access_id', $id)->delete();
+            $ma->delete();
+        });
+
+        return redirect()->route('page.admin.menuAccess')->with('status', 'success delete menu access|primary');
+    }
+
+    public function doChangeUserMenuAccess(Request $request)
+    {
+        $req = $request->validate([
+            'txtMenuAccess' => 'required|string|exists:menu_access,name',
+            'txtRoleCode' => 'required|string|exists:user_role,code',
+        ]);
+
+        $uma = UserMenuAccess::where('role_code', $req['txtRoleCode'])->first();
+        $ma = MenuAccess::where('name', $req['txtMenuAccess'])->first();
+        if ($ma->count() <= 0) {
+            abort(404);
+        }
+        // dd($uma, $uma->count());
+        DB::transaction(function () use ($uma, $req, $ma) {
+            if ($uma->count() <= 0) {
+                $uma = new UserMenuAccess();
+                $uma->role_code = $req['txtRoleCode'];
+            }
+            $uma->menu_access_id = $ma->id;
+            $uma->save();
+        });
+
+        return redirect()->route('page.admin.menuAccess')->with('success change menu access|primary');
     }
 
     public function pageCreate()
@@ -122,11 +158,5 @@ class MenuAccessController extends Controller
             'menuParent' => $menuParent,
             'activatedMenu' => $activatedMenu
         ]);
-    }
-
-    public function getActiveMenuAccess(int $userMenuAccessId)
-    {
-        $this->menuService->getActiveMenu();
-        return $userId;
     }
 }

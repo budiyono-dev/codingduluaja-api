@@ -138,10 +138,9 @@ Route::middleware(['auth', 'verified', 'isAdmin'])->group(function () {
         Route::post('/admin/menu-access/edit', 'doEdit')->name('do.admin.editMenuAccess');
         Route::get('/admin/menu-access/create', 'pageCreate')->name('page.admin.addMenuAccess');
         Route::post('/admin/menu-access/create', 'doCreate')->name('do.admin.createMenuAccess');
+        Route::post('/admin/menu-access/user', 'doChangeUserMenuAccess')->name('do.admin.changeUserMenuAccess');
         Route::get('/admin/menu-access/{id}', 'pageEdit')->name('page.admin.editMenuAccess');
         Route::post('/admin/menu-access/{id}', 'doDelete')->name('do.admin.deleteMenuAccess');
-        Route::get('/admin/menu-access/parent/{id}', 'getActiveMenuAccess')->name('do.getActiveMenuAccess');
-
     });
 
     Route::controller(AdminController::class)->group(function () {
