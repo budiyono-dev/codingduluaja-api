@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Constants\ResponseCode;
 use App\Helper\ResponseHelper;
-use Illuminate\Routing\Controller;
 use App\Http\Requests\Api\SearchWilayahRequest;
 use App\Models\Api\Wilayah\Desa;
 use App\Models\Api\Wilayah\Kabupaten;
 use App\Models\Api\Wilayah\Kecamatan;
 use App\Models\Api\Wilayah\Provinsi;
 use App\Services\Wilayah\Wilayah;
-use Exception;
-use Illuminate\Support\Facades\Log;
 use App\Traits\ApiContext;
+use Exception;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 class WilayahController extends Controller
 {
@@ -22,10 +22,10 @@ class WilayahController extends Controller
     public function __construct(
         protected ResponseHelper $responseHelper,
         protected Wilayah $wilayah
-    ) {
-    }
+    ) {}
 
     private const COLUMN_BPS = ['id', 'kode_bps as kode', 'nama_bps as nama'];
+
     private const COLUMN_DAGRI = ['id', 'kode_dagri as kode', 'nama_dagri as nama'];
 
     public function indexBps(SearchWilayahRequest $req)
@@ -55,19 +55,21 @@ class WilayahController extends Controller
             $kode = $isBps ? 'kode_bps' : 'kode_dagri';
             $data = [];
             if ($wilayah === 'kabupaten') {
-                $data =  Kabupaten::select($column)->where($kode, $id)->first();
+                $data = Kabupaten::select($column)->where($kode, $id)->first();
             } elseif ($wilayah === 'kecamatan') {
-                $data =  Kecamatan::select($column)->where($kode, $id)->first();
+                $data = Kecamatan::select($column)->where($kode, $id)->first();
             } elseif ($wilayah === 'desa') {
-                $data =  Desa::select($column)->where($kode, $id)->first();
+                $data = Desa::select($column)->where($kode, $id)->first();
             }
 
-            if (!is_null($data)) {
+            if (! is_null($data)) {
                 return $this->responseHelper->success('', 'success get data', ResponseCode::SUCCESS_GET_DATA, $data);
             }
+
             return $this->responseHelper->resourceNotFound('');
         } catch (Exception $e) {
             Log::info("[WILAYAH-API] message {$e->getMessage()}");
+
             return $this->responseHelper->resourceNotFound('');
         }
     }
@@ -81,7 +83,7 @@ class WilayahController extends Controller
                 ->where('provinsi_id', $validated['provinsi_id'])->get();
             $data['actionTurunan'] = $this->constructActionTurunan('Show Kecamatan', 'kecamatan', 'kabupaten_id', $url);
         } elseif ($search === 'kecamatan') {
-            $data['listWilayah'] =  Kecamatan::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
+            $data['listWilayah'] = Kecamatan::select($isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI)
                 ->where('kabupaten_id', $validated['kabupaten_id'])->get();
             $data['actionTurunan'] = $this->constructActionTurunan('Show Desa', 'desa', 'kecamatan_id', $url);
         } elseif ($search === 'desa') {
@@ -99,9 +101,9 @@ class WilayahController extends Controller
             'title' => $isBps ? 'Wilayah BPS' : 'Wilayah Dagri',
             'listWilayah' => [],
             'actionTurunan' => [],
-            'url_find' =>  $isBps
+            'url_find' => $isBps
                 ? route('page.res.findBps', ['wilayah' => ':wil', 'id' => ':id'])
-                : route('page.res.findDagri', ['wilayah' => ':wil', 'id' => ':id'])
+                : route('page.res.findDagri', ['wilayah' => ':wil', 'id' => ':id']),
         ];
 
         $column = $isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI;
@@ -120,7 +122,7 @@ class WilayahController extends Controller
     {
         return [
             'listWilayah' => Provinsi::all($column),
-            'actionTurunan' => $this->constructActionTurunan('Show Kabupaten', 'kabupaten', 'provinsi_id', $url)
+            'actionTurunan' => $this->constructActionTurunan('Show Kabupaten', 'kabupaten', 'provinsi_id', $url),
         ];
     }
 
@@ -128,9 +130,9 @@ class WilayahController extends Controller
     {
         return [
             'text' => $text,
-            'search' => '<input type="hidden" name="search" value="' . $search . '">',
-            'param' => '<input type="hidden" name="' . $param . '" value=":id">',
-            'url' => $url
+            'search' => '<input type="hidden" name="search" value="'.$search.'">',
+            'param' => '<input type="hidden" name="'.$param.'" value=":id">',
+            'url' => $url,
         ];
     }
 }

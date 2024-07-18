@@ -2,22 +2,22 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Helper\ImagePlaceholder;
 use App\Helper\ResponseHelper;
 use App\Jwt\JwtHelper;
 use App\Repository\Impl\MenuRepositoryImpl;
-use App\Services\Wilayah\Wilayah;
-use App\Services\Wilayah\WilayahImpl;
-use App\Repository\ResourceRepository;
 use App\Repository\Impl\ResourceRepositoryImpl;
 use App\Repository\Impl\UserRepositoryImpl;
 use App\Repository\MenuRepository;
+use App\Repository\ResourceRepository;
 use App\Repository\UserRepository;
-use App\Services\ResourceService;
+use App\Services\Impl\MenuServiceImpl;
 use App\Services\Impl\ResourceServiceImpl;
 use App\Services\MenuService;
-use App\Services\Impl\MenuServiceImpl;
+use App\Services\ResourceService;
+use App\Services\Wilayah\Wilayah;
+use App\Services\Wilayah\WilayahImpl;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

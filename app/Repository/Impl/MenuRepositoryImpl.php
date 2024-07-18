@@ -2,11 +2,9 @@
 
 namespace App\Repository\Impl;
 
-use Illuminate\Support\Facades\DB;
 use App\Constants\TableName;
-use App\Models\Api\Todolist;
-use App\Models\Api\User\UserApi;
 use App\Repository\MenuRepository;
+use Illuminate\Support\Facades\DB;
 
 class MenuRepositoryImpl implements MenuRepository
 {
@@ -20,11 +18,11 @@ class MenuRepositoryImpl implements MenuRepository
 
     public function getEligibleMenuByRoldeCode(string $roleCode)
     {
-        return DB::table(TableName::USER_MENU_ACCESS . ' as uma')
-            ->join(TableName::MENU_ACCESS . ' as ma', 'uma.menu_access_id', '=', 'ma.id')
-            ->join(TableName::MENU_ACCESS_DETAIL . ' as mad', 'ma.id', '=', 'mad.menu_access_id')
-            ->join(TableName::MENU_ITEM . ' as item', 'item.id', '=', 'mad.menu_item_id')
-            ->join(TableName::MENU_PARENT . ' as parent', 'parent.id', '=', 'item.menu_parent_id')
+        return DB::table(TableName::USER_MENU_ACCESS.' as uma')
+            ->join(TableName::MENU_ACCESS.' as ma', 'uma.menu_access_id', '=', 'ma.id')
+            ->join(TableName::MENU_ACCESS_DETAIL.' as mad', 'ma.id', '=', 'mad.menu_access_id')
+            ->join(TableName::MENU_ITEM.' as item', 'item.id', '=', 'mad.menu_item_id')
+            ->join(TableName::MENU_PARENT.' as parent', 'parent.id', '=', 'item.menu_parent_id')
             ->where('uma.role_code', $roleCode)
             ->where('mad.enabled', true)
             ->select(

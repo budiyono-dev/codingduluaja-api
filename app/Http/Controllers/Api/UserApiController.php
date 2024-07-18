@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Dto\UserApiDto;
-use App\Models\Api\User\UserApiAddress;
-use App\Models\Api\User\UserApiImage;
-use App\Traits\ApiContext;
-use App\Models\Api\User\UserApi;
 use App\Constants\ResponseCode;
+use App\Dto\UserApiDto;
 use App\Enums\MasterResourceType;
 use App\Exceptions\ApiException;
 use App\Helper\ConfigUtils;
@@ -18,15 +14,19 @@ use App\Http\Requests\Api\User\CreateDummyUserRequest;
 use App\Http\Requests\Api\User\CreateUserApiRequest;
 use App\Http\Requests\Api\User\SearchUserApiRequest;
 use App\Http\Requests\Api\User\UploadImageUserApiRequest;
+use App\Models\Api\User\UserApi;
+use App\Models\Api\User\UserApiAddress;
+use App\Models\Api\User\UserApiImage;
 use App\Services\ResourceService;
+use App\Traits\ApiContext;
 use Faker\Factory;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class UserApiController extends Controller
 {
@@ -37,8 +37,7 @@ class UserApiController extends Controller
         protected ConfigUtils $configUtils,
         protected ImagePlaceholder $imagePlaceholder,
         protected ResourceService $resourceService
-    ) {
-    }
+    ) {}
 
     public function index()
     {
@@ -49,7 +48,7 @@ class UserApiController extends Controller
 
         return view('page.res.user-api', [
             'title' => 'User API',
-            'user' => $data
+            'user' => $data,
         ]);
     }
 
@@ -60,22 +59,22 @@ class UserApiController extends Controller
         if ($this->resourceService->isConnectedResource(MasterResourceType::USER_API)) {
             abort(403);
         }
-        
+
         $qty = $rv['sel_qty'];
         $userId = Auth::user()->id;
 
         $faker = Factory::create('id_ID');
-        $dirUser = '/api/user/' . $userId . '/img';
+        $dirUser = '/api/user/'.$userId.'/img';
         $path = Storage::disk('local')->path($dirUser);
         Storage::disk('local')->makeDirectory($dirUser);
 
         for ($i = 0; $i < $qty; $i++) {
             $user = UserApi::create([
                 'user_id' => $userId,
-                'name' => $faker->firstName() . ' ' . $faker->lastName(),
+                'name' => $faker->firstName().' '.$faker->lastName(),
                 'nik' => $faker->nik(),
                 'phone' => $faker->e164PhoneNumber(),
-                'email' => $faker->safeEmail()
+                'email' => $faker->safeEmail(),
             ]);
 
             UserApiAddress::create([
@@ -93,9 +92,10 @@ class UserApiController extends Controller
             UserApiImage::create([
                 'user_api_id' => $user->id,
                 'path' => $dirUser,
-                'filename' => $filename
+                'filename' => $filename,
             ]);
         }
+
         return redirect()->route('page.res.userApi');
     }
 
@@ -104,7 +104,7 @@ class UserApiController extends Controller
         $rv = $r->validated();
         $data = [];
 
-        Log::info('[USER_API] search user params : ' . json_encode($rv));
+        Log::info('[USER_API] search user params : '.json_encode($rv));
 
         $data = $this->search(
             $rv['search'] ?? null,
@@ -127,11 +127,11 @@ class UserApiController extends Controller
         $query = UserApi::where('user_id', $this->getUserId())
             ->with(['address', 'image']);
 
-        if (!is_null($search) && !empty($search) && !is_null($searchBy) && !empty($searchBy)) {
-            $query = $query->where($searchBy, 'like', '%' . $search . '%');
+        if (! is_null($search) && ! empty($search) && ! is_null($searchBy) && ! empty($searchBy)) {
+            $query = $query->where($searchBy, 'like', '%'.$search.'%');
         }
 
-        if (!is_null($orderBy) && !empty($orderBy) && !is_null($orderDirection) && !empty($orderDirection)) {
+        if (! is_null($orderBy) && ! empty($orderBy) && ! is_null($orderDirection) && ! empty($orderDirection)) {
             $query = $query->orderBy($orderBy, $orderDirection);
         }
 
@@ -150,7 +150,7 @@ class UserApiController extends Controller
                 'name' => $rv['name'] ?? null,
                 'nik' => $rv['nik'] ?? null,
                 'phone' => $rv['phone'] ?? null,
-                'email' => $rv['email'] ?? null
+                'email' => $rv['email'] ?? null,
             ]);
             UserApiAddress::create([
                 'user_api_id' => $user->id,
@@ -158,7 +158,7 @@ class UserApiController extends Controller
                 'state' => $rv['address']['state'] ?? null,
                 'city' => $rv['address']['city'] ?? null,
                 'postcode' => $rv['address']['postcode'] ?? null,
-                'detail' => $rv['address']['detail'] ?? null
+                'detail' => $rv['address']['detail'] ?? null,
             ]);
 
             $img = $this->createDefaultImage($user->id, $user->name);
@@ -180,38 +180,39 @@ class UserApiController extends Controller
         $path = Storage::disk('local')->path($dirUser);
 
         Log::info("[USER_API] check directory exists: {$path}");
-        if (!File::isDirectory($path)) {
+        if (! File::isDirectory($path)) {
             Storage::disk('local')->makeDirectory($dirUser);
         }
-        if (!File::isWritable($path)) {
+        if (! File::isWritable($path)) {
             Log::error("[USER_API] cannot write to path: {$path}");
             throw ApiException::systemError();
         }
 
-        $filename = StringUtil::uuidWihoutStrip() . '.png';
+        $filename = StringUtil::uuidWihoutStrip().'.png';
         $this->imagePlaceholder->placeholderByName($name, $path, $filename);
-        
+
         $img = new UserApiImage();
         $img->user_api_id = $userId;
         $img->path = $dirUser;
         $img->filename = $filename;
+
         return $img;
     }
 
-
     public function getImage(string $id)
     {
-        Log::info('[USER_API] getImage of user ' . $id);
+        Log::info('[USER_API] getImage of user '.$id);
         $u = UserApi::where('user_id', $this->getUserId())->where('id', $id)->firstOrFail();
         $rootPath = Storage::disk('local')->path('');
 
         $imgId = $u->image->id ?? null;
         if (is_null($imgId)) {
             return $this->responseHelper
-                ->notFound($this->getRequestId(), "Image not found", ResponseCode::RESOURCE_NOT_FOUND);
+                ->notFound($this->getRequestId(), 'Image not found', ResponseCode::RESOURCE_NOT_FOUND);
         }
 
-        $fp = $rootPath . $u->image->path . DIRECTORY_SEPARATOR . $u->image->filename;
+        $fp = $rootPath.$u->image->path.DIRECTORY_SEPARATOR.$u->image->filename;
+
         return response()->file($fp, ['Content-Type' => 'image/png']);
     }
 
@@ -222,7 +223,7 @@ class UserApiController extends Controller
 
         $u = UserApi::where('user_id', $this->getUserId())->where('id', $id)->firstOrFail();
         $imgPath = implode(DIRECTORY_SEPARATOR, ['api', 'user', $this->getUserId(), 'img']);
-        $filename = StringUtil::uuidWihoutStrip() . '_' . $file->getClientOriginalName();
+        $filename = StringUtil::uuidWihoutStrip().'_'.$file->getClientOriginalName();
 
         $file->storeAs($imgPath, $filename);
 
@@ -242,11 +243,12 @@ class UserApiController extends Controller
 
     public function detail(string $id): JsonResponse
     {
-        Log::info('[USER_API] get detail of user ' . $id);
+        Log::info('[USER_API] get detail of user '.$id);
         $user = UserApi::findOrFail($id);
         if ($user->user_id != $this->getUserId()) {
             return $this->responseHelper->notFound($this->getRequestId(), 'user', ResponseCode::MODEL_NOT_FOUND);
         }
+
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Successfully Get User',
@@ -288,7 +290,7 @@ class UserApiController extends Controller
 
     public function delete(string $id): JsonResponse
     {
-        Log::info('[USER_API] delete user ' . $id);
+        Log::info('[USER_API] delete user '.$id);
         $user = UserApi::findOrFail($id);
         if ($user->user_id != $this->getUserId()) {
             return $this->responseHelper->notFound($this->getRequestId(), 'user', ResponseCode::MODEL_NOT_FOUND);
@@ -298,6 +300,7 @@ class UserApiController extends Controller
             $user->image->delete();
             $user->delete();
         });
+
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Successfully Delete User',

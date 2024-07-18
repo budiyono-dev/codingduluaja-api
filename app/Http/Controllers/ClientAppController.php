@@ -6,11 +6,11 @@ use App\Http\Requests\CreateClientAppRequest;
 use App\Models\ClientApp;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Illuminate\Routing\Controller;
 
 class ClientAppController extends Controller
 {
@@ -59,6 +59,7 @@ class ClientAppController extends Controller
 
             $clientApp->delete();
         });
+
         return redirect()->route('page.clientApp');
     }
 }

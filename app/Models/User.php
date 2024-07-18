@@ -6,17 +6,17 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'role_code',
-        'username'
+        'username',
     ];
 
     protected $hidden = [
@@ -32,7 +32,8 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(UserRole::class, 'role_code', 'code');
     }
 }

@@ -9,8 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Configuration extends Model
 {
     use HasFactory;
+
     protected $table = TableName::CONFIGURATION;
+
     protected $primaryKey = 'key';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 }

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
-
 class DeploymentController extends Controller
 {
     public function index(string $id)
@@ -23,7 +22,7 @@ class DeploymentController extends Controller
         if (Schema::hasTable('configuration')) {
             $config = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
 
-            if (!is_null($config) && !is_null($config['value']) &&  !$config['value'] !== '') {
+            if (! is_null($config) && ! is_null($config['value']) && ! $config['value'] !== '') {
                 $value = $config['value'];
             }
         }
@@ -31,6 +30,7 @@ class DeploymentController extends Controller
         if ($value !== $id) {
             abort(404);
         }
+
         return view('page.super-user', ['id' => $id]);
     }
 
@@ -47,7 +47,8 @@ class DeploymentController extends Controller
             $conf->value = Str::random(32);
             $conf->save();
         });
-        return "key berhasil di update ";
+
+        return 'key berhasil di update ';
     }
 
     public function sendTestMail()
@@ -59,7 +60,7 @@ class DeploymentController extends Controller
     {
         $vReq = $req->validate([
             'sel_action' => 'required|string',
-            'sel_seed_class' => 'string'
+            'sel_seed_class' => 'string',
         ]);
         $output = '';
 
@@ -110,12 +111,14 @@ class DeploymentController extends Controller
     private function downApp(): string
     {
         Artisan::call('down');
+
         return Artisan::output();
     }
 
     private function upApp(): string
     {
         Artisan::call('up');
+
         return Artisan::output();
     }
 
@@ -123,7 +126,7 @@ class DeploymentController extends Controller
     {
         Artisan::call('db:seed', [
             '--force' => true,
-            '--class' => $class
+            '--class' => $class,
         ]);
 
         return Artisan::output();

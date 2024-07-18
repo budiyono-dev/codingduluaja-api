@@ -11,9 +11,10 @@ class IsAdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()->role_code === UserRole::admin()->getCode()) {
+        if (! auth()->user()->role_code === UserRole::admin()->getCode()) {
             abort(403);
         }
+
         return $next($request);
     }
 }

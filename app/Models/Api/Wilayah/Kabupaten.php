@@ -9,5 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Kabupaten extends Model
 {
     use HasFactory;
+
     protected $table = TableName::KABUPATEN;
 }

@@ -9,7 +9,7 @@ return [
         'resEdit' => '{"meta":{"request_id":"afee1673-e721-48ee-b6da-418c2d64201d","success":true,"code":"CDA-S-002","message":"Data Updated Successfully"},"data":null}',
         'reqEdit' => '{"date":"24-12-2023","name":"watching football","description":"MU VS Liverpol"}',
         'resDelete' => '{"meta":{"request_id":"5504d11a-89f8-4cd8-b718-5e02538c5add","success":true,"code":"CDA-S-003","message":"Data Deleted Successfully"},"data":null}',
-        'resNotValid' => '{"meta":{"request_id":"f7688857-52ba-4f61-ab56-b8c33671911e","success":false,"code":"CDA-V-001","message":"Validation Error"},"data":["The date field must be a date after or equal to 30-12-2023."]}'
+        'resNotValid' => '{"meta":{"request_id":"f7688857-52ba-4f61-ab56-b8c33671911e","success":false,"code":"CDA-V-001","message":"Validation Error"},"data":["The date field must be a date after or equal to 30-12-2023."]}',
     ],
     'bps' => [
         'listProvinsi' => '{"meta":{"request_id":"09401522-b8db-4270-9f98-d4576feb8098","success":true,"code":"CDA-S-001","message":"Successfully Get List Provinsi"},"data":[{"id":1,"nama":"ACEH"},{"id":2,"nama":"SUMATERA UTARA"},{"id":3,"nama":"SUMATERA BARAT"}]}',
@@ -43,6 +43,6 @@ return [
     ],
     'error' => [
         'unauthorized' => '{"meta":{"request_id":"6c6a5348-4571-456e-8063-957f9202cdbb","success":false,"code":"CDA-A-001","message":"Unauthorized"},"data":{"request":"Unauthorized request"}}',
-        'notFound' => '{"meta":{"request_id":"6bf84d71-ce6f-429e-86b3-52f4db2e1309","success":false,"code":"CDA-E-001","message":"Data not found"},"data":null}'
-    ]
+        'notFound' => '{"meta":{"request_id":"6bf84d71-ce6f-429e-86b3-52f4db2e1309","success":false,"code":"CDA-E-001","message":"Data not found"},"data":null}',
+    ],
 ];

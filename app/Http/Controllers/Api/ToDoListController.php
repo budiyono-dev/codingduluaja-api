@@ -4,25 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use App\Constants\ResponseCode;
 use App\Dto\TodolistDto;
+use App\Enums\MasterResourceType;
 use App\Exceptions\ApiException;
 use App\Helper\ResponseHelper;
-use Illuminate\Routing\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
 use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Http\Requests\Api\EditTodolistRequest;
 use App\Models\Api\Todolist;
+use App\Services\ResourceService;
 use App\Traits\ApiContext;
 use Carbon\Carbon;
-use Exception;
 use Faker\Factory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use function App\Exceptions\ApiException;
-use App\Constants\TableName;
-use App\Services\ResourceService;
-use App\Enums\MasterResourceType;
 
 class ToDoListController extends Controller
 {
@@ -31,8 +28,7 @@ class ToDoListController extends Controller
     public function __construct(
         protected ResponseHelper $responseHelper,
         protected ResourceService $resourceService
-    ) {
-    }
+    ) {}
 
     public function createTodoList(CreateTodolistRequest $req): JsonResponse
     {
@@ -43,9 +39,10 @@ class ToDoListController extends Controller
                 'user_id' => $this->getUserId(),
                 'date' => Carbon::createFromFormat('d-m-Y', $validatedReq['date'])->format('Y-m-d'),
                 'name' => $validatedReq['name'],
-                'description' => $validatedReq['description']
+                'description' => $validatedReq['description'],
             ]);
         });
+
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Data Inserted Successfully',
@@ -72,6 +69,7 @@ class ToDoListController extends Controller
     public function getDetail(int $id): JsonResponse
     {
         Log::info("[TODOLIST-API] get detail = {$this->getRequestId()}");
+
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Successfully Get Todolist',
@@ -91,7 +89,7 @@ class ToDoListController extends Controller
             $dateDb = Carbon::createFromFormat('Y-m-d', $todo->date);
             $dateReq = Carbon::createFromFormat('d-m-Y', $validatedReq['date']);
             if ($dateDb->isPast() && $dateDb->notEqualTo($dateReq)) {
-                throw ApiException::forbidden("you are not allowed to change past data todolist date");
+                throw ApiException::forbidden('you are not allowed to change past data todolist date');
             }
 
             $todo->date = $dateReq->format('Y-m-d');
@@ -99,6 +97,7 @@ class ToDoListController extends Controller
             $todo->description = $validatedReq['description'];
             $todo->save();
         });
+
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Data Updated Successfully',
@@ -116,6 +115,7 @@ class ToDoListController extends Controller
             });
             $todolist->delete();
         });
+
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Data Deleted Successfully',
@@ -129,7 +129,7 @@ class ToDoListController extends Controller
         DB::transaction(function () use ($req) {
             $userId = Auth::user()->id;
             $validatedReq = $req->validated();
-            
+
             if ($this->resourceService->isConnectedResource(MasterResourceType::TODOLIST)) {
                 abort(403);
             }
@@ -144,10 +144,11 @@ class ToDoListController extends Controller
                     'user_id' => $userId,
                     'date' => $faker->dateTimeBetween($now, $end)->format('Y-m-d'),
                     'name' => $faker->sentence(3),
-                    'description' => $faker->sentence(10)
+                    'description' => $faker->sentence(10),
                 ]);
             }
         });
+
         return redirect()->route('page.res.todolist');
     }
 
@@ -162,9 +163,10 @@ class ToDoListController extends Controller
                     'description' => $t->description,
                     'date' => $t->date,
                     'date_fmt' => Carbon::createFromFormat('Y-m-d', $t->date)->format('d F Y'),
-                    'created_at' => $t->created_at->format('d/m/Y H:i')
+                    'created_at' => $t->created_at->format('d/m/Y H:i'),
                 ]);
             });
+
         return view('page.res.todolist', ['todolist' => $todolist]);
     }
 }

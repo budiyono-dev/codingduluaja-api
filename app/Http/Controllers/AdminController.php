@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Mail\TestSMPTP;
 use App\Models\Configuration;
-use App\Models\MenuAccess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +31,7 @@ class AdminController
         if (Schema::hasTable('configuration')) {
             $config = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
 
-            if (!is_null($config) && !is_null($config['value']) &&  !$config['value'] !== '') {
+            if (! is_null($config) && ! is_null($config['value']) && ! $config['value'] !== '') {
                 $value = $config['value'];
             }
         }
@@ -40,6 +39,7 @@ class AdminController
         if ($value !== $id) {
             abort(404);
         }
+
         return view('page.super-user', ['id' => $id]);
     }
 
@@ -56,7 +56,8 @@ class AdminController
             $conf->value = Str::random(32);
             $conf->save();
         });
-        return "key berhasil di update ";
+
+        return 'key berhasil di update ';
     }
 
     public function sendTestMail()
@@ -68,7 +69,7 @@ class AdminController
     {
         $vReq = $req->validate([
             'sel_action' => 'required|string',
-            'sel_seed_class' => 'string'
+            'sel_seed_class' => 'string',
         ]);
         $output = '';
 
@@ -119,12 +120,14 @@ class AdminController
     private function downApp(): string
     {
         Artisan::call('down');
+
         return Artisan::output();
     }
 
     private function upApp(): string
     {
         Artisan::call('up');
+
         return Artisan::output();
     }
 
@@ -132,10 +135,9 @@ class AdminController
     {
         Artisan::call('db:seed', [
             '--force' => true,
-            '--class' => $class
+            '--class' => $class,
         ]);
 
         return Artisan::output();
     }
-
 }

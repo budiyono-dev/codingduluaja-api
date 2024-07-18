@@ -28,19 +28,18 @@ class AppManagerController extends Controller
 {
     public function __construct(
         protected ResponseHelper $responseHelper,
-        protected JwtHelper      $jwtHelper
-    ) {
-    }
+        protected JwtHelper $jwtHelper
+    ) {}
 
     public function index(): View
     {
         // craete token for user with expired
 
         $userId = Auth::user()->id;
-        $listApp = DB::table(TableName::CLIENT_APP . ' as cap')
-            ->join(TableName::CONNECTED_APP . ' as conap', 'conap.client_app_id', '=', 'cap.id')
-            ->join(TableName::CLIENT_RESOURCE . ' as cr', 'conap.client_resource_id', '=', 'cr.id')
-            ->join(TableName::MASTER_RESOURCE . ' as mr', 'cr.master_resource_id', '=', 'mr.id')
+        $listApp = DB::table(TableName::CLIENT_APP.' as cap')
+            ->join(TableName::CONNECTED_APP.' as conap', 'conap.client_app_id', '=', 'cap.id')
+            ->join(TableName::CLIENT_RESOURCE.' as cr', 'conap.client_resource_id', '=', 'cr.id')
+            ->join(TableName::MASTER_RESOURCE.' as mr', 'cr.master_resource_id', '=', 'mr.id')
             ->select(
                 'cap.name as app_name',
                 'mr.name as resource_name',
@@ -63,7 +62,7 @@ class AppManagerController extends Controller
             $validatedReq = $req->validate([
                 'client_app_id' => 'required',
                 'client_resource_id' => 'required',
-                'exp_id' => 'required'
+                'exp_id' => 'required',
             ]);
 
             $user = Auth::user();
@@ -72,7 +71,7 @@ class AppManagerController extends Controller
             $clientResId = $validatedReq['client_resource_id'];
             $expId = $validatedReq['exp_id'];
 
-            Log::info("[APP-MANAGER] generateToken {$userId} req " . json_encode($validatedReq));
+            Log::info("[APP-MANAGER] generateToken {$userId} req ".json_encode($validatedReq));
 
             ClientResource::findOrFail($clientResId);
             $exp = ExpiredToken::findOrFail($expId);
@@ -97,11 +96,12 @@ class AppManagerController extends Controller
                 Token::create([
                     'token' => $token,
                     'identifier' => $identifier,
-                    'exp' => $expiredTime
+                    'exp' => $expiredTime,
                 ]);
             });
+
             return response()->json(['token' => $token]);
-        } catch (ValidationException | TokenException $e) {
+        } catch (ValidationException|TokenException $e) {
             Log::info("[APP-MANAGER] Error generateToken {$e->getMessage()}");
             $errors = [];
             if ($e instanceof ValidationException) {
@@ -109,6 +109,7 @@ class AppManagerController extends Controller
             } elseif ($e instanceof TokenException) {
                 $errors = ['token' => [$e->getMessage()]];
             }
+
             return $this->responseHelper
                 ->validationError(
                     '',
@@ -117,6 +118,7 @@ class AppManagerController extends Controller
                 );
         } catch (Exception $e) {
             Log::info("[APP-MANAGER] Error generateToken {$e->getMessage()}");
+
             return $this->responseHelper
                 ->serverError(
                     '',
@@ -143,11 +145,13 @@ class AppManagerController extends Controller
             }
 
             Log::info("[APP-MANAGER] show token of user_id = {$userId}, c_app = {$clientAppId}, c_res = {$clientResId}");
+
             return $this
                 ->responseHelper
                 ->success('', 'succces get data token', ResponseCode::SUCCESS_GET_DATA, $token);
         } catch (Exception $e) {
             Log::info("[APP-MANAGER] Error showToken {$e->getMessage()}");
+
             return $this->responseHelper->serverError('', ['error' => $e->getMessage()]);
         }
     }
@@ -160,7 +164,7 @@ class AppManagerController extends Controller
 
             $validatedReq = $req->validate([
                 'client_app_id' => 'required',
-                'client_resource_id' => 'required'
+                'client_resource_id' => 'required',
             ]);
 
             $user = Auth::user();
@@ -168,7 +172,7 @@ class AppManagerController extends Controller
             $clientAppId = $validatedReq['client_app_id'];
             $clientResId = $validatedReq['client_resource_id'];
 
-            Log::info("[APP-MANAGER] revokeToken {$userId} req " . json_encode($validatedReq));
+            Log::info("[APP-MANAGER] revokeToken {$userId} req ".json_encode($validatedReq));
 
             $cRes = ClientResource::find($clientResId);
             if (is_null($cRes)) {
@@ -202,6 +206,7 @@ class AppManagerController extends Controller
                     ['error' => $e->getMessage()]
                 );
         }
+
         return $response;
     }
 

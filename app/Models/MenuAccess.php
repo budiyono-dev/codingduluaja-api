@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Constants\TableName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Constants\TableName;
-use Illuminate\Database\Eloquent\Relations\hasMany;
 
 class MenuAccess extends Model
 {
     use HasFactory;
+
     protected $table = TableName::MENU_ACCESS;
+
     protected $fillable = ['name', 'description'];
 
     public function details()

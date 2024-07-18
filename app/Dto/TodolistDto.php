@@ -6,7 +6,6 @@ use App\Models\Api\Todolist;
 
 class TodolistDto
 {
-
     public function __construct(
         public string $id,
         public string $date,
@@ -14,9 +13,7 @@ class TodolistDto
         public string $description,
         public string $created_at,
         public string $updated_at
-    )
-    {
-    }
+    ) {}
 
     public static function fromTodolist(Todolist $todo)
     {

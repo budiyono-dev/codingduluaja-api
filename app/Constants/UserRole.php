@@ -4,12 +4,10 @@ namespace App\Constants;
 
 class UserRole
 {
-    private function __construct
-    (
+    private function __construct(
         private string $code,
         private string $name
-    )
-    {
+    ) {
         //
     }
 

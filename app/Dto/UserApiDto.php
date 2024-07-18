@@ -1,9 +1,11 @@
 <?php
-namespace App\Dto;
-use App\Models\Api\User\UserApi;
-use Carbon\Carbon;
 
-class UserApiDto {
+namespace App\Dto;
+
+use App\Models\Api\User\UserApi;
+
+class UserApiDto
+{
     public function __construct(
         public string $id,
         public string $name,
@@ -14,13 +16,15 @@ class UserApiDto {
         public string $updated_at,
         public UserApiDtoAddress $address,
         public UserApiDtoImage $image
-    ){}
+    ) {}
 
-    public static function fromUserApiCollection($users){
+    public static function fromUserApiCollection($users)
+    {
         $data = [];
         foreach ($users as $u) {
             $data[] = UserApiDto::fromUserApi($u);
         }
+
         return $data;
     }
 
@@ -56,22 +60,25 @@ class UserApiDto {
         $u = UserApiDto::fromUserApi($user);
         $u->created_at = $user->created_at->format($format);
         $u->updated_at = $user->created_at->format($format);
+
         return $u;
     }
 }
 
-class UserApiDtoAddress {
-    public function __construct (
+class UserApiDtoAddress
+{
+    public function __construct(
         public string $country,
         public string $state,
         public string $city,
         public string $postcode,
         public string $detail
-    ){}
+    ) {}
 }
 
-class UserApiDtoImage {
+class UserApiDtoImage
+{
     public function __construct(
         public string $filename
-    ){}
+    ) {}
 }

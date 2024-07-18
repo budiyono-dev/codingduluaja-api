@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 interface MenuService
 {
-    function getEligibleMenu();
-    function isUserEligible(Request $req);
-    function getActiveMenu();
+    public function getEligibleMenu();
+
+    public function isUserEligible(Request $req);
+
+    public function getActiveMenu();
 }

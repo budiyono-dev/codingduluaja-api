@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Traits;
 
 use App\Constants\CdaContext;
 
-trait ApiContext {
+trait ApiContext
+{
     public function getContext(): ?array
     {
         return request()->attributes->get(CdaContext::REQUEST_CTX);

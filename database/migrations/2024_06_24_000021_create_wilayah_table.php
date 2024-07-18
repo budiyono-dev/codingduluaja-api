@@ -3,7 +3,6 @@
 use App\Constants\TableName;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -11,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(TableName::PROVINSI, function (Blueprint $table) {
-            $table->id();//id, kode_bps, nama_bps, kode_dagri, nama_dagri
+            $table->id(); //id, kode_bps, nama_bps, kode_dagri, nama_dagri
             $table->string('kode_bps', 100);
             $table->string('nama_bps', 100);
             $table->string('kode_dagri', 100);
@@ -20,7 +19,7 @@ return new class extends Migration
         });
 
         Schema::create(TableName::KABUPATEN, function (Blueprint $table) {
-            $table->id();//(id, provinsi_id, kode_bps, nama_bps, kode_dagri, nama_dagri)
+            $table->id(); //(id, provinsi_id, kode_bps, nama_bps, kode_dagri, nama_dagri)
             $table->unsignedBigInteger('provinsi_id');
             $table->string('kode_bps', 100);
             $table->string('nama_bps', 100);
@@ -34,7 +33,7 @@ return new class extends Migration
         });
 
         Schema::create(TableName::KECAMATAN, function (Blueprint $table) {
-            $table->id();//(id, provinsi_id, kabupaten_id, kode_bps, nama_bps, kode_dagri, nama_dagri)
+            $table->id(); //(id, provinsi_id, kabupaten_id, kode_bps, nama_bps, kode_dagri, nama_dagri)
             $table->unsignedBigInteger('provinsi_id');
             $table->unsignedBigInteger('kabupaten_id');
             $table->string('kode_bps', 100);
@@ -50,7 +49,7 @@ return new class extends Migration
         });
 
         Schema::create(TableName::DESA, function (Blueprint $table) {
-            $table->id();//(id, provinsi_id, kabupaten_id, kecamatan_id, kode_bps, nama_bps, kode_dagri, nama_dagri) 
+            $table->id(); //(id, provinsi_id, kabupaten_id, kecamatan_id, kode_bps, nama_bps, kode_dagri, nama_dagri)
             $table->unsignedBigInteger('provinsi_id');
             $table->unsignedBigInteger('kabupaten_id');
             $table->unsignedBigInteger('kecamatan_id');

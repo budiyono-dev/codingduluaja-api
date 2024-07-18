@@ -29,7 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 /**
  * Auth Route
  */
@@ -104,7 +103,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-
 /**
  * Non Auth Route
  */
@@ -160,4 +158,4 @@ Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminCon
 // Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
 Route::view('/', 'page.landing-page')->name('page.langind-page');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

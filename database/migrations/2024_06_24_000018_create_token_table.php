@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create(TableName::TOKEN, function (Blueprint $table) {
             $table->id();
             $table->string('token');
-			$table->string('identifier', 100);
+            $table->string('identifier', 100);
             $table->unsignedBigInteger('exp');
             $table->timestamps();
 

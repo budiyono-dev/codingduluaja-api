@@ -4,5 +4,5 @@ namespace App\Repository;
 
 interface MenuRepository
 {
-    function getEligibleMenuByRoldeCode(string $roleCode);
+    public function getEligibleMenuByRoldeCode(string $roleCode);
 }

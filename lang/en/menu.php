@@ -1,11 +1,12 @@
 <?php
+
 return [
     'parent' => [
         'admin' => 'Admin',
         'application' => 'Application',
         'documentation' => 'Resource Documentation',
         'resourceManager' => 'Resource Manager',
-        'tools' => 'Tools'
+        'tools' => 'Tools',
     ],
     'item' => [
         'admin_menu_access' => 'Menu Access',
@@ -18,10 +19,10 @@ return [
 
         'doc_todolist' => 'Todolist',
         'res_todolist' => 'Todolist',
-        
+
         'doc_wilayah_bps' => 'Wilayah BPS',
         'res_wilayah_bps' => 'Wilayah BPS',
-        
+
         'doc_wilayah_dagri' => 'Wilayah DAGRI',
         'res_wilayah_dagri' => 'Wilayah DAGRI',
 
@@ -30,5 +31,5 @@ return [
         'doc_user_api' => 'User API',
         'res_user_api' => 'User API',
 
-    ]
+    ],
 ];

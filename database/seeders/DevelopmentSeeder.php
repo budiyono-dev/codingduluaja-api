@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 
 class DevelopmentSeeder extends Seeder
 {
-
     public function run(): void
     {
         Log::info('[DEPLOYMENT-SEEDER] Seeding Development Seeder');
@@ -28,31 +27,33 @@ class DevelopmentSeeder extends Seeder
     {
         return Str::replace('-', '', Str::uuid());
     }
+
     private function getListClientApp(): array
     {
         return [
             [
                 'user_id' => 1,
                 'name' => 'testing',
-                'app_key' => $this->genKey()
+                'app_key' => $this->genKey(),
             ],
             [
                 'user_id' => 1,
                 'name' => 'kopi shop',
-                'app_key' => $this->genKey()
+                'app_key' => $this->genKey(),
             ],
             [
                 'user_id' => 1,
                 'name' => 'kebun',
-                'app_key' => $this->genKey()
+                'app_key' => $this->genKey(),
             ],
             [
                 'user_id' => 1,
                 'name' => 'react web app',
-                'app_key' => $this->genKey()
-            ]
+                'app_key' => $this->genKey(),
+            ],
         ];
     }
+
     private function getListClientResource(): array
     {
         $listClientRes = [];
@@ -60,9 +61,10 @@ class DevelopmentSeeder extends Seeder
         foreach ($listMRes as $mr) {
             $listClientRes[] = [
                 'user_id' => 1,
-                'master_resource_id' => $mr['id']
+                'master_resource_id' => $mr['id'],
             ];
         }
+
         return $listClientRes;
     }
 }

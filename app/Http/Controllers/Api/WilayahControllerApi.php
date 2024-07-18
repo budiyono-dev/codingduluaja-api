@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Routing\Controller;
 use App\Services\Wilayah\Wilayah;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class WilayahControllerApi extends Controller
 {
     public function __construct(
         protected Wilayah $wilayah
-    ) {
-    }
+    ) {}
 
     public function getListProvinsiBps(): JsonResponse
     {
@@ -104,6 +103,7 @@ class WilayahControllerApi extends Controller
     private function validateRequiredField(Request $req, string $field): string
     {
         $validated = $req->validate([$field => 'required|string']);
+
         return $validated['kabupaten_id'];
     }
 }

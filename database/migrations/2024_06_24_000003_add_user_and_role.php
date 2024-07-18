@@ -17,7 +17,7 @@ return new class extends Migration
         MigrationUtils::addUserRole($su->getCode(), $su->getName());
         MigrationUtils::addUserRole($ops->getCode(), $ops->getName());
         MigrationUtils::addUserRole($user->getCode(), $user->getName());
-        
+
         MigrationUtils::addUserAdmin('Admin Satu', 'admin1', 'admin1@codingduluaja.com');
         MigrationUtils::addUserUser('Tester Satu', 'tester1', 'tester1@codingduluaja.com');
         MigrationUtils::addUserSu('Admin Super', 'adminsu', 'adminsu1@codingduluaja.com');
