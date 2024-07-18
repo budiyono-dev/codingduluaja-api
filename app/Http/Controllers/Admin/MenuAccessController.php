@@ -131,12 +131,12 @@ class MenuAccessController extends Controller
 
         $uma = UserMenuAccess::where('role_code', $req['txtRoleCode'])->first();
         $ma = MenuAccess::where('name', $req['txtMenuAccess'])->first();
-        if ($ma->count() <= 0) {
+        if (is_null($ma) || $ma->count() <= 0) {
             abort(404);
         }
 
         DB::transaction(function () use ($uma, $req, $ma) {
-            if ($uma->count() <= 0) {
+            if (is_null($uma) || $uma->count() <= 0) {
                 $uma = new UserMenuAccess();
                 $uma->role_code = $req['txtRoleCode'];
             }

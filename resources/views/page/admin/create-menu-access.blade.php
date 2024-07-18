@@ -1,6 +1,6 @@
 <x-layout.main-sidebar title="Admin | Menu Access">
     <div class="container">
-        <form action={{ route('do.admin.createMenuAccess') }} method="POST">
+        <form action="{{ route('do.admin.createMenuAccess') }}" method="POST">
             @csrf
             <section class="my-5 d-flex justify-content-between">
                 <h2 class="fs-4">Edit Menu Access</h2>
@@ -28,10 +28,10 @@
                             @continue
                         @endif
                         <a class="list-group-item list-group-item-action list-group-item-primary"
-                            data-bs-toggle="collapse" href={{ '#collapse' . $key }}>
+                            data-bs-toggle="collapse" href="{{ '#collapse' . $key }}">
                             {{ __($p->name) }}
                         </a>
-                        <ul class="list-group collapse" id={{ 'collapse' . $key }}>
+                        <ul class="list-group collapse" id="{{ 'collapse' . $key }}">
                             <li class="list-group-item list-group-item-warning">
                                 <button class="btn btn-sm btn-success me-3" type="button"
                                     onclick="selectAllItems(this)">select all</button>
@@ -39,9 +39,9 @@
                             @forelse ($p->menuItem as $item)
                                 <li class="list-group-item list-group-item-warning">
                                     <input class="form-check-input items-check-box" type="checkbox" name="cbItems[]"
-                                        id={{ 'menuItem' . $item->id }} value={{ $item->id }}>
+                                        id="{{ 'menuItem' . $item->id }}" value="{{ $item->id }}">
                                     <label class="form-check-label"
-                                        for={{ 'menuItem' . $item->id }}>{{ __($item->name) }}</label>
+                                        for="{{ 'menuItem' . $item->id }}">{{ __($item->name) }}</label>
                                 </li>
                             @empty
                                 <p>No Data....</p>

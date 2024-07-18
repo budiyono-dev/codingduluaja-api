@@ -22,17 +22,17 @@
                                     <td class="text-start ">{{ $uma->code }}</td>
                                     <td class="text-start">
                                         @if ($uma->code === 'ADMIN')
-                                            <select class="form-select form-select-sm" value={{ $uma->name }}
+                                            <select class="form-select form-select-sm" value="{{ $uma->name }}"
                                                 disabled>
-                                                <option value={{ $maNamesAdmin }}>{{ $maNamesAdmin }}</option>
+                                                <option value="{{ $maNamesAdmin }}">{{ $maNamesAdmin }}</option>
                                             </select>
                                         @else
                                             <select class="form-select form-select-sm"
                                                 onchange="changeMA(this, '{{ $uma->code }}')">
                                                 
-                                                <option value="" {{ $uma->name === '' ? 'selected' : '' }} >Select Menu Access</option>
+                                                <option value="" @selected($uma->name === '')>Select Menu Access</option>
                                                 @foreach ($maNames as $mam)
-                                                    <option value={{ $mam }} {{ $uma->name === $mam ? 'selected' : '' }}>{{ $mam }}</option>
+                                                    <option value="{{ $mam }}" @selected($uma->name === $mam)>{{ $mam }}</option>
                                                 @endforeach
                                             </select>
                                         @endif
@@ -42,7 +42,7 @@
                                             <button class="btn btn-outline-primary btn-sm" type="submit"
                                                 disabled>save</button>
                                         @else
-                                            <form action={{ route('do.admin.changeUserMenuAccess') }} method="POST"
+                                            <form action="{{ route('do.admin.changeUserMenuAccess') }}" method="POST"
                                                 name="formChangeMenuAccess">
                                                 @csrf
                                                 <input type="hidden" name="txtRoleCode" value="{{ $uma->code }}">
@@ -66,7 +66,7 @@
             <div class="col">
                 <div class="d-flex my-3 align-items-center">
                     <h2 class="my-2 fs-5 fw-bold text-decoration-underline">Menu Access</h2>
-                    <a class="btn btn-primary btn-sm mx-3 px-3" href={{ route('page.admin.addMenuAccess') }}>add</a>
+                    <a class="btn btn-primary btn-sm mx-3 px-3" href="{{ route('page.admin.addMenuAccess') }}">add</a>
                 </div>
                 <div class="table-responsive ">
                     <table class="table table-sm  table-hover table-striped">
@@ -89,7 +89,7 @@
                                             href="{{ route('page.admin.editMenuAccess', ['id' => $uma->id]) }}">edit</a>
                                         @if ($uma->id !== 1)
                                             <form method="post" name="formDeleteMenuAccess"
-                                                action={{ route('do.admin.deleteMenuAccess', ['id' => $uma->id]) }}>
+                                                action="{{ route('do.admin.deleteMenuAccess', ['id' => $uma->id]) }}">
                                                 @csrf
                                                 <button class="btn btn-outline-danger btn-sm"
                                                     type="submit">delete</button>
@@ -110,12 +110,12 @@
     </div>
     @push('script')
         <script>
-            const formDelete = document.formDeleteMenuAccess;
+            const formDelete = document.querySelectorAll('form[name="formDeleteMenuAccess"]');
+            console.log(formDelete);
             if (formDelete) {
                 for (let f of formDelete) {
                     f.addEventListener('submit', (e) => {
                         e.preventDefault();
-                        console.log(e);
                         swal2(() => f.submit());
                         return false;
                     });
@@ -123,7 +123,6 @@
             }
 
             function changeMA(el, sel) {
-                console.log(sel, el.value);
                 document.getElementById('txtMenuAccess' + sel).value = el.value;
             }
         </script>
