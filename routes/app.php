@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Route;
 /**
  * Application Route
  */
+$middleware = ['auth', 'verified', 'menu-access'];
 Route::group([
-    'mideleware' => ['auth', 'verified', 'menu-access'],
+    'mideleware' => $middleware,
     'controller' => AppResourceController::class,
     'prefix' => '/app/resource',
 ], function () {
@@ -20,7 +21,7 @@ Route::group([
     Route::post('/disconnect/{id}', 'disconnectClient')->name('do.disconnectClient');
 });
 Route::group([
-    'mideleware' => ['auth', 'verified', 'menu-access'],
+    'mideleware' => $middleware,
     'controller' => ClientAppController::class,
     'prefix' => '/app/client',
 ], function () {
@@ -30,7 +31,7 @@ Route::group([
 });
 
 Route::group([
-    'mideleware' => ['auth', 'verified', 'menu-access'],
+    'mideleware' => $middleware,
     'controller' => AppManagerController::class,
     'prefix' => '/app/manager',
 ], function () {

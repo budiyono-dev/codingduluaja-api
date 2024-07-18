@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Route;
 /**
  * Admin Route
  */
+$middleware = ['auth', 'verified', 'isAdmin'];
 Route::group([
-    'mideleware' => ['auth', 'verified', 'isAdmin'],
+    'middleware' => $middleware,
     'controller' => MenuAccessController::class,
     'prefix' => '/admin/menu-access',
 ], function () {
@@ -24,28 +25,28 @@ Route::group([
 });
 
 Route::group([
-    'mideleware' => ['auth', 'verified', 'isAdmin'],
+    'middleware' => $middleware,
     'controller' => MigrationController::class,
-    'prefix' => '/admin/menu-access',
+    'prefix' => '/admin/migration',
 ], function () {
-    Route::get('/admin/migration', 'index')->name('page.admin.migration');
+    Route::get('', 'index')->name('page.admin.migration');
 
 });
 
 Route::group([
-    'mideleware' => ['auth', 'verified', 'isAdmin'],
+    'middleware' => $middleware,
     'controller' => SiteController::class,
-    'prefix' => '/admin/menu-access',
+    'prefix' => '/admin/site',
 ], function () {
-    Route::get('/admin/site', 'index')->name('page.admin.site');
+    Route::get('', 'index')->name('page.admin.site');
 
 });
 
 Route::group([
-    'mideleware' => ['auth', 'verified', 'isAdmin'],
+    'middleware' => $middleware,
     'controller' => LoggingController::class,
-    'prefix' => '/admin/menu-access',
+    'prefix' => '/admin/logging',
 ], function () {
-    Route::get('/admin/logging', 'index')->name('page.admin.logging');
+    Route::get('', 'index')->name('page.admin.logging');
 
 });
