@@ -1,4 +1,4 @@
-<x-layout.main-sidebar title="Admin | Logging">
+<x-layout.main-sidebar title="Admin | Site">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm mt-3">

@@ -12,6 +12,7 @@ return [
         'admin_menu_access' => 'Menu Access',
         'admin_migration' => 'Database Migrations',
         'admin_logging' => 'Logging',
+        'admin_site' => 'Site',
 
         'app_resource' => 'App Resource',
         'client_app' => 'App Client',
