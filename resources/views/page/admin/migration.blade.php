@@ -1,80 +1,66 @@
-<x-layout.main-sidebar title="Resource | Todolist">
+<x-layout.main-sidebar title="Admin | Migration">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col">
-                <div class="pt-4 pb-4 text-center">
-                    <h4>Resource Todolist</h4>
-                </div>
-                <div class="row justify-content-evenly">
-                    <div class="col-7">
-                        <div class="table-responsive">
-                            <table class="table table-sm  table-hover">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @forelse ($todolist as $key => $t)
-                                    <tr onclick="show({{ $t }})">
-                                        <th scope="row">{{ ($todolist->currentPage() -1) * $todolist->perPage() + 1 + $key }}</th>
-                                        <td class="text-start">{{ $t->get('name') }}</td>
-                                        <td class="text-start">{{ $t->get('date') }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4">No Data....</td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
-                                {{ $todolist->links('vendor.pagination.bootstrap-5') }}
-                        </div>
+            <div class="col-sm mt-3">
+                <h3 class="text-center m-0 text-decoration-underline">Action</h3>
+                <form action="" class="my-3 d-block">
+                    <div class="mb-3">
+                        <label for="selMigrate" class="form-label">Migrations</label>
+                        <select class="form-select" aria-label="Default select example" name="selMigrate"
+                            id="selMigrate">
+                            <option value="" selected>Pilih Action</option>
+                            <option value="migrate:fresh">mirate:fresh</option>
+                            <option value="migrate">migrate</option>
+                            <option value="rolback">rollback</option>
+                            <option value="seed">seed</option>
+                        </select>
                     </div>
-                    <div class="col-5">
-                        <form name="genTodolist" id="genTodolist" action="{{ route('do.todolist.dummy') }}" method="post" autocomplete="off">
-                            <div class="card p-3">
-                                <div class="text-center p-1">
-                                    <h5>Generate Data Todolist</h5>
-                                </div>
-                                @csrf
-                                <select class="form-select mb-3" name="sel_qty" id="selQty">
-                                    <option selected value="">-- Select Qty --</option>
-                                    <option value="1">1</option>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                </select>
-                                <x-button type="submit" class="btn-sm btn-outline-primary px-3">
-                                    Generate
-                                </x-button>
-                            </div>
-                        </form>
-                        <div class="card p-3 mt-2">
-                                <div class="text-center p-1">
-                                    <h5>Details</h5>
-                                </div>
-                                <p ><b id="todoName"></b></p>
-                                <p id="todoDesc" ></p>
-                                <p id="todoDate" class="fs-6 fw-light"></p>
-                                <p id="todoCreate" class="fs-6 fw-lighter"></p>
+                    <button type="submit" class="btn btn-primary btn-sm">execute</button>
+                </form>
+                <div class="text-secondary">
+                    <hr class="border border-secondary border-2">
+                </div>
 
-                            </div>
+                <form action="" class="my-3 d-block">
+                    <div class="mb-3">
+                        <label for="selMigrate" class="form-label">Seeder</label>
+                        <select class="form-select" aria-label="Default select example" name="selMigrate"
+                            id="selMigrate">
+                            <option value="" selected>Pilih Seeder</option>
+                            <option value="DevelopmentSeeder">Development</option>
+                            <option value="AllWilayahSeeder">All Wilayah</option>
+                        </select>
                     </div>
+                    <button type="submit" class="btn btn-primary btn-sm">execute</button>
+                </form>
+                <div class="text-secondary">
+                    <hr class="border border-secondary border-2">
                 </div>
+
+                <form action="" class="my-3 d-block">
+                    <div class="mb-3">
+                        <label for="selMigrate" class="form-label">Maintenance</label>
+                        <select class="form-select" aria-label="Default select example" name="selMigrate"
+                            id="selMigrate">
+                            <option value="" selected>Pilih Action</option>
+                            <option value="down">down (Maintanance Mode)</option>
+                            <option value="up">up (disable Maintance Mode)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">execute</button>
+                </form>
+                <div class="text-secondary">
+                    <hr class="border border-secondary border-2">
+                </div>
+            </div>
+            <div class="col-sm mt-3">
+                <h3 class="text-center  m-0  text-decoration-underline">Console Output</h3>
+                <textarea name="areaOutput" id="areaOutput" rows="15" class="my-3 border p-2 border-primary border-1"
+                    style="width: 100%">{{ session('command-output') ?? '' }}</textarea>
             </div>
         </div>
     </div>
     @push('script')
-        <script type="text/javascript">
-            const show = (d) => {
-                document.getElementById('todoName').innerText = d.name;
-                document.getElementById('todoDesc').innerText = d.description;
-                document.getElementById('todoDate').innerText = d.date_fmt;
-                document.getElementById('todoCreate').innerText = 'Created At ' + d.created_at;
-            }
-        </script>
+        <script type="text/javascript"></script>
     @endpush
 </x-layout.main-sidebar>

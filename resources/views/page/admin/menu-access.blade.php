@@ -63,7 +63,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-7">
+            <div class="col">
                 <div class="d-flex my-3 align-items-center">
                     <h2 class="my-2 fs-5 fw-bold text-decoration-underline">Menu Access</h2>
                     <a class="btn btn-primary btn-sm mx-3 px-3" href={{ route('page.admin.addMenuAccess') }}>add</a>
