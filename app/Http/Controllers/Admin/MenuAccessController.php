@@ -113,6 +113,11 @@ class MenuAccessController extends Controller
             abort(403);
         }
 
+        $uma = UserMenuAccess::where('menu_access_id', $id)->first();
+        if (! is_null($uma)) {
+            return redirect()->route('page.admin.menuAccess')->with('status', 'Delete Failed<br>User Access is in use|danger');
+        }
+
         DB::transaction(function () use ($id) {
             $ma = MenuAccess::findOrFail($id);
             MenuAccessDetail::where('menu_access_id', $id)->delete();
