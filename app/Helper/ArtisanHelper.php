@@ -47,7 +47,7 @@ class ArtisanHelper
 
     public function down(string $secret): string
     {
-        Artisan::call('down', ['--secret', $secret]);
+        Artisan::call('down', ['--secret' => $secret]);
 
         return Artisan::output();
     }
