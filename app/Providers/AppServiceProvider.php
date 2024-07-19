@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Helper\ArtisanHelper;
 use App\Helper\ImagePlaceholder;
 use App\Helper\ResponseHelper;
-use App\Jwt\JwtHelper;
 use App\Repository\Impl\MenuRepositoryImpl;
 use App\Repository\Impl\ResourceRepositoryImpl;
 use App\Repository\Impl\UserRepositoryImpl;
@@ -25,10 +25,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(ResponseHelper::class, function () {
             return new ResponseHelper();
-        });
-
-        $this->app->singleton(JwtHelper::class, function () {
-            return new JwtHelper();
         });
 
         $this->app->singleton(Wilayah::class, function () {
@@ -65,10 +61,14 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->make(UserRepository::class)
             );
         });
+
+        $this->app->singleton(ArtisanHelper::class, function () {
+            return new ArtisanHelper();
+        });
     }
 
     public function boot(): void
     {
-        //
+        // not implement anything yet
     }
 }

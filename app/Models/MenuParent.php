@@ -12,9 +12,6 @@ class MenuParent extends Model
     use HasFactory;
 
     protected $table = TableName::MENU_PARENT;
-    // protected $fillable = [
-    //     'name', 'sequence'
-    // ];
 
     public function menuItem(): HasMany
     {

@@ -18,7 +18,7 @@ class UserApiSeeder extends Seeder
     {
         DB::transaction(function () {
             $qty = ConfigUtils::getSeederUserApiQty();
-            $u = User::where('email', 'tester@codingduluaja.online')->first();
+            $u = User::where('email', 'tester1@codingduluaja.com')->first();
             $faker = Factory::create('id_ID');
             $dirUser = '/api/user/'.$u->id.'/img';
             $path = Storage::disk('local')->path($dirUser);

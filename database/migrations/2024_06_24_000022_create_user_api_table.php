@@ -47,6 +47,8 @@ return new class extends Migration
 
     public function down(): void
     {
+        Schema::dropIfExists(TableName::IMAGE_USER_API);
+        Schema::dropIfExists(TableName::ADDRESS_USER_API);
         Schema::dropIfExists(TableName::USER_API);
     }
 };

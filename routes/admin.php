@@ -30,6 +30,8 @@ Route::group([
     'prefix' => '/admin/migration',
 ], function () {
     Route::get('', 'index')->name('page.admin.migration');
+    Route::post('/migrate', 'doMigrate')->name('do.admin.migrateMigration');
+    Route::post('/seed', 'doSeed')->name('do.admin.seedMigration');
 
 });
 
