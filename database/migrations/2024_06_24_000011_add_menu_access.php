@@ -16,7 +16,7 @@ return new class extends Migration
         );
 
         MigrationUtils::addMenuAccessDetail($menuAccess1->id,
-            [1, 2, 3]
+            [1, 2, 3, 4]
         );
 
         MigrationUtils::addUserMenuAccess($admin, $menuAccess1->id);

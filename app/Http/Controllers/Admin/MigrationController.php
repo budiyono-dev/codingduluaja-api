@@ -47,7 +47,13 @@ class MigrationController extends Controller
 
     public function doSeed(Request $request)
     {
+        $req = $request->validate([
+            'selSeed' => 'required|string',
+        ]);
+
+        $output = $this->artisanHelper->seedingClass($req['selSeed']);
+
         return redirect()->route('page.admin.migration')
-            ->with('command-output', $request->all());
+            ->with('command-output', $output);
     }
 }

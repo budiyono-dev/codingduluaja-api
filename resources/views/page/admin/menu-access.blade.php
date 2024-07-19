@@ -40,7 +40,7 @@
                                     <td class="text-center d-flex justify-content-evenly align-items-center">
                                         @if ($uma->code === 'ADMIN')
                                             <button class="btn btn-outline-primary btn-sm" type="submit"
-                                                disabled>save</button>
+                                                disabled>Save</button>
                                         @else
                                             <form action="{{ route('do.admin.changeUserMenuAccess') }}" method="POST"
                                                 name="formChangeMenuAccess">
@@ -49,7 +49,7 @@
                                                 <input type="hidden" name="txtMenuAccess" value="{{ $uma->name }}"
                                                     id="{{ 'txtMenuAccess' . $uma->code }}">
                                                 <button class="btn btn-outline-primary btn-sm"
-                                                    type="submit">save</button>
+                                                    type="submit">Save</button>
                                             </form>
                                         @endif
                                     </td>
@@ -66,7 +66,7 @@
             <div class="col">
                 <div class="d-flex my-3 align-items-center">
                     <h2 class="my-2 fs-5 fw-bold text-decoration-underline">Menu Access</h2>
-                    <a class="btn btn-primary btn-sm mx-3 px-3" href="{{ route('page.admin.addMenuAccess') }}">add</a>
+                    <a class="btn btn-primary btn-sm mx-3 px-3" href="{{ route('page.admin.addMenuAccess') }}">Add</a>
                 </div>
                 <div class="table-responsive ">
                     <table class="table table-sm  table-hover table-striped">
@@ -86,13 +86,13 @@
                                     <td class="text-start">{{ $uma->description }}</td>
                                     <td class="text-center d-flex justify-content-evenly align-items-center">
                                         <a class="btn btn-outline-primary btn-sm" type="button"
-                                            href="{{ route('page.admin.editMenuAccess', ['id' => $uma->id]) }}">edit</a>
+                                            href="{{ route('page.admin.editMenuAccess', ['id' => $uma->id]) }}">Edit</a>
                                         @if ($uma->id !== 1)
                                             <form method="post" name="formDeleteMenuAccess"
                                                 action="{{ route('do.admin.deleteMenuAccess', ['id' => $uma->id]) }}">
                                                 @csrf
                                                 <button class="btn btn-outline-danger btn-sm"
-                                                    type="submit">delete</button>
+                                                    type="submit">Delete</button>
                                             </form>
                                         @endif
                                     </td>

@@ -88,4 +88,9 @@ class MenuServiceImpl implements MenuService
 
         return $allmenu;
     }
+
+    public function getActiveMenu()
+    {
+        throw new \Exception('not implement');
+    }
 }

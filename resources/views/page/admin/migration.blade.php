@@ -16,7 +16,7 @@
                             <option value="status">status</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">execute</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Execute</button>
                 </form>
                 <div class="text-secondary">
                     <hr class="border border-secondary border-2">
@@ -25,15 +25,15 @@
                 <form action="{{ route('do.admin.seedMigration') }}" class="my-3 d-block" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="selMigrate" class="form-label">Seeder</label>
-                        <select class="form-select" aria-label="Default select example" name="selMigrate"
+                        <label for="selSeed" class="form-label">Seeder</label>
+                        <select class="form-select" aria-label="Default select example" name="selSeed"
                             id="selMigrate">
                             <option value="" selected>Pilih Seeder</option>
                             <option value="DevelopmentSeeder">Development</option>
                             <option value="AllWilayahSeeder">All Wilayah</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">execute</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Execute</button>
                 </form>
                 <div class="text-secondary">
                     <hr class="border border-secondary border-2">
@@ -41,7 +41,7 @@
             </div>
             <div class="col-sm col-md-9 mt-3">
                 <h3 class="text-center  m-0  text-decoration-underline">Console Output</h3>
-                <textarea name="areaOutput" id="areaOutput" rows="15" 
+                <textarea name="areaOutput" id="areaOutput" rows="15"
                           class="my-3 border p-2 border-primary border-1 fs-6"
                     style="width: 100%;">{{ session('command-output') ?? '' }}</textarea>
             </div>

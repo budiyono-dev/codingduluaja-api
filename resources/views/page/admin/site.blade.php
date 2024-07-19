@@ -4,6 +4,7 @@
             <div class="col-sm mt-3">
                 <h3 class="text-center m-0 text-decoration-underline">Action</h3>
                 <form action="" class="my-3 d-block">
+                    @csrf
                     <div class="mb-3">
                         <label for="selMigrate" class="form-label">Migrations</label>
                         <select class="form-select" aria-label="Default select example" name="selMigrate"
@@ -60,7 +61,4 @@
             </div>
         </div>
     </div>
-    @push('script')
-        <script type="text/javascript"></script>
-    @endpush
 </x-layout.main-sidebar>

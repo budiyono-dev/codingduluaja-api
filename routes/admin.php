@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
  * Admin Route
  */
 $middleware = ['auth', 'verified', 'isAdmin'];
+
 Route::group([
     'middleware' => $middleware,
     'controller' => MenuAccessController::class,
@@ -32,16 +33,6 @@ Route::group([
     Route::get('', 'index')->name('page.admin.migration');
     Route::post('/migrate', 'doMigrate')->name('do.admin.migrateMigration');
     Route::post('/seed', 'doSeed')->name('do.admin.seedMigration');
-
-});
-
-Route::group([
-    'middleware' => $middleware,
-    'controller' => SiteController::class,
-    'prefix' => '/admin/site',
-], function () {
-    Route::get('', 'index')->name('page.admin.site');
-
 });
 
 Route::group([
@@ -50,5 +41,13 @@ Route::group([
     'prefix' => '/admin/logging',
 ], function () {
     Route::get('', 'index')->name('page.admin.logging');
+    Route::post('/logs', 'doDownloadLogs')->name('do.admin.downloadLogging');
+});
 
+Route::group([
+    'middleware' => $middleware,
+    'controller' => SiteController::class,
+    'prefix' => '/admin/site',
+], function () {
+    Route::get('', 'index')->name('page.admin.site');
 });

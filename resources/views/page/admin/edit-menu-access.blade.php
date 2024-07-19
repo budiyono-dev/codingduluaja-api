@@ -21,8 +21,8 @@
             <section>
                 <div class="d-flex my-3">
                     <h2 class="m-0 fs-5">Menu Items</h2>
-                    <button class="btn btn-sm btn-success ms-3 px-3" type="button" onclick="selectAll(this)">select
-                        all</button>
+                    <button class="btn btn-sm btn-success ms-3 px-3"
+                            type="button" onclick="selectAll(this)">Select All</button>
                 </div>
                 <div class="list-group">
                     @forelse ($menuParent as $key => $p)
@@ -36,7 +36,7 @@
                         <ul class="list-group collapse" id="{{ 'collapse' . $key }}">
                             <li class="list-group-item list-group-item-warning">
                                 <button class="btn btn-sm btn-success me-3" type="button"
-                                    onclick="selectAllItems(this)">select all</button>
+                                    onclick="selectAllItems(this)">Select All</button>
                             </li>
                             @forelse ($p->menuItem as $item)
                                 <li class="list-group-item list-group-item-warning">
