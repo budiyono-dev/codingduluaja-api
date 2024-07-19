@@ -50,4 +50,6 @@ Route::group([
     'prefix' => '/admin/site',
 ], function () {
     Route::get('', 'index')->name('page.admin.site');
+    Route::post('/down', 'down')->name('do.admin.downSite');
+    Route::post('/up', 'up')->name('do.admin.upSite');
 });

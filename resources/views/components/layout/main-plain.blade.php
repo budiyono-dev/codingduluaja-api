@@ -81,16 +81,16 @@
 
         function toggleDarkMode() {
             const current = document.documentElement.getAttribute('data-bs-theme');
-            let finalTheme = current == 'dark' ? 'light' : 'dark';
+            let finalTheme = current === 'dark' ? 'light' : 'dark';
             changeTheme(finalTheme);
         }
 
-        const errMsg = {!! json_encode($errors->all()) !!}
+        const errMsg = {!! json_encode($errors->all()) !!};
         if (errMsg.length > 0) {
             showSimpleToast(errMsg.join('<br>'));
         }
 
-        const statusMessage = {!! json_encode(session('status')) !!}
+        const statusMessage = {!! json_encode(session('status')) !!};
         if (statusMessage) {
             const msgSts = statusMessage.split('|');
             if (msgSts.length > 1) {
@@ -108,15 +108,15 @@
 
         }
 
-        function swal2(callback) {
+        function swal2(callback, fireParams = {}) {
             Swal.fire({
                 title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                text: fireParams.text ?? "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: fireParams.confirmButtonText ?? "Yes, delete it!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     callback();

@@ -38,23 +38,23 @@ class ArtisanHelper
         return Artisan::output();
     }
 
-    public function downApp(): string
-    {
-        Artisan::call('down');
-
-        return Artisan::output();
-    }
-
-    public function upApp(): string
-    {
-        Artisan::call('up');
-
-        return Artisan::output();
-    }
-
     public function seedingClass(string $class): string
     {
         Artisan::call('db:seed', array_merge($this->force, ['--class' => $class]));
+
+        return Artisan::output();
+    }
+
+    public function down(string $secret): string
+    {
+        Artisan::call('down', ['--secret', $secret]);
+
+        return Artisan::output();
+    }
+
+    public function up(): string
+    {
+        Artisan::call('up');
 
         return Artisan::output();
     }
