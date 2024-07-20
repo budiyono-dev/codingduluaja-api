@@ -41,7 +41,7 @@ class SiteController extends Controller
         $this->artisanHelper->down($secret);
         Log::info("[SITE] down site ($secret)");
 
-        return redirect('/'.$secret);//->route('/'.$secret);
+        return redirect('/'.$secret); //->route('/'.$secret);
     }
 
     public function up()

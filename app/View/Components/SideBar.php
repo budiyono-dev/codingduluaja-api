@@ -16,6 +16,7 @@ class SideBar extends Component
         protected MenuService $menuService
     ) {
         $listMenu = Session::get('LIST_MENU');
+        // dd($listMenu);
         if (is_null($listMenu)) {
             $listMenu = $menuService->getEligibleMenu();
             Session::put('LIST_MENU', $listMenu);

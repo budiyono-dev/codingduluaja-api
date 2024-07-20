@@ -16,7 +16,7 @@ class CreateDummyUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sel_qty' => 'required|numeric|in:1,3,5'
+            'sel_qty' => 'required|numeric|in:1,3,5',
         ];
     }
 }

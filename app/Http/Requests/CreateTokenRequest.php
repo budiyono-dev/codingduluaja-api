@@ -15,7 +15,7 @@ class CreateTokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'applicationId' => 'required'
+            'applicationId' => 'required',
         ];
     }
 }

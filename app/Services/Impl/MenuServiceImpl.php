@@ -60,7 +60,7 @@ class MenuServiceImpl implements MenuService
     private function toCollectionDto(Collection $menus)
     {
         $allmenu = collect([]);
-        if (! empty($menus)) {
+        if ($menus->isNotEmpty()) {
             $menuParent = new MenuParentDto();
             $parentName = '';
             foreach ($menus as $menu) {

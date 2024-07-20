@@ -14,7 +14,7 @@ class UploadImageUserApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|image|mimes:jpg,png|max:200'
+            'file' => 'required|image|mimes:jpg,png|max:200',
         ];
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -20,7 +19,7 @@ class RegisterRequest extends FormRequest
             'username' => 'required|min:3|unique:users,username',
             'email' => 'required|email|unique:users,email|max:50',
             'sex' => 'nullable|in:male,female',
-            'password' => 'required|confirmed|min:8'
+            'password' => 'required|confirmed|min:8',
         ];
     }
 }

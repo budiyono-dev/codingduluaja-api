@@ -18,7 +18,7 @@ class SearchWilayahRequest extends FormRequest
             'search' => 'string',
             'provinsi_id' => 'string',
             'kabupaten_id' => 'string',
-            'kecamatan_id' => 'string'
+            'kecamatan_id' => 'string',
         ];
     }
 }
