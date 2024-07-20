@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use \App\Helper\ArtisanHelper;
-use \App\Http\Controllers\Controller;
-use \Illuminate\Support\Facades\Log;
-use \Illuminate\Support\Facades\Storage;
-use \Illuminate\Support\Str;
+use App\Helper\ArtisanHelper;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SiteController extends Controller
 {
@@ -16,26 +17,40 @@ class SiteController extends Controller
 
     public function index()
     {
-        $value = Storage::disk('local')->path("");
-//        Storage::
+
+        return view('page.admin.site', [
+            'isDown' => $this->isSiteDown(),
+        ]);
+    }
+
+    private function isSiteDown(): bool
+    {
+        $value = Storage::disk('local')->path('');
         $basePath = str_replace('app'.DIRECTORY_SEPARATOR, '', $value);
-        $finalPath = $basePath;//.implode(DIRECTORY_SEPARATOR, ['framework','down']);
-        dd(Storage::exists($finalPath));
-        return view('page.admin.site');
+        $finalPath = $basePath.implode(DIRECTORY_SEPARATOR, ['framework', 'down']);
+
+        return File::exists($finalPath);
     }
 
     public function down()
     {
+        if ($this->isSiteDown()) {
+            return redirect->route('page.admin.ste')->with('status', 'site alreaddy down');
+        }
         $secret = Str::random(32);
         $this->artisanHelper->down($secret);
-        Log::info("[SITE] down site $secret");
+        Log::info("[SITE] down site ($secret)");
 
-        return redirect->route('/'.$secret);
+        return redirect('/'.$secret);//->route('/'.$secret);
     }
 
     public function up()
     {
+        if (! $this->isSiteDown()) {
+            return redirect->route('page.admin.ste')->with('status', 'site alreaddy up');
+        }
         $this->artisanHelper->up();
+        Log::info('[SITE] up site');
 
         return redirect()->route('page.admin.site')
             ->with('status', 'website is running|success');
