@@ -116,6 +116,28 @@ class MigrationUtils
         }
     }
 
+    public static function addMenuAccessDetailUser(int $menuAccessId, array $items): void
+    {
+        $menuParent = MenuParent::where('id', '!=', 1)->with('menuItem')->get();
+        $cItems = collect($items);
+        $enableAll = false;
+        if ($cItems->isEmpty()) {
+            $enableAll = true;
+        }
+        foreach ($menuParent as $parent) {
+            foreach ($parent->menuItem as $item) {
+                $enable = $cItems->contains($item->id);
+
+                $dt = new MenuAccessDetail();
+                $dt->menu_access_id = $menuAccessId;
+                $dt->menu_item_id = $item->id;
+                $dt->enabled = $enableAll ? true : $enable;
+                $dt->save();
+            }
+        }
+
+    }
+
     public static function addUserMenuAccess(string $roleCode, int $menuAccessId): void
     {
         $menuAccess = new UserMenuAccess();
