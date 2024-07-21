@@ -22,4 +22,12 @@ class AppClientServiceImpl implements AppClientService
 
         $c->save();
     }
+
+    public function editAppClient(int $userId, int $appClientId, string $name, string $description)
+    {
+        ClientApp::query()
+        ->where('id', )
+        ->where()
+        ->get();
+    }
 }

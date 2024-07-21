@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Application;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\CreateAppClientRequest;
+use App\Http\Requests\Application\EditAppClientRequest;
 use App\Services\Application\AppClientService;
 use Illuminate\Support\Facades\Log;
 
@@ -27,7 +28,7 @@ class AppClientController extends Controller
     public function doCreate(CreateAppClientRequest $request)
     {
         $req = $request->validated();
-        Log::info("[CLIENT-APP] Create Client App ".json_encode($req));
+        Log::info('[CLIENT-APP] Create Client App '.json_encode($req));
         $this->appClientService
             ->createAppClient(
                 $this->authUserId(),
@@ -36,5 +37,36 @@ class AppClientController extends Controller
             );
 
         return redirect()->route('page.app.client');
+    }
+
+    public function doEdit(EditAppClientRequest $request)
+    {
+        $req = $request->validated();
+        Log::info('[CLIENT-APP] Edit Client App '.json_encode($req));
+        $this->appClientService
+            ->editAppClient(
+                $this->authUserId(),
+                $req['txtId'],
+                $req['txtName'],
+                $req['txtDescription']
+            );
+
+        return redirect()->route('page.app.client');
+    }
+
+    public function pageEdit(int $id)
+    {
+        $appClient = $this->appClientService
+            ->findByUserIdAndAppClientId($this->authUserId(), $id);
+
+        return view('page.app.edit-app-client', ['appClient' => $appClient]);
+    }
+
+    public function doDelete(int $id)
+    {
+        $appClient = $this->appClientService
+            ->deleteAppClient($this->authUserId(), $id);
+
+        return view('page.app.edit-app-client', ['appClient' => $appClient]);
     }
 }
