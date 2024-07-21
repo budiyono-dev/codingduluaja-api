@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\TableName;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateMenuAccessRequest;
-use App\Http\Requests\EditMenuAccessRequest;
+use App\Http\Requests\Admin\CreateMenuAccessRequest;
+use App\Http\Requests\Admin\EditMenuAccessRequest;
 use App\Models\MenuAccess;
 use App\Models\MenuAccessDetail;
 use App\Models\MenuItem;

@@ -41,7 +41,7 @@ class ClientAppController extends Controller
             Log::info('[CLIENT-APP] '.$c);
         });
 
-        return redirect()->route('page.clientApp');
+        return redirect()->route('page.appClient');
     }
 
     public function delete(int $id): RedirectResponse
@@ -52,7 +52,7 @@ class ClientAppController extends Controller
 
             $connectedResource = $clientApp->connectedClientResource;
             if ($connectedResource->isNotEmpty()) {
-                return redirect()->route('page.clientApp')->withErrors([
+                return redirect()->route('page.appClient')->withErrors([
                     'error' => 'Application Already In Use',
                 ]);
             }
@@ -60,6 +60,6 @@ class ClientAppController extends Controller
             $clientApp->delete();
         });
 
-        return redirect()->route('page.clientApp');
+        return redirect()->route('page.appClient');
     }
 }

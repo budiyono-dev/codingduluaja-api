@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class EditMenuAccessRequest extends FormRequest
+class CreateMenuAccessRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:menu_access,id',
+            'txtName' => 'required|string|min:3|unique:menu_access,name',
             'txtDescription' => 'required|string|min:3',
             'cbItems' => 'array',
         ];

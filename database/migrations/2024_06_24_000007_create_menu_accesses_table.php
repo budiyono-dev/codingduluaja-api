@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create(TableName::MENU_ACCESS, function (Blueprint $table) {
             $table->id();
             $table->string('name', 20)->unique();
-            $table->string('description', 100);
+            $table->string('description', 1000);
             $table->timestamps();
         });
 

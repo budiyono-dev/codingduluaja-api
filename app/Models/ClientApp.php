@@ -13,7 +13,7 @@ class ClientApp extends Model
 
     protected $table = TableName::CLIENT_APP;
 
-    protected $fillable = ['user_id', 'name', 'app_key'];
+    protected $fillable = ['user_id', 'name', 'app_key', 'description'];
 
     public function connectedClientResource(): BelongsToMany
     {

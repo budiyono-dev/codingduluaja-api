@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBiginteger('user_id');
             $table->string('name', 50);
+            $table->string('description', 1000);
             $table->string('app_key', 32);
             $table->timestamps();
 
