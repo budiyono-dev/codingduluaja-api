@@ -42,7 +42,7 @@
                                             <button class="btn btn-outline-primary btn-sm" type="submit"
                                                 disabled>Save</button>
                                         @else
-                                            <form action="{{ route('do.admin.changeUserMenuAccess') }}" method="POST"
+                                            <form action="{{ route('do.admin.menuAccess.user') }}" method="POST"
                                                 name="formChangeMenuAccess">
                                                 @csrf
                                                 <input type="hidden" name="txtRoleCode" value="{{ $uma->code }}">
@@ -66,7 +66,7 @@
             <div class="col">
                 <div class="d-flex my-3 align-items-center">
                     <h2 class="my-2 fs-5 fw-bold text-decoration-underline">Menu Access</h2>
-                    <a class="btn btn-primary btn-sm mx-3 px-3" href="{{ route('page.admin.addMenuAccess') }}">Add</a>
+                    <a class="btn btn-primary btn-sm mx-3 px-3" href="{{ route('page.admin.menuAccess.add') }}">Add</a>
                 </div>
                 <div class="table-responsive ">
                     <table class="table table-sm  table-hover table-striped">
@@ -86,10 +86,10 @@
                                     <td class="text-start">{{ $uma->description }}</td>
                                     <td class="text-center d-flex justify-content-evenly align-items-center">
                                         <a class="btn btn-primary btn-sm" type="button"
-                                            href="{{ route('page.admin.editMenuAccess', ['id' => $uma->id]) }}">Edit</a>
+                                            href="{{ route('page.admin.menuAccess.edit', ['id' => $uma->id]) }}">Edit</a>
                                         @if ($uma->id !== 1)
                                             <form method="post" name="formDeleteMenuAccess"
-                                                action="{{ route('do.admin.deleteMenuAccess', ['id' => $uma->id]) }}">
+                                                action="{{ route('do.admin.menuAccess.delete', ['id' => $uma->id]) }}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$uma->id}}">
                                                 <button class="btn btn-danger btn-sm"

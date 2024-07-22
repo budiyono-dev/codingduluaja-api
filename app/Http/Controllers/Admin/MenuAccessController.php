@@ -78,7 +78,7 @@ class MenuAccessController extends Controller
             $d->enabled = $cbItems->contains($d->menu_item_id);
             $d->save();
         }
-        Session::forget('LIST_MENU');
+        Session::forget('LIST_MENU'.auth()->user()->id);
 
         return redirect()->route('page.admin.menuAccess');
     }

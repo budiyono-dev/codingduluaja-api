@@ -1,6 +1,6 @@
 <x-layout.main-sidebar title="Admin | Menu Access">
     <div class="container">
-        <form action="{{ route('do.admin.createMenuAccess') }}" method="POST">
+        <form action="{{ route('do.admin.menuAccess.create') }}" method="POST">
             @csrf
             <section class="my-5 d-flex justify-content-between">
                 <h2 class="fs-4">Edit Menu Access</h2>

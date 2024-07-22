@@ -10,7 +10,7 @@
             </div>
             <div class="row justify-content-between">
                 <div class="table-responsive">
-                    <table class="table table-sm table-hover table-bordered">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col" class="text-center">#</th>

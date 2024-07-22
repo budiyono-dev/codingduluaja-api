@@ -43,6 +43,8 @@ Route::group([
     Route::get('', 'index')->name('page.app.manager');
     Route::get('/connect/{resourceId}', 'pageConnect')->name('page.app.connectManager');
     Route::post('/connect', 'doConnect')->name('do.app.connectManager');
+    Route::post('/token/revoke', 'doRevokeToken')->name('do.app.connectManager');
+    Route::post('/token/create', 'doCreateToken')->name('do.app.connectManager');
 });
 
 //Route::group([

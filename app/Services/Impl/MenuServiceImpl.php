@@ -34,7 +34,7 @@ class MenuServiceImpl implements MenuService
     public function isUserEligible(Request $req)
     {
         $routename = Route::currentRouteName();
-        $listMenu = Session::get('LIST_MENU');
+        $listMenu = Session::get('LIST_MENU'.auth()->user()->id);
 
         if (is_null($listMenu) || empty($listMenu)) {
             return false;

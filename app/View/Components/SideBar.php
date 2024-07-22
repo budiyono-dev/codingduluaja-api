@@ -15,11 +15,10 @@ class SideBar extends Component
         public Collection $menu,
         protected MenuService $menuService
     ) {
-        $listMenu = Session::get('LIST_MENU');
-        // dd($listMenu);
+        $listMenu = Session::get('LIST_MENU'.auth()->user()->id);
         if (is_null($listMenu)) {
             $listMenu = $menuService->getEligibleMenu();
-            Session::put('LIST_MENU', $listMenu);
+            Session::put('LIST_MENU'.auth()->user()->id, $listMenu);
         }
         $this->menu = $listMenu;
     }

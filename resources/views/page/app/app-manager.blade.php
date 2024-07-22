@@ -29,8 +29,6 @@
                                 <span>No Data....</span>
                             </li>
                             @endforelse
-                            {{-- <a type="button" class="btn btn-success btn-sm" 
-                               href="{{route('page.app.connectManager', ['resourceId'=>$res->id])}}">Connect the Client</a> --}}
                         </ul>
                     @empty
                         <p>No Data....</p>
