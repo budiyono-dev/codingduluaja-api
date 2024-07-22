@@ -14,13 +14,17 @@
                         <ul class="list-group collapse" id="{{ 'collapse' . $key }}">
                             @forelse ($res->connectedApp as $ca)
                                 <li class="list-group-item list-group-item-warning">
-                                    {{ $ca->name }}
+                                    <p>{{ $ca->name }}</p>
+                                    <div class="d-flex gap-3 my-2">
+                                    <button type="button" class="btn btn-primary btn-sm">Craete Token</button>
+                                    <button type="button" class="btn btn-primary btn-sm">Revoke Token</button>
+                                    </div>
                                 </li>
                             @empty
                                 <p>No Data....</p>
                             @endforelse
                             <a type="button" class="btn btn-success btn-sm" 
-                               href="{{route('page.app.connectManager', ['id'=>$res->id])}}">Connect the Client</a>
+                               href="{{route('page.app.connectManager', ['resourceId'=>$res->id])}}">Connect the Client</a>
                         </ul>
                     @empty
                         <p>No Data....</p>

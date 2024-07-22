@@ -52,14 +52,15 @@ class AppClientServiceImpl implements AppClientService
         return $app;
     }
 
-    public function getConnectedView(int $userId, int $clientResource) {
-        $connectedApp = \Illuminate\Support\Facades\DB::table("connected_app")
-                ->where("client_resource_id", $clientResource)
-                ->select('client_app_id')->get();
+    public function getConnectedView(int $userId, int $clientResource)
+    {
+        $connectedApp = \Illuminate\Support\Facades\DB::table('connected_app')
+            ->where('client_resource_id', $clientResource)
+            ->select('client_app_id')->get()->pluck('client_app_id');
         $clientApp = ClientApp::where('user_id', $userId)
-                ->whereNotIn('id', $connectedApp)
-                ->get();
-        
+            ->whereNotIn('id', $connectedApp)
+            ->get();
+
         return $clientApp;
     }
 }

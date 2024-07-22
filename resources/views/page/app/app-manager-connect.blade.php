@@ -5,7 +5,7 @@
                 <h2 class="fs-5 my-3">Add New Resource</h2>
                 <form action="{{ route('do.app.connectManager') }}" method="POST">
                     @csrf
-                    <input type="hidden" value="{{$resourceId}}">
+                    <input type="hidden" value="{{$resourceId}}" name="txtResourceId">
                     <select class="form-select mb-3" name="selApp">
                         <option selected value="">-- Select Resource --</option>
                         @foreach ($listClient as $c)

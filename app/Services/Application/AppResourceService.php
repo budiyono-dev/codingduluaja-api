@@ -13,4 +13,6 @@ interface AppResourceService
     public function getClientResoureceView(int $userId);
 
     public function deleteResouce(int $userId, int $clientResourceId);
+
+    public function connectClient(int $userId, int $clientResourceId, int $clientAppId);
 }

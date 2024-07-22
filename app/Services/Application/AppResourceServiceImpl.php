@@ -56,4 +56,11 @@ class AppResourceServiceImpl implements AppResourceService
     {
         return ClientResource::where('user_id', $userId)->with(['masterResource', 'connectedApp'])->get();
     }
+
+    public function connectClient(int $userId, int $clientResourceId, int $clientAppId)
+    {
+        $cr = ClientResource::where('user_id', $userId)->where('id', $clientResourceId)->first();
+
+        $cr->connectedApp()->attach($clientAppId);
+    }
 }
