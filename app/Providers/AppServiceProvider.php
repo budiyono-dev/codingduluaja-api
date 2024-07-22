@@ -13,6 +13,8 @@ use App\Repository\ResourceRepository;
 use App\Repository\UserRepository;
 use App\Services\Application\AppClientService;
 use App\Services\Application\AppClientServiceImpl;
+use App\Services\Application\AppResourceService;
+use App\Services\Application\AppResourceServiceImpl;
 use App\Services\Impl\MenuServiceImpl;
 use App\Services\Impl\ResourceServiceImpl;
 use App\Services\MenuService;
@@ -70,6 +72,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(AppClientService::class, function () {
             return new AppClientServiceImpl();
+        });
+
+        $this->app->singleton(AppResourceService::class, function () {
+            return new AppResourceServiceImpl();
         });
     }
 

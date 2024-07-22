@@ -2,53 +2,58 @@
 
 namespace App\Services\Application;
 
-use App\Models\ClientApp;
-use Illuminate\Support\Str;
+use App\Models\ClientResource;
+use App\Models\MasterResource;
 
 class AppResourceServiceImpl implements AppResourceService
 {
-    public function findByUserId(int $userId)
+    public function getMasterResourceView(int $userId)
     {
-        return ClientApp::where('user_id', $userId)->get();
-    }
-
-    public function createAppClient(int $userId, string $name, string $description)
-    {
-        $c = new ClientApp();
-        $c->user_id = $userId;
-        $c->name = $name;
-        $c->description = $description;
-        $c->app_key = md5($userId.Str::random(32));
-
-        $c->save();
-    }
-
-    public function editAppClient(int $userId, int $appClientId, string $name, string $description)
-    {
-        $app = $this->findByUserIdAndAppClientId($userId, $appClientId);
-        $app->name = $name;
-        $app->description = $description;
-        $app->save();
-    }
-
-    public function deleteAppClient(int $userId, int $appClientId)
-    {
-        $app = $this->findByUserIdAndAppClientId($userId, $appClientId);
-        $connectedResource = $app->connectedClientResource;
-        if ($connectedResource->isNotEmpty()) {
-            return redirect()->route('page.app.client')->with('status', 'Application Already In Use|danger');
+        $idMResource = ClientResource::select('master_resource_id')
+            ->where('user_id', $userId)
+            ->get();
+        $masterResource = null;
+        if ($idMResource->isNotEmpty()) {
+            $masterResource = MasterResource::whereNotIn('id', $idMResource)->get();
+        } else {
+            $masterResource = MasterResource::all();
         }
-        $app->delete();
+
+        return $masterResource;
     }
 
-    public function findByUserIdAndAppClientId(int $userId, int $appClientId)
+    public function addResource(int $userId, int $masterResource)
     {
-        $app = ClientApp::where('id', $appClientId)->where('user_id', $userId)->first();
+        $cr = new ClientResource();
+        $cr->user_id = $userId;
+        $cr->master_resource_id = $masterResource;
+        $cr->save();
+    }
 
-        if (is_null($app)) {
+    public function getClientResourceByUserId(int $userId)
+    {
+        return ClientResource::where('user_id', $userId)->with('masterResource')->get();
+    }
+
+    public function deleteResouce(int $userId, int $clientResourceId)
+    {
+        $cr = ClientResource::where('user_id', $userId)
+            ->where('id', $clientResourceId)
+            ->with('connectedApp')
+            ->first();
+
+        if (is_null($cr)) {
             abort(404);
         }
+        if ($cr->connectedApp->isNotEmpty()) {
+            return redirect()->route('page.app.resource')->with('status', 'resource in use|warning');
+        }
 
-        return $app;
+        $cr->delete();
+    }
+
+    public function getClientResoureceView(int $userId)
+    {
+        return ClientResource::where('user_id', $userId)->with(['masterResource', 'connectedApp'])->get();
     }
 }

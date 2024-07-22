@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Constants\ApiPath;
-use Illuminate\Routing\Controller;
 
 class DocController extends Controller
 {

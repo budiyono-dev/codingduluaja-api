@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\Application\AppClientController;
-use App\Http\Controllers\AppManagerController;
-use App\Http\Controllers\AppResourceController;
-use App\Http\Controllers\ClientAppController;
+use App\Http\Controllers\Application\AppManagerController;
+use App\Http\Controllers\Application\AppResourceController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -16,11 +15,11 @@ Route::group([
     'controller' => AppResourceController::class,
     'prefix' => '/app/resource',
 ], function () {
-    Route::get('', 'index')->name('page.appResource');
-    Route::post('', 'addResource')->name('do.addResource');
-    Route::post('/delete/{id}', 'delete')->name('do.deleteResource');
-    Route::post('/connect/{id}', 'connectClient')->name('do.connectClient');
-    Route::post('/disconnect/{id}', 'disconnectClient')->name('do.disconnectClient');
+    Route::get('', 'index')->name('page.app.resource');
+    Route::get('/create', 'pageCreate')->name('page.app.createResource');
+    Route::post('/create', 'doCreate')->name('do.app.createResource');
+    Route::get('/connect/{id}', 'doCreate')->name('page.app.connectedResource');
+    Route::post('/delete', 'doDelete')->name('do.app.deleteResource');
 });
 
 Route::group([
@@ -38,21 +37,21 @@ Route::group([
 
 Route::group([
     'mideleware' => $middleware,
-    'controller' => ClientAppController::class,
-    'prefix' => '/app/client',
-], function () {
-    // Route::get('', 'index')->name('page.appClient');
-    Route::post('', 'createApp')->name('do.createApp');
-    Route::post('/delete/{id}', 'delete')->name('do.deleteClientApp');
-});
-
-Route::group([
-    'mideleware' => $middleware,
     'controller' => AppManagerController::class,
     'prefix' => '/app/manager',
 ], function () {
-    Route::get('', 'index')->name('page.appManager');
-    Route::post('/token', 'generateToken')->name('do.generateToken');
-    Route::get('/token/{resource}/{app}', 'showToken')->name('do.showToken');
-    Route::post('/token/revoke', 'revokeToken')->name('do.revoveToken');
+    Route::get('', 'index')->name('page.app.manager');
+    Route::get('/connect/{resourceId}', 'pageConnect')->name('page.app.connectManager');
+    Route::post('/connect', 'doConnect')->name('do.app.connectManager');
 });
+
+//Route::group([
+//    'mideleware' => $middleware,
+//    'controller' => AppManagerController::class,
+//    'prefix' => '/app/manager',
+//], function () {
+//    //    Route::get('', 'index')->name('page.appManager');
+//    Route::post('/token', 'generateToken')->name('do.generateToken');
+//    Route::get('/token/{resource}/{app}', 'showToken')->name('do.showToken');
+//    Route::post('/token/revoke', 'revokeToken')->name('do.revoveToken');
+//});

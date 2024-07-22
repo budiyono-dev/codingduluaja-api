@@ -1,4 +1,4 @@
-<x-layout.main-sidebar title="Application | Clients">
+<x-layout.main-sidebar title="Application | Client">
     <div class="container">
         <div class="row">
             <div class="col-lg-6">

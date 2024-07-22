@@ -15,7 +15,7 @@ class ClientApp extends Model
 
     protected $fillable = ['user_id', 'name', 'app_key', 'description'];
 
-    public function connectedClientResource(): BelongsToMany
+    public function connectedResource(): BelongsToMany
     {
         return $this
             ->belongsToMany(ClientResource::class, TableName::CONNECTED_APP, 'client_app_id', 'client_resource_id');

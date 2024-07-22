@@ -13,4 +13,6 @@ interface AppClientService
     public function deleteAppClient(int $userId, int $appClientId);
 
     public function findByUserIdAndAppClientId(int $userId, int $appClientId);
+    
+    public function getConnectedView(int $userId, int $clientResource);
 }

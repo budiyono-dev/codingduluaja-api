@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Constants\ResponseCode;
 use App\Helper\ResponseHelper;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\SearchWilayahRequest;
 use App\Models\Api\Wilayah\Desa;
 use App\Models\Api\Wilayah\Kabupaten;
@@ -12,7 +13,6 @@ use App\Models\Api\Wilayah\Provinsi;
 use App\Services\Wilayah\Wilayah;
 use App\Traits\ApiContext;
 use Exception;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
 class WilayahController extends Controller

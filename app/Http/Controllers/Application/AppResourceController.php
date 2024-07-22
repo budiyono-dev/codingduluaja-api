@@ -3,51 +3,46 @@
 namespace App\Http\Controllers\Application;
 
 use App\Http\Controllers\Controller;
+use App\Services\Application\AppResourceService;
+use Illuminate\Http\Request;
 
 class AppResourceController extends Controller
 {
     public function __construct(
-        protected ResourceService $resourceService
+        protected AppResourceService $appResourceService
     ) {}
 
-    public function index(): View
+    public function index()
     {
-        $userId = Auth::user()->id;
+        $listResource = $this->appResourceService->getClientResourceByUserId($this->authUserId());
 
-        $idResource = ClientResource::select('master_resource_id')->where('user_id', $userId)->get()->toArray();
-        $listResource = ClientResource::with('masterResource', 'connectedApp')->get();
-        $listClientApp = ClientApp::select('id', 'name')->where('user_id', $userId)->get();
+        return view('page.app.app-resource', ['listResource' => $listResource]);
+    }
 
-        $mapped = $listResource->map(function (ClientResource $r) {
-            $connectedApp = $r->connectedApp->map(function (ClientApp $app) {
-                return (object) [
-                    'id' => $app->id,
-                    'name' => $app->name,
-                ];
-            });
+    public function pageCreate()
+    {
+        $masterResource = $this->appResourceService->getMasterResourceView($this->authUserId());
 
-            return (object) [
-                'id' => $r->id,
-                'name' => $r->masterResource->name,
-                'created_at' => $r->created_at,
-                'connectedApp' => $connectedApp,
-            ];
-        });
+        return view('page.app.app-resource-create', ['masterResource' => $masterResource]);
+    }
 
-        $masterResource = '';
-        if (! empty($idResource)) {
-            $masterResource = MasterResource::whereNotIn('id', $idResource)->get();
-        } else {
-            $masterResource = MasterResource::all();
-        }
+    public function doCreate(Request $request)
+    {
+        $req = $request->validate([
+            'selResource' => 'required|numeric|exists:master_resource,id',
+        ]);
+        $this->appResourceService->addResource($this->authUserId(), $req['selResource']);
 
-        return view(
-            'page.app-resource',
-            [
-                'listResource' => $mapped,
-                'masterResource' => $masterResource,
-                'listClientApp' => $listClientApp,
-            ]
-        );
+        return redirect()->route('page.app.resource')->with('status', 'success add resource|success');
+    }
+
+    public function doDelete(Request $request)
+    {
+        $req = $request->validate([
+            'txtId' => 'required|numeric|exists:client_resource,id',
+        ]);
+        $this->appResourceService->deleteResouce($this->authUserId(), $req['txtId']);
+
+        return redirect()->route('page.app.resource')->with('status', 'success delete resource|success');
     }
 }

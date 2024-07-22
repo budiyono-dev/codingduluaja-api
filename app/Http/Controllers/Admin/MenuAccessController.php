@@ -110,7 +110,7 @@ class MenuAccessController extends Controller
     public function doDelete(Request $request)
     {
         $req = $request->validate([
-            'id' => 'required|int',
+            'id' => 'required|numeric',
         ]);
         $id = $req['id'];
         if ($id === 1) {

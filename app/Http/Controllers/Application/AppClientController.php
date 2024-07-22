@@ -23,7 +23,7 @@ class AppClientController extends Controller
 
     public function pageCreate()
     {
-        return view('page.app.create-app-client');
+        return view('page.app.app-client-create');
     }
 
     public function doCreate(CreateAppClientRequest $request)
@@ -37,7 +37,7 @@ class AppClientController extends Controller
                 $req['txtDescription']
             );
 
-        return redirect()->route('page.app.client');
+        return redirect()->route('page.app.client')->with('status', 'success create app client|success');
     }
 
     public function doEdit(EditAppClientRequest $request)
@@ -52,7 +52,7 @@ class AppClientController extends Controller
                 $req['txtDescription']
             );
 
-        return redirect()->route('page.app.client');
+        return redirect()->route('page.app.client')->with('status', 'success edit app client|success');
     }
 
     public function pageEdit(int $id)
@@ -60,12 +60,12 @@ class AppClientController extends Controller
         $appClient = $this->appClientService
             ->findByUserIdAndAppClientId($this->authUserId(), $id);
 
-        return view('page.app.edit-app-client', ['appClient' => $appClient]);
+        return view('page.app.app-client-edit', ['appClient' => $appClient]);
     }
 
     public function doDelete(Request $request)
     {
-        $req = $request->validate(['txtId' => 'required|int']);
+        $req = $request->validate(['txtId' => 'required|numeric']);
         $appClient = $this->appClientService
             ->deleteAppClient($this->authUserId(), $req['txtId']);
 

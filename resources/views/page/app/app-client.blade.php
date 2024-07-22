@@ -1,9 +1,9 @@
-<x-layout.main-sidebar title="Application | Clients">
+<x-layout.main-sidebar title="Application | Client">
     <div class="container">
         <div class="row">
             <div class="col">
                 <div class="d-flex align-items-center my-3 ">
-                    <h4 class="m-0">Your Client Application</h4>
+                    <h4 class="m-0">Client Application</h4>
                     <a class="btn btn-sm btn-primary px-3 mx-3" href="{{ route('page.app.createClient') }}">Create New App
                     </a>
                 </div>
