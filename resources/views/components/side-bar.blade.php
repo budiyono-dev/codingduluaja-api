@@ -17,7 +17,4 @@
           </x-sidebar.menu-group>
     @endforeach
   </ul>
-  <div class="text-center position-relative mt-3">
-    <span class="fs-6">Version {{config('app.app_version')}}</span>
-  </div>
 </div>
