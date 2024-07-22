@@ -5,7 +5,7 @@ namespace App\Services\Application;
 use App\Models\ClientApp;
 use Illuminate\Support\Str;
 
-class AppClientServiceImpl implements AppClientService
+class AppResourceServiceImpl implements AppResourceService
 {
     public function findByUserId(int $userId)
     {

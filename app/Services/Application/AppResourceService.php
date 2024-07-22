@@ -2,7 +2,7 @@
 
 namespace App\Services\Application;
 
-interface AppClientService
+interface AppResourceService
 {
     public function findByUserId(int $userId);
 

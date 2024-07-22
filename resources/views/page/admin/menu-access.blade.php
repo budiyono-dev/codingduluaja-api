@@ -85,13 +85,14 @@
                                     <td class="text-start">{{ $uma->name }}</td>
                                     <td class="text-start">{{ $uma->description }}</td>
                                     <td class="text-center d-flex justify-content-evenly align-items-center">
-                                        <a class="btn btn-outline-primary btn-sm" type="button"
+                                        <a class="btn btn-primary btn-sm" type="button"
                                             href="{{ route('page.admin.editMenuAccess', ['id' => $uma->id]) }}">Edit</a>
                                         @if ($uma->id !== 1)
                                             <form method="post" name="formDeleteMenuAccess"
                                                 action="{{ route('do.admin.deleteMenuAccess', ['id' => $uma->id]) }}">
                                                 @csrf
-                                                <button class="btn btn-outline-danger btn-sm"
+                                                <input type="hidden" name="id" value="{{$uma->id}}">
+                                                <button class="btn btn-danger btn-sm"
                                                     type="submit">Delete</button>
                                             </form>
                                         @endif

@@ -22,7 +22,7 @@ Route::group([
     Route::post('/create', 'doCreate')->name('do.admin.createMenuAccess');
     Route::post('/user', 'doChangeUserMenuAccess')->name('do.admin.changeUserMenuAccess');
     Route::get('/{id}', 'pageEdit')->name('page.admin.editMenuAccess');
-    Route::post('/{id}', 'doDelete')->name('do.admin.deleteMenuAccess');
+    Route::post('/delete', 'doDelete')->name('do.admin.deleteMenuAccess');
 });
 
 Route::group([

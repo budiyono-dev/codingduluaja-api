@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\CreateAppClientRequest;
 use App\Http\Requests\Application\EditAppClientRequest;
 use App\Services\Application\AppClientService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class AppClientController extends Controller
@@ -62,11 +63,12 @@ class AppClientController extends Controller
         return view('page.app.edit-app-client', ['appClient' => $appClient]);
     }
 
-    public function doDelete(int $id)
+    public function doDelete(Request $request)
     {
+        $req = $request->validate(['txtId' => 'required|int']);
         $appClient = $this->appClientService
-            ->deleteAppClient($this->authUserId(), $id);
+            ->deleteAppClient($this->authUserId(), $req['txtId']);
 
-        return view('page.app.edit-app-client', ['appClient' => $appClient]);
+        return redirect()->route('page.app.client')->with('status', 'success delete app client|success');
     }
 }

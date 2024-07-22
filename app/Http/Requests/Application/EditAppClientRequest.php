@@ -15,7 +15,7 @@ class EditAppClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'txtId' => 'required|exist:client_app,id',
+            'txtId' => 'required|exists:client_app,id',
             'txtName' => 'required|string|min:3',
             'txtDescription' => 'required|string|min:3',
         ];

@@ -31,7 +31,7 @@ Route::group([
     Route::get('', 'index')->name('page.app.client');
     Route::get('/create', 'pageCreate')->name('page.app.createClient');
     Route::post('/create', 'doCreate')->name('do.app.createClient');
-    Route::get('/edit', 'pageEdit')->name('page.app.editClient');
+    Route::get('/edit/{id}', 'pageEdit')->name('page.app.editClient');
     Route::post('/edit', 'doEdit')->name('do.app.editClient');
     Route::post('/delete', 'doDelete')->name('do.app.deleteClient');
 });

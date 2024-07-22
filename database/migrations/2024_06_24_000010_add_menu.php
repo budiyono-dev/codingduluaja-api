@@ -18,8 +18,8 @@ return new class extends Migration
         MigrationUtils::addMenuItem(3, $adminMenu->id, 'menu.item.admin_logging', 'page.admin.logging', 3);
         MigrationUtils::addMenuItem(4, $adminMenu->id, 'menu.item.admin_site', 'page.admin.site', 4);
 
-        MigrationUtils::addMenuItem(5, $menuApplication->id, 'menu.item.app_resource', 'page.appResource', 1);
-        MigrationUtils::addMenuItem(6, $menuApplication->id, 'menu.item.client_app', 'page.app.client', 2);
+        MigrationUtils::addMenuItem(5, $menuApplication->id, 'menu.item.client_app', 'page.app.client', 1);
+        MigrationUtils::addMenuItem(6, $menuApplication->id, 'menu.item.app_resource', 'page.appResource', 2);
         MigrationUtils::addMenuItem(7, $menuApplication->id, 'menu.item.app_manager', 'page.appManager', 3);
 
         MigrationUtils::addMenuItem(8, $menuResourceManager->id, 'menu.item.res_todolist', 'page.res.todolist', 1);

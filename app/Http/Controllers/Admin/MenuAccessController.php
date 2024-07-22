@@ -107,8 +107,12 @@ class MenuAccessController extends Controller
         return redirect()->route('page.admin.menuAccess');
     }
 
-    public function doDelete(int $id)
+    public function doDelete(Request $request)
     {
+        $req = $request->validate([
+            'id' => 'required|int',
+        ]);
+        $id = $req['id'];
         if ($id === 1) {
             abort(403);
         }
