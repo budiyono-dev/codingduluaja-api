@@ -16,10 +16,9 @@ Route::group([
     'prefix' => '/app/resource',
 ], function () {
     Route::get('', 'index')->name('page.app.resource');
-    Route::get('/create', 'pageCreate')->name('page.app.createResource');
-    Route::post('/create', 'doCreate')->name('do.app.createResource');
-    Route::get('/connect/{id}', 'doCreate')->name('page.app.connectedResource');
-    Route::post('/delete', 'doDelete')->name('do.app.deleteResource');
+    Route::get('/create', 'pageCreate')->name('page.app.resource.create');
+    Route::post('/create', 'doCreate')->name('do.app.resource.create');
+    Route::post('/delete', 'doDelete')->name('do.app.eesource.delete');
 });
 
 Route::group([
@@ -28,11 +27,11 @@ Route::group([
     'prefix' => '/app/client',
 ], function () {
     Route::get('', 'index')->name('page.app.client');
-    Route::get('/create', 'pageCreate')->name('page.app.createClient');
-    Route::post('/create', 'doCreate')->name('do.app.createClient');
-    Route::get('/edit/{id}', 'pageEdit')->name('page.app.editClient');
-    Route::post('/edit', 'doEdit')->name('do.app.editClient');
-    Route::post('/delete', 'doDelete')->name('do.app.deleteClient');
+    Route::get('/create', 'pageCreate')->name('page.app.client.create');
+    Route::post('/create', 'doCreate')->name('do.app.client.create');
+    Route::get('/edit/{id}', 'pageEdit')->name('page.app.client.edit');
+    Route::post('/edit', 'doEdit')->name('do.app.client.edit');
+    Route::post('/delete', 'doDelete')->name('do.app.client.delete');
 });
 
 Route::group([
@@ -41,19 +40,8 @@ Route::group([
     'prefix' => '/app/manager',
 ], function () {
     Route::get('', 'index')->name('page.app.manager');
-    Route::get('/connect/{resourceId}', 'pageConnect')->name('page.app.connectManager');
-    Route::post('/connect', 'doConnect')->name('do.app.connectManager');
-    Route::post('/token/revoke', 'doRevokeToken')->name('do.app.connectManager');
-    Route::post('/token/create', 'doCreateToken')->name('do.app.connectManager');
+    Route::get('/connect/{resourceId}', 'pageConnect')->name('page.app.manager.connect');
+    Route::post('/connect', 'doConnect')->name('do.app.manager.connect');
+    Route::post('/token/revoke', 'doRevokeToken')->name('do.app.manager.revoke');
+    Route::post('/token/create', 'doCreateToken')->name('do.app.manager.create');
 });
-
-//Route::group([
-//    'mideleware' => $middleware,
-//    'controller' => AppManagerController::class,
-//    'prefix' => '/app/manager',
-//], function () {
-//    //    Route::get('', 'index')->name('page.appManager');
-//    Route::post('/token', 'generateToken')->name('do.generateToken');
-//    Route::get('/token/{resource}/{app}', 'showToken')->name('do.showToken');
-//    Route::post('/token/revoke', 'revokeToken')->name('do.revoveToken');
-//});

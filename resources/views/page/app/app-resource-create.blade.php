@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <h2 class="fs-5 my-3">Add New Resource</h2>
-                <form action="{{ route('do.app.createResource') }}" method="POST">
+                <form action="{{ route('do.app.resource.create') }}" method="POST">
                     @csrf
                     <select class="form-select mb-3" name="selResource">
                         <option selected value="">-- Select Resource --</option>

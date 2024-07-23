@@ -54,10 +54,19 @@ return new class extends Migration
             $table->string('unit', 20);
             $table->timestamps();
         });
+
+        Schema::create(TableName::CLIENT_TOKEN, function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->string('value');
+            $table->integer('exp');
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists(TableName::CLIENT_TOKEN);
         Schema::dropIfExists(TableName::CLIENT_APP);
         Schema::dropIfExists(TableName::MASTER_RESOURCE);
         Schema::dropIfExists(TableName::CLIENT_RESOURCE);

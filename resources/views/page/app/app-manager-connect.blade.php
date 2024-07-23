@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <h2 class="fs-5 my-3">Add New Resource</h2>
-                <form action="{{ route('do.app.connectManager') }}" method="POST">
+                <form action="{{ route('do.app.manager.connect') }}" method="POST">
                     @csrf
                     <input type="hidden" value="{{$resourceId}}" name="txtResourceId">
                     <select class="form-select mb-3" name="selApp">

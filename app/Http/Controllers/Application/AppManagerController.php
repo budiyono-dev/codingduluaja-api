@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Application;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\ConnectedAppRequest;
+use App\Http\Requests\Application\CreateTokenRequest;
 use App\Services\Application\AppClientService;
 use App\Services\Application\AppResourceService;
+use Illuminate\Http\Request;
 
 class AppManagerController extends Controller
 {
@@ -34,5 +36,15 @@ class AppManagerController extends Controller
         $this->appResourceService->connectClient($this->authUserId(), $req['txtResourceId'], $req['selApp']);
 
         return redirect()->route('page.app.manager')->with('status', 'Success Connect Client|success');
+    }
+
+    public function doCreateToken(CreateTokenRequest $request)
+    {
+        $req = $request->validated();
+    }
+
+    public function doRevokeToken(Request $request)
+    {
+        //asds
     }
 }

@@ -5,7 +5,7 @@
                 <h2 class="fs-5 my-3">
                     Edit client
                 </h2>
-                <form action="{{ route('do.app.editClient') }}" method="POST">
+                <form action="{{ route('do.app.client.edit') }}" method="POST">
                     @csrf
                     <input type="hidden" name="txtId" value="{{$appClient->id}}">
                     <div class="mb-3">

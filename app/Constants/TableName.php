@@ -22,7 +22,7 @@ class TableName
 
     const EXPIRED_TOKEN = 'expired_token';
 
-    const TOKEN = 'token';
+    const CLIENT_TOKEN = 'client_token';
 
     const PROVINSI = 'provinsi';
 

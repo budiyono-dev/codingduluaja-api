@@ -4,7 +4,8 @@
             <div class="col">
                 <div class="d-flex align-items-center my-3 ">
                     <h4 class="m-0">Client Application</h4>
-                    <a class="btn btn-sm btn-primary px-3 mx-3" href="{{ route('page.app.createClient') }}">Create New App
+                    <a class="btn btn-sm btn-primary px-3 mx-3"
+                    href="{{ route('page.app.client.create') }}">Create New App
                     </a>
                 </div>
                 <div class="table-responsive">
@@ -27,9 +28,9 @@
                                     <td class="text-start">{{ $appClient->created_at }}</td>
                                     <td class="text-center d-flex justify-content-evenly align-items-center">
                                         <a class="btn btn-primary btn-sm" type="button"
-                                            href="{{ route('page.app.editClient', ['id' => $appClient->id]) }}">Edit</a>
+                                            href="{{ route('page.app.client.edit', ['id' => $appClient->id]) }}">Edit</a>
                                         <form method="post"
-                                            action="{{ route('do.app.deleteClient') }}" name="formDeleteAppClient">
+                                            action="{{ route('do.app.client.delete') }}" name="formDeleteAppClient">
                                             @csrf
                                             <input type="hidden" name="txtId" value="{{$appClient->id}}">
                                             <button class="btn btn-danger btn-sm" type="submit">Delete</button>

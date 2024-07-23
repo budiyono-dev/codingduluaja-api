@@ -5,7 +5,7 @@
                 <h2 class="fs-5 my-3">
                     Create new client
                 </h2>
-                <form action="{{ route('do.app.createClient') }}" method="POST">
+                <form action="{{ route('do.app.client.create') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="txtName" class="form-label">Application Name</label>
