@@ -41,6 +41,16 @@ class AppManagerController extends Controller
     public function doCreateToken(CreateTokenRequest $request)
     {
         $req = $request->validated();
+        $connectedApp = \Illuminate\Support\Facade\DB::table('connected_app')
+            ->where('client_resource_id', $req['txtResourceId'])
+            ->where('client_app_id', $req['txtAppId'])
+            ->get();
+
+        if (is_null($connectedApp)) {
+            abort(404);
+        }
+
+        \App\Helper\JwtHelper::expToUnixTime();
     }
 
     public function doRevokeToken(Request $request)
