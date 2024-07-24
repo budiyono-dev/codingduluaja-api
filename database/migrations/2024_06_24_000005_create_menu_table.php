@@ -14,8 +14,6 @@ return new class extends Migration
             $table->string('name', 50);
             $table->integer('sequence')->unique();
             $table->timestamps();
-
-            $table->index('sequence');
         });
 
         Schema::create(TableName::MENU_ITEM, function (Blueprint $table) {
@@ -26,7 +24,6 @@ return new class extends Migration
             $table->integer('sequence');
             $table->timestamps();
 
-            $table->index('sequence');
             $table->unique(['menu_parent_id', 'sequence']);
             $table->foreign('menu_parent_id')->references('id')->on(TableName::MENU_PARENT);
         });

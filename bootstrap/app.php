@@ -4,6 +4,7 @@ use App\Http\Middleware\IsAdminMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Log;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,5 +19,12 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (Exception $e, $request) {
+            if (config('app.enable_api_debug_response') && $request->is('api/*')) {
+                $reqId = $this->getRequestId();
+                Log::info("[HANDLER] error 500 : {$e->getMessage()}, request_id : {$reqId}");
+
+                return $this->responseHelper->serverError($reqId, ['error' => 'System Error']);
+            }
+        });
     })->create();

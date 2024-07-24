@@ -2,6 +2,7 @@
 
 namespace App\Services\Application;
 
+use App\Exceptions\WebException;
 use App\Models\ClientResource;
 use App\Models\MasterResource;
 
@@ -46,7 +47,7 @@ class AppResourceServiceImpl implements AppResourceService
             abort(404);
         }
         if ($cr->connectedApp->isNotEmpty()) {
-            return redirect()->route('page.app.resource')->with('status', 'resource in use|warning');
+            throw WebException::resourceInUse('page.app.resource');
         }
 
         $cr->delete();

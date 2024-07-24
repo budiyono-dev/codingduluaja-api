@@ -2,22 +2,27 @@
 
 namespace App\Helper;
 
+use App\Constants\ExpUnit;
 use App\Dto\JwtParam;
+use Carbon\Carbon;
 use Firebase\JWT\JWT;
 
 class JwtHelper
 {
-    public function __construct()
+    public static function createToken(string $key, array $payload): string
     {
-        //
+        return JWT::encode($payload, $key, 'HS256');
     }
 
-    public static function createToken(JwtParam $param, string $key, array $payload)
+    public static function createKey(JwtParam $param): string
     {
-        $jwt = JWT::encode($payload, $key, 'HS256');
+        return md5(json_encode($param));
     }
 
-    private static function createKey() {}
+    public static function unpackToken(string $key, string $token)
+    {
+        return JWT::decode($token, new Key($key, 'HS256'));
+    }
 
     public static function expToUnixTime(int $expValue, ExpUnit $unit): int
     {
@@ -30,5 +35,15 @@ class JwtHelper
         };
 
         return $result->timestamp;
+    }
+
+    public static function generateIdentifier(int $userId, int $resId, int $appId)
+    {
+        return "{$userId};{$resId};{$appId}";
+    }
+
+    public static function extractIdentifier(string $identifier)
+    {
+        return [$userId,$resId,$appId] = explode(';', $identifier);
     }
 }

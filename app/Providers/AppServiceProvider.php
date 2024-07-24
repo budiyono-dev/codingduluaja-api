@@ -7,12 +7,16 @@ use App\Helper\ImagePlaceholder;
 use App\Helper\ResponseHelper;
 use App\Repository\Impl\MenuRepositoryImpl;
 use App\Repository\Impl\ResourceRepositoryImpl;
+use App\Repository\Impl\TokenRepositoryImpl;
 use App\Repository\Impl\UserRepositoryImpl;
 use App\Repository\MenuRepository;
 use App\Repository\ResourceRepository;
+use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
 use App\Services\Application\AppClientService;
 use App\Services\Application\AppClientServiceImpl;
+use App\Services\Application\AppManagerService;
+use App\Services\Application\AppManagerServiceImpl;
 use App\Services\Application\AppResourceService;
 use App\Services\Application\AppResourceServiceImpl;
 use App\Services\Impl\MenuServiceImpl;
@@ -27,56 +31,19 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(ResponseHelper::class, function () {
-            return new ResponseHelper();
-        });
-
-        $this->app->singleton(Wilayah::class, function () {
-            return new WilayahImpl(
-                $this->app->make(ResponseHelper::class)
-            );
-        });
-
-        $this->app->singleton(ImagePlaceholder::class, function () {
-            return new ImagePlaceholder();
-        });
-
-        $this->app->singleton(ResourceRepository::class, function () {
-            return new ResourceRepositoryImpl();
-        });
-
-        $this->app->singleton(ResourceService::class, function () {
-            return new ResourceServiceImpl(
-                $this->app->make(ResourceRepository::class)
-            );
-        });
-
-        $this->app->singleton(UserRepository::class, function () {
-            return new UserRepositoryImpl();
-        });
-
-        $this->app->singleton(MenuRepository::class, function () {
-            return new MenuRepositoryImpl();
-        });
-
-        $this->app->singleton(MenuService::class, function () {
-            return new MenuServiceImpl(
-                $this->app->make(MenuRepository::class),
-                $this->app->make(UserRepository::class)
-            );
-        });
-
-        $this->app->singleton(ArtisanHelper::class, function () {
-            return new ArtisanHelper();
-        });
-
-        $this->app->singleton(AppClientService::class, function () {
-            return new AppClientServiceImpl();
-        });
-
-        $this->app->singleton(AppResourceService::class, function () {
-            return new AppResourceServiceImpl();
-        });
+        $this->app->singleton(ResponseHelper::class);
+        $this->app->singleton(ImagePlaceholder::class);
+        $this->app->singleton(ResourceRepository::class, ResourceRepositoryImpl::class);
+        $this->app->singleton(UserRepository::class, UserRepositoryImpl::class);
+        $this->app->singleton(MenuRepository::class, MenuRepositoryImpl::class);
+        $this->app->singleton(TokenRepository::class, TokenRepositoryImpl::class);
+        $this->app->singleton(ArtisanHelper::class, ArtisanHelper::class);
+        $this->app->singleton(AppClientService::class, AppClientServiceImpl::class);
+        $this->app->singleton(AppResourceService::class, AppResourceServiceImpl::class);
+        $this->app->singleton(Wilayah::class, WilayahImpl::class);
+        $this->app->singleton(ResourceService::class, ResourceServiceImpl::class);
+        $this->app->singleton(MenuService::class, MenuServiceImpl::class);
+        $this->app->singleton(AppManagerService::class, AppManagerServiceImpl::class);
     }
 
     public function boot(): void

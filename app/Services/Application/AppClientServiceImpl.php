@@ -2,7 +2,9 @@
 
 namespace App\Services\Application;
 
+use App\Exceptions\WebException;
 use App\Models\ClientApp;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AppClientServiceImpl implements AppClientService
@@ -33,10 +35,16 @@ class AppClientServiceImpl implements AppClientService
 
     public function deleteAppClient(int $userId, int $appClientId)
     {
-        $app = $this->findByUserIdAndAppClientId($userId, $appClientId);
-        $connectedResource = $app->connectedClientResource;
-        if ($connectedResource->isNotEmpty()) {
-            return redirect()->route('page.app.client')->with('status', 'Application Already In Use|danger');
+        $app = ClientApp::where('id', $appClientId)
+            ->where('user_id', $userId)
+            ->with('connectedResource')
+            ->first();
+
+        if (is_null($app)) {
+            abort(404);
+        }
+        if ($app->connectedResource->isNotEmpty()) {
+            throw WebException::appInUse('page.app.client');
         }
         $app->delete();
     }
@@ -54,7 +62,7 @@ class AppClientServiceImpl implements AppClientService
 
     public function getConnectedView(int $userId, int $clientResource)
     {
-        $connectedApp = \Illuminate\Support\Facades\DB::table('connected_app')
+        $connectedApp = DB::table('connected_app')
             ->where('client_resource_id', $clientResource)
             ->select('client_app_id')->get()->pluck('client_app_id');
         $clientApp = ClientApp::where('user_id', $userId)

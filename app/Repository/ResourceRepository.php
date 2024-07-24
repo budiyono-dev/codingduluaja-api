@@ -9,4 +9,6 @@ interface ResourceRepository
     public function deleteTodolistByUserId($userId);
 
     public function deleteUserApiByUserId($userId);
+
+    public function findConnectedApp(int $resourceId, int $clientId, int $userId);
 }

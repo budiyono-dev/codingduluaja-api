@@ -8,22 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        MasterResource::create([
-            'name' => 'Todolist',
-            'path' => ApiPath::TODOLIST,
-        ]);
-        MasterResource::create([
-            'name' => 'Wilayah BPS',
-            'path' => ApiPath::WILAYAH_BPS,
-        ]);
-        MasterResource::create([
-            'name' => 'Wilayah DAGRI',
-            'path' => ApiPath::WILAYAH_DAGRI,
-        ]);
-        MasterResource::create([
-            'name' => 'User Api',
-            'path' => ApiPath::USER_API,
-        ]);
+        MasterResource::create(['name' => 'Todolist', 'path' => ApiPath::TODOLIST]);
+        MasterResource::create(['name' => 'Wilayah BPS', 'path' => ApiPath::WILAYAH_BPS]);
+        MasterResource::create(['name' => 'Wilayah DAGRI', 'path' => ApiPath::WILAYAH_DAGRI]);
+        MasterResource::create(['name' => 'User Api', 'path' => ApiPath::USER_API]);
     }
 
     public function down(): void

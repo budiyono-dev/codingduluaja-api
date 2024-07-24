@@ -6,8 +6,13 @@ use Illuminate\Support\Facades\Auth;
 
 abstract class Controller
 {
-    public function authUserId(): int
+    public function authUserId()
     {
-        return Auth::user()->id;
+        $userId = Auth::user()?->id;
+        if (is_null($userId)) {
+            abort(401);
+        }
+
+        return $userId;
     }
 }

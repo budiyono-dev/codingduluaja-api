@@ -18,6 +18,8 @@ class ClientToken extends Model
 
     public $incrementing = false;
 
+    protected $fillable = ['key', 'value', 'exp', 'is_active', 'identifier'];
+
     public function isExpired(): bool
     {
         return $this->exp >= time();

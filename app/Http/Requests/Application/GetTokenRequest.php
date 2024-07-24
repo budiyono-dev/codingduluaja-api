@@ -3,12 +3,13 @@
 namespace App\Http\Requests\Application;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class CreateTokenRequest extends FormRequest
+class GetTokenRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->check();
+        return Auth::check();
     }
 
     public function rules(): array
@@ -16,7 +17,6 @@ class CreateTokenRequest extends FormRequest
         return [
             'txtAppId' => 'required|numeric|exists:client_app,id',
             'txtResId' => 'required|numeric|exists:client_resource,id',
-            'selExp' => 'required|numeric|exists:expired_token,id',
         ];
     }
 }

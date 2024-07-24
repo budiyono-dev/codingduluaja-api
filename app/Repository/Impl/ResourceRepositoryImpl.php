@@ -26,6 +26,18 @@ class ResourceRepositoryImpl implements ResourceRepository
             ->where('m.id', $masterResourceId)->get();
     }
 
+    public function findConnectedApp(int $resourceId, int $clientId, int $userId)
+    {
+        return DB::table('connected_app as con')
+            ->join('client_app as ca', 'con.client_app_id', 'ca.id')
+            ->join('client_resource as cr', 'con.client_resource_id', 'cr.id')
+            ->where('con.client_resource_id', $resourceId)
+            ->where('con.client_app_id', $clientId)
+            ->where('ca.user_id', $userId)
+            ->where('cr.user_id', $userId)
+            ->get();
+    }
+
     public function deleteTodolistByUserId($userId)
     {
         Todolist::query()->where('user_id', $userId)->delete();

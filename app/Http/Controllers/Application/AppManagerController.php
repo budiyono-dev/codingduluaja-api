@@ -5,22 +5,26 @@ namespace App\Http\Controllers\Application;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\ConnectedAppRequest;
 use App\Http\Requests\Application\CreateTokenRequest;
+use App\Http\Requests\Application\GetTokenRequest;
+use App\Models\ExpiredToken;
 use App\Services\Application\AppClientService;
+use App\Services\Application\AppManagerService;
 use App\Services\Application\AppResourceService;
-use Illuminate\Http\Request;
 
 class AppManagerController extends Controller
 {
     public function __construct(
         protected AppClientService $appClientService,
-        protected AppResourceService $appResourceService
+        protected AppResourceService $appResourceService,
+        protected AppManagerService $appManagerService
     ) {}
 
     public function index()
     {
         $listResource = $this->appResourceService->getClientResoureceView($this->authUserId());
+        $expList = ExpiredToken::all();
 
-        return view('page.app.app-manager', ['listResource' => $listResource]);
+        return view('page.app.app-manager', ['listResource' => $listResource, 'expList' => $expList]);
     }
 
     public function pageConnect(int $resourceId)
@@ -38,23 +42,33 @@ class AppManagerController extends Controller
         return redirect()->route('page.app.manager')->with('status', 'Success Connect Client|success');
     }
 
+    public function doShowToken(GetTokenRequest $request)
+    {
+        $req = $request->validated();
+        $token = $this->appManagerService
+            ->showToken($this->authUserId(), $req['txtResId'], $req['txtAppId']);
+
+        return redirect()->route('page.app.manager')->with('token', $token);
+    }
+
     public function doCreateToken(CreateTokenRequest $request)
     {
         $req = $request->validated();
-        $connectedApp = \Illuminate\Support\Facade\DB::table('connected_app')
-            ->where('client_resource_id', $req['txtResourceId'])
-            ->where('client_app_id', $req['txtAppId'])
-            ->get();
+        $token = $this->appManagerService->createToken(
+            $this->authUserId(),
+            $req['txtResId'],
+            $req['txtAppId'],
+            $req['selExp']);
 
-        if (is_null($connectedApp)) {
-            abort(404);
-        }
-
-        \App\Helper\JwtHelper::expToUnixTime();
+        return redirect()->route('page.app.manager')->with('token', $token);
     }
 
-    public function doRevokeToken(Request $request)
+    public function doRevokeToken(GetTokenRequest $request)
     {
-        //asds
+        $req = $request->validated();
+        $token = $this->appManagerService
+            ->revokeToken($this->authUserId(), $req['txtResId'], $req['txtAppId']);
+
+        return redirect()->route('page.app.manager')->with('status', 'Success delete token|success');
     }
 }

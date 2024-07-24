@@ -66,8 +66,11 @@ class AppClientController extends Controller
     public function doDelete(Request $request)
     {
         $req = $request->validate(['txtId' => 'required|numeric']);
-        $appClient = $this->appClientService
-            ->deleteAppClient($this->authUserId(), $req['txtId']);
+        //        try {
+        $this->appClientService->deleteAppClient($this->authUserId(), $req['txtId']);
+        //        } catch (WebException $e) {
+        //            return redirect()->route('page.app.client')->with('status', "{$e->getMessage()}|danger");
+        //        }
 
         return redirect()->route('page.app.client')->with('status', 'success delete app client|success');
     }

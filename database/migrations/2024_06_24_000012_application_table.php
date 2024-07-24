@@ -60,6 +60,7 @@ return new class extends Migration
             $table->string('value');
             $table->integer('exp');
             $table->boolean('is_active')->default(true);
+            $table->string('identifier')->index();
             $table->timestamps();
         });
     }

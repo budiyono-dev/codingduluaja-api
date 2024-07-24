@@ -60,31 +60,35 @@ class MenuServiceImpl implements MenuService
     private function toCollectionDto(Collection $menus)
     {
         $allmenu = collect([]);
-        if ($menus->isNotEmpty()) {
-            $menuParent = new MenuParentDto();
-            $parentName = '';
-            foreach ($menus as $menu) {
-                $menuItem = new MenuItemDto();
-                $menuItem->name = $menu->item_name;
-                $menuItem->sequence = $menu->item_sequence;
-                $menuItem->page = $menu->item_page;
-
-                if ($parentName !== $menu->parent_name) {
-                    if ($parentName !== '') {
-                        $allmenu->push($menuParent);
-                        $menuParent = new MenuParentDto();
-                    }
-                    $parentName = $menu->parent_name;
-
-                    $menuParent->name = $menu->parent_name;
-                    $menuParent->sequence = $menu->parent_sequence;
-                    $menuParent->menuItem->push($menuItem);
-                } else {
-                    $menuParent->menuItem->push($menuItem);
-                }
-            }
-            $allmenu->push($menuParent);
+        if ($menus->isEmpty()) {
+            return $allmenu;
         }
+
+        $menuParent = new MenuParentDto();
+        $parentName = '';
+        foreach ($menus as $menu) {
+            $menuItem = new MenuItemDto();
+            $menuItem->name = $menu->item_name;
+            $menuItem->sequence = $menu->item_sequence;
+            $menuItem->page = $menu->item_page;
+
+            if ($parentName === $menu->parent_name) {
+                $menuParent->menuItem->push($menuItem);
+
+                continue;
+            }
+
+            if ($parentName !== '') {
+                $allmenu->push($menuParent);
+                $menuParent = new MenuParentDto();
+            }
+            $parentName = $menu->parent_name;
+
+            $menuParent->name = $menu->parent_name;
+            $menuParent->sequence = $menu->parent_sequence;
+            $menuParent->menuItem->push($menuItem);
+        }
+        $allmenu->push($menuParent);
 
         return $allmenu;
     }
