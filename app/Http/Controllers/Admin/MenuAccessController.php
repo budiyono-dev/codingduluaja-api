@@ -96,7 +96,7 @@ class MenuAccessController extends Controller
             ]);
 
             foreach ($listMenuItem as $item) {
-                $dt = new MenuAccessDetail();
+                $dt = new MenuAccessDetail;
                 $dt->menu_access_id = $menuAccess->id;
                 $dt->menu_item_id = $item;
                 $dt->enabled = $cbItems->contains($item);
@@ -147,7 +147,7 @@ class MenuAccessController extends Controller
 
         DB::transaction(function () use ($uma, $req, $ma) {
             if (is_null($uma) || $uma->count() <= 0) {
-                $uma = new UserMenuAccess();
+                $uma = new UserMenuAccess;
                 $uma->role_code = $req['txtRoleCode'];
             }
             $uma->menu_access_id = $ma->id;

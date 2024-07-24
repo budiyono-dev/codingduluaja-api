@@ -71,4 +71,12 @@ class AppManagerController extends Controller
 
         return redirect()->route('page.app.manager')->with('status', 'Success delete token|success');
     }
+
+    public function doDisconnect(GetTokenRequest $request)
+    {
+        $req = $request->validated();
+        $this->appResourceService->disconnectClient($this->authUserId(), $req['txtResourceId'], $req['selApp']);
+
+        return redirect()->route('page.app.manager')->with('status', 'Success Disconnect Client|success');
+    }
 }

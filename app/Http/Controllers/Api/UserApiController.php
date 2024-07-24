@@ -191,7 +191,7 @@ class UserApiController extends Controller
         $filename = StringUtil::uuidWihoutStrip().'.png';
         $this->imagePlaceholder->placeholderByName($name, $path, $filename);
 
-        $img = new UserApiImage();
+        $img = new UserApiImage;
         $img->user_api_id = $userId;
         $img->path = $dirUser;
         $img->filename = $filename;

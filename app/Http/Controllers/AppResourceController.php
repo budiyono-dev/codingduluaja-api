@@ -73,7 +73,7 @@ class AppResourceController extends Controller
             $validated = $req->validated();
             $userId = Auth::user()->id;
 
-            $c = new ClientResource();
+            $c = new ClientResource;
             $c->user_id = $userId;
             $c->master_resource_id = $validated['sel_m_resource'];
 

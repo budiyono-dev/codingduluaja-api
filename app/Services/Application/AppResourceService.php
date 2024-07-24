@@ -15,4 +15,6 @@ interface AppResourceService
     public function deleteResouce(int $userId, int $clientResourceId);
 
     public function connectClient(int $userId, int $clientResourceId, int $clientAppId);
+
+    public function disconnectClient(int $userId, int $clientResourceId, int $clientAppId);
 }

@@ -16,7 +16,7 @@ class MigrationUtils
 {
     public static function addMenuParent(int $id, string $name, int $sequence): MenuParent
     {
-        $menu = new MenuParent();
+        $menu = new MenuParent;
         $menu->id = $id;
         $menu->name = $name;
         $menu->sequence = $sequence;
@@ -28,7 +28,7 @@ class MigrationUtils
 
     public static function addMenuItem(int $id, int $menuParentId, string $name, string $page, int $sequence): MenuItem
     {
-        $item = new MenuItem();
+        $item = new MenuItem;
         $item->id = $id;
         $item->menu_parent_id = $menuParentId;
         $item->name = $name;
@@ -62,7 +62,7 @@ class MigrationUtils
 
     public static function addUser(string $name, string $username, string $roleCode, string $email): void
     {
-        $user = new User();
+        $user = new User;
         $user->name = $name;
         $user->username = $username;
         $user->role_code = $roleCode;
@@ -93,7 +93,7 @@ class MigrationUtils
 
     public static function addMenuAccess(string $name, string $description): MenuAccess
     {
-        $userMenuAccess = new MenuAccess();
+        $userMenuAccess = new MenuAccess;
         $userMenuAccess->name = $name;
         $userMenuAccess->description = $description;
         $userMenuAccess->save();
@@ -108,7 +108,7 @@ class MigrationUtils
         foreach ($listMenuItem as $item) {
             $enable = $cItems->contains($item);
 
-            $dt = new MenuAccessDetail();
+            $dt = new MenuAccessDetail;
             $dt->menu_access_id = $menuAccessId;
             $dt->menu_item_id = $item;
             $dt->enabled = $enable;
@@ -128,7 +128,7 @@ class MigrationUtils
             foreach ($parent->menuItem as $item) {
                 $enable = $cItems->contains($item->id);
 
-                $dt = new MenuAccessDetail();
+                $dt = new MenuAccessDetail;
                 $dt->menu_access_id = $menuAccessId;
                 $dt->menu_item_id = $item->id;
                 $dt->enabled = $enableAll ? true : $enable;
@@ -140,7 +140,7 @@ class MigrationUtils
 
     public static function addUserMenuAccess(string $roleCode, int $menuAccessId): void
     {
-        $menuAccess = new UserMenuAccess();
+        $menuAccess = new UserMenuAccess;
         $menuAccess->role_code = $roleCode;
         $menuAccess->menu_access_id = $menuAccessId;
 
@@ -149,7 +149,7 @@ class MigrationUtils
 
     public static function addUserRole(string $code, string $name): void
     {
-        $r = new UserRole();
+        $r = new UserRole;
         $r->code = $code;
         $r->name = $name;
         $r->save();

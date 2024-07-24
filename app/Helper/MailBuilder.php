@@ -54,7 +54,7 @@ class MailBuilder
 
     public function sendEmail()
     {
-        $a = (new MailMessage())
+        $a = (new MailMessage)
             ->line('Klik tombol dibawah ini')
             ->action('tombol', 'localhost:8000')
             ->line('Terimakasih')

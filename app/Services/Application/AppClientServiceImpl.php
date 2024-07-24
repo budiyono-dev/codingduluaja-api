@@ -16,7 +16,7 @@ class AppClientServiceImpl implements AppClientService
 
     public function createAppClient(int $userId, string $name, string $description)
     {
-        $c = new ClientApp();
+        $c = new ClientApp;
         $c->user_id = $userId;
         $c->name = $name;
         $c->description = $description;

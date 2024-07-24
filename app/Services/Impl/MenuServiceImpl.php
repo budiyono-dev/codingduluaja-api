@@ -64,10 +64,10 @@ class MenuServiceImpl implements MenuService
             return $allmenu;
         }
 
-        $menuParent = new MenuParentDto();
+        $menuParent = new MenuParentDto;
         $parentName = '';
         foreach ($menus as $menu) {
-            $menuItem = new MenuItemDto();
+            $menuItem = new MenuItemDto;
             $menuItem->name = $menu->item_name;
             $menuItem->sequence = $menu->item_sequence;
             $menuItem->page = $menu->item_page;
@@ -80,7 +80,7 @@ class MenuServiceImpl implements MenuService
 
             if ($parentName !== '') {
                 $allmenu->push($menuParent);
-                $menuParent = new MenuParentDto();
+                $menuParent = new MenuParentDto;
             }
             $parentName = $menu->parent_name;
 

@@ -49,7 +49,7 @@ class AdminController
             Log::info('[DEPLOYMENT] refrech id for admin console');
             $conf = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
             if (is_null($conf)) {
-                $conf = new Configuration();
+                $conf = new Configuration;
                 $conf->group = 'admin';
                 $conf->key = 'su.url';
             }
@@ -62,7 +62,7 @@ class AdminController
 
     public function sendTestMail()
     {
-        Mail::to('budiyono.dev@gmail.com')->send(new TestSMPTP());
+        Mail::to('budiyono.dev@gmail.com')->send(new TestSMPTP);
     }
 
     public function doAction(Request $req, string $id)

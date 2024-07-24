@@ -25,7 +25,7 @@ class AppResourceServiceImpl implements AppResourceService
 
     public function addResource(int $userId, int $masterResource)
     {
-        $cr = new ClientResource();
+        $cr = new ClientResource;
         $cr->user_id = $userId;
         $cr->master_resource_id = $masterResource;
         $cr->save();
@@ -63,5 +63,12 @@ class AppResourceServiceImpl implements AppResourceService
         $cr = ClientResource::where('user_id', $userId)->where('id', $clientResourceId)->first();
 
         $cr->connectedApp()->attach($clientAppId);
+    }
+
+    public function disconnectClient(int $userId, int $clientResourceId, int $clientAppId)
+    {
+        $cr = ClientResource::where('user_id', $userId)->where('id', $clientResourceId)->first();
+
+        $cr->connectedApp()->detach($clientAppId);
     }
 }

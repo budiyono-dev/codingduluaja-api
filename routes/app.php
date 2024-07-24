@@ -45,4 +45,5 @@ Route::group([
     Route::get('/token', 'doShowToken')->name('do.app.manager.token');
     Route::post('/token/revoke', 'doRevokeToken')->name('do.app.manager.revoke');
     Route::post('/token/create', 'doCreateToken')->name('do.app.manager.create');
+    Route::post('/disconnect', 'doDisconnect')->name('do.app.manager.disconnect');
 });
