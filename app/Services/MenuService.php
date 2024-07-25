@@ -10,5 +10,7 @@ interface MenuService
 
     public function isUserEligible(Request $req);
 
+    public function isUserEligibleV2(Request $req);
+
     public function getActiveMenu();
 }

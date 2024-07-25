@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class MenuServiceImpl implements MenuService
 {
@@ -48,9 +49,27 @@ class MenuServiceImpl implements MenuService
             }
 
             foreach ($items as $item) {
-                if ($routename == $item->page) {
+                if (Str::contains(route($routename), route($item->page))) {
                     return true;
                 }
+            }
+        }
+
+        return false;
+    }
+
+    public function isUserEligibleV2(Request $req)
+    {
+        $routename = Route::currentRouteName();
+        $listMenu = Session::get('LIST_MENU_PAGE'.auth()->user()->id);
+
+        if (is_null($listMenu) || empty($listMenu)) {
+            return false;
+        }
+
+        foreach ($listMenu as $item) {
+            if (Str::contains(route($routename), route($item))) {
+                return true;
             }
         }
 
