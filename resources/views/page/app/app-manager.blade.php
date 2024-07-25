@@ -11,16 +11,15 @@
                     <div class="card-body">
                         <div class="list-group">
                             @forelse ($listResource as $key => $res)
-                            <a class="list-group-item list-group-item-action list-group-item-primary"
-                               data-bs-toggle="collapse" href="{{ '#collapse' . $key }}">
-                                {{ $res->masterResource->name }}
-                            </a>
-                            
+                            <div class="list-group-item list-group-item-action list-group-item-primary d-flex justify-content-between">
+                                <a data-bs-toggle="collapse" href="{{ '#collapse' . $key }}">
+                                    {{ $res->masterResource->name }}
+                                </a>
+                                <a type="button" class="btn btn-success btn-sm"
+                                   href="{{route('page.app.manager.connect', ['resourceId'=>$res->id])}}">Connect the Client</a>
+                            </div>
+
                             <ul class="list-group collapse" id="{{ 'collapse' . $key }}">
-                                <li class="list-group-item list-group-item-warning">
-                                    <a type="button" class="btn btn-success btn-sm"
-                                       href="{{route('page.app.manager.connect', ['resourceId'=>$res->id])}}">Connect the Client</a>
-                                </li>
                                 @forelse ($res->connectedApp as $ca)
                                 <li class="list-group-item list-group-item-warning">
                                     <a class="list-group-item list-group-item-action list-group-item-warning"
@@ -33,7 +32,7 @@
                                                 <div class="col-auto">
                                                     <form action="{{route('do.app.manager.create')}}" method="POST">
                                                         @csrf
-                                                        <input type="hidden" value="{{$ca->id}}" name="txtResId">
+                                                        <input type="hidden" value="{{$res->id}}" name="txtResId">
                                                         <input type="hidden" value="{{$ca->id}}" name="txtAppId">
                                                         <div class="row">
                                                             <div class="col-auto">
@@ -54,25 +53,27 @@
                                                 <div class="col-auto">
                                                     <form action="{{route('do.app.manager.token')}}" method="GET">
 
-                                                        <input type="hidden" value="{{$ca->id}}" name="txtResId">
+                                                        <input type="hidden" value="{{$res->id}}" name="txtResId">
                                                         <input type="hidden" value="{{$ca->id}}" name="txtAppId">
                                                         <button type="submit" class="btn btn-success btn-sm">Show Token</button>
                                                     </form>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <form action="{{route('do.app.manager.revoke')}}" method="POST">
+                                                    <form action="{{route('do.app.manager.revoke')}}" method="POST"
+                                                          name="formRevokeToken">
                                                         @csrf
-                                                        <input type="hidden" value="{{$ca->id}}" name="txtResId">
+                                                        <input type="hidden" value="{{$res->id}}" name="txtResId">
                                                         <input type="hidden" value="{{$ca->id}}" name="txtAppId">
-                                                        <button type="button" class="btn btn-danger btn-sm">Revoke Token</button>
+                                                        <button type="submit" class="btn btn-danger btn-sm">Revoke Token</button>
                                                     </form>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <form action="{{route('do.app.manager.revoke')}}" method="POST">
+                                                    <form action="{{route('do.app.manager.disconnect')}}" method="POST"
+                                                          name="formDisconnect">
                                                         @csrf
-                                                        <input type="hidden" value="{{$ca->id}}" name="txtResId">
+                                                        <input type="hidden" value="{{$res->id}}" name="txtResId">
                                                         <input type="hidden" value="{{$ca->id}}" name="txtAppId">
-                                                        <button type="button" class="btn btn-danger btn-sm">Disconnect the Client</button>
+                                                        <button type="submit" class="btn btn-danger btn-sm">Disconnect the Client</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -103,7 +104,8 @@
                 title: "Your Token",
                 text: token,
                 icon: "info",
-                confirmButtonText: "Copy"
+                confirmButtonText: "Copy",
+                showCloseButton: true,
             }).then((result) => {
                 if (result.isConfirmed) {
                     navigator.clipboard.writeText(token);
@@ -111,9 +113,19 @@
                 }
             });
         }
-        const formDelete = document.querySelectorAll('form[name="formDeleteAppClient"]');
-        if (formDelete) {
-            for (let f of formDelete) {
+        const formDisconnect = document.querySelectorAll('form[name="formDisconnect"]');
+        if (formDisconnect) {
+            for (let f of formDisconnect) {
+                f.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    swal2(() => f.submit(), {text:'Are you sure want to disconnect your app?', confirmButtonText:'Yes'});
+                    return false;
+                });
+            }
+        }
+        const formRevokeToken = document.querySelectorAll('form[name="formRevokeToken"]');
+        if (formRevokeToken) {
+            for (let f of formRevokeToken) {
                 f.addEventListener('submit', (e) => {
                     e.preventDefault();
                     swal2(() => f.submit());
