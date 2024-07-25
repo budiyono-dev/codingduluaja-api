@@ -7,7 +7,7 @@ use App\Http\Controllers\DocController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'mideleware' => ['auth', 'verified', 'menu-access'],
+    'middleware' => ['auth', 'verified', 'menuAccess'],
     'controller' => DocController::class,
     'prefix' => '/app/res',
 ], function () {

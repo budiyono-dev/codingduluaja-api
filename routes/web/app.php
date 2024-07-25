@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Route;
 /**
  * Application Route
  */
-$middleware = ['auth', 'verified', 'menu-access'];
+$middleware = ['auth', 'verified', 'menuAccess'];
 
 Route::group([
-    'mideleware' => $middleware,
+    'middleware' => $middleware,
     'controller' => AppResourceController::class,
     'prefix' => '/app/resource',
 ], function () {
@@ -22,7 +22,7 @@ Route::group([
 });
 
 Route::group([
-    'mideleware' => $middleware,
+    'middleware' => $middleware,
     'controller' => AppClientController::class,
     'prefix' => '/app/client',
 ], function () {
@@ -35,7 +35,7 @@ Route::group([
 });
 
 Route::group([
-    'mideleware' => $middleware,
+    'middleware' => $middleware,
     'controller' => AppManagerController::class,
     'prefix' => '/app/manager',
 ], function () {

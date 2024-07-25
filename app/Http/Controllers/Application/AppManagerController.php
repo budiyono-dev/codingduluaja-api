@@ -78,6 +78,7 @@ class AppManagerController extends Controller
         $this->appResourceService->disconnectClient($this->authUserId(), $req['txtResId'], $req['txtAppId']);
         $this->appManagerService
             ->revokeToken($this->authUserId(), $req['txtResId'], $req['txtAppId']);
+
         return redirect()->route('page.app.manager')->with('status', 'Success Disconnect Client|success');
     }
 }

@@ -40,10 +40,11 @@ Route::middleware(['auth', 'verified', 'isAdmin'])->group(function () {
 Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
 // Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
 Route::view('/', 'page.landing-page')->name('page.langind-page');
-
+// breeze
 require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
-require __DIR__.'/app.php';
-require __DIR__.'/doc.php';
-require __DIR__.'/res.php';
-require __DIR__.'/tools.php';
+
+require __DIR__.'/web/admin.php';
+require __DIR__.'/web/app.php';
+require __DIR__.'/web/doc.php';
+require __DIR__.'/web/res.php';
+require __DIR__.'/web/tools.php';
