@@ -1,14 +1,16 @@
 <x-layout.main-sidebar title="Application | Resource">
+    <div class="container">
     <div class="row justify-content-center">
-        <div class="col-10">
-            <div class="d-flex align-items-center my-3">
+        <div class="col">
+            <div class="card mt-3">
+            <div class="d-flex align-items-center card-header">
                 <h4 class="m-0">Resources Application</h4>
                 <a class="btn btn-sm btn-primary px-3 mx-3"
                    href="{{ route('page.app.resource.create') }}">
                     Add New Resource
                 </a>
             </div>
-            <div class="row justify-content-between">
+            <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -44,8 +46,10 @@
                     </table>
                 </div>
             </div>
+            </div>
         </div>
     </div>
+        </div>
     @push('script')
     <script>
         const formDelete = document.querySelectorAll('form[name="formDeleteAppResource"]');
