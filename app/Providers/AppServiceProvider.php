@@ -13,6 +13,8 @@ use App\Repository\MenuRepository;
 use App\Repository\ResourceRepository;
 use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
+use App\Services\Api\TodolistService;
+use App\Services\Api\TodolistServiceImpl;
 use App\Services\Application\AppClientService;
 use App\Services\Application\AppClientServiceImpl;
 use App\Services\Application\AppManagerService;
@@ -44,6 +46,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ResourceService::class, ResourceServiceImpl::class);
         $this->app->singleton(MenuService::class, MenuServiceImpl::class);
         $this->app->singleton(AppManagerService::class, AppManagerServiceImpl::class);
+
+        // api services
+        $this->app->singleton(TodolistService::class, TodolistServiceImpl::class);
     }
 
     public function boot(): void

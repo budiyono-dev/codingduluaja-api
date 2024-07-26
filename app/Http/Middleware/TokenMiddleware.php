@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Constants\CdaContext;
+use App\Helper\ContextHelper;
 use App\Helper\JwtHelper;
 use App\Helper\ResponseHelper;
 use Closure;
@@ -17,10 +18,8 @@ class TokenMiddleware
 
     public function handle(Request $req, Closure $next): Response
     {
-        if (! $request->hasHeader('Authorization')) {
-            $apiCtx = $request->attributes->get(CdaContext::REQUEST_CTX);
-
-            return $this->responseHelper->unAuthorize($apiCtx[CdaContext::REQUEST_ID]);
+        if (!$req->hasHeader('Authorization')) {
+            return $this->responseHelper->unAuthorize(ContextHelper::getRequestId());
         }
     }
 }

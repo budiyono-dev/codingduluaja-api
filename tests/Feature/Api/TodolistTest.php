@@ -6,14 +6,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class Todolist extends TestCase
+class TodolistTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
+    public function test_login_screen_can_be_rendered(): void
     {
-        $response = $this->get('/');
+        $response = $this->get('/api/todolist');
 
         $response->assertStatus(200);
     }

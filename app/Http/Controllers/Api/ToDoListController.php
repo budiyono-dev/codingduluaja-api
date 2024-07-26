@@ -12,6 +12,7 @@ use App\Http\Requests\Api\CreateTodolistRequest;
 use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Http\Requests\Api\EditTodolistRequest;
 use App\Models\Api\Todolist;
+use App\Services\Api\TodolistService;
 use App\Services\ResourceService;
 use App\Traits\ApiContext;
 use Carbon\Carbon;
@@ -27,7 +28,7 @@ class ToDoListController extends Controller
 
     public function __construct(
         protected ResponseHelper $responseHelper,
-        protected ResourceService $resourceService
+        protected TodolistService $todolistService
     ) {}
 
     public function createTodoList(CreateTodolistRequest $req): JsonResponse
@@ -53,7 +54,8 @@ class ToDoListController extends Controller
 
     public function getTodoList(): JsonResponse
     {
-        Log::info("[TODOLIST-API] get all todolist = {$this->getRequestId()}");
+        Log::info("[TODOLIST-API] get all todolist");
+        $data = $todolistService->getTodoList();
         $data = Todolist::where('user_id', $this->getUserId())->get()->map(function (Todolist $t) {
             return TodolistDto::fromTodolist($t);
         });

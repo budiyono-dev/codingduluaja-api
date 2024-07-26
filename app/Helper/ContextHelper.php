@@ -45,6 +45,11 @@ class ContextHelper
         return Context::getHidden(self::IP);
     }
 
+    public static function getRequestId()
+    {
+        return Context::get(self::REQUEST_ID);
+    }
+
     public static function getMethod()
     {
         return Context::getHidden(self::METHOD);
