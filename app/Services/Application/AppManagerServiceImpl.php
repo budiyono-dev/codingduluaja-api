@@ -30,7 +30,7 @@ class AppManagerServiceImpl implements AppManagerService
 
         $activeToken = $this->tokenRepository->countByIdentifier($userId, $identifier);
         if ($activeToken > 0) {
-            throw WebException::haveActiveToken('page.app.manager');
+            throw WebException::haveActiveToken('app.manager');
         }
 
         $exp = ExpiredToken::find($expId);
@@ -61,7 +61,7 @@ class AppManagerServiceImpl implements AppManagerService
         $cToken = $this->tokenRepository->findByIdentifier($userId, $identifier);
 
         if (is_null($cToken)) {
-            throw WebException::tokenNotFound('page.app.manager');
+            throw WebException::tokenNotFound('app.manager');
         }
 
         return $cToken->key;
@@ -73,7 +73,7 @@ class AppManagerServiceImpl implements AppManagerService
         $cToken = $this->tokenRepository->findByIdentifier($userId, $identifier);
 
         if (is_null($cToken)) {
-            throw WebException::tokenNotFound('page.app.manager');
+            throw WebException::tokenNotFound('app.manager');
         }
         $cToken->is_active = false;
         $cToken->save();

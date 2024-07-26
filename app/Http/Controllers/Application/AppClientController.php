@@ -37,7 +37,7 @@ class AppClientController extends Controller
                 $req['txtDescription']
             );
 
-        return redirect()->route('page.app.client')->with('status', 'success create app client|success');
+        return redirect()->route('app.client')->with('status', 'success create app client|success');
     }
 
     public function doEdit(EditAppClientRequest $request)
@@ -52,7 +52,7 @@ class AppClientController extends Controller
                 $req['txtDescription']
             );
 
-        return redirect()->route('page.app.client')->with('status', 'success edit app client|success');
+        return redirect()->route('app.client')->with('status', 'success edit app client|success');
     }
 
     public function pageEdit(int $id)
@@ -69,9 +69,9 @@ class AppClientController extends Controller
         //        try {
         $this->appClientService->deleteAppClient($this->authUserId(), $req['txtId']);
         //        } catch (WebException $e) {
-        //            return redirect()->route('page.app.client')->with('status', "{$e->getMessage()}|danger");
+        //            return redirect()->route('app.client')->with('status', "{$e->getMessage()}|danger");
         //        }
 
-        return redirect()->route('page.app.client')->with('status', 'success delete app client|success');
+        return redirect()->route('app.client')->with('status', 'success delete app client|success');
     }
 }

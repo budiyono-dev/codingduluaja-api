@@ -7,7 +7,7 @@
                         <h2 class="fs-5">Add New Resource</h2>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('do.app.resource.create') }}" method="POST">
+                        <form action="{{ route('app.resource.doCreate') }}" method="POST">
                             @csrf
                             <select class="form-select mb-3" name="selResource">
                                 <option selected value="">-- Select Resource --</option>

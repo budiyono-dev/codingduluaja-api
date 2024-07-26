@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="col-5">
-                        <form name="genTodolist" id="genTodolist" action="{{ route('do.todolist.dummy') }}" method="post" autocomplete="off">
+                        <form name="genTodolist" id="genTodolist" action="{{ route('todolist.dummy') }}" method="post" autocomplete="off">
                             <div class="card p-3">
                                 <div class="text-center p-1">
                                     <h5>Generate Data Todolist</h5>

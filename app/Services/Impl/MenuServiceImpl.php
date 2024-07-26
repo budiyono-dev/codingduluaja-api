@@ -34,13 +34,10 @@ class MenuServiceImpl implements MenuService
 
     public function isUserEligible(Request $req)
     {
-        $routename = Route::currentRouteName();
         $listMenu = Session::get('LIST_MENU'.auth()->user()->id);
-
         if (is_null($listMenu) || empty($listMenu)) {
             return false;
         }
-
         foreach ($listMenu as $menus) {
             $items = $menus->menuItem;
 
@@ -49,7 +46,8 @@ class MenuServiceImpl implements MenuService
             }
 
             foreach ($items as $item) {
-                if (Str::contains(route($routename), route($item->page))) {
+                // dd($req->routeIs($item->page.'.*'));
+                if ($req->routeIs($item->page.'.*')) {
                     return true;
                 }
             }

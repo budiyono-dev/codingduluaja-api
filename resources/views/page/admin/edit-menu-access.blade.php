@@ -1,6 +1,6 @@
 <x-layout.main-sidebar title="Admin | Menu Access">
     <div class="container">
-        <form action="{{ route('do.admin.menuAccess.edit') }}" method="POST">
+        <form action="{{ route('admin.menuAccess.doEdit') }}" method="POST">
             @csrf
             <input type="hidden" name="id" value="{{ $menuAccess->id }}">
             <section class="my-5 d-flex justify-content-between">

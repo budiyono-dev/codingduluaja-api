@@ -39,7 +39,7 @@ class AppManagerController extends Controller
         $req = $request->validated();
         $this->appResourceService->connectClient($this->authUserId(), $req['txtResourceId'], $req['selApp']);
 
-        return redirect()->route('page.app.manager')->with('status', 'Success Connect Client|success');
+        return redirect()->route('app.manager')->with('status', 'Success Connect Client|success');
     }
 
     public function doShowToken(GetTokenRequest $request)
@@ -48,7 +48,7 @@ class AppManagerController extends Controller
         $token = $this->appManagerService
             ->showToken($this->authUserId(), $req['txtResId'], $req['txtAppId']);
 
-        return redirect()->route('page.app.manager')->with('token', $token);
+        return redirect()->route('app.manager')->with('token', $token);
     }
 
     public function doCreateToken(CreateTokenRequest $request)
@@ -60,7 +60,7 @@ class AppManagerController extends Controller
             $req['txtAppId'],
             $req['selExp']);
 
-        return redirect()->route('page.app.manager')->with('token', $token);
+        return redirect()->route('app.manager')->with('token', $token);
     }
 
     public function doRevokeToken(GetTokenRequest $request)
@@ -69,7 +69,7 @@ class AppManagerController extends Controller
         $this->appManagerService
             ->revokeToken($this->authUserId(), $req['txtResId'], $req['txtAppId']);
 
-        return redirect()->route('page.app.manager')->with('status', 'Success delete token|success');
+        return redirect()->route('app.manager')->with('status', 'Success delete token|success');
     }
 
     public function doDisconnect(GetTokenRequest $request)
@@ -79,6 +79,6 @@ class AppManagerController extends Controller
         $this->appManagerService
             ->revokeToken($this->authUserId(), $req['txtResId'], $req['txtAppId']);
 
-        return redirect()->route('page.app.manager')->with('status', 'Success Disconnect Client|success');
+        return redirect()->route('app.manager')->with('status', 'Success Disconnect Client|success');
     }
 }

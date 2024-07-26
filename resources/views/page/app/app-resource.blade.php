@@ -6,7 +6,7 @@
             <div class="d-flex align-items-center card-header">
                 <h4 class="m-0">Resources Application</h4>
                 <a class="btn btn-sm btn-primary px-3 mx-3"
-                   href="{{ route('page.app.resource.create') }}">
+                   href="{{ route('app.resource.create') }}">
                     Add New Resource
                 </a>
             </div>
@@ -30,7 +30,7 @@
                                 <td class="text-center d-flex gap-3 justify-content-center align-items-center"
                                     style="border-left: none;">
                                     <form method="post" name="formDeleteAppResource"
-                                          action="{{ route('do.app.eesource.delete', ['id' => $resource->id]) }}">
+                                          action="{{ route('app.resource.doDelete', ['id' => $resource->id]) }}">
                                         @csrf
                                         <input type="hidden" value="{{$resource->id}}" name="txtId">
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>

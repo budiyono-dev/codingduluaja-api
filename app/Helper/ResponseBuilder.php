@@ -54,12 +54,12 @@ class ResponseBuilder
     public static function unAuthorize(string $requestId): JsonResponse
     {
         return self::error(
-                $requestId,
-                ResponseCode::UNAUTHORIZED,
-                'Unauthorized',
-                401,
-                ['request' => 'Unauthorized request']
-            );
+            $requestId,
+            ResponseCode::UNAUTHORIZED,
+            'Unauthorized',
+            401,
+            ['request' => 'Unauthorized request']
+        );
     }
 
     public static function buildJson(

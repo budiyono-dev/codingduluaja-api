@@ -13,7 +13,6 @@ use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Http\Requests\Api\EditTodolistRequest;
 use App\Models\Api\Todolist;
 use App\Services\Api\TodolistService;
-use App\Services\ResourceService;
 use App\Traits\ApiContext;
 use Carbon\Carbon;
 use Faker\Factory;
@@ -54,7 +53,7 @@ class ToDoListController extends Controller
 
     public function getTodoList(): JsonResponse
     {
-        Log::info("[TODOLIST-API] get all todolist");
+        Log::info('[TODOLIST-API] get all todolist');
         $data = $todolistService->getTodoList();
         $data = Todolist::where('user_id', $this->getUserId())->get()->map(function (Todolist $t) {
             return TodolistDto::fromTodolist($t);
@@ -151,7 +150,7 @@ class ToDoListController extends Controller
             }
         });
 
-        return redirect()->route('page.res.todolist');
+        return redirect()->route('res.todolist');
     }
 
     public function todolist()
@@ -169,6 +168,6 @@ class ToDoListController extends Controller
                 ]);
             });
 
-        return view('page.res.todolist', ['todolist' => $todolist]);
+        return view('res.todolist', ['todolist' => $todolist]);
     }
 }

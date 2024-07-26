@@ -7,7 +7,7 @@
                         Edit client
                     </h2>
                     <div class="card-body">
-                        <form action="{{ route('do.app.client.edit') }}" method="POST">
+                        <form action="{{ route('app.client.doEdit') }}" method="POST">
                             @csrf
                             <input type="hidden" name="txtId" value="{{$appClient->id}}">
                             <div class="mb-3">

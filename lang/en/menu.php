@@ -15,7 +15,7 @@ return [
         'admin_site' => 'Site',
 
         'app_resource' => 'App Resource',
-        'client_app' => 'App Client',
+        'app_client' => 'App Client',
         'app_manager' => 'App Manager',
 
         'doc_todolist' => 'Todolist',

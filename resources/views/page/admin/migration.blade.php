@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-sm mt-3">
                 <h3 class="text-center m-0 text-decoration-underline">Action</h3>
-                <form action="{{ route('do.admin.migration.migrate') }}" class="my-3 d-block" method="POST">
+                <form action="{{ route('admin.migration.migrate') }}" class="my-3 d-block" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="selMigrate" class="form-label">Migrations</label>
@@ -22,7 +22,7 @@
                     <hr class="border border-secondary border-2">
                 </div>
 
-                <form action="{{ route('do.admin.migration.seed') }}" class="my-3 d-block" method="POST">
+                <form action="{{ route('admin.migration.seed') }}" class="my-3 d-block" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="selSeed" class="form-label">Seeder</label>

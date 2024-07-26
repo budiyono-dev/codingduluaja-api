@@ -96,7 +96,7 @@ class UserApiController extends Controller
             ]);
         }
 
-        return redirect()->route('page.res.userApi');
+        return redirect()->route('res.userApi');
     }
 
     public function get(SearchUserApiRequest $r): JsonResponse

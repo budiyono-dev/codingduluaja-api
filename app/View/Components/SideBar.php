@@ -19,8 +19,8 @@ class SideBar extends Component
         if (is_null($listMenu)) {
             $listMenu = $menuService->getEligibleMenu();
             Session::put('LIST_MENU'.auth()->user()->id, $listMenu);
-//            $listPage = $listMenu->pluck('menuItem')->flatten()->pluck('page');
-//            Session::put('LIST_MENU_PAGE'.auth()->user()->id, $listPage);
+            //            $listPage = $listMenu->pluck('menuItem')->flatten()->pluck('page');
+            //            Session::put('LIST_MENU_PAGE'.auth()->user()->id, $listPage);
         }
         $this->menu = $listMenu;
     }

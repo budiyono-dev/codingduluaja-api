@@ -8,6 +8,6 @@ Route::group([
     'controller' => ToolsController::class,
     'prefix' => '/app/tools',
 ], function () {
-    Route::get('/base64', 'base64')->name('page.tools.base64');
+    Route::get('/base64', 'base64')->name('tools.base64');
 
 });

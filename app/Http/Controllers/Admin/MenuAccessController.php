@@ -80,7 +80,7 @@ class MenuAccessController extends Controller
         }
         Session::forget('LIST_MENU'.auth()->user()->id);
 
-        return redirect()->route('page.admin.menuAccess');
+        return redirect()->route('admin.menuAccess');
     }
 
     public function doCreate(CreateMenuAccessRequest $request)
@@ -104,7 +104,7 @@ class MenuAccessController extends Controller
             }
         });
 
-        return redirect()->route('page.admin.menuAccess');
+        return redirect()->route('admin.menuAccess');
     }
 
     public function doDelete(Request $request)
@@ -119,7 +119,7 @@ class MenuAccessController extends Controller
 
         $uma = UserMenuAccess::where('menu_access_id', $id)->first();
         if (! is_null($uma)) {
-            return redirect()->route('page.admin.menuAccess')
+            return redirect()->route('admin.menuAccess')
                 ->with('status', 'Delete Failed<br>User Access is in use|danger');
         }
 
@@ -129,7 +129,7 @@ class MenuAccessController extends Controller
             $ma->delete();
         });
 
-        return redirect()->route('page.admin.menuAccess')->with('status', 'success delete menu access|primary');
+        return redirect()->route('admin.menuAccess')->with('status', 'success delete menu access|primary');
     }
 
     public function doChangeUserMenuAccess(Request $request)
@@ -154,7 +154,7 @@ class MenuAccessController extends Controller
             $uma->save();
         });
 
-        return redirect()->route('page.admin.menuAccess')->with('success change menu access|primary');
+        return redirect()->route('admin.menuAccess')->with('success change menu access|primary');
     }
 
     public function pageCreate()

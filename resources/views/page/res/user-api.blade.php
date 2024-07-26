@@ -67,7 +67,7 @@
                 </div>
                 <div class="modal-body">
                     <form name="formGenerateUser" id="formGenerateUser" method="post"
-                        action="{{ route('do.userApi.dummy') }}" autocomplete="off">
+                        action="{{ route('userApi.dummy') }}" autocomplete="off">
                         @csrf
                             <select class="form-select mb-3" name="sel_qty" id="selSearchBy">
                                 <option selected value="">-- Select Qty --</option>

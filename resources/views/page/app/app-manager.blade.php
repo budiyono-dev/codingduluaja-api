@@ -16,7 +16,7 @@
                                     {{ $res->masterResource->name }}
                                 </a>
                                 <a type="button" class="btn btn-success btn-sm"
-                                   href="{{route('page.app.manager.connect', ['resourceId'=>$res->id])}}">Connect the Client</a>
+                                   href="{{route('app.manager.connect', ['resourceId'=>$res->id])}}">Connect the Client</a>
                             </div>
 
                             <ul class="list-group collapse" id="{{ 'collapse' . $key }}">
@@ -30,7 +30,7 @@
                                         <li class="list-group-item list-group-item-primary">
                                             <div class="row">
                                                 <div class="col-auto">
-                                                    <form action="{{route('do.app.manager.create')}}" method="POST">
+                                                    <form action="{{route('app.manager.createToken')}}" method="POST">
                                                         @csrf
                                                         <input type="hidden" value="{{$res->id}}" name="txtResId">
                                                         <input type="hidden" value="{{$ca->id}}" name="txtAppId">
@@ -51,7 +51,7 @@
                                                     </form>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <form action="{{route('do.app.manager.token')}}" method="GET">
+                                                    <form action="{{route('app.manager.showToken')}}" method="GET">
 
                                                         <input type="hidden" value="{{$res->id}}" name="txtResId">
                                                         <input type="hidden" value="{{$ca->id}}" name="txtAppId">
@@ -59,7 +59,7 @@
                                                     </form>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <form action="{{route('do.app.manager.revoke')}}" method="POST"
+                                                    <form action="{{route('app.manager.revokeToken')}}" method="POST"
                                                           name="formRevokeToken">
                                                         @csrf
                                                         <input type="hidden" value="{{$res->id}}" name="txtResId">
@@ -68,7 +68,7 @@
                                                     </form>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <form action="{{route('do.app.manager.disconnect')}}" method="POST"
+                                                    <form action="{{route('app.manager.disconnect')}}" method="POST"
                                                           name="formDisconnect">
                                                         @csrf
                                                         <input type="hidden" value="{{$res->id}}" name="txtResId">

@@ -15,7 +15,7 @@ class MigrationController extends Controller
 
     public function index()
     {
-        return view('page.admin.migration');
+        return view('admin.migration');
     }
 
     public function doMigrate(Request $request)
@@ -41,7 +41,7 @@ class MigrationController extends Controller
 
         Log::info("[DEPLOYMENT] artisan comand run $output");
 
-        return redirect()->route('page.admin.migration')
+        return redirect()->route('admin.migration')
             ->with('command-output', $output);
     }
 
@@ -53,7 +53,7 @@ class MigrationController extends Controller
 
         $output = $this->artisanHelper->seedingClass($req['selSeed']);
 
-        return redirect()->route('page.admin.migration')
+        return redirect()->route('admin.migration')
             ->with('command-output', $output);
     }
 }

@@ -6,14 +6,14 @@
                 <p>Turn your site on/off, make sure no critical process still running.</p>
                 <div class="d-flex gap-3">
                     @if($isDown)
-                    <form action="{{ route('do.admin.site.up') }}" method="POST">
+                    <form action="{{ route('admin.site.up') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary @disabled(!$isDown)">Turn OFF Maintenance Mode</button>
                     </form>
                     @endif
                     
                     @if(!$isDown)
-                    <form action="{{ route('do.admin.site.down') }}" method="POST" id="formOff">
+                    <form action="{{ route('admin.site.down') }}" method="POST" id="formOff">
                         @csrf
                         <button type="submit" class="btn btn-danger @disabled($isDown)">Turn ON Maintenance Mode</button>
                     </form>

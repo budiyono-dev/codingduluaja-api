@@ -16,12 +16,12 @@ class AdminController
 {
     public function pageMigration()
     {
-        return view('page.admin.migration');
+        return view('admin.migration');
     }
 
     public function pageLogging()
     {
-        return view('page.admin.logging');
+        return view('admin.logging');
     }
 
     public function index(string $id)

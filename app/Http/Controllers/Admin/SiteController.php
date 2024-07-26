@@ -18,7 +18,7 @@ class SiteController extends Controller
     public function index()
     {
 
-        return view('page.admin.site', [
+        return view('admin.site', [
             'isDown' => $this->isSiteDown(),
         ]);
     }
@@ -52,7 +52,7 @@ class SiteController extends Controller
         $this->artisanHelper->up();
         Log::info('[SITE] up site');
 
-        return redirect()->route('page.admin.site')
+        return redirect()->route('admin.site')
             ->with('status', 'website is running|success');
     }
 }

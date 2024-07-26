@@ -8,8 +8,8 @@ Route::group([
     'controller' => DocController::class,
     'prefix' => '/app/doc',
 ], function () {
-    Route::get('/todolist', 'todolist')->name('page.doc.todolist');
-    Route::get('/wilayah/bps', 'wilayahBps')->name('page.doc.wilayahBps');
-    Route::get('/wilayah/dagri', 'wilayahDagri')->name('page.doc.wilayahDagri');
-    Route::get('/user', 'userApi')->name('page.doc.userApi');
+    Route::get('/todolist', 'todolist')->name('doc.todolist');
+    Route::get('/wilayah/bps', 'wilayahBps')->name('doc.wilayahBps');
+    Route::get('/wilayah/dagri', 'wilayahDagri')->name('doc.wilayahDagri');
+    Route::get('/user', 'userApi')->name('doc.userApi');
 });

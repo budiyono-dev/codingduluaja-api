@@ -102,12 +102,12 @@ class WilayahController extends Controller
             'listWilayah' => [],
             'actionTurunan' => [],
             'url_find' => $isBps
-                ? route('page.res.findBps', ['wilayah' => ':wil', 'id' => ':id'])
-                : route('page.res.findDagri', ['wilayah' => ':wil', 'id' => ':id']),
+                ? route('res.findBps', ['wilayah' => ':wil', 'id' => ':id'])
+                : route('res.findDagri', ['wilayah' => ':wil', 'id' => ':id']),
         ];
 
         $column = $isBps ? $this::COLUMN_BPS : $this::COLUMN_DAGRI;
-        $url = $isBps ? route('page.res.wilayahBps') : route('page.res.wilayahDagri');
+        $url = $isBps ? route('res.wilayahBps') : route('res.wilayahDagri');
 
         if (array_key_exists('search', $validated)) {
             $data = [...$data, ...$this->search($validated['search'], $column, $url, $validated, $isBps)];

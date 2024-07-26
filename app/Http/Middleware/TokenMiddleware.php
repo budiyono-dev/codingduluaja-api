@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\CdaContext;
 use App\Helper\ContextHelper;
 use App\Helper\JwtHelper;
 use App\Helper\ResponseHelper;
@@ -18,7 +17,7 @@ class TokenMiddleware
 
     public function handle(Request $req, Closure $next): Response
     {
-        if (!$req->hasHeader('Authorization')) {
+        if (! $req->hasHeader('Authorization')) {
             return $this->responseHelper->unAuthorize(ContextHelper::getRequestId());
         }
     }

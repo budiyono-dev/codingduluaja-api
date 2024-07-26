@@ -9,8 +9,5 @@ class TodolistServiceImpl implements TodolistService
         //
     }
 
-    public function getTodolist()
-    {
-        
-    }
+    public function getTodolist() {}
 }

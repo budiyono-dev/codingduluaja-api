@@ -9,7 +9,7 @@ class LoggingController extends Controller
 {
     public function index()
     {
-        return view('page.admin.logging');
+        return view('admin.logging');
     }
 
     public function doDownloadLogs()

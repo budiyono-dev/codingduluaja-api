@@ -33,7 +33,7 @@ class AppResourceController extends Controller
         ]);
         $this->appResourceService->addResource($this->authUserId(), $req['selResource']);
 
-        return redirect()->route('page.app.resource')->with('status', 'success add resource|success');
+        return redirect()->route('app.resource')->with('status', 'success add resource|success');
     }
 
     public function doDelete(Request $request)
@@ -43,6 +43,6 @@ class AppResourceController extends Controller
         ]);
         $this->appResourceService->deleteResouce($this->authUserId(), $req['txtId']);
 
-        return redirect()->route('page.app.resource')->with('status', 'success delete resource|success');
+        return redirect()->route('app.resource')->with('status', 'success delete resource|success');
     }
 }

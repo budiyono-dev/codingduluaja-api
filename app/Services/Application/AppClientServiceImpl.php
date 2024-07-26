@@ -44,7 +44,7 @@ class AppClientServiceImpl implements AppClientService
             abort(404);
         }
         if ($app->connectedResource->isNotEmpty()) {
-            throw WebException::appInUse('page.app.client');
+            throw WebException::appInUse('app.client');
         }
         $app->delete();
     }

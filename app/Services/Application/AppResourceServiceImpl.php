@@ -47,7 +47,7 @@ class AppResourceServiceImpl implements AppResourceService
             abort(404);
         }
         if ($cr->connectedApp->isNotEmpty()) {
-            throw WebException::resourceInUse('page.app.resource');
+            throw WebException::resourceInUse('app.resource');
         }
 
         $cr->delete();
