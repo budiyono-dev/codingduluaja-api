@@ -37,12 +37,7 @@ class AppManagerServiceImpl implements AppManagerService
         $expUnixTime = JwtHelper::expToUnixTime($exp->exp_value, ExpUnit::tryFrom($exp->unit));
         $param = new JwtParam($userId, $appClientId, $resourceId, $expUnixTime);
         $tokenKey = JwtHelper::createKey($param);
-        $token = JwtHelper::createToken($client->app_key, [
-            'sub' => $userId,
-            'appId' => $appClientId,
-            'resId' => $resourceId,
-            'exp' => $expUnixTime,
-        ]);
+        $token = JwtHelper::createToken($client->app_key, $param);
 
         ClientToken::create([
             'key' => $tokenKey,

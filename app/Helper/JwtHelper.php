@@ -6,11 +6,20 @@ use App\Constants\ExpUnit;
 use App\Dto\JwtParam;
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Log;
 
 class JwtHelper
 {
-    public static function createToken(string $key, array $payload): string
+    public static function createToken(string $key, JwtParam $param): string
     {
+        $payload = [
+            'sub' => $param->userId,
+            'appId' => $param->clientId,
+            'resId' => $param->resourceId,
+            'exp' => $param->exp,
+        ];
+
         return JWT::encode($payload, $key, 'HS256');
     }
 
@@ -21,7 +30,17 @@ class JwtHelper
 
     public static function unpackToken(string $key, string $token)
     {
-        return JWT::decode($token, new Key($key, 'HS256'));
+        $decoded = null;
+        try {
+            Log::error('[JWT-HELPER] unpack', ['token' => $token]);
+            $decoded = JWT::decode($token, new Key($key, 'HS256'));
+        } catch (\LogicException $e) {
+            Log::error('[JWT-HELPER] ERROR', ['msg' => $e->getMessage()]);
+        } catch (\UnexpectedValueException $e) {
+            Log::error('[JWT-HELPER] ERROR', ['msg' => $e->getMessage()]);
+        }
+
+        return $decoded;
     }
 
     public static function expToUnixTime(int $expValue, ExpUnit $unit): int
@@ -42,8 +61,19 @@ class JwtHelper
         return "{$userId};{$resId};{$appId}";
     }
 
+    public static function validateExp(int $exp)
+    {
+        return $exp > time();
+    }
+
     public static function extractIdentifier(string $identifier)
     {
-        return [$userId,$resId,$appId] = explode(';', $identifier);
+        [$userId,$resId,$appId] = explode(';', $identifier);
+
+        return [
+            'userId' => $userId,
+            'resId' => $resId,
+            'appId' => $appId,
+        ];
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Constants\ResponseCode;
-use App\Dto\TodolistDto;
 use App\Enums\MasterResourceType;
 use App\Exceptions\ApiException;
+use App\Helper\ResponseBuilder;
 use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
@@ -32,7 +32,7 @@ class ToDoListController extends Controller
 
     public function createTodoList(CreateTodolistRequest $req): JsonResponse
     {
-        Log::info("[TODOLIST-API] Create Todolist = {$this->getRequestId()}");
+        Log::info('[TODOLIST-API] Create Todolist');
         DB::transaction(function () use ($req) {
             $validatedReq = $req->validated();
             Todolist::create([
@@ -54,16 +54,12 @@ class ToDoListController extends Controller
     public function getTodoList(): JsonResponse
     {
         Log::info('[TODOLIST-API] get all todolist');
-        $data = $todolistService->getTodoList();
-        $data = Todolist::where('user_id', $this->getUserId())->get()->map(function (Todolist $t) {
-            return TodolistDto::fromTodolist($t);
-        });
 
-        return $this->responseHelper->success(
-            $this->getRequestId(),
+        return ResponseBuilder::success(
+            $this->apiReqId(),
             'Successfully Get Todolist',
             ResponseCode::SUCCESS_GET_DATA,
-            $data
+            $this->todolistService->getTodoList($this->apiUserId()),
         );
     }
 

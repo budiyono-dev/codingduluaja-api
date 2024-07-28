@@ -18,7 +18,6 @@ class MenuAccessMiddleware
             abort(403);
         }
 
-        // dd($request);
         return $next($request);
     }
 }

@@ -46,8 +46,7 @@ class MenuServiceImpl implements MenuService
             }
 
             foreach ($items as $item) {
-                // dd($req->routeIs($item->page.'.*'));
-                if ($req->routeIs($item->page.'.*')) {
+                if ($req->routeIs($item->page) || $req->routeIs($item->page.'.*')) {
                     return true;
                 }
             }

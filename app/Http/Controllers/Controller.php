@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\ContextHelper;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Context;
 
 abstract class Controller
 {
@@ -19,12 +19,17 @@ abstract class Controller
 
     public function apiUserId()
     {
-        $userId = Context::get('user_id');
+        $userId = ContextHelper::getUserId();
 
         if (is_null($userId)) {
             abort(401);
         }
 
         return $userId;
+    }
+
+    public function apiReqId()
+    {
+        return ContextHelper::getRequestId();
     }
 }
