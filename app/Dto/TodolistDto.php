@@ -17,15 +17,17 @@ class TodolistDto
 
     public static function fromTodolist(Todolist $todo)
     {
-        $todo = new TodolistDto(
+        // dd($todo);
+        $dto = new TodolistDto(
             $todo->id,
             $todo->date,
             $todo->name,
             $todo->description,
             $todo->created_at,
-            $todo->updated_at);
+            $todo->updated_at
+        );
 
-        return $$todo->toJSON();
+        return $dto->toJSON();
     }
 
     public function toJSON()
@@ -35,8 +37,8 @@ class TodolistDto
             'date' => $this->date,
             'name' => $this->name,
             'description' => $this->description,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
         ];
     }
 }

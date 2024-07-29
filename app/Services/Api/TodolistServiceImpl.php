@@ -2,6 +2,7 @@
 
 namespace App\Services\Api;
 
+use App\Dto\TodolistDto;
 use App\Models\Api\Todolist;
 use Carbon\Carbon;
 use Faker\Factory;
@@ -24,6 +25,16 @@ class TodolistServiceImpl implements TodolistService
     {
         return Todolist::where('user_id', $userId)
             ->get();
+    }
+
+    public function create(int $userId, $req)
+    {
+        Todolist::create([
+            'user_id' => userId,
+            'date' => Carbon::createFromFormat('d-m-Y', $req['date'])->format('Y-m-d'),
+            'name' => $req['name'],
+            'description' => $req['description'],
+        ]);
     }
 
     public function generateDummy(int $userId, int $qty)

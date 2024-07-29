@@ -23,28 +23,16 @@ use Illuminate\Support\Facades\Log;
 
 class ToDoListController extends Controller
 {
-    use ApiContext;
+    public function __construct(protected TodolistService $todolistService) {}
 
-    public function __construct(
-        protected ResponseHelper $responseHelper,
-        protected TodolistService $todolistService
-    ) {}
-
-    public function createTodoList(CreateTodolistRequest $req): JsonResponse
+    public function createTodoList(CreateTodolistRequest $request): JsonResponse
     {
         Log::info('[TODOLIST-API] Create Todolist');
-        DB::transaction(function () use ($req) {
-            $validatedReq = $req->validated();
-            Todolist::create([
-                'user_id' => $this->getUserId(),
-                'date' => Carbon::createFromFormat('d-m-Y', $validatedReq['date'])->format('Y-m-d'),
-                'name' => $validatedReq['name'],
-                'description' => $validatedReq['description'],
-            ]);
-        });
-
-        return $this->responseHelper->success(
-            $this->getRequestId(),
+        $req = $request->validated();
+        $this->todolistService->create($this->apiUserId(), $req);
+        
+        return ResponseBuilder::success(
+            $this->apiReqId(),
             'Data Inserted Successfully',
             ResponseCode::SUCCESS_CREATE_DATA,
             null
@@ -65,10 +53,10 @@ class ToDoListController extends Controller
 
     public function getDetail(int $id): JsonResponse
     {
-        Log::info("[TODOLIST-API] get detail = {$this->getRequestId()}");
+        Log::info("[TODOLIST-API] get detail");
 
-        return $this->responseHelper->success(
-            $this->getRequestId(),
+        return ResponseBuilder::success(
+            $this->apiReqId(),
             'Successfully Get Todolist',
             ResponseCode::SUCCESS_GET_DATA,
             Todolist::findOrFail($id)
@@ -95,8 +83,8 @@ class ToDoListController extends Controller
             $todo->save();
         });
 
-        return $this->responseHelper->success(
-            $this->getRequestId(),
+        return ResponseBuilder::success(
+            $this->apiReqId(),
             'Data Updated Successfully',
             ResponseCode::SUCCESS_EDIT_DATA,
             null
@@ -113,57 +101,11 @@ class ToDoListController extends Controller
             $todolist->delete();
         });
 
-        return $this->responseHelper->success(
-            $this->getRequestId(),
+        return ResponseBuilder::success(
+            $this->apiReqId(),
             'Data Deleted Successfully',
             ResponseCode::SUCCESS_DELETE_DATA,
             null
         );
-    }
-
-    public function generateDummy(DummyTodolistRequest $req)
-    {
-        DB::transaction(function () use ($req) {
-            $userId = Auth::user()->id;
-            $validatedReq = $req->validated();
-
-            if ($this->resourceService->isConnectedResource(MasterResourceType::TODOLIST)) {
-                abort(403);
-            }
-
-            $qty = $validatedReq['sel_qty'];
-            Log::info("[TODOLIST-API] create dummy data todolist for {$userId} qty : {$qty}");
-            $faker = Factory::create('id_ID');
-            for ($i = 0; $i < $qty; $i++) {
-                $now = Carbon::now();
-                $end = $now->copy()->addDays(14);
-                Todolist::create([
-                    'user_id' => $userId,
-                    'date' => $faker->dateTimeBetween($now, $end)->format('Y-m-d'),
-                    'name' => $faker->sentence(3),
-                    'description' => $faker->sentence(10),
-                ]);
-            }
-        });
-
-        return redirect()->route('res.todolist');
-    }
-
-    public function todolist()
-    {
-        $todolist = Todolist::where('user_id', Auth::user()->id)
-            ->paginate(\App\Helper\PaginationUtils::PAGE_SIZE)
-            ->through(function ($t) {
-                return collect([
-                    'id' => $t->id,
-                    'name' => $t->name,
-                    'description' => $t->description,
-                    'date' => $t->date,
-                    'date_fmt' => Carbon::createFromFormat('Y-m-d', $t->date)->format('d F Y'),
-                    'created_at' => $t->created_at->format('d/m/Y H:i'),
-                ]);
-            });
-
-        return view('res.todolist', ['todolist' => $todolist]);
     }
 }
