@@ -15,7 +15,7 @@ class MigrationController extends Controller
 
     public function index()
     {
-        return view('admin.migration');
+        return view('page.admin.migration');
     }
 
     public function doMigrate(Request $request)

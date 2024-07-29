@@ -18,7 +18,7 @@ class SiteController extends Controller
     public function index()
     {
 
-        return view('admin.site', [
+        return view('page.admin.site', [
             'isDown' => $this->isSiteDown(),
         ]);
     }
