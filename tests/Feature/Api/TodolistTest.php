@@ -10,6 +10,7 @@ class TodolistTest extends TestCase
     {
         $response = $this->get('/api/todolist');
 
+        $response->dump();
         $response->assertStatus(200);
     }
 }

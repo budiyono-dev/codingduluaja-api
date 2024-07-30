@@ -1,0 +1,83 @@
+### Provinsi BPS
+@tokenbps=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzA0MDMwNDUyLCJleHAiOjE3MDQyODk2NTJ9.iGi6tNg0bcQcRvfIszTYq0cNI5pbzys0ah11vRGFS2c=
+### GET List Provinsi
+GET http://localhost:8000/api/wilayah/bps/provinsi
+Authorization:  {{tokenbps}}
+content-type: application/json
+
+### GET Detail Provinsi
+GET http://localhost:8000/api/wilayah/bps/provinsi/3
+Authorization:  {{tokenbps}}
+content-type: application/json
+
+### GET List Kabupaten
+GET http://localhost:8000/api/wilayah/bps/kabupaten?provinsi_id=1
+Authorization:  {{tokenbps}}
+content-type: application/json
+
+### GET Detail Kabupaten
+GET http://localhost:8000/api/wilayah/bps/kabupaten/123
+Authorization:  {{tokenbps}}
+content-type: application/json
+
+### GET List Kabupaten
+GET http://localhost:8000/api/wilayah/bps/kecamatan?kabupaten_id=233
+Authorization:  {{tokenbps}}
+content-type: application/json
+
+### GET Detail Kabupaten
+GET http://localhost:8000/api/wilayah/bps/kecamatan/2500
+Authorization:  {{tokenbps}}
+content-type: application/json
+
+### GET List Kabupaten
+GET http://localhost:8000/api/wilayah/bps/desa?kecamatan_id=2430
+Authorization:  {{tokenbps}}
+content-type: application/json
+
+### GET Detail Kabupaten
+GET http://localhost:8000/api/wilayah/bps/desa/2500
+Authorization:  {{tokenbps}}
+content-type: application/json
+
+### Provinsi DAGRI
+@tokendagri=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pNPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzA0MDMwODMyLCJleHAiOjE3MDQyOTAwMzJ9.unBfXRvdRKhfS45K6SQ17+78dFKvFLOEfqCl77r4U3w=
+### GET List Provinsi
+GET http://localhost:8000/api/wilayah/dagri/provinsi
+Authorization:  {{tokendagri}}
+content-type: application/json
+
+### GET Detail Provinsi
+GET http://localhost:8000/api/wilayah/dagri/provinsi/34
+Authorization:  {{tokendagri}}
+content-type: application/json
+
+### GET List Kabupaten
+GET http://localhost:8000/api/wilayah/dagri/kabupaten?provinsi_id=13
+Authorization:  {{tokendagri}}
+content-type: application/json
+
+### GET Detail Kabupaten
+GET http://localhost:8000/api/wilayah/dagri/kabupaten/190
+Authorization:  {{tokendagri}}
+content-type: application/json
+
+### GET List Kecamatan
+GET http://localhost:8000/api/wilayah/dagri/kecamatan?kabupaten_id=189
+Authorization:  {{tokendagri}}
+content-type: application/json
+
+### GET Detail Kecamatan
+GET http://localhost:8000/api/wilayah/dagri/kecamatan/2643
+Authorization:  {{tokendagri}}
+content-type: application/json
+
+### GET List Desa
+GET http://localhost:8000/api/wilayah/dagri/desa?kecamatan_id=2643
+Authorization:  {{tokendagri}}
+content-type: application/json
+
+### GET Detail Desa
+GET http://localhost:8000/api/wilayah/dagri/desa/31723
+Authorization:  {{tokendagri}}
+content-type: application/json

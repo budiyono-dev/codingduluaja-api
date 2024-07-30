@@ -46,6 +46,7 @@ return new class extends Migration
 
             $table->foreign('client_resource_id')->references('id')->on(TableName::CLIENT_RESOURCE);
             $table->foreign('client_app_id')->references('id')->on(TableName::CLIENT_APP);
+            $table->unique(['client_resource_id', 'client_app_id']);
         });
 
         Schema::create(TableName::EXPIRED_TOKEN, function (Blueprint $table) {

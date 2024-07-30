@@ -1,0 +1,35 @@
+@token=b701b165acab22d4637fe1b1e0f04af4
+### RESOURCE
+### Todolist App 
+GET http://localhost:8000/api/todolist
+Authorization: {{token}} 
+
+### Get Single
+GET http://localhost:8000/api/todolist/1
+Authorization:  {{token}}
+
+### Delete todolist
+DELETE http://localhost:8000/api/todolist/4
+Authorization:  {{token}}
+
+### Create Todolist 
+POST http://localhost:8000/api/todolist
+Authorization:  {{token}}
+content-type: application/json
+
+{
+    "date": "24-12-2023",
+    "name": "watching footbal",
+    "description": "MU VS Liverpol"
+}
+
+### Edit Todolist
+PUT http://localhost:8000/api/todolist/111
+Authorization:  {{token}}
+content-type: application/json
+
+{
+    "date": "21-12-2023",
+    "name": "watching tv",
+    "description": "watching naruto"
+}
