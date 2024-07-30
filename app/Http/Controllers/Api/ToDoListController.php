@@ -3,21 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Constants\ResponseCode;
-use App\Enums\MasterResourceType;
 use App\Exceptions\ApiException;
 use App\Helper\ResponseBuilder;
-use App\Helper\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateTodolistRequest;
-use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Http\Requests\Api\EditTodolistRequest;
 use App\Models\Api\Todolist;
 use App\Services\Api\TodolistService;
-use App\Traits\ApiContext;
 use Carbon\Carbon;
-use Faker\Factory;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -30,7 +24,7 @@ class ToDoListController extends Controller
         Log::info('[TODOLIST-API] Create Todolist');
         $req = $request->validated();
         $this->todolistService->create($this->apiUserId(), $req);
-        
+
         return ResponseBuilder::success(
             $this->apiReqId(),
             'Data Inserted Successfully',
@@ -53,7 +47,7 @@ class ToDoListController extends Controller
 
     public function getDetail(int $id): JsonResponse
     {
-        Log::info("[TODOLIST-API] get detail");
+        Log::info('[TODOLIST-API] get detail');
 
         return ResponseBuilder::success(
             $this->apiReqId(),

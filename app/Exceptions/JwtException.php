@@ -3,8 +3,6 @@
 namespace App\Exceptions;
 
 use App\Constants\ResponseCode;
-use App\Helper\ResponseBuilder;
-use App\Helper\ContextHelper;
 
 class JwtException extends ApiException
 {
@@ -20,10 +18,10 @@ class JwtException extends ApiException
     {
         return parent::render();
     }
-    
+
     public function report()
     {
-       return parent::report(); 
+        return parent::report();
     }
 
     public static function unAuthorize()

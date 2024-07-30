@@ -87,7 +87,7 @@
 
         const errMsg = {!! json_encode($errors->all()) !!};
         if (errMsg.length > 0) {
-            showSimpleToast(errMsg.join('<br>'));
+            showSimpleToast(errMsg.join('<br>'), 'danger');
         }
 
         const statusMessage = {!! json_encode(session('status')) !!};

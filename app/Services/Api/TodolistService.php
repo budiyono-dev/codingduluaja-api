@@ -9,5 +9,6 @@ interface TodolistService
     public function getTodolistView(int $userId);
 
     public function generateDummy(int $userId, int $qty);
+
     public function create(int $userId, $req);
 }

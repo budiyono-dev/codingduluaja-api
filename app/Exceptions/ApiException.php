@@ -4,8 +4,8 @@ namespace App\Exceptions;
 
 use App\Helper\ContextHelper;
 use App\Helper\ResponseBuilder;
-use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ApiException extends Exception
@@ -21,10 +21,10 @@ class ApiException extends Exception
         $this->errorCode = $errorCode;
         parent::__construct($message, $code, $previous);
     }
-    
+
     public function report()
     {
-       Log::error('[API-EXCEPTION] ', ['message'=>$this->message]); 
+        Log::error('[API-EXCEPTION] ', ['message' => $this->message]);
     }
 
     public function render()
