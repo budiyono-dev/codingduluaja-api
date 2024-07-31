@@ -35,7 +35,7 @@
                                                     <input type="hidden" value="{{$ca->id}}" name="txtAppId">
                                                     <div class="row">
                                                         <div class="col-auto">
-                                                            <select class="form-select form-select-sm" name="duration">
+                                                            <select class="form-select form-select-sm" name="duration" required>
                                                                 <option selected value="">Select Token Duration..</option>
                                                                 @foreach ($expList as $key => $exp)
                                                                 <option value="{{ $exp->id }}">

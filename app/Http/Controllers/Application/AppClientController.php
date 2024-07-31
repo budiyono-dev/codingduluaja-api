@@ -67,6 +67,7 @@ class AppClientController extends Controller
     {
         $req = $request->validate(['txtId' => 'required|numeric']);
         $this->appClientService->deleteAppClient($this->authUserId(), $req['txtId']);
+
         return redirect()->route('app.client')->with('status', 'success delete app client|success');
     }
 }

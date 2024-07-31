@@ -1,8 +1,8 @@
 ### Provinsi BPS
-@tokenbps=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJhZG1pbiB0ZXN0IiwiaWF0IjoxNzA0MDMwNDUyLCJleHAiOjE3MDQyODk2NTJ9.iGi6tNg0bcQcRvfIszTYq0cNI5pbzys0ah11vRGFS2c=
+@tokenbps=952aef9f400d8c0ed1dbc45fed4fae4c
 ### GET List Provinsi
 GET http://localhost:8000/api/wilayah/bps/provinsi
-Authorization:  {{tokenbps}}
+Authorization: {{tokenbps}}
 content-type: application/json
 
 ### GET Detail Provinsi

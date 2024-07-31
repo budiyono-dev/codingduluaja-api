@@ -8,3 +8,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 require __DIR__.'/api/todolist.php';
+require __DIR__.'/api/wilayah.php';
