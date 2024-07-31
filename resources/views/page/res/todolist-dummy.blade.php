@@ -7,9 +7,8 @@
                 </div>
                 <div class="card-body">
                     <form name="genTodolist" id="genTodolist" action="{{ route('res.todolist.dummy') }}" method="POST" autocomplete="off">
-                        
                             @csrf
-                            <select class="form-select mb-3" name="sel_qty" id="selQty">
+                            <select class="form-select mb-3" name="sel_qty" id="selQty" required>
                                 <option selected value="">-- Select Qty --</option>
                                 <option value="1">1</option>
                                 <option value="5">5</option>

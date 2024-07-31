@@ -15,7 +15,7 @@ class ConnectedAppRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'selApp' => 'required|numeric|exists:client_app,id',
+            'application' => 'required|numeric|exists:client_app,id',
             'txtResourceId' => 'required|numeric|exists:client_resource,id',
         ];
     }

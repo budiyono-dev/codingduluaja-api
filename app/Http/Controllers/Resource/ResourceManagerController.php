@@ -26,7 +26,7 @@ class ResourceManagerController extends Controller
         $req = $request->validated();
         $this->todolistService->generateDummy($this->authUserId(), $req['sel_qty']);
 
-        return redirect()->route('res.todolist');
+        return redirect()->route('res.todolist')->with('status', 'success generate dummy data|success');
     }
 
     public function pageDummy()

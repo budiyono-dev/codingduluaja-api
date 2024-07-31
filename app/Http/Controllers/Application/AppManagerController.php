@@ -37,7 +37,7 @@ class AppManagerController extends Controller
     public function doConnect(ConnectedAppRequest $request)
     {
         $req = $request->validated();
-        $this->appResourceService->connectClient($this->authUserId(), $req['txtResourceId'], $req['selApp']);
+        $this->appResourceService->connectClient($this->authUserId(), $req['txtResourceId'], $req['application']);
 
         return redirect()->route('app.manager')->with('status', 'Success Connect Client|success');
     }
@@ -58,7 +58,7 @@ class AppManagerController extends Controller
             $this->authUserId(),
             $req['txtResId'],
             $req['txtAppId'],
-            $req['selExp']);
+            $req['duration']);
 
         return redirect()->route('app.manager')->with('token', $token);
     }

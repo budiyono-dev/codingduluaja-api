@@ -10,11 +10,11 @@
                         @csrf
                         <div class="mb-3">
                             <label for="txtName" class="form-label">Application Name</label>
-                            <input type="text" class="form-control" id="txtName" name="txtName">
+                            <input type="text" class="form-control" id="txtName" name="application_name" required>
                         </div>
                         <div class="mb-3">
                             <label for="txtDescription" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="txtDescription" name="txtDescription">
+                            <input type="text" class="form-control" id="txtDescription" name="description" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>

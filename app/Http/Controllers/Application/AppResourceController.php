@@ -29,9 +29,9 @@ class AppResourceController extends Controller
     public function doCreate(Request $request)
     {
         $req = $request->validate([
-            'selResource' => 'required|numeric|exists:master_resource,id',
+            'resource' => 'required|numeric|exists:master_resource,id',
         ]);
-        $this->appResourceService->addResource($this->authUserId(), $req['selResource']);
+        $this->appResourceService->addResource($this->authUserId(), $req['resource']);
 
         return redirect()->route('app.resource')->with('status', 'success add resource|success');
     }

@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\Exceptions\JwtException;
 use App\Helper\ContextHelper;
 use App\Helper\JwtHelper;
-use App\Helper\ResponseHelper;
 use App\Models\ClientApp;
 use App\Models\ClientToken;
 use Closure;
@@ -14,10 +13,6 @@ use Illuminate\Support\Facades\Log;
 
 class TokenMiddleware
 {
-    public function __construct(
-        protected JwtHelper $jwtHelper,
-        protected ResponseHelper $responseHelper) {}
-
     public function handle(Request $req, Closure $next)
     {
         if (! $req->hasHeader('Authorization')) {
@@ -36,10 +31,10 @@ class TokenMiddleware
             throw JwtException::unAuthorize();
         }
 
-        ContextHelper::initTokenContext(JWTHelper::extractIdentifier($cToken->identifier));
+        ContextHelper::initTokenContext(JwtHelper::extractIdentifier($cToken->identifier));
         $client = ClientApp::find(ContextHelper::getAppId());
 
-        $decodeToken = JWTHelper::unpackToken($client->app_key, $cToken->value);
+        $decodeToken = JwtHelper::unpackToken($client->app_key, $cToken->value);
         if (is_null($decodeToken)) {
             Log::error('[TOKEN-MIDDLEWARE] invalid token');
 
@@ -48,7 +43,7 @@ class TokenMiddleware
 
         Log::info('[TOKEN-MIDDLEWARE] decode token', ['jwt' => $decodeToken]);
 
-        if (! JWTHelper::validateExp($decodeToken->exp)) {
+        if (! JwtHelper::validateExp($decodeToken->exp)) {
             Log::error('[TOKEN-MIDDLEWARE] token expired');
 
             throw JwtException::unAuthorize();

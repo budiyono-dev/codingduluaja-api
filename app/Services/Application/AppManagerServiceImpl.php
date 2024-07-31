@@ -59,6 +59,12 @@ class AppManagerServiceImpl implements AppManagerService
             throw WebException::tokenNotFound('app.manager');
         }
 
+        if (! JwtHelper::validateExp($cToken->exp)) {
+            $cToken->is_active = false;
+            $cToken->save();
+            throw WebException::tokenNotFound('app.manager');
+        }
+
         return $cToken->key;
     }
 

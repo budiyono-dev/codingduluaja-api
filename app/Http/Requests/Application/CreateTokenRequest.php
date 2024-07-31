@@ -16,7 +16,7 @@ class CreateTokenRequest extends FormRequest
         return [
             'txtAppId' => 'required|numeric|exists:client_app,id',
             'txtResId' => 'required|numeric|exists:client_resource,id',
-            'selExp' => 'required|numeric|exists:expired_token,id',
+            'duration' => 'required|numeric|exists:expired_token,id',
         ];
     }
 }

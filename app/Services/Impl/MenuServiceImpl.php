@@ -35,6 +35,10 @@ class MenuServiceImpl implements MenuService
     public function isUserEligible(Request $req)
     {
         $listMenu = Session::get('LIST_MENU'.auth()->user()->id);
+        if (is_null($listMenu)) {
+            $listMenu = $this->getEligibleMenu();
+            Session::put('LIST_MENU'.auth()->user()->id, $listMenu);
+        }
         if (is_null($listMenu) || empty($listMenu)) {
             return false;
         }

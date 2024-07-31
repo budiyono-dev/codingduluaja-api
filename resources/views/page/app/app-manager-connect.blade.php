@@ -9,8 +9,8 @@
                     <form action="{{ route('app.manager.doConnect') }}" method="POST">
                         @csrf
                         <input type="hidden" value="{{$resourceId}}" name="txtResourceId">
-                        <select class="form-select mb-3" name="selApp">
-                            <option selected value="">-- Select Resource --</option>
+                        <select class="form-select mb-3" name="application" required>
+                            <option selected value="">-- Select Application --</option>
                             @foreach ($listClient as $c)
                             <option value="{{ $c->id }}">{{ $c->name }}</option>
                             @endforeach

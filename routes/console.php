@@ -9,10 +9,10 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command(ClientTokenHouseKeeping::class)->everyMinute()
+Schedule::command(ClientTokenHouseKeeping::class)->dailyAt('01:30')
     ->onSuccess(function () {
-        info('[Schedule] success run schedule token house keeping.');
+        info('[token.SCHEDULE] SUCCESS run schedule token house keeping.');
     })
     ->onFailure(function () {
-        info('[Schedule] failed run schedule token house keeping.');
+        info('[token.SCHEDULE] FAILED run schedule token house keeping.');
     });

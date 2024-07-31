@@ -15,6 +15,8 @@ use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
 use App\Services\Api\TodolistService;
 use App\Services\Api\TodolistServiceImpl;
+use App\Services\Api\WilayahService;
+use App\Services\Api\WilayahServiceImpl;
 use App\Services\Application\AppClientService;
 use App\Services\Application\AppClientServiceImpl;
 use App\Services\Application\AppManagerService;
@@ -49,6 +51,8 @@ class AppServiceProvider extends ServiceProvider
 
         // api services
         $this->app->singleton(TodolistService::class, TodolistServiceImpl::class);
+        $this->app->singleton(WilayahService::class, WilayahServiceImpl::class);
+
     }
 
     public function boot(): void

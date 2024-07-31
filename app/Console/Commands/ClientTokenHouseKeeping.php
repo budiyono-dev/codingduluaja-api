@@ -13,18 +13,9 @@ class ClientTokenHouseKeeping extends Command
 
     public function handle()
     {
-        info('[Schedule] house keeping, clear expired tokens and inactive tokens');
-        $inActiveToken = ClientToken::select('id')->where('is_active', false)->get();
-        ClientToken::query()->whereI
-        // $ct = ClientToken::select(['id','exp', 'is_active'])->get()->filter(function (ClientToken $token) {
-        //     return ! $token->is_active || $token->exp < time();
-        // })->all()->pluck('id');
-        dd($inActiveToken);
-        // if ($ct->isEmpty()) {
-        //     info('Schedule');
-
-        //     return;
-        //     $ct->delete();
-        // }
+        info('[token.SCHEDULE] house keeping start, clear expired tokens and inactive tokens');
+        ClientToken::where('is_active', false)->delete();
+        ClientToken::where('exp', '<', time())->delete();
+        info('[token.SCHEDULE] house keeping finish, clear expired tokens and inactive tokens');
     }
 }

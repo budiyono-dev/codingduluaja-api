@@ -1,10 +1,6 @@
 <?php
 
-//use App\Http\Controllers\Api\ToDoListController;
-//use App\Http\Controllers\Api\UserApiController;
-//use App\Http\Controllers\Api\WilayahController;
 use App\Http\Controllers\Resource\ResourceManagerController;
-//use App\Http\Controllers\DocController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -16,9 +12,12 @@ Route::group([
     Route::get('/todolist/dummy', 'pageDummy')->name('res.todolist.pageDummy');
     Route::post('/todolist/dummy', 'todolistDummy')->name('res.todolist.dummy');
 
+    Route::get('/wilayah/bps', 'indexBps')->name('res.wilayahBps');
+    Route::get('/wilayah/dagri', 'indexDagri')->name('res.wilayahDagri');
+
     Route::controller(WilayahController::class)->group(function () {
-        Route::get('/wilayah/bps', 'indexBps')->name('res.wilayahBps');
-        Route::get('/wilayah/dagri', 'indexDagri')->name('res.wilayahDagri');
+        // Route::get('/wilayah/bps', 'indexBps')->name('res.wilayahBps');
+        // Route::get('/wilayah/dagri', 'indexDagri')->name('res.wilayahDagri');
         Route::get('/wilayah/bps/{wilayah}/{id}', 'findBps')->name('res.findBps');
         Route::get('/wilayah/dagri/{wilayah}/{id}', 'findDagri')->name('res.findDagri');
     });

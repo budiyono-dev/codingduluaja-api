@@ -15,8 +15,8 @@ class CreateAppClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'txtName' => 'required|string|min:3',
-            'txtDescription' => 'required|string|min:3',
+            'application_name' => 'required|string|min:3',
+            'description' => 'required|string|min:3',
         ];
     }
 }

@@ -33,8 +33,8 @@ class AppClientController extends Controller
         $this->appClientService
             ->createAppClient(
                 $this->authUserId(),
-                $req['txtName'],
-                $req['txtDescription']
+                $req['application_name'],
+                $req['description']
             );
 
         return redirect()->route('app.client')->with('status', 'success create app client|success');
@@ -48,8 +48,8 @@ class AppClientController extends Controller
             ->editAppClient(
                 $this->authUserId(),
                 $req['txtId'],
-                $req['txtName'],
-                $req['txtDescription']
+                $req['application_name'],
+                $req['description']
             );
 
         return redirect()->route('app.client')->with('status', 'success edit app client|success');
@@ -66,12 +66,7 @@ class AppClientController extends Controller
     public function doDelete(Request $request)
     {
         $req = $request->validate(['txtId' => 'required|numeric']);
-        //        try {
         $this->appClientService->deleteAppClient($this->authUserId(), $req['txtId']);
-        //        } catch (WebException $e) {
-        //            return redirect()->route('app.client')->with('status', "{$e->getMessage()}|danger");
-        //        }
-
         return redirect()->route('app.client')->with('status', 'success delete app client|success');
     }
 }

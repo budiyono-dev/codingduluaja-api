@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <form action="{{ route('app.resource.doCreate') }}" method="POST">
                         @csrf
-                        <select class="form-select mb-3" name="selResource">
+                        <select class="form-select mb-3" name="resource" required>
                             <option selected value="">-- Select Resource --</option>
                             @foreach ($masterResource as $mRes)
                             <option value="{{ $mRes->id }}">{{ $mRes->name }}</option>
