@@ -4,7 +4,7 @@ namespace Tests\Feature\Api;
 
 use Tests\TestCase;
 
-class TodolistTest extends TestCase
+class WilayahTest extends TestCase
 {
     public function test_login_screen_can_be_rendered(): void
     {
