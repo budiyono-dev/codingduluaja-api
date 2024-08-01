@@ -25,10 +25,10 @@ class AppResourceServiceImpl implements AppResourceService
 
     public function addResource(int $userId, int $masterResource)
     {
-        $cr = new ClientResource;
-        $cr->user_id = $userId;
-        $cr->master_resource_id = $masterResource;
-        $cr->save();
+        return ClientResource::create([
+            'user_id' => $userId,
+            'master_resource_id' => $masterResource,
+        ]);
     }
 
     public function getClientResourceByUserId(int $userId)
