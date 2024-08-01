@@ -32,7 +32,7 @@ class WilayahApiController extends Controller
     }
 
     // {id, kode_bps, nama_bps}
-    public function getProvinsiBps(string $id): JsonResponse
+    public function getProvinsiBps(int $id): JsonResponse
     {
         return $this->formatResposne(
             'Successfully Get Provinsi',
@@ -40,7 +40,7 @@ class WilayahApiController extends Controller
         );
     }
 
-    public function getProvinsiDagri(string $id): JsonResponse
+    public function getProvinsiDagri(int $id): JsonResponse
     {
         return $this->formatResposne(
             'Successfully Get Provinsi',
@@ -61,13 +61,12 @@ class WilayahApiController extends Controller
     {
         return $this->formatResposne(
             'Successfully Get List Kabupaten',
-            ResponseCode::SUCCESS_GET_DATA,
             $this->wilayahService->getListKabupaten($this->validateRequiredField($req, 'provinsi_id'), false)
         );
     }
 
     // {id, kode_bps, nama_bps}
-    public function getKabupatenBps(string $id): JsonResponse
+    public function getKabupatenBps(int $id): JsonResponse
     {
         return $this->formatResposne(
             'Successfully Get Kabupaten',
@@ -75,7 +74,7 @@ class WilayahApiController extends Controller
         );
     }
 
-    public function getKabupatenDagri(string $id): JsonResponse
+    public function getKabupatenDagri(int $id): JsonResponse
     {
         return $this->formatResposne(
             'Successfully Get Kabupaten',
@@ -88,7 +87,7 @@ class WilayahApiController extends Controller
     {
         return $this->formatResposne(
             'Successfully Get List Kecamatan',
-            $this->wilayahService->getListKecamatan($this->$this->validateRequiredField($req, 'kabupaten_id'), true)
+            $this->wilayahService->getListKecamatan($this->validateRequiredField($req, 'kabupaten_id'), true)
         );
     }
 
@@ -96,12 +95,12 @@ class WilayahApiController extends Controller
     {
         return $this->formatResposne(
             'Successfully Get List Kecamatan',
-            $this->wilayahService->getListKecamatan($this->$this->validateRequiredField($req, 'kabupaten_id'), false)
+            $this->wilayahService->getListKecamatan($this->validateRequiredField($req, 'kabupaten_id'), false)
         );
     }
 
     // {id, kode_bps, nama_bps}
-    public function getKecamatanBps(string $id): JsonResponse
+    public function getKecamatanBps(int $id): JsonResponse
     {
         return $this->formatResposne(
             'Successfully Get Kecamatan',
@@ -109,7 +108,7 @@ class WilayahApiController extends Controller
         );
     }
 
-    public function getKecamatanDagri(string $id): JsonResponse
+    public function getKecamatanDagri(int $id): JsonResponse
     {
         return $this->formatResposne(
             'Successfully Get Kecamatan',
@@ -136,7 +135,7 @@ class WilayahApiController extends Controller
     }
 
     // {id, kode_bps, nama_bps}
-    public function getDesaBps(string $id): JsonResponse
+    public function getDesaBps(int $id): JsonResponse
     {
         return $this->formatResposne(
             'Successfully Get Desa',
@@ -145,7 +144,7 @@ class WilayahApiController extends Controller
         );
     }
 
-    public function getDesaDagri(string $id): JsonResponse
+    public function getDesaDagri(int $id): JsonResponse
     {
         return $this->formatResposne(
             'Successfully Get Desa',
@@ -153,11 +152,11 @@ class WilayahApiController extends Controller
         );
     }
 
-    private function validateRequiredField(Request $req, string $field): string
+    private function validateRequiredField(Request $req, string $field): int
     {
-        $validated = $req->validate([$field => 'required|string']);
+        $validated = $req->validate([$field => 'required|int']);
 
-        return $validated['kabupaten_id'];
+        return $validated[$field];
     }
 
     private function formatResposne(string $message, mixed $data)

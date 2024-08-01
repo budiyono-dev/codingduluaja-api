@@ -64,37 +64,37 @@ class WilayahServiceImpl implements WilayahService
         return Provinsi::all($this->columnList($isBps));
     }
 
-    public function getProvinsi(string $id, bool $isBps)
+    public function getProvinsi(int $id, bool $isBps)
     {
         return Provinsi::findOrFail($id, $this->columnGet($isBps));
     }
 
-    public function getListKabupaten(string $provinsiId, bool $isBps)
+    public function getListKabupaten(int $provinsiId, bool $isBps)
     {
         return Kabupaten::select($this->columnList($isBps))->where('provinsi_id', $provinsiId)->get();
     }
 
-    public function getKabupaten(string $id, bool $isBps)
+    public function getKabupaten(int $id, bool $isBps)
     {
         return Kabupaten::findOrFail($id, $this->columnGet($isBps));
     }
 
-    public function getListKecamatan(string $kabupatenId, bool $isBps)
+    public function getListKecamatan(int $kabupatenId, bool $isBps)
     {
         return Kecamatan::select($this->columnList($isBps))->where('kabupaten_id', $kabupatenId)->get();
     }
 
-    public function getKecamatan(string $id, bool $isBps)
+    public function getKecamatan(int $id, bool $isBps)
     {
         return Kecamatan::findOrFail($id, $this->columnGet($isBps));
     }
 
-    public function getListDesa(string $kecamatanId, bool $isBps)
+    public function getListDesa(int $kecamatanId, bool $isBps)
     {
         return Desa::select($this->columnList($isBps))->where('kecamatan_id', $kecamatanId)->get();
     }
 
-    public function getDesa(string $id, bool $isBps)
+    public function getDesa(int $id, bool $isBps)
     {
         return Desa::findOrFail($id, $this->columnGet($isBps));
     }

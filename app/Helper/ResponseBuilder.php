@@ -11,7 +11,7 @@ class ResponseBuilder
         string $requestId,
         string $message,
         string $responseCode,
-        object|array|null $data
+        mixed $data
     ): JsonResponse {
         return self::buildJson($requestId, true, $message, $responseCode, 200, $data);
     }
@@ -36,7 +36,7 @@ class ResponseBuilder
         string $responseCode,
         string $message,
         int $httpStatusCode,
-        object|array|null $data
+        mixed $data
     ): JsonResponse {
         return self::buildJson($requestId, false, $message, $responseCode, $httpStatusCode, $data);
     }
@@ -68,7 +68,7 @@ class ResponseBuilder
         string $message,
         string $responseCode,
         int $httpStatusCode,
-        object|array|null $data
+        mixed $data
     ): JsonResponse {
         return response()->json([
             'meta' => [
