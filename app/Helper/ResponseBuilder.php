@@ -26,9 +26,9 @@ class ResponseBuilder
         return self::buildJson($requestId, false, $message, $responseCode, 404, null);
     }
 
-    public static function methodNotAllowed($data): JsonResponse
+    public static function methodNotAllowed(): JsonResponse
     {
-        return self::buildJson(null, false, 'Method Not Allowed', ResponseCode::METHOD_NOT_ALLOWED, 495, $data);
+        return self::buildJson(null, false, 'Method Not Allowed', ResponseCode::METHOD_NOT_ALLOWED, 405, null);
     }
 
     public static function error(
@@ -46,9 +46,9 @@ class ResponseBuilder
         return self::error($requestId, $responseCode, 'Validation Error', 400, $errorMessage);
     }
 
-    public static function serverError(?string $requestId, object|array $data): JsonResponse
+    public static function serverError(?string $requestId): JsonResponse
     {
-        return self::error($requestId, ResponseCode::INTERNAL_SERVER_ERROR, 'internal server error', 500, $data);
+        return self::error($requestId, ResponseCode::INTERNAL_SERVER_ERROR, 'internal server error', 500, null);
     }
 
     public static function unAuthorize(string $requestId): JsonResponse

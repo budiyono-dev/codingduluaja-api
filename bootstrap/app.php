@@ -1,5 +1,7 @@
 <?php
 
+use App\Helper\ContextHelper;
+use App\Helper\ResponseBuilder;
 use App\Http\Middleware\IsAdminMiddleware;
 use App\Http\Middleware\MenuAccessMiddleware;
 use App\Http\Middleware\RequestInfoMiddleware;
@@ -8,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -25,12 +28,19 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (Exception $e, $request) {
-            if (config('app.enable_api_debug_response') && $request->is('api/*')) {
-                $reqId = $this->getRequestId();
-                Log::info("[HANDLER] error 500 : {$e->getMessage()}, request_id : {$reqId}");
+        $exceptions->render(function (MethodNotAllowedHttpException $e, $request) {
+            if (! config('app.api_debug') && $request->is('api/*')) {
+                Log::error('[HANDLER] method not allowed ');
 
-                return $this->responseHelper->serverError($reqId, ['error' => 'System Error']);
+                return ResponseBuilder::methodNotAllowed();
+            }
+        });
+
+        $exceptions->render(function (Exception $e, $request) {
+            if (! config('app.api_debug') && $request->is('api/*')) {
+                Log::error("[HANDLER] error 500 : {$e->getMessage()}");
+
+                return ResponseBuilder::serverError(ContextHelper::getRequestId());
             }
         });
     })->create();

@@ -32,12 +32,12 @@ class JwtHelper
     {
         $decoded = null;
         try {
-            Log::error('[JWT-HELPER] unpack', ['token' => $token]);
+            Log::debug('[jwt.HELPER] unpack', ['token' => $token]);
             $decoded = JWT::decode($token, new Key($key, 'HS256'));
         } catch (\LogicException $e) {
-            Log::error('[JWT-HELPER] ERROR', ['msg' => $e->getMessage()]);
+            Log::error('[jwt.HELPER] ERROR', ['msg' => $e->getMessage()]);
         } catch (\UnexpectedValueException $e) {
-            Log::error('[JWT-HELPER] ERROR', ['msg' => $e->getMessage()]);
+            Log::error('[jwt.HELPER] ERROR', ['msg' => $e->getMessage()]);
         }
 
         return $decoded;

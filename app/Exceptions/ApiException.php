@@ -24,7 +24,7 @@ class ApiException extends Exception
 
     public function report()
     {
-        Log::error('[API-EXCEPTION] ', ['message' => $this->message]);
+        Log::error('[api.EXCEPTION] ', ['message' => $this->message]);
     }
 
     public function render()
