@@ -41,9 +41,9 @@ class ResponseBuilder
         return self::buildJson($requestId, false, $message, $responseCode, $httpStatusCode, $data);
     }
 
-    public static function validationError(string $requestId, string $responseCode, array $errorMessage): JsonResponse
+    public static function validationError(string $requestId, array $errorMessage): JsonResponse
     {
-        return self::error($requestId, $responseCode, 'Validation Error', 400, $errorMessage);
+        return self::error($requestId, ResponseCode::FORM_VALIDATION, 'Validation Error', 400, $errorMessage);
     }
 
     public static function serverError(?string $requestId): JsonResponse

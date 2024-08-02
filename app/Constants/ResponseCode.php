@@ -33,4 +33,7 @@ class ResponseCode
     const FORBIDDEN = 'CDA-A-002';
 
     const METHOD_NOT_ALLOWED = 'CDA-A-003';
+
+    // general
+    const NOT_FOUND = 'CDA-G-001';
 }

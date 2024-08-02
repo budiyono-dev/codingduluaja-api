@@ -17,7 +17,6 @@ class TodolistDto
 
     public static function fromTodolist(Todolist $todo)
     {
-        // dd($todo);
         $dto = new TodolistDto(
             $todo->id,
             $todo->date,

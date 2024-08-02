@@ -2,13 +2,10 @@
 
 namespace Tests\Feature\Api;
 
-use App\Services\Application\AppClientService;
-use App\Services\Application\AppClientServiceImpl;
-use App\Services\Application\AppManagerService;
-use App\Services\Application\AppManagerServiceImpl;
-use App\Services\Application\AppResourceService;
-use App\Services\Application\AppResourceServiceImpl;
+use App\Models\Api\Todolist;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class TodolistTest extends TestCase
@@ -17,22 +14,41 @@ class TodolistTest extends TestCase
 
     protected string $token = '';
 
+    protected string $dayNow = '';
+
+    protected string $minusDay = '';
+
+    protected string $plusDay = '';
+
     protected function setUp(): void
     {
         parent::setUp();
-        $userId = 2;
-        $expId = 1;
-        $this->app->singleton(AppClientService::class, AppClientServiceImpl::class);
-        $this->app->singleton(AppResourceService::class, AppResourceServiceImpl::class);
-        $this->app->singleton(AppManagerService::class, AppManagerServiceImpl::class);
+        $this->token = $this->createResourceToken(1);
+        $this->dayNow = Carbon::now()->format('Y-m-d');
+        $this->minusDay = Carbon::now()->subDays(2)->format('Y-m-d');
+        $this->plusDay = Carbon::now()->addDays(2)->format('Y-m-d');
+    }
 
-        $appClientService = $this->app->make(AppClientService::class);
-        $appResourceService = $this->app->make(AppResourceService::class);
-        $appManagerService = $this->app->make(AppManagerService::class);
+    private function createDummyTodo()
+    {
+        return Todolist::create([
+            'user_id' => 2,
+            'date' => Carbon::now()->format('Y-m-d'),
+            'name' => 'Berenang',
+            'description' => 'Terus Berenang - Terus Berenang',
+        ]);
+    }
 
-        $appClient = $appClientService->createAppClient($userId, 'todoclient', 'testing client todolist');
-        $appResource = $appResourceService->addResource($userId, 1);
-        $this->token = $appManagerService->createToken($userId, $appResource->id, $appClient->id, $expId);
+    public function testCreateTodolistBackDate(): void
+    {
+        $response = $this->withHeaders([
+            'Authorization' => $this->token,
+        ])->post('/api/todolist', [
+            'date' => $this->minusDay,
+            'name' => 'watching football',
+            'description' => 'MU VS Liverpol',
+        ]);
+        $response->assertBadRequest();
     }
 
     public function testCreateTodolist(): void
@@ -40,13 +56,78 @@ class TodolistTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => $this->token,
         ])->post('/api/todolist', [
-            'date' => '24-12-2023',
-            'name' => 'watching footbal',
+            'date' => $this->dayNow,
+            'name' => 'watching football',
             'description' => 'MU VS Liverpol',
         ]);
-
-        $response->dump();
         $response->assertOk();
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has('meta')
+            ->has('data', fn (AssertableJson $json) => $json->where('name', 'watching football')->etc())
+        );
+    }
 
+    public function testGetListTodolist(): void
+    {
+        $s = $this->createDummyTodo();
+
+        $response = $this->withHeaders([
+            'Authorization' => $this->token,
+        ])->get('/api/todolist');
+
+        $response->assertOk();
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has('meta')
+            ->has('data')
+            ->has('data.0', fn (AssertableJson $json) => $json->where('name', 'Berenang')->etc())
+        );
+    }
+
+    public function testGetTodolist(): void
+    {
+        $s = $this->createDummyTodo();
+        $response = $this->withHeaders([
+            'Authorization' => $this->token,
+        ])->get('/api/todolist/'.$s->id);
+
+        $response->assertOk();
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has('meta')
+            ->has('data', fn (AssertableJson $json) => $json->where('name', 'Berenang')->etc())
+        );
+    }
+
+    public function testDeleteTodolist(): void
+    {
+        $s = $this->createDummyTodo();
+
+        $response = $this->withHeaders([
+            'Authorization' => $this->token,
+        ])->delete('/api/todolist/'.$s->id);
+
+        $response->assertOk();
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has('meta')
+            ->has('data')
+        );
+    }
+
+    public function testEditTodolist(): void
+    {
+        $s = $this->createDummyTodo();
+
+        $response = $this->withHeaders([
+            'Authorization' => $this->token,
+        ])->put('/api/todolist/'.$s->id, [
+            'date' => $this->plusDay,
+            'name' => 'Maraton One Piece',
+            'description' => 'Maraton One Piece',
+        ]);
+		
+        $response->assertOk();
+        $response->assertJson(fn (AssertableJson $json) => $json
+            ->has('meta')
+            ->has('data', fn (AssertableJson $json) => $json->where('name', 'Maraton One Piece')->etc())
+        );
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -33,6 +34,15 @@ return Application::configure(basePath: dirname(__DIR__))
                 Log::error('[HANDLER] method not allowed ');
 
                 return ResponseBuilder::methodNotAllowed();
+            }
+        });
+
+        $exceptions->render(function (ValidationException $e, $request) {
+            if (! config('app.api_debug') && $request->is('api/*')) {
+                Log::error("[HANDLER] Validation Exception{$e->getMessage()} ");
+
+                return ResponseBuilder::validationError(
+                    ContextHelper::getRequestId(), $e->validator->errors()->all());
             }
         });
 

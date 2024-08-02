@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Constants\ResponseCode;
 use App\Helper\ContextHelper;
 use App\Helper\ResponseBuilder;
 use Exception;
@@ -25,6 +26,16 @@ class ApiException extends Exception
     public function report()
     {
         Log::error('[api.EXCEPTION] ', ['message' => $this->message]);
+    }
+
+    public static function notFound()
+    {
+        return new static(404, ResponseCode::NOT_FOUND, 'Data Not Found');
+    }
+
+    public static function forbidden(string $msg = 'Not Allowed Action')
+    {
+        return new static(403, ResponseCode::FORBIDDEN, $msg);
     }
 
     public function render()

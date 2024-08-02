@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\ContextHelper;
+use App\Helper\ResponseBuilder;
 use Illuminate\Support\Facades\Auth;
 
 abstract class Controller
@@ -31,5 +32,10 @@ abstract class Controller
     public function apiReqId()
     {
         return ContextHelper::getRequestId();
+    }
+
+    public function apiSuccess(string $msg, string $code, mixed $data = null)
+    {
+        return ResponseBuilder::success(ContextHelper::getRequestId(), $msg, $code, $data);
     }
 }

@@ -18,12 +18,12 @@ class RequestInfoMiddleware
             'path' => ContextHelper::getPath(),
             'ip' => ContextHelper::getIp(),
         ];
-        Log::info('[REQUEST INFO] requqest :', $log);
+        Log::info('[info.MIDDLEWARE] request', $log);
 
         $res = $next($req);
 
         $log['status'] = $res->getStatusCode();
-        Log::info('[RESPONSE INFO] response : ', $log);
+        Log::info('[info.MIDDLEWARE] response', $log);
 
         return $res;
     }
