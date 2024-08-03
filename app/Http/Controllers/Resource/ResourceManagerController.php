@@ -33,11 +33,6 @@ class ResourceManagerController extends Controller
         return redirect()->route('res.todolist')->with('status', 'success generate dummy data|success');
     }
 
-    public function pageDummy()
-    {
-        return view('page.res.todolist-dummy');
-    }
-
     public function indexBps()
     {
         return view('page.res.wilayah', [
@@ -81,7 +76,7 @@ class ResourceManagerController extends Controller
     public function indexDagri()
     {
         return view('page.res.wilayah', [
-            'title' => 'Wilayah BPS',
+            'title' => 'Wilayah Dagri',
             'listWilayah' => $this->wilayahService->getProvinsiView(false),
             'action' => route('res.wilayahDagri.kabupaten', ['id' => ':id']),
             'text' => 'Show Kabupaten',
@@ -91,7 +86,7 @@ class ResourceManagerController extends Controller
     public function kabupatenDagri(int $id)
     {
         return view('page.res.wilayah', [
-            'title' => 'Wilayah BPS',
+            'title' => 'Wilayah Dagri',
             'listWilayah' => $this->wilayahService->getKabupatenView(false, $id),
             'action' => route('res.wilayahDagri.kecamatan', ['id' => ':id']),
             'text' => 'Show Kecamatan',
@@ -101,7 +96,7 @@ class ResourceManagerController extends Controller
     public function kecamatanDagri(int $id)
     {
         return view('page.res.wilayah', [
-            'title' => 'Wilayah BPS',
+            'title' => 'Wilayah Dagri',
             'listWilayah' => $this->wilayahService->getKecamatanView(false, $id),
             'action' => route('res.wilayahDagri.desa', ['id' => ':id']),
             'text' => 'Show Desa',
@@ -111,7 +106,7 @@ class ResourceManagerController extends Controller
     public function desaDagri(int $id)
     {
         return view('page.res.wilayah', [
-            'title' => 'Wilayah BPS',
+            'title' => 'Wilayah Dagri',
             'listWilayah' => $this->wilayahService->getDesaView(false, $id),
             'action' => null,
             'text' => null,
@@ -121,8 +116,8 @@ class ResourceManagerController extends Controller
     public function indexUserApi()
     {
         return view('page.res.user-api', [
-            'title' => 'User API',
             'user' => $this->userApiService->getView($this->authUserId()),
         ]);
     }
+    
 }

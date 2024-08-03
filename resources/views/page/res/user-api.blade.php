@@ -1,11 +1,11 @@
-<x-layout.main-sidebar title="Resource | {{ $title }}">
+<x-layout.main-sidebar title="Resource | User Api">
     <div class="row justify-content-center">
         <div class="col">
             <div class="card mt-3">
                 <div class="card-header d-flex">
-                    <h4 class="m-0">Resource {{ $title }}</h4>
+                    <h4 class="m-0">Resource User Api</h4>
                     <a class="btn btn-sm btn-primary px-3 mx-3"
-                       href="{{ route('res.todolist.pageDummy') }}">Add Dummy
+                       href="{{ route('res.userApi.pageDummy') }}">Add Dummy
                     </a>
                 </div>
                 <div class="card-body">
@@ -47,7 +47,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4">No Data....</td>
+                                        <td colspan="13">No Data....</td>
                                     </tr>
                                 @endforelse
                             </tbody>

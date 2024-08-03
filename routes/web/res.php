@@ -11,7 +11,7 @@ Route::group([
     'prefix' => '/app/res',
 ], function () {
     Route::get('/todolist', 'todolist')->name('res.todolist');
-    Route::get('/todolist/dummy', 'pageDummy')->name('res.todolist.pageDummy');
+    Route::view('/todolist/dummy', 'page.res.todolist-dummy')->name('res.todolist.pageDummy');
     Route::post('/todolist/dummy', 'todolistDummy')->name('res.todolist.dummy');
 
     Route::get('/wilayah/bps', 'indexBps')->name('res.wilayahBps');
@@ -25,7 +25,8 @@ Route::group([
     Route::get('/wilayah/dagri/desa/{id}', 'desaDagri')->name('res.wilayahDagri.desa');
     
     Route::get('/user', 'indexUserApi')->name('res.userApi');
-    Route::post('/user/dummy', 'dummy')->name('res.userApi.dummy');
+    Route::view('/user/dummy', 'page.res.user-api-dummy')->name('res.userApi.pageDummy');
+    Route::post('/user/dummy', 'userApiDummy')->name('res.userApi.dummy');
 });
 
 Route::group([
