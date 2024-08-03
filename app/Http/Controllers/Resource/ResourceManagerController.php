@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Services\Api\TodolistService;
 use App\Services\Api\WilayahService;
+use App\Services\Api\UserApiService;
 
 class ResourceManagerController extends Controller
 {
     public function __construct(
         protected TodolistService $todolistService,
         protected WilayahService $wilayahService,
-
+        protected UserApiService $userApiService,    
     ) {}
 
     public function todolist()
@@ -114,6 +115,14 @@ class ResourceManagerController extends Controller
             'listWilayah' => $this->wilayahService->getDesaView(false, $id),
             'action' => null,
             'text' => null,
+        ]);
+    }
+    
+    public function indexUserApi()
+    {
+        return view('page.res.user-api', [
+            'title' => 'User API',
+            'user' => $this->userApiService->getView($this->authUserId()),
         ]);
     }
 }

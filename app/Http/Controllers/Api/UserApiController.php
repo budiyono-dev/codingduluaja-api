@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Api\UserApiService;
 
 class UserApiController extends Controller
 {
@@ -36,21 +37,9 @@ class UserApiController extends Controller
         protected ResponseHelper $responseHelper,
         protected ConfigUtils $configUtils,
         protected ImagePlaceholder $imagePlaceholder,
-        protected ResourceService $resourceService
+        protected ResourceService $resourceService,
+        protected UserApiService $userApiService,        
     ) {}
-
-    public function index()
-    {
-        $data = UserApi::where('user_id', Auth::user()->id)->get()
-            ->map(function ($u) {
-                return UserApiDto::fromUserApiFormatedDate($u, 'd-m-Y H:i:s');
-            });
-
-        return view('page.res.user-api', [
-            'title' => 'User API',
-            'user' => $data,
-        ]);
-    }
 
     public function dummy(CreateDummyUserRequest $r)
     {

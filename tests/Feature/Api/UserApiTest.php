@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
-class TodolistTest extends TestCase
+class UserApiTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -23,10 +23,7 @@ class TodolistTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->token = $this->createResourceToken(1);
-        $this->dayNow = Carbon::now()->format('Y-m-d');
-        $this->minusDay = Carbon::now()->subDays(2)->format('Y-m-d');
-        $this->plusDay = Carbon::now()->addDays(2)->format('Y-m-d');
+        $this->token = $this->createResourceToken(4);
     }
 
     private function createDummyTodo()

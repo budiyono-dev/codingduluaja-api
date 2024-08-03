@@ -27,8 +27,10 @@ use App\Services\Impl\MenuServiceImpl;
 use App\Services\Impl\ResourceServiceImpl;
 use App\Services\MenuService;
 use App\Services\ResourceService;
-use App\Services\Wilayah\Wilayah;
-use App\Services\Wilayah\WilayahImpl;
+use App\Services\Api\Wilayah;
+use App\Services\Api\WilayahImpl;
+use App\Services\Api\UserApiService;
+use App\Services\Api\UserApiServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -52,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
         // api services
         $this->app->singleton(TodolistService::class, TodolistServiceImpl::class);
         $this->app->singleton(WilayahService::class, WilayahServiceImpl::class);
+        $this->app->singleton(UserApiService::class, UserApiServiceImpl::class);
 
     }
 
