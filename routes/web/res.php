@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\UserApiController;
-use App\Http\Controllers\Api\WilayahController;
 use App\Http\Controllers\Resource\ResourceManagerController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +22,7 @@ Route::group([
     Route::get('/wilayah/dagri/kabupaten/{id}', 'kabupatenDagri')->name('res.wilayahDagri.kabupaten');
     Route::get('/wilayah/dagri/kecamatan/{id}', 'kecamatanDagri')->name('res.wilayahDagri.kecamatan');
     Route::get('/wilayah/dagri/desa/{id}', 'desaDagri')->name('res.wilayahDagri.desa');
-    
+
     Route::get('/user', 'indexUserApi')->name('res.userApi');
     Route::view('/user/dummy', 'page.res.user-api-dummy')->name('res.userApi.pageDummy');
     Route::post('/user/dummy', 'userApiDummy')->name('res.userApi.dummy');

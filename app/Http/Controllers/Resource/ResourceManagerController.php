@@ -5,24 +5,22 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Services\Api\TodolistService;
-use App\Services\Api\WilayahService;
 use App\Services\Api\UserApiService;
+use App\Services\Api\WilayahService;
 
 class ResourceManagerController extends Controller
 {
     public function __construct(
         protected TodolistService $todolistService,
         protected WilayahService $wilayahService,
-        protected UserApiService $userApiService,    
+        protected UserApiService $userApiService,
     ) {}
 
     public function todolist()
     {
-
-        return view('page.res.todolist',
-            [
-                'todolist' => $this->todolistService->getTodolistView($this->authUserId()),
-            ]);
+        return view('page.res.todolist', [
+            'todolist' => $this->todolistService->getTodolistView($this->authUserId()),
+        ]);
     }
 
     public function todolistDummy(DummyTodolistRequest $request)
@@ -112,12 +110,19 @@ class ResourceManagerController extends Controller
             'text' => null,
         ]);
     }
-    
+
     public function indexUserApi()
     {
         return view('page.res.user-api', [
             'user' => $this->userApiService->getView($this->authUserId()),
         ]);
     }
-    
+
+    public function userApiDUmmy(CreateDummyUserRequest $request)
+    {
+        $req = $request->validated();
+        $this->userApiService->dummy($this->authUserId(), $req['sel_qty']);
+
+        return redirect()->route('res.userApi');
+    }
 }

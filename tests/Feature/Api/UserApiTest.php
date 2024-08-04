@@ -120,7 +120,7 @@ class UserApiTest extends TestCase
             'name' => 'Maraton One Piece',
             'description' => 'Maraton One Piece',
         ]);
-		
+
         $response->assertOk();
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has('meta')

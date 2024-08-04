@@ -72,7 +72,7 @@ class TodolistServiceImpl implements TodolistService
         // validate tanggal edit jika sudah terlewat tidak boleh di edit
         $dateDb = Carbon::createFromFormat('Y-m-d', $todo->date);
         $dateReq = Carbon::createFromFormat('Y-m-d', $date);
-		
+
         if (floor($dateDb->diffInDays($dateReq)) < 0) {
             throw ApiException::forbidden('you are not allowed to change past data todolist date');
         }

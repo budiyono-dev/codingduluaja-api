@@ -15,6 +15,10 @@ use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
 use App\Services\Api\TodolistService;
 use App\Services\Api\TodolistServiceImpl;
+use App\Services\Api\UserApiService;
+use App\Services\Api\UserApiServiceImpl;
+use App\Services\Api\Wilayah;
+use App\Services\Api\WilayahImpl;
 use App\Services\Api\WilayahService;
 use App\Services\Api\WilayahServiceImpl;
 use App\Services\Application\AppClientService;
@@ -27,10 +31,6 @@ use App\Services\Impl\MenuServiceImpl;
 use App\Services\Impl\ResourceServiceImpl;
 use App\Services\MenuService;
 use App\Services\ResourceService;
-use App\Services\Api\Wilayah;
-use App\Services\Api\WilayahImpl;
-use App\Services\Api\UserApiService;
-use App\Services\Api\UserApiServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

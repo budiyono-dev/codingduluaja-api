@@ -2,48 +2,28 @@
 
 namespace App\Services\Api;
 
-use App\Dto\TodolistDto;
-use App\Exceptions\ApiException;
-use App\Models\Api\Todolist;
-use Carbon\Carbon;
 use App\Constants\ResponseCode;
 use App\Dto\UserApiDto;
-use App\Enums\MasterResourceType;
+use App\Exceptions\ApiException;
 use App\Helper\ConfigUtils;
 use App\Helper\ImagePlaceholder;
-use App\Helper\ResponseHelper;
 use App\Helper\StringUtil;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\User\CreateDummyUserRequest;
-use App\Http\Requests\Api\User\CreateUserApiRequest;
-use App\Http\Requests\Api\User\SearchUserApiRequest;
-use App\Http\Requests\Api\User\UploadImageUserApiRequest;
 use App\Models\Api\User\UserApi;
 use App\Models\Api\User\UserApiAddress;
 use App\Models\Api\User\UserApiImage;
-use App\Services\ResourceService;
-use App\Traits\ApiContext;
 use Faker\Factory;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use App\Services\Api\UserApiService;
 
 class UserApiServiceImpl implements UserApiService
 {
     public function __construct(
-        protected ResponseHelper $responseHelper,
         protected ConfigUtils $configUtils,
-        protected ImagePlaceholder $imagePlaceholder,
-        protected ResourceService $resourceService,
-        protected UserApiService $userApiService,      
-    )
-    {
-        //
-    }
+        protected ImagePlaceholder $imagePlaceholder
+    ) {}
 
     public function getView(int $userId)
     {
@@ -52,18 +32,9 @@ class UserApiServiceImpl implements UserApiService
                 return UserApiDto::fromUserApiFormatedDate($u, 'd-m-Y H:i:s');
             });
     }
-    
-    public function dummy(CreateDummyUserRequest $r)
+
+    public function dummy(int $userId, int $qty)
     {
-        $rv = $r->validated();
-
-        if ($this->resourceService->isConnectedResource(MasterResourceType::USER_API)) {
-            abort(403);
-        }
-
-        $qty = $rv['sel_qty'];
-        $userId = Auth::user()->id;
-
         $faker = Factory::create('id_ID');
         $dirUser = '/api/user/'.$userId.'/img';
         $path = Storage::disk('local')->path($dirUser);
@@ -96,30 +67,16 @@ class UserApiServiceImpl implements UserApiService
                 'filename' => $filename,
             ]);
         }
-
-        return redirect()->route('res.userApi');
     }
 
-    public function get(SearchUserApiRequest $r): JsonResponse
+    public function get(int $userId, array $params)
     {
-        $rv = $r->validated();
-        $data = [];
-
-        Log::info('[USER_API] search user params : '.json_encode($rv));
-
-        $data = $this->search(
-            $rv['search'] ?? null,
-            $rv['order_by'] ?? 'created_at',
-            $rv['search_by'] ?? 'name',
-            $rv['order_direction'] ?? 'desc',
-            $rv['page_size'] ?? $this->configUtils->getPageSize()
-        );
-
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get List User',
-            ResponseCode::SUCCESS_GET_DATA,
-            $data
+        return $this->search(
+            $params['search'] ?? null,
+            $params['order_by'] ?? 'created_at',
+            $params['search_by'] ?? 'name',
+            $params['order_direction'] ?? 'desc',
+            $params['page_size'] ?? $this->configUtils->getPageSize()
         );
     }
 
@@ -142,50 +99,45 @@ class UserApiServiceImpl implements UserApiService
             });
     }
 
-    public function create(CreateUserApiRequest $r): JsonResponse
+    public function create(int $userId, array $req)
     {
-        $rv = $r->validated();
-        DB::transaction(function () use ($rv) {
+        $user = null;
+        DB::transaction(function () use ($req, $userId, $user) {
             $user = UserApi::create([
-                'user_id' => $this->getUserId(),
-                'name' => $rv['name'] ?? null,
-                'nik' => $rv['nik'] ?? null,
-                'phone' => $rv['phone'] ?? null,
-                'email' => $rv['email'] ?? null,
+                'user_id' => $userId,
+                'name' => $req['name'] ?? null,
+                'nik' => $req['nik'] ?? null,
+                'phone' => $req['phone'] ?? null,
+                'email' => $req['email'] ?? null,
             ]);
-            UserApiAddress::create([
+            $user->address->create([
                 'user_api_id' => $user->id,
-                'country' => $rv['address']['country'] ?? null,
-                'state' => $rv['address']['state'] ?? null,
-                'city' => $rv['address']['city'] ?? null,
-                'postcode' => $rv['address']['postcode'] ?? null,
-                'detail' => $rv['address']['detail'] ?? null,
+                'country' => $req['address']['country'] ?? null,
+                'state' => $req['address']['state'] ?? null,
+                'city' => $req['address']['city'] ?? null,
+                'postcode' => $req['address']['postcode'] ?? null,
+                'detail' => $req['address']['detail'] ?? null,
             ]);
 
             $img = $this->createDefaultImage($user->id, $user->name);
-            $img->save();
+            $user->image->create($img);
         });
 
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'User created successfully',
-            ResponseCode::SUCCESS_CREATE_DATA,
-            null
-        );
+        return $user;
     }
 
     private function createDefaultImage(string $userId, string $name): UserApiImage
     {
-        Log::info("[USER_API] {$this->getRequestId()} creating default image");
+        Log::info('[userApi.SERVICE] creating default image');
         $dirUser = implode(DIRECTORY_SEPARATOR, ['api', 'user', $this->getUserId(), 'img']);
         $path = Storage::disk('local')->path($dirUser);
 
-        Log::info("[USER_API] check directory exists: {$path}");
+        Log::info("[userApi.SERVICE] check directory exists: {$path}");
         if (! File::isDirectory($path)) {
             Storage::disk('local')->makeDirectory($dirUser);
         }
         if (! File::isWritable($path)) {
-            Log::error("[USER_API] cannot write to path: {$path}");
+            Log::error("[userApi.SERVICE] cannot write to path: {$path}");
             throw ApiException::systemError();
         }
 
@@ -200,10 +152,10 @@ class UserApiServiceImpl implements UserApiService
         return $img;
     }
 
-    public function getImage(string $id)
+    public function getImage(int $userId, string $id)
     {
-        Log::info('[USER_API] getImage of user '.$id);
-        $u = UserApi::where('user_id', $this->getUserId())->where('id', $id)->firstOrFail();
+        Log::info('[userApi.SERVICE] getImage of user '.$id);
+        $u = UserApi::where('user_id', $userId)->where('id', $id)->firstOrFail();
         $rootPath = Storage::disk('local')->path('');
 
         $imgId = $u->image->id ?? null;
@@ -217,13 +169,10 @@ class UserApiServiceImpl implements UserApiService
         return response()->file($fp, ['Content-Type' => 'image/png']);
     }
 
-    public function updateImage(string $id, UploadImageUserApiRequest $r)
+    public function updateImage(int $userId, string $id, $file)
     {
-        $rv = $r->validated();
-        $file = $rv['file'];
-
-        $u = UserApi::where('user_id', $this->getUserId())->where('id', $id)->firstOrFail();
-        $imgPath = implode(DIRECTORY_SEPARATOR, ['api', 'user', $this->getUserId(), 'img']);
+        $u = UserApi::where('user_id', $userId)->where('id', $id)->firstOrFail();
+        $imgPath = implode(DIRECTORY_SEPARATOR, ['api', 'user', $userId, 'img']);
         $filename = StringUtil::uuidWihoutStrip().'_'.$file->getClientOriginalName();
 
         $file->storeAs($imgPath, $filename);
@@ -234,35 +183,21 @@ class UserApiServiceImpl implements UserApiService
 
         $img->filename = StringUtil::removeUuidPrefix($filename);
 
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Image Updated Successfully',
-            ResponseCode::SUCCESS_EDIT_DATA,
-            null
-        );
+        return $image;
     }
 
-    public function detail(string $id): JsonResponse
+    public function detail(inr $userId, string $id)
     {
         Log::info('[USER_API] get detail of user '.$id);
-        $user = UserApi::findOrFail($id);
-        if ($user->user_id != $this->getUserId()) {
-            return $this->responseHelper->notFound($this->getRequestId(), 'user', ResponseCode::MODEL_NOT_FOUND);
-        }
+        $user = UserApi::where('id', $id)->where('user_id', $userId);
 
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Get User',
-            ResponseCode::SUCCESS_GET_DATA,
-            UserApiDto::fromUserApi($user)
-        );
+        return UserApiDto::fromUserApi($user);
     }
 
-    public function edit(int $id, CreateUserApiRequest $r): JsonResponse
+    public function edit(int $userId, int $id, $rv)
     {
         Log::info("[USER_API] Edit User {$id}");
-        $rv = $r->validated();
-        $user = UserApi::findOrFail($id);
+        $user = UserApi::where('id', $id)->where('user_id', $userId);
         DB::transaction(function () use ($rv, $user) {
             $user->name = $rv['name'] ?? null;
             $user->nik = $rv['nik'] ?? null;
@@ -281,32 +216,18 @@ class UserApiServiceImpl implements UserApiService
             $address->save();
         });
 
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Data Updated Successfully',
-            ResponseCode::SUCCESS_EDIT_DATA,
-            null
-        );
+        return UserApiDto::fromUserApi($user);
     }
 
-    public function delete(string $id): JsonResponse
+    public function delete(int $userId, string $id)
     {
         Log::info('[USER_API] delete user '.$id);
-        $user = UserApi::findOrFail($id);
-        if ($user->user_id != $this->getUserId()) {
-            return $this->responseHelper->notFound($this->getRequestId(), 'user', ResponseCode::MODEL_NOT_FOUND);
-        }
+        $user = UserApi::UserApi::where('id', $id)->where('user_id', $userId);
+
         DB::transaction(function () use ($user) {
             $user->address->delete();
             $user->image->delete();
             $user->delete();
         });
-
-        return $this->responseHelper->success(
-            $this->getRequestId(),
-            'Successfully Delete User',
-            ResponseCode::SUCCESS_DELETE_DATA,
-            null
-        );
     }
 }
