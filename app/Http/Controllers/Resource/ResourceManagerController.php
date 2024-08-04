@@ -7,6 +7,7 @@ use App\Http\Requests\Api\DummyTodolistRequest;
 use App\Services\Api\TodolistService;
 use App\Services\Api\UserApiService;
 use App\Services\Api\WilayahService;
+use App\Http\Requests\Api\User\CreateDummyUserRequest;
 
 class ResourceManagerController extends Controller
 {
