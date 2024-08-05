@@ -2,4 +2,6 @@
 !public/
 !sql/
 !sql/*
+!font/
+!font/*
 !.gitignore

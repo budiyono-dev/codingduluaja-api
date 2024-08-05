@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
 
 class ImagePlaceholder
@@ -39,7 +40,9 @@ class ImagePlaceholder
         $text = ImagePlaceholder::generateInitials($fullname);
 
         // Define the font file and font size
-        $fontFile = asset('assets/font/Roboto-Bold.ttf');
+        // $fontFile = asset('assets/font/Roboto-Bold.ttf');
+        $fontFullPath = Storage::disk('local')->path('font'.DIRECTORY_SEPARATOR.'Roboto-Bold.ttf');
+        $fontFile = $fontFullPath;
         $fontSize = 200;
 
         // Calculate the position to center the text in the image

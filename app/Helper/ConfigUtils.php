@@ -28,7 +28,7 @@ class ConfigUtils
         if (ConfigUtils::validateConfig($config)) {
             $qty = $config['value'];
         } else {
-            $qty = config('cda.page_size');
+            $qty = config('app.page_size');
         }
 
         return $qty;

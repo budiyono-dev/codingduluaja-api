@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Resource;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\DummyTodolistRequest;
+use App\Http\Requests\Api\User\CreateDummyUserRequest;
 use App\Services\Api\TodolistService;
 use App\Services\Api\UserApiService;
 use App\Services\Api\WilayahService;
-use App\Http\Requests\Api\User\CreateDummyUserRequest;
 
 class ResourceManagerController extends Controller
 {

@@ -22,7 +22,7 @@ class UserApiController extends Controller
         $rv = $r->validated();
         Log::info('[USER_API] search user params :', ['params' => $rv]);
 
-        return $this->success(
+        return $this->apiSuccess(
             'Successfully Get List User',
             ResponseCode::SUCCESS_GET_DATA,
             $this->userApiService->get($this->apiUserId(), $rv)
@@ -33,7 +33,7 @@ class UserApiController extends Controller
     {
         $rv = $r->validated();
 
-        return $this->success(
+        return $this->apiSuccess(
             'User created successfully',
             ResponseCode::SUCCESS_CREATE_DATA,
             $this->userApiService->create($this->apiUserId(), $rv)
@@ -54,14 +54,14 @@ class UserApiController extends Controller
         $file = $rv['file'];
         $img = $this->userApiService->updateImage($this->apiUserId(), $id, $file);
 
-        return $this->success('Image Updated Successfully', ResponseCode::SUCCESS_EDIT_DATA);
+        return $this->apiSuccess('Image Updated Successfully', ResponseCode::SUCCESS_EDIT_DATA);
     }
 
     public function detail(string $id): JsonResponse
     {
         Log::info('[USER_API] get detail of user '.$id);
 
-        return $this->success(
+        return $this->apiSuccess(
             'Successfully Get User',
             ResponseCode::SUCCESS_GET_DATA,
             $this->userApiService->detail($this->apiUserId(), $id)
@@ -73,7 +73,7 @@ class UserApiController extends Controller
         Log::info("[USER_API] Edit User {$id}");
         $rv = $r->validated();
 
-        return $this->success(
+        return $this->apiSuccess(
             'Data Updated Successfully',
             ResponseCode::SUCCESS_EDIT_DATA,
             $this->userApiService->edit($this->apiUserId(), $id, $rv)
@@ -85,6 +85,6 @@ class UserApiController extends Controller
         Log::info('[USER_API] delete user '.$id);
         $this->userApiService->delete($this->apiUserId(), $id);
 
-        return $this->success('Successfully Delete User', ResponseCode::SUCCESS_DELETE_DATA);
+        return $this->apiSuccess('Successfully Delete User', ResponseCode::SUCCESS_DELETE_DATA);
     }
 }

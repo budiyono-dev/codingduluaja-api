@@ -50,8 +50,10 @@ class TokenMiddleware
 
             throw JwtException::unAuthorize();
         }
+        $clientResource = ClientResource::where('user_id', ContextHelper::getUserId())
+            ->where('id', ContextHelper::getResId())
+            ->with('masterResource')->first();
 
-        $clientResource = ClientResource::find(ContextHelper::getResId())->with('masterResource')->first();
         $path = $clientResource->masterResource->path;
         $currentPath = Str::after(ContextHelper::getPath(), 'api');
 

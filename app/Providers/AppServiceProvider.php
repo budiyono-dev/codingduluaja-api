@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Helper\ArtisanHelper;
-use App\Helper\ImagePlaceholder;
-use App\Helper\ResponseHelper;
+// use App\Helper\ImagePlaceholder;
+// use App\Helper\ResponseHelper;
 use App\Repository\Impl\MenuRepositoryImpl;
 use App\Repository\Impl\ResourceRepositoryImpl;
 use App\Repository\Impl\TokenRepositoryImpl;
@@ -37,8 +37,8 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(ResponseHelper::class);
-        $this->app->singleton(ImagePlaceholder::class);
+        // $this->app->singleton(ResponseHelper::class);
+        // $this->app->singleton(ImagePlaceholder::class);
         $this->app->singleton(ResourceRepository::class, ResourceRepositoryImpl::class);
         $this->app->singleton(UserRepository::class, UserRepositoryImpl::class);
         $this->app->singleton(MenuRepository::class, MenuRepositoryImpl::class);

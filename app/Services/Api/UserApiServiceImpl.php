@@ -2,17 +2,14 @@
 
 namespace App\Services\Api;
 
-use App\Constants\ResponseCode;
 use App\Dto\UserApiDto;
 use App\Exceptions\ApiException;
 use App\Helper\ConfigUtils;
 use App\Helper\ImagePlaceholder;
 use App\Helper\StringUtil;
 use App\Models\Api\User\UserApi;
-use App\Models\Api\User\UserApiAddress;
 use App\Models\Api\User\UserApiImage;
 use Faker\Factory;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -22,12 +19,11 @@ class UserApiServiceImpl implements UserApiService
 {
     public function __construct(
         protected ConfigUtils $configUtils,
-        protected ImagePlaceholder $imagePlaceholder
     ) {}
 
     public function getView(int $userId)
     {
-        return UserApi::where('user_id', $userId)->get()
+        return UserApi::where('user_id', $userId)->with(['address', 'image'])->get()
             ->map(function ($u) {
                 return UserApiDto::fromUserApiFormatedDate($u, 'd-m-Y H:i:s');
             });
@@ -35,38 +31,44 @@ class UserApiServiceImpl implements UserApiService
 
     public function dummy(int $userId, int $qty)
     {
-        $faker = Factory::create('id_ID');
-        $dirUser = '/api/user/'.$userId.'/img';
-        $path = Storage::disk('local')->path($dirUser);
-        Storage::disk('local')->makeDirectory($dirUser);
+        DB::transaction(function () use ($userId, $qty) {
+            $faker = Factory::create('id_ID');
+            $dirUser = '/api/user/'.$userId.'/img';
+            $path = Storage::disk('local')->path($dirUser);
+            Storage::disk('local')->makeDirectory($dirUser);
 
-        for ($i = 0; $i < $qty; $i++) {
-            $user = UserApi::create([
-                'user_id' => $userId,
-                'name' => $faker->firstName().' '.$faker->lastName(),
-                'nik' => $faker->nik(),
-                'phone' => $faker->e164PhoneNumber(),
-                'email' => $faker->safeEmail(),
-            ]);
+            for ($i = 0; $i < $qty; $i++) {
+                $user = UserApi::create([
+                    'user_id' => $userId,
+                    'name' => $faker->firstName().' '.$faker->lastName(),
+                    'nik' => $faker->nik(),
+                    'phone' => $faker->e164PhoneNumber(),
+                    'email' => $faker->safeEmail(),
+                ]);
+                $user->address()->create([
+                    'user_api_id' => $user->id,
+                    'country' => $faker->country(),
+                    'state' => $faker->state(),
+                    'city' => $faker->city(),
+                    'postcode' => $faker->postcode(),
+                    'detail' => $faker->address(),
+                ]);
 
-            UserApiAddress::create([
-                'user_api_id' => $user->id,
-                'country' => $faker->country(),
-                'state' => $faker->state(),
-                'city' => $faker->city(),
-                'postcode' => $faker->postcode(),
-                'detail' => $faker->address(),
-            ]);
+                $img = $faker->image($path);
+                $filename = basename($img);
 
-            $img = $faker->image($path);
-            $filename = basename($img);
-
-            UserApiImage::create([
-                'user_api_id' => $user->id,
-                'path' => $dirUser,
-                'filename' => $filename,
-            ]);
-        }
+                // UserApiImage::create([
+                //     'user_api_id' => $user->id,
+                //     'path' => $dirUser,
+                //     'filename' => $filename,
+                // ]);
+                $user->image()->create([
+                    'user_api_id' => $user->id,
+                    'path' => $dirUser,
+                    'filename' => $filename,
+                ]);
+            }
+        });
     }
 
     public function get(int $userId, array $params)
@@ -111,8 +113,8 @@ class UserApiServiceImpl implements UserApiService
                 'phone' => $req['phone'] ?? null,
                 'email' => $req['email'] ?? null,
             ]);
-            $user->address->create([
-                'user_api_id' => $user->id,
+            $user->address()->create([
+                // 'user_api_id' => $user->id,
                 'country' => $req['address']['country'] ?? null,
                 'state' => $req['address']['state'] ?? null,
                 'city' => $req['address']['city'] ?? null,
@@ -121,13 +123,13 @@ class UserApiServiceImpl implements UserApiService
             ]);
 
             $img = $this->createDefaultImage($user->id, $user->name);
-            $user->image->create($img);
+            $user->image()->create($img);
         });
 
         return $user;
     }
 
-    private function createDefaultImage(string $userId, string $name): UserApiImage
+    private function createDefaultImage(string $userId, string $name)
     {
         Log::info('[userApi.SERVICE] creating default image');
         $dirUser = implode(DIRECTORY_SEPARATOR, ['api', 'user', $userId, 'img']);
@@ -143,14 +145,12 @@ class UserApiServiceImpl implements UserApiService
         }
 
         $filename = StringUtil::uuidWihoutStrip().'.png';
-        $this->imagePlaceholder->placeholderByName($name, $path, $filename);
+        ImagePlaceholder::placeholderByName($name, $path, $filename);
 
-        $img = new UserApiImage;
-        $img->user_api_id = $userId;
-        $img->path = $dirUser;
-        $img->filename = $filename;
-
-        return $img;
+        return [
+            // 'user_api_id' => $userId,
+            'path' => $dirUser,
+            'filename' => $filename];
     }
 
     public function getImage(int $userId, string $id)
