@@ -38,6 +38,11 @@ class ApiException extends Exception
         return new static(403, ResponseCode::FORBIDDEN, $msg);
     }
 
+    public static function systemError()
+    {
+        return new static(500, ResponseCode::INTERNAL_SERVER_ERROR, 'Internal System Error');
+    }
+
     public function render()
     {
         return ResponseBuilder::buildJson(

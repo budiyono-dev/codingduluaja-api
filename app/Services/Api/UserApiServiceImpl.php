@@ -27,7 +27,7 @@ class UserApiServiceImpl implements UserApiService
 
     public function getView(int $userId)
     {
-        return UserApi::where('user_id', Auth::user()->id)->get()
+        return UserApi::where('user_id', $userId)->get()
             ->map(function ($u) {
                 return UserApiDto::fromUserApiFormatedDate($u, 'd-m-Y H:i:s');
             });
@@ -72,6 +72,7 @@ class UserApiServiceImpl implements UserApiService
     public function get(int $userId, array $params)
     {
         return $this->search(
+            $userId,
             $params['search'] ?? null,
             $params['order_by'] ?? 'created_at',
             $params['search_by'] ?? 'name',
@@ -80,9 +81,9 @@ class UserApiServiceImpl implements UserApiService
         );
     }
 
-    private function search(?string $search, string $orderBy, string $searchBy, string $orderDirection, int $pageSize)
+    private function search(int $userId, ?string $search, string $orderBy, string $searchBy, string $orderDirection, int $pageSize)
     {
-        $query = UserApi::where('user_id', $this->getUserId())
+        $query = UserApi::where('user_id', $userId)
             ->with(['address', 'image']);
 
         if (! is_null($search) && ! empty($search) && ! is_null($searchBy) && ! empty($searchBy)) {
@@ -129,7 +130,7 @@ class UserApiServiceImpl implements UserApiService
     private function createDefaultImage(string $userId, string $name): UserApiImage
     {
         Log::info('[userApi.SERVICE] creating default image');
-        $dirUser = implode(DIRECTORY_SEPARATOR, ['api', 'user', $this->getUserId(), 'img']);
+        $dirUser = implode(DIRECTORY_SEPARATOR, ['api', 'user', $userId, 'img']);
         $path = Storage::disk('local')->path($dirUser);
 
         Log::info("[userApi.SERVICE] check directory exists: {$path}");
@@ -160,8 +161,7 @@ class UserApiServiceImpl implements UserApiService
 
         $imgId = $u->image->id ?? null;
         if (is_null($imgId)) {
-            return $this->responseHelper
-                ->notFound($this->getRequestId(), 'Image not found', ResponseCode::RESOURCE_NOT_FOUND);
+            throw ApiException::notFound();
         }
 
         $fp = $rootPath.$u->image->path.DIRECTORY_SEPARATOR.$u->image->filename;
@@ -183,10 +183,10 @@ class UserApiServiceImpl implements UserApiService
 
         $img->filename = StringUtil::removeUuidPrefix($filename);
 
-        return $image;
+        return $img;
     }
 
-    public function detail(inr $userId, string $id)
+    public function detail(int $userId, string $id)
     {
         Log::info('[USER_API] get detail of user '.$id);
         $user = UserApi::where('id', $id)->where('user_id', $userId);
@@ -222,7 +222,7 @@ class UserApiServiceImpl implements UserApiService
     public function delete(int $userId, string $id)
     {
         Log::info('[USER_API] delete user '.$id);
-        $user = UserApi::UserApi::where('id', $id)->where('user_id', $userId);
+        $user = UserApi::where('id', $id)->where('user_id', $userId);
 
         DB::transaction(function () use ($user) {
             $user->address->delete();

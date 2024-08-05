@@ -38,7 +38,7 @@ class ContextHelper
 
     public static function initTokenContext(array $data)
     {
-        Context::addHidden(self::USER_ID, $data['userId']);
+        Context::add(self::USER_ID, $data['userId']);
         Context::addHidden(self::CLIENT_APP_ID, $data['appId']);
         Context::addHidden(self::CLIENT_RESOURCE_ID, $data['resId']);
     }
@@ -65,7 +65,7 @@ class ContextHelper
 
     public static function getUserId(): string
     {
-        return Context::getHidden(self::USER_ID);
+        return Context::get(self::USER_ID);
     }
 
     public static function getAppId(): string

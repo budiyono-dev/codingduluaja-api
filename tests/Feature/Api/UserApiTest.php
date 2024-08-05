@@ -14,12 +14,6 @@ class UserApiTest extends TestCase
 
     protected string $token = '';
 
-    protected string $dayNow = '';
-
-    protected string $minusDay = '';
-
-    protected string $plusDay = '';
-
     protected function setUp(): void
     {
         parent::setUp();

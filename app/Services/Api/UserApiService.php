@@ -16,7 +16,7 @@ interface UserApiService
 
     public function updateImage(int $userId, string $id, $file);
 
-    public function detail(inr $userId, string $id);
+    public function detail(int $userId, string $id);
 
     public function edit(int $userId, int $id, $rv);
 
