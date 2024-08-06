@@ -54,7 +54,6 @@ class AppManagerController extends Controller
     public function doCreateToken(CreateTokenRequest $request)
     {
         $req = $request->validated();
-        dd($req);
         $token = $this->appManagerService->createToken(
             $this->authUserId(),
             $req['txtResId'],

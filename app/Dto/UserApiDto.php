@@ -63,6 +63,19 @@ class UserApiDto
 
         return $u;
     }
+
+    public static function toView(UserApi $user, string $format = 'd-m-Y H:i:s')
+    {
+        return (object) [
+            'id' => $user->id,
+            'name' => $user->name,
+            'nik' => $user->nik,
+            'phone' => $user->phone,
+            'email' => $user->email,
+            'created_at' => $user->created_at->format($format),
+            'updated_at' => $user->updated_at->format($format),
+        ];
+    }
 }
 
 class UserApiDtoAddress

@@ -18,6 +18,8 @@ interface UserApiService
 
     public function detail(int $userId, string $id);
 
+    public function detailView(int $userId, string $id);
+
     public function edit(int $userId, int $id, $rv);
 
     public function delete(int $userId, string $id);

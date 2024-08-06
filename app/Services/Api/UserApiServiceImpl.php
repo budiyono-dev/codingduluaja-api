@@ -23,10 +23,7 @@ class UserApiServiceImpl implements UserApiService
 
     public function getView(int $userId)
     {
-        return UserApi::where('user_id', $userId)->with(['address', 'image'])->get()
-            ->map(function ($u) {
-                return UserApiDto::fromUserApiFormatedDate($u, 'd-m-Y H:i:s');
-            });
+        return UserApi::where('user_id', $userId)->get();
     }
 
     public function dummy(int $userId, int $qty)
@@ -98,22 +95,21 @@ class UserApiServiceImpl implements UserApiService
 
         return $query->simplePaginate($pageSize)
             ->through(function ($u) {
-                return UserApiDto::fromUserApi($u);
+                return UserApiDto::toView($u);
             });
     }
 
     public function create(int $userId, array $req)
     {
-        $user = null;
-        DB::transaction(function () use ($req, $userId, $user) {
-            $user = UserApi::create([
+        $user = DB::transaction(function () use ($req, $userId) {
+            $u = UserApi::create([
                 'user_id' => $userId,
                 'name' => $req['name'] ?? null,
                 'nik' => $req['nik'] ?? null,
                 'phone' => $req['phone'] ?? null,
                 'email' => $req['email'] ?? null,
             ]);
-            $user->address()->create([
+            $u->address()->create([
                 // 'user_api_id' => $user->id,
                 'country' => $req['address']['country'] ?? null,
                 'state' => $req['address']['state'] ?? null,
@@ -122,11 +118,13 @@ class UserApiServiceImpl implements UserApiService
                 'detail' => $req['address']['detail'] ?? null,
             ]);
 
-            $img = $this->createDefaultImage($user->id, $user->name);
-            $user->image()->create($img);
+            $img = $this->createDefaultImage($u->id, $u->name);
+            $u->image()->create($img);
+
+            return $u;
         });
 
-        return $user;
+        return UserApiDto::fromUserApi($user);
     }
 
     private function createDefaultImage(string $userId, string $name)
@@ -135,7 +133,7 @@ class UserApiServiceImpl implements UserApiService
         $dirUser = implode(DIRECTORY_SEPARATOR, ['api', 'user', $userId, 'img']);
         $path = Storage::disk('local')->path($dirUser);
 
-        Log::info("[userApi.SERVICE] check directory exists: {$path}");
+        Log::debug("[userApi.SERVICE] check directory exists: {$path}");
         if (! File::isDirectory($path)) {
             Storage::disk('local')->makeDirectory($dirUser);
         }
@@ -189,9 +187,23 @@ class UserApiServiceImpl implements UserApiService
     public function detail(int $userId, string $id)
     {
         Log::info('[USER_API] get detail of user '.$id);
-        $user = UserApi::where('id', $id)->where('user_id', $userId);
+        $user = UserApi::where('id', $id)->where('user_id', $userId)->with(['address', 'image'])->first();
+        if (is_null($user)) {
+            throw ApiException::notFound();
+        }
 
         return UserApiDto::fromUserApi($user);
+    }
+
+    public function detailView(int $userId, string $id)
+    {
+        Log::info('[USER_API] get detail of user '.$id);
+        $user = UserApi::where('id', $id)->where('user_id', $userId)->with(['address', 'image'])->first();
+        if (is_null($user)) {
+            throw ApiException::notFound();
+        }
+
+        return $user;
     }
 
     public function edit(int $userId, int $id, $rv)

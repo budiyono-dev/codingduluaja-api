@@ -20,12 +20,7 @@
                                     <th scope="col" class="text-nowrap pe-3">Email</th>
                                     <th scope="col" class="text-nowrap pe-3">Created At</th>
                                     <th scope="col" class="text-nowrap pe-3">Updated At</th>
-                                    <th scope="col" class="text-nowrap pe-3">Country</th>
-                                    <th scope="col" class="text-nowrap pe-3">State</th>
-                                    <th scope="col" class="text-nowrap pe-3">City</th>
-                                    <th scope="col" class="text-nowrap pe-3">Postal Code</th>
-                                    <th scope="col" class="text-nowrap pe-3">Detail</th>
-                                    <th scope="col" class="text-nowrap pe-3">Image</th>
+                                    <th scope="col" class="text-nowrap pe-3">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="bodyTb">
@@ -38,12 +33,7 @@
                                         <td class="text-start text-nowrap pe-3">{{ $u->email }}</td>
                                         <td class="text-start text-nowrap pe-3">{{ $u->created_at }}</td>
                                         <td class="text-start text-nowrap pe-3">{{ $u->updated_at }}</td>
-                                        <td class="text-start text-nowrap pe-3">{{ $u->address->country }}</td>
-                                        <td class="text-start text-nowrap pe-3">{{ $u->address->state }}</td>
-                                        <td class="text-start text-nowrap pe-3">{{ $u->address->city }}</td>
-                                        <td class="text-start text-nowrap pe-3">{{ $u->address->postcode }}</td>
-                                        <td class="text-start text-nowrap pe-3">{{ $u->address->detail }}</td>
-                                        <td class="text-start text-nowrap pe-3">{{ $u->image->filename }}</td>
+                                        <td class="text-start text-nowrap pe-3"><a href="{{ route('res.userApi.detail', ['id'=> $u->id]) }}" class="btn btn-sm btn-primary">Detail</a></td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -59,9 +49,7 @@
     </div
     @push('script')
     <script type="text/javascript">
-        document.getElementById('modalGenerateUser').addEventListener('hide.bs.modal', function() {
-            document.getElementById('formGenerateUser').reset();
-        });
+        
     </script>
     @endpush
 </x-layout.main-sidebar>

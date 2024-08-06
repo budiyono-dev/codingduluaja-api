@@ -126,4 +126,11 @@ class ResourceManagerController extends Controller
 
         return redirect()->route('res.userApi');
     }
+
+    public function detailUserApi(int $id)
+    {
+        return view('page.res.user-api-detail', [
+            'user' => $this->userApiService->detailView($this->authUserId(), $id),
+        ]);
+    }
 }

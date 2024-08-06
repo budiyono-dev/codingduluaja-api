@@ -91,6 +91,7 @@ class TodolistTest extends TestCase
         ])->get('/api/todolist/'.$s->id);
 
         $response->assertOk();
+        $response->assertJsonMissingPath('user_id');
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has('meta')
             ->has('data', fn (AssertableJson $json) => $json->where('name', 'Berenang')->etc())
@@ -106,6 +107,7 @@ class TodolistTest extends TestCase
         ])->delete('/api/todolist/'.$s->id);
 
         $response->assertOk();
+        $response->assertJsonMissingPath('user_id');
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has('meta')
             ->has('data')
@@ -125,6 +127,7 @@ class TodolistTest extends TestCase
         ]);
 
         $response->assertOk();
+        $response->assertJsonMissingPath('user_id');
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has('meta')
             ->has('data', fn (AssertableJson $json) => $json->where('name', 'Maraton One Piece')->etc())
