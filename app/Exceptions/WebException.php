@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class WebException extends Exception
@@ -13,6 +14,11 @@ class WebException extends Exception
     {
         $this->redirectRoute = $redirectRoute;
         parent::__construct($message, $code, $previous);
+    }
+    
+    public function report()
+    {
+        Log::error('[web.EXCEPTION] ', ['message' => $this->message]);
     }
 
     public static function appInUse(string $routeName)

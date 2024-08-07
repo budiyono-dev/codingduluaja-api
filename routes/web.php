@@ -8,10 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -22,8 +18,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    // Route::view('/dasboard', 'page.welcome')->name('page.dashboard');
-    // Route::post('/logout', [AuthController::class, 'logout'])->name('do.logout');
 });
 
 Route::middleware(['auth', 'verified', 'isAdmin'])->group(function () {
@@ -38,7 +32,6 @@ Route::middleware(['auth', 'verified', 'isAdmin'])->group(function () {
  * Public Route
  */
 Route::get('/cda-refresh-config', [DeploymentController::class, 'refreshAdminConfig']);
-// Route::get('/user/check-username/{username}', [AuthController::class, 'checkUsername'])->name('checkUsername');
 Route::view('/', 'page.landing-page')->name('page.langind-page');
 // breeze
 require __DIR__.'/auth.php';

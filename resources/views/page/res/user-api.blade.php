@@ -14,12 +14,11 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-nowrap pe-3">#</th>
+                                    <th scope="col" class="text-nowrap pe-3">ID</th>
                                     <th scope="col" class="text-nowrap pe-3">Name</th>
                                     <th scope="col" class="text-nowrap pe-3">Nik</th>
                                     <th scope="col" class="text-nowrap pe-3">Phone</th>
                                     <th scope="col" class="text-nowrap pe-3">Email</th>
-                                    <th scope="col" class="text-nowrap pe-3">Created At</th>
-                                    <th scope="col" class="text-nowrap pe-3">Updated At</th>
                                     <th scope="col" class="text-nowrap pe-3">Action</th>
                                 </tr>
                             </thead>
@@ -27,12 +26,11 @@
                                 @forelse ($user as $key => $u)
                                     <tr>
                                         <th scope="row">{{ 1 + $key }}</th>
+                                        <td class="text-start text-nowrap pe-3">{{ $u->id }}</td>
                                         <td class="text-start text-nowrap pe-3">{{ $u->name }}</td>
                                         <td class="text-start text-nowrap pe-3">{{ $u->nik }}</td>
                                         <td class="text-start text-nowrap pe-3">{{ $u->phone }}</td>
                                         <td class="text-start text-nowrap pe-3">{{ $u->email }}</td>
-                                        <td class="text-start text-nowrap pe-3">{{ $u->created_at }}</td>
-                                        <td class="text-start text-nowrap pe-3">{{ $u->updated_at }}</td>
                                         <td class="text-start text-nowrap pe-3"><a href="{{ route('res.userApi.detail', ['id'=> $u->id]) }}" class="btn btn-sm btn-primary">Detail</a></td>
                                     </tr>
                                 @empty

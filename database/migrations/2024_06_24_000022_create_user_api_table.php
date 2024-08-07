@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(TableName::USER_API, function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->unsignedBiginteger('user_id');
             $table->string('name');
             $table->string('nik')->nullable();
