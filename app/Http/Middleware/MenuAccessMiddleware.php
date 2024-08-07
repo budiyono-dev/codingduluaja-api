@@ -9,16 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MenuAccessMiddleware
 {
-    public function __construct(protected MenuService $menuService)
-    {
-    }
+    public function __construct(protected MenuService $menuService) {}
 
     public function handle(Request $request, Closure $next): Response
     {
         $isEligible = $this->menuService->isUserEligible($request);
-        if (!$isEligible) {
+        if (! $isEligible) {
             abort(403);
         }
+
         return $next($request);
     }
 }

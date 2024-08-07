@@ -13,11 +13,9 @@ use App\Services\ResourceService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
 
 class AppResourceController extends Controller
 {
@@ -26,6 +24,7 @@ class AppResourceController extends Controller
     ) {
         //
     }
+
     public function index(): View
     {
         $userId = Auth::user()->id;
@@ -38,19 +37,20 @@ class AppResourceController extends Controller
             $connectedApp = $r->connectedApp->map(function (ClientApp $app) {
                 return (object) [
                     'id' => $app->id,
-                    'name' => $app->name
+                    'name' => $app->name,
                 ];
             });
+
             return (object) [
                 'id' => $r->id,
                 'name' => $r->masterResource->name,
                 'created_at' => $r->created_at,
-                'connectedApp' => $connectedApp
+                'connectedApp' => $connectedApp,
             ];
         });
 
         $masterResource = '';
-        if (!empty($idResource)) {
+        if (! empty($idResource)) {
             $masterResource = MasterResource::whereNotIn('id', $idResource)->get();
         } else {
             $masterResource = MasterResource::all();
@@ -61,7 +61,7 @@ class AppResourceController extends Controller
             [
                 'listResource' => $mapped,
                 'masterResource' => $masterResource,
-                'listClientApp' => $listClientApp
+                'listClientApp' => $listClientApp,
             ]
         );
     }
@@ -73,7 +73,7 @@ class AppResourceController extends Controller
             $validated = $req->validated();
             $userId = Auth::user()->id;
 
-            $c = new ClientResource();
+            $c = new ClientResource;
             $c->user_id = $userId;
             $c->master_resource_id = $validated['sel_m_resource'];
 
@@ -89,14 +89,15 @@ class AppResourceController extends Controller
         Log::info("[APP-RESOURCE] Delete Resource : {$id}");
         DB::transaction(function () use ($id) {
             $clientResource = ClientResource::findOrFail($id);
-            
+
             $this->resourceService->clearResource($clientResource->user_id, $clientResource->master_resource_id);
-            
+
             DB::table(TableName::CONNECTED_APP)
                 ->where('client_resource_id', $clientResource->id)
                 ->delete();
             $clientResource->delete();
         });
+
         return redirect()->route('page.appResource');
     }
 
@@ -115,9 +116,10 @@ class AppResourceController extends Controller
                     'client_resource_id' => $id,
                     'client_app_id' => $validReq['sel_client'],
                     'created_at' => $now,
-                    'updated_at' => $now
+                    'updated_at' => $now,
                 ]);
         });
+
         return redirect()->route('page.appResource');
     }
 
@@ -136,6 +138,7 @@ class AppResourceController extends Controller
                 ->where('client_app_id', $validReq['client_id'])
                 ->delete();
         });
+
         return redirect()->route('page.appResource');
     }
 }

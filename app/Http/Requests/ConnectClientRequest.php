@@ -15,7 +15,7 @@ class ConnectClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "sel_client" => 'required'
+            'sel_client' => 'required',
         ];
     }
 }

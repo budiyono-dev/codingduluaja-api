@@ -2,33 +2,38 @@
 
 namespace App\Models;
 
-use App\Constants\TableName;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory;
-
-    protected $table = TableName::USERS;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
-        'username',
-        'first_name',
-        'last_name',
-        'sex',
+        'name',
         'email',
         'password',
-        'role_code'
+        'role_code',
+        'username',
     ];
 
-    public function getAuthPasswordName()
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected function casts(): array
     {
-        return 'password';
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(UserRole::class, 'role_code', 'code');
     }
 }

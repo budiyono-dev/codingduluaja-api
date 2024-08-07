@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class ExpiredToken extends Model
 {
     use HasFactory;
+
     protected $table = TableName::EXPIRED_TOKEN;
+
     protected $fillable = [
-        'exp_value', 'unit'
+        'exp_value', 'unit',
     ];
 }

@@ -3,45 +3,55 @@
 namespace App\Exceptions;
 
 use App\Constants\ResponseCode;
+use App\Helper\ContextHelper;
+use App\Helper\ResponseBuilder;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ApiException extends Exception
 {
     protected int $httpCode;
+
     protected string $errorCode;
 
-    public function __construct(int    $httpCode, string $errorCode,
-                                string $message = "", int $code = 0, ?Throwable $previous = null)
+    public function __construct(int $httpCode, string $errorCode,
+        string $message = '', int $code = 0, ?Throwable $previous = null)
     {
         $this->httpCode = $httpCode;
         $this->errorCode = $errorCode;
         parent::__construct($message, $code, $previous);
     }
 
-    public function getHttpCode(): int
+    public function report()
     {
-        return $this->httpCode;
+        Log::error('[api.EXCEPTION] ', ['message' => $this->message]);
     }
 
-    public function getErrorCode(): string
+    public static function notFound()
     {
-        return $this->errorCode;
+        return new static(404, ResponseCode::NOT_FOUND, 'Data Not Found');
     }
 
-    public static function notFound(string $key = 'Data'): ApiException
+    public static function forbidden(string $msg = 'Not Allowed Action')
     {
-        return new static(404, ResponseCode::MODEL_NOT_FOUND, "{$key} Not Found");
+        return new static(403, ResponseCode::FORBIDDEN, $msg);
     }
 
-    public static function forbidden(string $message): ApiException
+    public static function systemError()
     {
-        return new static(403, ResponseCode::FORBIDDEN, $message);
+        return new static(500, ResponseCode::INTERNAL_SERVER_ERROR, 'Internal System Error');
     }
 
-    public static function systemError(): ApiException
+    public function render()
     {
-        return new static(500, ResponseCode::INTERNAL_SERVER_ERROR, "Internal Server Error");
+        return ResponseBuilder::buildJson(
+            ContextHelper::getRequestId(),
+            false,
+            $this->message,
+            $this->errorCode,
+            $this->httpCode,
+            null
+        );
     }
-
 }

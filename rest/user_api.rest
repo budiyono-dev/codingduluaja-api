@@ -8,25 +8,33 @@ GET http://localhost:8000/api/user
 &search_by=name
 &order_by=name
 &order_direction=desc
-x-authorization: {{token}} 
+Authorization:  {{token}} 
 
 ### Get Single
 GET http://localhost:8000/api/user/1
-x-authorization: {{token}}
+Authorization:  {{token}}
 
 ### Delete user
 DELETE http://localhost:8000/api/user/4
-x-authorization: {{token}}
+Authorization:  {{token}}
 
 ### Create user 
 POST http://localhost:8000/api/user
-x-authorization: {{token}}
+Authorization:  {{token}}
 content-type: application/json
 
 {
-    "date": "24-12-2023",
-    "name": "watching footbal",
-    "description": "MU VS Liverpol"
+    "name": "Latika Mardhi",
+    "nik": "1302910703153399",
+    "phone": "996539651440",
+    "email": "harsanto.wijaya@example.org",
+    "address": {
+        "country": "Indonesia",
+        "state": "Sumatera Barat",
+        "city": "Palopo",
+        "postcode": "13332",
+        "detail": "Kpg. Taman No. 393, Kendari 83824, Sumatra Barat"
+    }
 }
 
 

@@ -2,40 +2,28 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\CdaContext;
-use App\Dto\ApiCtx;
+use App\Helper\ContextHelper;
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class RequestInfoMiddleware
 {
-
     public function handle(Request $req, Closure $next): Response
     {
-        $reqId = Str::uuid()->toString();
-        $reqInfo = [
-            'request_id' => $reqId,
-            'method' => $req->method(),
-            'path' => $req->path(),
-            'ip' => $req->ip()
+        ContextHelper::init($req);
+        $log = [
+            'method' => ContextHelper::getMethod(),
+            'path' => ContextHelper::getPath(),
+            'ip' => ContextHelper::getIp(),
         ];
-        Log::info('[REQUEST INFO] requqest : '.json_encode($reqInfo));
+        Log::info('[info.MIDDLEWARE] request', $log);
 
-        $req->attributes->add(
-            [
-                CdaContext::REQUEST_CTX => [
-                    CdaContext::REQUEST_ID => $reqId,
-                    CdaContext::PATH => $req->path()
-                ]
-            ]
-        );
         $res = $next($req);
-        $reqInfo['status'] = $res->getStatusCode();
 
-        Log::info('[RESPONSE INFO] response : '.json_encode($reqInfo));
+        $log['status'] = $res->getStatusCode();
+        Log::info('[info.MIDDLEWARE] response', $log);
 
         return $res;
     }

@@ -2,101 +2,69 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\CdaContext;
-use App\Dto\ApiCtx;
-use App\Exceptions\TokenException;
+use App\Exceptions\JwtException;
+use App\Helper\ContextHelper;
+use App\Helper\JwtHelper;
+use App\Models\ClientApp;
+use App\Models\ClientResource;
+use App\Models\ClientToken;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Jwt\JwtHelper;
-use App\Helper\ResponseHelper;
-use App\Models\ClientApp;
-use App\Models\Token;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Response;
-use App\Constants\TableName;
+use Illuminate\Support\Str;
 
 class TokenMiddleware
 {
-    public function __construct(protected JwtHelper $jwtHelper, protected ResponseHelper $responseHelper)
+    public function handle(Request $req, Closure $next)
     {
-    }
+        if (! $req->hasHeader('Authorization')) {
+            Log::error('[token.MIDDLEWARE] missing token');
 
-    public function handle(Request $request, Closure $next): Response
-    {
-        if (!$request->hasHeader('x-authorization')) {
-            $apiCtx = $request->attributes->get(CdaContext::REQUEST_CTX);
-            return $this->responseHelper->unAuthorize($apiCtx[CdaContext::REQUEST_ID]);
+            throw JwtException::unAuthorize();
+        }
+        $token = $req->header('Authorization');
+        $cToken = ClientToken::find($token);
+
+        Log::debug('[token.MIDDLEWARE] auth token', ['token' => $token]);
+
+        if (is_null($cToken)) {
+            Log::error('[token.MIDDLEWARE] token not found');
+
+            throw JwtException::unAuthorize();
         }
 
-        $authHeader = $request->header('x-authorization');
-        $token = $this->getToken($authHeader);
+        ContextHelper::initTokenContext(JwtHelper::extractIdentifier($cToken->identifier));
+        $client = ClientApp::find(ContextHelper::getAppId());
 
-        $appKey = $this->validate($request, $token);
+        $decodeToken = JwtHelper::unpackToken($client->app_key, $cToken->value);
+        if (is_null($decodeToken)) {
+            Log::error('[token.MIDDLEWARE] invalid token');
 
-        Log::info("[TOKEN] middleware validate token = {$token}");
-        $this->jwtHelper->validateToken($token, $appKey);
-
-        return $next($request);
-    }
-
-    private function getToken(string $authHeader): string
-    {
-        $validPrefix = Str::startsWith($authHeader, 'Bearer ');
-        if (!$validPrefix) {
-            throw TokenException::missing();
-        }
-        return Str::after($authHeader, 'Bearer ');
-    }
-
-    private function validate(Request $req, string $token): string
-    {
-        $tokenModel = Token::select('identifier')->where('token', $token)->first();
-
-        if (is_null($tokenModel)) {
-            throw TokenException::notFound();
+            throw JwtException::unAuthorize();
         }
 
-        $identifierSplit = Str::of($tokenModel->identifier)->explode(';');
-        $userId = $identifierSplit[0];
-        $clientAppId = $identifierSplit[1];
-        $clientResourceId = $identifierSplit[2];
+        Log::info('[token.MIDDLEWARE] decode token', ['jwt' => $decodeToken]);
 
-        $validatedIdentifier = DB::table(TableName::CLIENT_APP . ' as ap')
-            ->join(TableName::CONNECTED_APP . ' as con', 'ap.id', '=', 'con.client_app_id')
-            ->join(TableName::CLIENT_RESOURCE . ' as cr', 'cr.id', '=', 'con.client_resource_id')
-            ->join(TableName::MASTER_RESOURCE . ' as mr', 'mr.id', '=', 'cr.master_resource_id')
-            ->where('ap.user_id', $userId)
-            ->where('ap.id', $clientAppId)
-            ->where('cr.id', $clientResourceId)
-            ->select('ap.app_key', 'mr.path')
-            ->first();
+        if (! JwtHelper::validateExp($decodeToken->exp)) {
+            Log::error('[token.MIDDLEWARE] token expired');
 
-        if (is_null($validatedIdentifier)) {
-            throw TokenException::unMapped();
+            throw JwtException::unAuthorize();
+        }
+        $clientResource = ClientResource::where('user_id', ContextHelper::getUserId())
+            ->where('id', ContextHelper::getResId())
+            ->with('masterResource')->first();
+
+        $path = $clientResource->masterResource->path;
+        $currentPath = Str::after(ContextHelper::getPath(), 'api');
+
+        Log::debug("[token.MIDDLEWARE] {$path}  <= === => {$currentPath}");
+
+        if (! Str::startsWith($currentPath, $path)) {
+            Log::error('[token.MIDDLEWARE] mismatch token');
+
+            throw JwtException::unAuthorize();
         }
 
-        $appKey = $validatedIdentifier->app_key;
-        $path = $validatedIdentifier->path;
-
-
-        $apiCtx = $req->attributes->get(CdaContext::REQUEST_CTX);
-        $apiCtx[CdaContext::USER_ID] = $userId;
-        $apiCtx[CdaContext::CLIENT_APP_ID] = $clientAppId;
-        $apiCtx[CdaContext::CLIENT_RESOURCE_ID] = $clientResourceId;
-
-        $currentPath = Str::after($apiCtx[CdaContext::PATH], 'api');
-
-        Log::debug("[TOKEN] {$path}  <= === => {$currentPath}");
-
-        if (!Str::startsWith($currentPath, $path)) {
-            throw TokenException::invalidResource();
-        }
-
-
-        $req->attributes->replace([CdaContext::REQUEST_CTX => $apiCtx]);
-
-        return $appKey;
+        return $next($req);
     }
 }

@@ -2,73 +2,64 @@
 
 namespace App\Providers;
 
-use App\Helper\ImagePlaceholder;
-use App\Helper\ResponseHelper;
-use App\Jwt\JwtHelper;
+use App\Helper\ArtisanHelper;
 use App\Repository\Impl\MenuRepositoryImpl;
-use App\Services\Wilayah\Wilayah;
-use App\Services\Wilayah\WilayahImpl;
-use Illuminate\Support\ServiceProvider;
-use App\Repository\ResourceRepository;
 use App\Repository\Impl\ResourceRepositoryImpl;
+use App\Repository\Impl\TokenRepositoryImpl;
 use App\Repository\Impl\UserRepositoryImpl;
 use App\Repository\MenuRepository;
+use App\Repository\ResourceRepository;
+use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
-use App\Services\ResourceService;
+use App\Services\Api\TodolistService;
+use App\Services\Api\TodolistServiceImpl;
+use App\Services\Api\UserApiService;
+use App\Services\Api\UserApiServiceImpl;
+use App\Services\Api\Wilayah;
+use App\Services\Api\WilayahImpl;
+use App\Services\Api\WilayahService;
+use App\Services\Api\WilayahServiceImpl;
+use App\Services\Application\AppClientService;
+use App\Services\Application\AppClientServiceImpl;
+use App\Services\Application\AppManagerService;
+use App\Services\Application\AppManagerServiceImpl;
+use App\Services\Application\AppResourceService;
+use App\Services\Application\AppResourceServiceImpl;
+use App\Services\Impl\MenuServiceImpl;
 use App\Services\Impl\ResourceServiceImpl;
 use App\Services\MenuService;
-use App\Services\Impl\MenuServiceImpl;
+use App\Services\ResourceService;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(ResponseHelper::class, function () {
-            return new ResponseHelper();
-        });
+        $this->app->singleton(ResourceRepository::class, ResourceRepositoryImpl::class);
+        $this->app->singleton(UserRepository::class, UserRepositoryImpl::class);
+        $this->app->singleton(MenuRepository::class, MenuRepositoryImpl::class);
+        $this->app->singleton(TokenRepository::class, TokenRepositoryImpl::class);
+        $this->app->singleton(ArtisanHelper::class, ArtisanHelper::class);
+        $this->app->singleton(AppClientService::class, AppClientServiceImpl::class);
+        $this->app->singleton(AppResourceService::class, AppResourceServiceImpl::class);
+        $this->app->singleton(Wilayah::class, WilayahImpl::class);
+        $this->app->singleton(ResourceService::class, ResourceServiceImpl::class);
+        $this->app->singleton(MenuService::class, MenuServiceImpl::class);
+        $this->app->singleton(AppManagerService::class, AppManagerServiceImpl::class);
 
-        $this->app->singleton(JwtHelper::class, function () {
-            return new JwtHelper();
-        });
+        // api services
+        $this->app->singleton(TodolistService::class, TodolistServiceImpl::class);
+        $this->app->singleton(WilayahService::class, WilayahServiceImpl::class);
+        $this->app->singleton(UserApiService::class, UserApiServiceImpl::class);
 
-        $this->app->singleton(Wilayah::class, function () {
-            return new WilayahImpl(
-                $this->app->make(ResponseHelper::class)
-            );
-        });
-
-        $this->app->singleton(ImagePlaceholder::class, function () {
-            return new ImagePlaceholder();
-        });
-
-        $this->app->singleton(ResourceRepository::class, function () {
-            return new ResourceRepositoryImpl();
-        });
-
-        $this->app->singleton(ResourceService::class, function () {
-            return new ResourceServiceImpl(
-                $this->app->make(ResourceRepository::class)
-            );
-        });
-
-        $this->app->singleton(UserRepository::class, function () {
-            return new UserRepositoryImpl();
-        });
-
-        $this->app->singleton(MenuRepository::class, function () {
-            return new MenuRepositoryImpl();
-        });
-
-        $this->app->singleton(MenuService::class, function () {
-            return new MenuServiceImpl(
-                $this->app->make(MenuRepository::class),
-                $this->app->make(UserRepository::class)
-            );
-        });
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     public function boot(): void
     {
-        // not required yet
+        // not implement anything yet
     }
 }

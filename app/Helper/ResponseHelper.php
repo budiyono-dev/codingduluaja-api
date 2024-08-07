@@ -8,9 +8,9 @@ use Illuminate\Http\JsonResponse;
 class ResponseHelper
 {
     public function success(
-        string            $requestId,
-        string            $message,
-        string            $responseCode,
+        string $requestId,
+        string $message,
+        string $responseCode,
         object|array|null $data
     ): JsonResponse {
         return $this->buildJson($requestId, true, $message, $responseCode, 200, $data);
@@ -28,14 +28,14 @@ class ResponseHelper
 
     public function methodNotAllowed($data): JsonResponse
     {
-        return $this->buildJson(null, false, "Method Not Allowed", ResponseCode::METHOD_NOT_ALLOWED, 495, $data);
+        return $this->buildJson(null, false, 'Method Not Allowed', ResponseCode::METHOD_NOT_ALLOWED, 495, $data);
     }
 
     public function error(
-        ?string           $requestId,
-        string            $responseCode,
-        string            $message,
-        int               $httpStatusCode,
+        ?string $requestId,
+        string $responseCode,
+        string $message,
+        int $httpStatusCode,
         object|array|null $data
     ): JsonResponse {
         return $this->buildJson($requestId, false, $message, $responseCode, $httpStatusCode, $data);
@@ -64,11 +64,11 @@ class ResponseHelper
     }
 
     private function buildJson(
-        ?string           $requestId,
-        bool              $success,
-        string            $message,
-        string            $responseCode,
-        int               $httpStatusCode,
+        ?string $requestId,
+        bool $success,
+        string $message,
+        string $responseCode,
+        int $httpStatusCode,
         object|array|null $data
     ): JsonResponse {
         return response()->json([
@@ -76,9 +76,9 @@ class ResponseHelper
                 'request_id' => $requestId,
                 'success' => $success,
                 'code' => $responseCode,
-                'message' => $message
+                'message' => $message,
             ],
-            'data' => $data
+            'data' => $data,
         ], $httpStatusCode);
     }
 }

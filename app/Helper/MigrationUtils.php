@@ -2,18 +2,21 @@
 
 namespace App\Helper;
 
+use App\Constants\UserRole as ConstantsUserRole;
+use App\Models\MenuAccess;
 use App\Models\MenuAccessDetail;
-use App\Models\MenuParent;
 use App\Models\MenuItem;
+use App\Models\MenuParent;
 use App\Models\User;
 use App\Models\UserMenuAccess;
-use App\Models\MenuAccess;
+use App\Models\UserRole;
+use Illuminate\Support\Facades\Hash;
 
 class MigrationUtils
 {
     public static function addMenuParent(int $id, string $name, int $sequence): MenuParent
     {
-        $menu = new MenuParent();
+        $menu = new MenuParent;
         $menu->id = $id;
         $menu->name = $name;
         $menu->sequence = $sequence;
@@ -25,7 +28,7 @@ class MigrationUtils
 
     public static function addMenuItem(int $id, int $menuParentId, string $name, string $page, int $sequence): MenuItem
     {
-        $item = new MenuItem();
+        $item = new MenuItem;
         $item->id = $id;
         $item->menu_parent_id = $menuParentId;
         $item->name = $name;
@@ -51,37 +54,46 @@ class MigrationUtils
     {
         MenuParent::whereIn('id', $ids)->delete();
     }
-    
+
     public static function deleteMenuItemByIds(array $ids): void
     {
         MenuItem::whereIn('id', $ids)->delete();
     }
 
-    public static function addUser(
-        string $userName,
-        string $roleCode,
-        string $firstName,
-        string $lastName,
-        string $sex,
-        string $email,
-        string $password
-    ): void
+    public static function addUser(string $name, string $username, string $roleCode, string $email): void
     {
-        $user = new User([
-            'username' => $userName,
-            'role_code' => $roleCode,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'sex' => $sex,
-            'email' => $email,
-            'password' => bcrypt($password)
-        ]);
-        $user->save();
+        $user = new User;
+        $user->name = $name;
+        $user->username = $username;
+        $user->role_code = $roleCode;
+        $user->email = $email;
+        $user->password = Hash::make(config('app.default_password'));
+        $user->markEmailAsVerified();
+    }
+
+    public static function addUserAdmin(string $name, string $username, string $email): void
+    {
+        self::addUser($name, $username, ConstantsUserRole::admin()->getCode(), $email);
+    }
+
+    public static function addUserUser(string $name, string $username, string $email): void
+    {
+        self::addUser($name, $username, ConstantsUserRole::user()->getCode(), $email);
+    }
+
+    public static function addUserOps(string $name, string $username, string $email): void
+    {
+        self::addUser($name, $username, ConstantsUserRole::ops()->getCode(), $email);
+    }
+
+    public static function addUserSu(string $name, string $username, string $email): void
+    {
+        self::addUser($name, $username, ConstantsUserRole::superUser()->getCode(), $email);
     }
 
     public static function addMenuAccess(string $name, string $description): MenuAccess
     {
-        $userMenuAccess = new MenuAccess();
+        $userMenuAccess = new MenuAccess;
         $userMenuAccess->name = $name;
         $userMenuAccess->description = $description;
         $userMenuAccess->save();
@@ -89,24 +101,57 @@ class MigrationUtils
         return $userMenuAccess;
     }
 
-    public static function addMenuAccessDetail(int $menuAccessId, array $items):void
+    public static function addMenuAccessDetail(int $menuAccessId, array $items): void
     {
-        foreach ($items as $item) {
-            
-            $dt = new MenuAccessDetail();
+        $listMenuItem = MenuItem::select('id')->orderBy('id')->get()->pluck('id')->all();
+        $cItems = collect($items);
+        foreach ($listMenuItem as $item) {
+            $enable = $cItems->contains($item);
+
+            $dt = new MenuAccessDetail;
             $dt->menu_access_id = $menuAccessId;
             $dt->menu_item_id = $item;
-            $dt->enabled = true;
+            $dt->enabled = $enable;
             $dt->save();
         }
     }
 
+    public static function addMenuAccessDetailUser(int $menuAccessId, array $items): void
+    {
+        $menuParent = MenuParent::where('id', '!=', 1)->with('menuItem')->get();
+        $cItems = collect($items);
+        $enableAll = false;
+        if ($cItems->isEmpty()) {
+            $enableAll = true;
+        }
+        foreach ($menuParent as $parent) {
+            foreach ($parent->menuItem as $item) {
+                $enable = $cItems->contains($item->id);
+
+                $dt = new MenuAccessDetail;
+                $dt->menu_access_id = $menuAccessId;
+                $dt->menu_item_id = $item->id;
+                $dt->enabled = $enableAll ? true : $enable;
+                $dt->save();
+            }
+        }
+
+    }
+
     public static function addUserMenuAccess(string $roleCode, int $menuAccessId): void
     {
-        $menuAccess = new UserMenuAccess();
+        $menuAccess = new UserMenuAccess;
         $menuAccess->role_code = $roleCode;
         $menuAccess->menu_access_id = $menuAccessId;
 
         $menuAccess->save();
+    }
+
+    public static function addUserRole(string $code, string $name): void
+    {
+        $r = new UserRole;
+        $r->code = $code;
+        $r->name = $name;
+        $r->save();
     }
 }

@@ -6,7 +6,6 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Jwt\JwtHelper;
 use App\Mail\ForgotPassword;
-use App\Mail\TestSMPTP;
 use App\Models\ForgotPasswordToken;
 use App\Models\User;
 use Carbon\Carbon;
@@ -15,7 +14,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -28,8 +26,7 @@ class AuthController extends Controller
 
     public function __construct(
         protected JwtHelper $jwtHelper
-    ) {
-    }
+    ) {}
 
     public function register(RegisterRequest $req): RedirectResponse
     {
@@ -42,9 +39,10 @@ class AuthController extends Controller
                 'last_name' => $userReq['last_name'],
                 'sex' => $userReq['sex'],
                 'email' => $userReq['email'],
-                'password' => bcrypt($userReq['password'])
+                'password' => bcrypt($userReq['password']),
             ]);
         });
+
         return redirect()->route('page.login');
     }
 
@@ -53,6 +51,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('page.login');
     }
 
@@ -62,6 +61,7 @@ class AuthController extends Controller
         if (Auth::attempt($validated)) {
             Log::info("LOGIN  {$validated['email']}");
             request()->session()->regenerate();
+
             return redirect()->route('page.dashboard');
         }
 
@@ -90,14 +90,14 @@ class AuthController extends Controller
             ],
             [
                 'email.required' => 'Pastikan email terdaftar',
-                'email.exists' => 'Pastikan email terdaftar'
+                'email.exists' => 'Pastikan email terdaftar',
             ]
         );
 
         $forgot = ForgotPasswordToken::create([
             'email' => $reqv['email'],
             'date' => Carbon::now()->format('Y-m-d'),
-            'token' => Str::random(32)
+            'token' => Str::random(32),
         ]);
 
         Mail::to($forgot->email)->send(new ForgotPassword($forgot->token, $forgot->email));
@@ -109,7 +109,7 @@ class AuthController extends Controller
     {
         $reqv = $req->validate([
             'token' => 'required',
-            'email' => 'required'
+            'email' => 'required',
         ]);
 
         $token = $reqv['token'];
@@ -135,7 +135,7 @@ class AuthController extends Controller
             $reqv = $req->validate([
                 'email' => 'required|email',
                 'token' => 'required',
-                'password' => 'required|confirmed|min:8'
+                'password' => 'required|confirmed|min:8',
             ]);
         } catch (\Exception $e) {
             Log::info("invalid reset password request {$e->getMessage()} ");

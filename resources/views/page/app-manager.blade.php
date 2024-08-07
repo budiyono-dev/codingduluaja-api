@@ -71,7 +71,7 @@
                     <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>
                 </div> --}}
                 <div class="mb-3">
-                    <select class="form-select" aria-label="Default select example" name="selExp" id="selExp">
+                    <select class="form-select" aria-label="Default select example" name="duration" id="selExp">
                         @forelse ($expList as $key => $exp)
                             @if ($key == 0)
                                 <option selected value="">Select Token Duration..</option>

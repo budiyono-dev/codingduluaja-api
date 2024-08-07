@@ -4,5 +4,5 @@ namespace App\Repository;
 
 interface UserRepository
 {
-    function findById(int $id);
+    public function findById(int $id);
 }

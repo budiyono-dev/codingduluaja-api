@@ -5,22 +5,24 @@ namespace Database\Seeders;
 use App\Models\ClientApp;
 use App\Models\ClientResource;
 use App\Models\MasterResource;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class DevelopmentSeeder extends Seeder
 {
-
     public function run(): void
     {
+        $userId = 2;
+        $now = Carbon::now();
         Log::info('[DEPLOYMENT-SEEDER] Seeding Development Seeder');
-        $listClientApp = $this->getListClientApp();
+        $listClientApp = $this->getListClientApp($userId, $now);
         Log::info('[DEPLOYMENT-SEEDER] Insert Client App');
         ClientApp::insert($listClientApp);
 
         Log::info('[DEPLOYMENT-SEEDER] Insert Client Resource');
-        $listClientRes = $this->getListClientResource();
+        $listClientRes = $this->getListClientResource($userId, $now);
         ClientResource::insert($listClientRes);
     }
 
@@ -28,41 +30,58 @@ class DevelopmentSeeder extends Seeder
     {
         return Str::replace('-', '', Str::uuid());
     }
-    private function getListClientApp(): array
+
+    private function getListClientApp(int $userId, $now): array
     {
         return [
             [
-                'user_id' => 1,
+                'user_id' => $userId,
                 'name' => 'testing',
-                'app_key' => $this->genKey()
+                'description' => 'testing',
+                'app_key' => $this->genKey(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
-                'user_id' => 1,
+                'user_id' => $userId,
                 'name' => 'kopi shop',
-                'app_key' => $this->genKey()
+                'description' => 'testing',
+                'app_key' => $this->genKey(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
-                'user_id' => 1,
+                'user_id' => $userId,
                 'name' => 'kebun',
-                'app_key' => $this->genKey()
+                'description' => 'testing',
+                'app_key' => $this->genKey(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
-                'user_id' => 1,
+                'user_id' => $userId,
                 'name' => 'react web app',
-                'app_key' => $this->genKey()
-            ]
+                'description' => 'testing',
+                'app_key' => $this->genKey(),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ];
     }
-    private function getListClientResource(): array
+
+    private function getListClientResource(int $userId, $now): array
     {
         $listClientRes = [];
         $listMRes = MasterResource::all('id');
         foreach ($listMRes as $mr) {
             $listClientRes[] = [
-                'user_id' => 1,
-                'master_resource_id' => $mr['id']
+                'user_id' => $userId,
+                'master_resource_id' => $mr['id'],
+                'created_at' => $now,
+                'updated_at' => $now,
             ];
         }
+
         return $listClientRes;
     }
 }

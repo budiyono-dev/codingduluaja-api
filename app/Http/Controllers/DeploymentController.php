@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Mail\TestSMPTP;
 use App\Models\Configuration;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-
 
 class DeploymentController extends Controller
 {
@@ -23,7 +21,7 @@ class DeploymentController extends Controller
         if (Schema::hasTable('configuration')) {
             $config = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
 
-            if (!is_null($config) && !is_null($config['value']) &&  !$config['value'] !== '') {
+            if (! is_null($config) && ! is_null($config['value']) && ! $config['value'] !== '') {
                 $value = $config['value'];
             }
         }
@@ -31,6 +29,7 @@ class DeploymentController extends Controller
         if ($value !== $id) {
             abort(404);
         }
+
         return view('page.super-user', ['id' => $id]);
     }
 
@@ -40,26 +39,27 @@ class DeploymentController extends Controller
             Log::info('[DEPLOYMENT] refrech id for admin console');
             $conf = Configuration::where('group', 'admin')->where('key', 'su.url')->first();
             if (is_null($conf)) {
-                $conf = new Configuration();
+                $conf = new Configuration;
                 $conf->group = 'admin';
                 $conf->key = 'su.url';
             }
             $conf->value = Str::random(32);
             $conf->save();
         });
-        return "key berhasil di update ";
+
+        return 'key berhasil di update ';
     }
 
     public function sendTestMail()
     {
-        Mail::to('budiyono.dev@gmail.com')->send(new TestSMPTP());
+        Mail::to('budiyono.dev@gmail.com')->send(new TestSMPTP);
     }
 
     public function doAction(Request $req, string $id)
     {
         $vReq = $req->validate([
             'sel_action' => 'required|string',
-            'sel_seed_class' => 'string'
+            'sel_seed_class' => 'string',
         ]);
         $output = '';
 
@@ -110,12 +110,14 @@ class DeploymentController extends Controller
     private function downApp(): string
     {
         Artisan::call('down');
+
         return Artisan::output();
     }
 
     private function upApp(): string
     {
         Artisan::call('up');
+
         return Artisan::output();
     }
 
@@ -123,7 +125,7 @@ class DeploymentController extends Controller
     {
         Artisan::call('db:seed', [
             '--force' => true,
-            '--class' => $class
+            '--class' => $class,
         ]);
 
         return Artisan::output();

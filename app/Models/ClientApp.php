@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class ClientApp extends Model
 {
     use HasFactory;
-    protected $table = TableName::CLIENT_APP;
-    protected $fillable = ['user_id', 'name', 'app_key'];
 
-    public function connectedClientResource(): BelongsToMany
+    protected $table = TableName::CLIENT_APP;
+
+    protected $fillable = ['user_id', 'name', 'app_key', 'description'];
+
+    public function connectedResource(): BelongsToMany
     {
         return $this
             ->belongsToMany(ClientResource::class, TableName::CONNECTED_APP, 'client_app_id', 'client_resource_id');

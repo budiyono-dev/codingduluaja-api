@@ -9,5 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Desa extends Model
 {
     use HasFactory;
+
     protected $table = TableName::DESA;
 }

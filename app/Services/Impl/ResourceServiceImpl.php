@@ -3,9 +3,9 @@
 namespace App\Services\Impl;
 
 use App\Constants\TableName;
-use App\Services\ResourceService;
 use App\Enums\MasterResourceType;
 use App\Repository\ResourceRepository;
+use App\Services\ResourceService;
 
 class ResourceServiceImpl implements ResourceService
 {
@@ -24,6 +24,7 @@ class ResourceServiceImpl implements ResourceService
             MasterResourceType::USER_API => 4,
             default => 000
         };
+
         return $this->resourceRepository->getConnectedApp($id)->isEmpty();
     }
 

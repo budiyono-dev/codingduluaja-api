@@ -1,20 +1,20 @@
-@token=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNVHN4T3pJPSIsIm5hbWUiOiJ0ZXN0ZXIgQ29kaW5nZHVsdWFqYSIsImlhdCI6MTcwNzgxODEyNywiZXhwIjoxNzA4MDc3MzI3fQ==.0An4Wx9KeqeKJxo+BNSPTvcu9/Rv79gO8cjW5JSeuBY=
-
-### Get all (index)s
-GET http://localhost:8000/api/user
-x-authorization: {{token}} 
+@token=b701b165acab22d4637fe1b1e0f04af4
+### RESOURCE
+### Todolist App 
+GET http://localhost:8000/api/todolist
+Authorization: {{token}} 
 
 ### Get Single
-GET http://localhost:8000/api/user/1
-x-authorization: {{token}}
+GET http://localhost:8000/api/todolist/1
+Authorization:  {{token}}
 
-### Delete user
-DELETE http://localhost:8000/api/user/4
-x-authorization: {{token}}
+### Delete todolist
+DELETE http://localhost:8000/api/todolist/4
+Authorization:  {{token}}
 
-### Create user 
-POST http://localhost:8000/api/user
-x-authorization: {{token}}
+### Create Todolist 
+POST http://localhost:8000/api/todolist
+Authorization:  {{token}}
 content-type: application/json
 
 {
@@ -23,5 +23,13 @@ content-type: application/json
     "description": "MU VS Liverpol"
 }
 
+### Edit Todolist
+PUT http://localhost:8000/api/todolist/111
+Authorization:  {{token}}
+content-type: application/json
 
-
+{
+    "date": "21-12-2023",
+    "name": "watching tv",
+    "description": "watching naruto"
+}

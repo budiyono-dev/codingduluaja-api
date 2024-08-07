@@ -12,7 +12,7 @@ class AllWilayahSeeder extends Seeder
             ProvinsiSeeder::class,
             KabupatenSeeder::class,
             KecamatanSeeder::class,
-            DesaSeeder::class
+            DesaSeeder::class,
         ]);
     }
 }

@@ -17,18 +17,20 @@ class WilayahImpl implements Wilayah
 
     public function __construct(
         protected ResponseHelper $responseHelper,
-    ) {
-    }
+    ) {}
 
     private const COLUMN_GET_LIST_BPS = ['id', 'nama_bps as nama'];
+
     private const COLUMN_GET_LIST_DAGRI = ['id', 'nama_dagri as nama'];
 
     private const COLUMN_GET_BPS = ['id', 'kode_bps as kode', 'nama_bps as nama'];
+
     private const COLUMN_GET_DAGRI = ['id', 'kode_dagri as kode', 'nama_dagri as nama'];
 
     public function getListProvinsi(bool $isBps): JsonResponse
     {
         $data = Provinsi::all($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI);
+
         return $this->responseHelper->success(
             $this->getRequestId(),
             'Successfully Get List Provinsi',
@@ -36,6 +38,7 @@ class WilayahImpl implements Wilayah
             $data
         );
     }
+
     public function getProvinsi(string $id, bool $isBps): JsonResponse
     {
         return $this->responseHelper->success(
@@ -45,6 +48,7 @@ class WilayahImpl implements Wilayah
             Provinsi::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
         );
     }
+
     public function getListKabupaten(string $provinsiId, bool $isBps): JsonResponse
     {
         $data = Kabupaten::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
@@ -57,6 +61,7 @@ class WilayahImpl implements Wilayah
             $data
         );
     }
+
     public function getKabupaten(string $id, bool $isBps): JsonResponse
     {
         return $this->responseHelper->success(
@@ -66,6 +71,7 @@ class WilayahImpl implements Wilayah
             Kabupaten::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
         );
     }
+
     public function getListKecamatan(string $kabupatenId, bool $isBps): JsonResponse
     {
         $data = Kecamatan::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
@@ -78,6 +84,7 @@ class WilayahImpl implements Wilayah
             $data
         );
     }
+
     public function getKecamatan(string $id, bool $isBps): JsonResponse
     {
         return $this->responseHelper->success(
@@ -87,6 +94,7 @@ class WilayahImpl implements Wilayah
             Kecamatan::findOrFail($id, $isBps ? $this::COLUMN_GET_BPS : $this::COLUMN_GET_DAGRI)
         );
     }
+
     public function getListDesa(string $kecamatanId, bool $isBps): JsonResponse
     {
         $data = Desa::select($isBps ? $this::COLUMN_GET_LIST_BPS : $this::COLUMN_GET_LIST_DAGRI)
@@ -99,6 +107,7 @@ class WilayahImpl implements Wilayah
             $data
         );
     }
+
     public function getDesa(string $id, bool $isBps): JsonResponse
     {
         return $this->responseHelper->success(

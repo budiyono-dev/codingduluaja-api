@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
 
 class ImagePlaceholder
@@ -22,7 +23,7 @@ class ImagePlaceholder
         if (trim($filename) === '') {
             throw new InvalidArgumentException('filename name cannot be empty');
         }
-        list($fg, $bg) = PalleteImage::getPallet();
+        [$fg, $bg] = PalleteImage::getPallet();
         // Create a new true-color image with the specified dimensions
         $image = imagecreatetruecolor($width, $height);
 
@@ -39,7 +40,9 @@ class ImagePlaceholder
         $text = ImagePlaceholder::generateInitials($fullname);
 
         // Define the font file and font size
-        $fontFile = asset('assets/font/Roboto-Bold.ttf');
+        // $fontFile = asset('assets/font/Roboto-Bold.ttf');
+        $fontFullPath = Storage::disk('local')->path('font'.DIRECTORY_SEPARATOR.'Roboto-Bold.ttf');
+        $fontFile = $fontFullPath;
         $fontSize = 200;
 
         // Calculate the position to center the text in the image
@@ -53,7 +56,7 @@ class ImagePlaceholder
         // Add the text to the image
         imagettftext($image, $fontSize, 0, $textX, $textY, $textColor, $fontFile, $text);
 
-        $imagePath = $path . DIRECTORY_SEPARATOR . $filename;
+        $imagePath = $path.DIRECTORY_SEPARATOR.$filename;
 
         // Save the image to the file system
         imagepng($image, $imagePath);
@@ -69,6 +72,7 @@ class ImagePlaceholder
         foreach ($words as $word) {
             $initials .= strtoupper(substr($word, 0, 1));
         }
+
         return $initials;
     }
 }
