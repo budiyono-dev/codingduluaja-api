@@ -9,7 +9,7 @@
                     <form name="formGenerateUser" id="formGenerateUser" method="post"
                         action="{{ route('res.userApi.dummy') }}" autocomplete="off">
                         @csrf
-                        <select class="form-select mb-3" name="sel_qty" id="selSearchBy">
+                        <select class="form-select mb-3" name="sel_qty" id="selSearchBy" required>
                             <option selected value="">-- Select Qty --</option>
                             <option value="1">1</option>
                             <option value="3">3</option>

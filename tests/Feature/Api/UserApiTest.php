@@ -67,7 +67,7 @@ class UserApiTest extends TestCase
                 'data' => [
                     '*' => ['id', 'name', 'nik', 'phone', 'email', 'created_at', 'updated_at'],
                 ],
-            ]
+            ],
         ]);
     }
 

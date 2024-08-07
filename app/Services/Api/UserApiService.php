@@ -20,7 +20,7 @@ interface UserApiService
 
     public function detailView(int $userId, string $id);
 
-    public function edit(int $userId, int $id, $rv);
+    public function edit(int $userId, string $id, $rv);
 
     public function delete(int $userId, string $id);
 }

@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(TableName::USER_API, function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id');
             $table->unsignedBiginteger('user_id');
             $table->string('name');
             $table->string('nik')->nullable();
@@ -19,12 +19,12 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on(TableName::USERS);
-            $table->index(['id','user_id']);
+            $table->index(['id', 'user_id']);
         });
 
         Schema::create(TableName::ADDRESS_USER_API, function (Blueprint $table) {
             $table->id();
-            $table->unsignedBiginteger('user_api_id');
+            $table->foreignUuid('user_api_id');
             $table->string('country')->nullable();
             $table->string('state')->nullable();
             $table->string('city')->nullable();
@@ -37,7 +37,7 @@ return new class extends Migration
 
         Schema::create(TableName::IMAGE_USER_API, function (Blueprint $table) {
             $table->id();
-            $table->unsignedBiginteger('user_api_id');
+            $table->foreignUuid('user_api_id');
             $table->string('path');
             $table->string('filename');
             $table->timestamps();

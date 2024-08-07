@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on(TableName::USERS);
-            $table->index(['id','user_id']);
+            $table->index(['id', 'user_id']);
         });
     }
 

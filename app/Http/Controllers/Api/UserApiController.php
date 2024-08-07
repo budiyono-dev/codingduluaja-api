@@ -68,7 +68,7 @@ class UserApiController extends Controller
         );
     }
 
-    public function edit(int $id, CreateUserApiRequest $r): JsonResponse
+    public function edit(string $id, CreateUserApiRequest $r): JsonResponse
     {
         Log::info("[USER_API] Edit User {$id}");
         $rv = $r->validated();

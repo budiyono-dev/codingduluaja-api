@@ -8,12 +8,15 @@ use App\Helper\ConfigUtils;
 use App\Helper\ImagePlaceholder;
 use App\Helper\StringUtil;
 use App\Models\Api\User\UserApi;
+use App\Models\Api\User\UserApiAddress;
 use App\Models\Api\User\UserApiImage;
+use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserApiServiceImpl implements UserApiService
 {
@@ -31,40 +34,54 @@ class UserApiServiceImpl implements UserApiService
         DB::transaction(function () use ($userId, $qty) {
             $faker = Factory::create('id_ID');
             $dirUser = '/api/user/'.$userId.'/img';
-            $path = Storage::disk('local')->path($dirUser);
-            Storage::disk('local')->makeDirectory($dirUser);
-
+            if (!Storage::disk('local')->exists($dirUser)){
+                Storage::disk('local')->makeDirectory($dirUser);
+            }
+            $userInsert = [];
+            $addressInsert = [];
+            $imgInsert = [];
+            $now = Carbon::now();
             for ($i = 0; $i < $qty; $i++) {
-                $user = UserApi::create([
+                $pk = Str::uuid();
+                $user = [
+                    'id' => $pk,
                     'user_id' => $userId,
                     'name' => $faker->firstName().' '.$faker->lastName(),
                     'nik' => $faker->nik(),
                     'phone' => $faker->e164PhoneNumber(),
                     'email' => $faker->safeEmail(),
-                ]);
-                $user->address()->create([
-                    'user_api_id' => $user->id,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+
+                $addr = [
+                    'user_api_id' => $pk,
                     'country' => $faker->country(),
                     'state' => $faker->state(),
                     'city' => $faker->city(),
                     'postcode' => $faker->postcode(),
                     'detail' => $faker->address(),
-                ]);
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
 
-                $img = $faker->image($path);
-                $filename = basename($img);
+                $img = $this->createDefaultImage($userId, $user['name']);
 
-                // UserApiImage::create([
-                //     'user_api_id' => $user->id,
-                //     'path' => $dirUser,
-                //     'filename' => $filename,
-                // ]);
-                $user->image()->create([
-                    'user_api_id' => $user->id,
-                    'path' => $dirUser,
-                    'filename' => $filename,
-                ]);
+                $uimg = [
+                    'user_api_id' => $pk,
+                    'path' => $img['path'],
+                    'filename' => $img['filename'],
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+
+                $userInsert[] = $user;
+                $addressInsert[] = $addr;
+                $imgInsert[] = $uimg;
             }
+            UserApi::insert($userInsert);
+            UserApiAddress::insert($addressInsert);
+            UserApiImage::insert($imgInsert);
         });
     }
 
@@ -110,7 +127,6 @@ class UserApiServiceImpl implements UserApiService
                 'email' => $req['email'] ?? null,
             ]);
             $u->address()->create([
-                // 'user_api_id' => $user->id,
                 'country' => $req['address']['country'] ?? null,
                 'state' => $req['address']['state'] ?? null,
                 'city' => $req['address']['city'] ?? null,
@@ -118,7 +134,7 @@ class UserApiServiceImpl implements UserApiService
                 'detail' => $req['address']['detail'] ?? null,
             ]);
 
-            $img = $this->createDefaultImage($u->id, $u->name);
+            $img = $this->createDefaultImage($userId, $u->name);
             $u->image()->create($img);
 
             return $u;
@@ -146,7 +162,6 @@ class UserApiServiceImpl implements UserApiService
         ImagePlaceholder::placeholderByName($name, $path, $filename);
 
         return [
-            // 'user_api_id' => $userId,
             'path' => $dirUser,
             'filename' => $filename];
     }
@@ -162,9 +177,7 @@ class UserApiServiceImpl implements UserApiService
             throw ApiException::notFound();
         }
 
-        $fp = $rootPath.$u->image->path.DIRECTORY_SEPARATOR.$u->image->filename;
-
-        return response()->file($fp, ['Content-Type' => 'image/png']);
+        return $rootPath.$u->image->path.DIRECTORY_SEPARATOR.$u->image->filename;
     }
 
     public function updateImage(int $userId, string $id, $file)
@@ -199,18 +212,20 @@ class UserApiServiceImpl implements UserApiService
     {
         Log::info('[USER_API] get detail of user '.$id);
         $user = UserApi::where('id', $id)->where('user_id', $userId)->with(['address', 'image'])->first();
+
         if (is_null($user)) {
-            throw ApiException::notFound();
+            abort(404);
         }
 
         return $user;
     }
 
-    public function edit(int $userId, int $id, $rv)
+    public function edit(int $userId, string $id, $rv)
     {
         Log::info("[USER_API] Edit User {$id}");
-        $user = UserApi::where('id', $id)->where('user_id', $userId);
-        DB::transaction(function () use ($rv, $user) {
+        $user = $this->findUser($userId, $id);
+
+        $savedData = DB::transaction(function () use ($rv, $user) {
             $user->name = $rv['name'] ?? null;
             $user->nik = $rv['nik'] ?? null;
             $user->phone = $rv['phone'] ?? null;
@@ -226,20 +241,32 @@ class UserApiServiceImpl implements UserApiService
             $address->detail = $rv['address']['detail'] ?? null;
 
             $address->save();
+
+            return $user;
         });
 
-        return UserApiDto::fromUserApi($user);
+        return UserApiDto::fromUserApi($savedData);
     }
 
     public function delete(int $userId, string $id)
     {
         Log::info('[USER_API] delete user '.$id);
-        $user = UserApi::where('id', $id)->where('user_id', $userId);
-
+        $user = $this->findUser($userId, $id);
         DB::transaction(function () use ($user) {
             $user->address->delete();
             $user->image->delete();
             $user->delete();
         });
+    }
+
+    private function findUser(int $userId, string $id)
+    {
+        $user = UserApi::where('id', $id)->where('user_id', $userId)->with(['address', 'image'])->first();
+
+        if (is_null($user)) {
+            throw ApiException::notFound();
+        }
+
+        return $user;
     }
 }

@@ -3,12 +3,14 @@
 namespace App\Models\Api\User;
 
 use App\Constants\TableName;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserApi extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     protected $table = TableName::USER_API;
 
