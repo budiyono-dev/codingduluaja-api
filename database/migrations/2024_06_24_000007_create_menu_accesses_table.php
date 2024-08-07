@@ -1,4 +1,4 @@
-<?php
+//<?php.
 
 use App\Constants\TableName;
 use Illuminate\Database\Migrations\Migration;

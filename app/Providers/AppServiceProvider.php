@@ -52,6 +52,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(WilayahService::class, WilayahServiceImpl::class);
         $this->app->singleton(UserApiService::class, UserApiServiceImpl::class);
 
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     public function boot(): void

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on(TableName::USERS);
+            $table->index(['id', 'user_id']);
         });
 
         Schema::create(TableName::MASTER_RESOURCE, function (Blueprint $table) {
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on(TableName::USERS);
             $table->foreign('master_resource_id')->references('id')->on(TableName::MASTER_RESOURCE);
             $table->unique(['user_id', 'master_resource_id']);
+            $table->index(['id', 'user_id']);
         });
 
         Schema::create(TableName::CONNECTED_APP, function (Blueprint $table) {
