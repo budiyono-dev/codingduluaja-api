@@ -34,7 +34,7 @@ class UserApiServiceImpl implements UserApiService
         DB::transaction(function () use ($userId, $qty) {
             $faker = Factory::create('id_ID');
             $dirUser = '/api/user/'.$userId.'/img';
-            if (!Storage::disk('local')->exists($dirUser)){
+            if (! Storage::disk('local')->exists($dirUser)) {
                 Storage::disk('local')->makeDirectory($dirUser);
             }
             $userInsert = [];
@@ -163,7 +163,8 @@ class UserApiServiceImpl implements UserApiService
 
         return [
             'path' => $dirUser,
-            'filename' => $filename];
+            'filename' => $filename,
+        ];
     }
 
     public function getImage(int $userId, string $id)

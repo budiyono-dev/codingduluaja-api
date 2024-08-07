@@ -13,6 +13,10 @@
                         <table class="table table-sm table-hover table-bordered">
                             <tbody>
                                 <tr>
+                                    <td class="">ID</td>
+                                    <td class="">{{$user->id}}</td>
+                                </tr>
+                                <tr>
                                     <td class="">Name</td>
                                     <td class="">{{$user->name}}</td>
                                 </tr>
