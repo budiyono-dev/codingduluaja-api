@@ -27,7 +27,7 @@
                                 </a>
                                 <ul class="list-group collapse" id="{{ 'ca' . $ca->id.'ca'.$key }}">
                                     <li class="list-group-item list-group-item-primary">
-                                        <div class="row">
+                                        <div class="row g-2">
                                             <div class="col-auto">
                                                 <form action="{{route('app.manager.createToken')}}" method="POST">
                                                     @csrf
