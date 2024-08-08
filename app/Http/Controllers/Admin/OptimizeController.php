@@ -21,7 +21,7 @@ class OptimizeController extends Controller
     public function optimize(Request $request)
     {
         $req = $request->validate([
-            'selOptimize' => 'required|string|in:optimize,optimize_clear,token_hk',
+            'selOptimize' => 'required|string|in:optimize,optimize_clear,token_hk,about',
         ]);
 
         $action = $req['selOptimize'];
@@ -33,6 +33,8 @@ class OptimizeController extends Controller
             $output = $this->artisanHelper->optimizeClear();
         } elseif ($action === 'token_hk') {
             $output = $this->artisanHelper->tokenHK();
+        } elseif ($action === 'about') {
+            $output = $this->artisanHelper->about();
         } else {
             abort(404);
         }

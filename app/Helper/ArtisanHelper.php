@@ -72,9 +72,18 @@ class ArtisanHelper
 
         return Artisan::output();
     }
+
     public function tokenHK(): string
     {
         Artisan::call('app:token-hk');
+
+        return Artisan::output();
+    }
+
+    public function about(): string
+    {
+        Artisan::call('about');
+
         return Artisan::output();
     }
 }

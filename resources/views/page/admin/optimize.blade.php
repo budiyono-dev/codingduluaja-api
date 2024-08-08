@@ -16,6 +16,7 @@
                                 <option value="optimize">Optimize</option>
                                 <option value="optimize_clear">Optimize:clear</option>
                                 <option value="token_hk">Token House Keeping</option>
+                                <option value="about">About</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm">Execute</button>
