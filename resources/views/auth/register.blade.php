@@ -2,7 +2,7 @@
     <div class="container" style="height: 100vh">
         <div class="row justify-content-center align-items-center h-100">
             <div class="col-sm-8">
-                <div class="card m-2 py-3 px-5">
+                <div class="card m-2 py-3 px-5 shadow">
                     <div class="col">
                         <h2 class="text-center mb-4">Registration</h2>
                         <form method="POST" action="{{ route('register') }}">

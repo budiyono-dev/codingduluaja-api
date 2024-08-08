@@ -2,7 +2,7 @@
     <div class="container" style="height: 100vh">
         <div class="row justify-content-center align-items-center h-100">
             <div class="col-sm-8 col-md-6 mb-3">
-                <div class="card p-5">
+                <div class="card p-5 shadow">
                     <h2 class="text-center mb-4">Login</h2>
                     <form action="{{ route('login') }}" method="post">
                         @csrf

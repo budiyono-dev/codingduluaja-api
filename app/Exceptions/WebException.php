@@ -15,7 +15,7 @@ class WebException extends Exception
         $this->redirectRoute = $redirectRoute;
         parent::__construct($message, $code, $previous);
     }
-    
+
     public function report()
     {
         Log::error('[web.EXCEPTION] ', ['message' => $this->message]);
