@@ -1,13 +1,13 @@
 <x-layout.main-sidebar title="Admin | Menu Access">
     <div class="row mt-3 justify-content-center">
         <div class="col">
-            <div class="card">
-                <div class="card-header d-flex gap-3">
-                    <h4 class="m-0">Edit Menu Access</h4>
-                    <button class="btn btn-primary btn-sm px-3" type="submit">Save</button>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('admin.menuAccess.doCreate') }}" method="POST">
+            <div class="card shadow">
+                <form action="{{ route('admin.menuAccess.doCreate') }}" method="POST">
+                    <div class="card-header d-flex gap-3">
+                        <h4 class="m-0">Edit Menu Access</h4>
+                        <button class="btn btn-primary btn-sm px-3" type="submit">Save</button>
+                    </div>
+                    <div class="card-body">
                         @csrf
                         <div class="mb-3">
                             <label for="menuAccesName" class="form-label">Menu Access Name</label>
@@ -51,8 +51,8 @@
                                 <p>No Data....</p>
                             @endforelse
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -65,12 +65,12 @@
 
             function selectAll(e) {
                 let txt = e.innerText;
-                if (txt === 'select all') {
+                if (txt === 'Select All') {
                     document.querySelectorAll(".items-check-box").forEach(el => el.checked = true);
-                    e.innerText = 'unselect all';
+                    e.innerText = 'Unselect All';
                 } else {
                     document.querySelectorAll(".items-check-box").forEach(el => el.checked = false);
-                    e.innerText = 'select all';
+                    e.innerText = 'Select All';
                 }
             }
 
@@ -78,12 +78,12 @@
                 let txt = e.innerText;
                 let cbInputs = e.parentElement.parentElement.querySelectorAll('.list-group-item>input');
 
-                if (txt === 'select all') {
+                if (txt === 'Select All') {
                     cbInputs.forEach(el => el.checked = true);
-                    e.innerText = 'unselect all';
+                    e.innerText = 'Unselect All';
                 } else {
                     cbInputs.forEach(el => el.checked = false);
-                    e.innerText = 'select all';
+                    e.innerText = 'Select All';
                 }
             }
         </script>

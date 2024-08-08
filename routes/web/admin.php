@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\LoggingController;
 use App\Http\Controllers\Admin\MenuAccessController;
 use App\Http\Controllers\Admin\MigrationController;
+use App\Http\Controllers\Admin\OptimizeController;
 use App\Http\Controllers\Admin\SiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,4 +53,13 @@ Route::group([
     Route::get('', 'index')->name('admin.site');
     Route::post('/down', 'down')->name('admin.site.down');
     Route::post('/up', 'up')->name('admin.site.up');
+});
+
+Route::group([
+    'middleware' => $middleware,
+    'controller' => OptimizeController::class,
+    'prefix' => '/admin/optimize',
+], function () {
+    Route::get('', 'index')->name('admin.optimize');
+    Route::post('/optimize', 'optimize')->name('admin.optimize.optimize');
 });

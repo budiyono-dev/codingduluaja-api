@@ -13,6 +13,7 @@ return [
         'admin_migration' => 'Database Migrations',
         'admin_logging' => 'Logging',
         'admin_site' => 'Site',
+        'admin_optimize' => 'Optimize',
 
         'app_resource' => 'App Resource',
         'app_client' => 'App Client',

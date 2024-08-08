@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Admin | Migration">
     <div class="row justify-content-center mt-3">
         <div class="col-sm">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">
                     <h4 class="text-center m-0">Action</h4>
                 </div>
@@ -11,7 +11,7 @@
                         <div class="mb-3">
                             <label for="selMigrate" class="form-label">Migrations</label>
                             <select class="form-select" aria-label="Default select example" name="selMigrate"
-                                id="selMigrate">
+                                id="selMigrate" required>
                                 <option value="" selected>Pilih Action</option>
                                 <option value="fresh">fresh</option>
                                 <option value="migrate">migrate</option>
@@ -30,7 +30,7 @@
                         <div class="mb-3">
                             <label for="selSeed" class="form-label">Seeder</label>
                             <select class="form-select" aria-label="Default select example" name="selSeed"
-                                id="selMigrate">
+                                id="selMigrate" required>
                                 <option value="" selected>Pilih Seeder</option>
                                 <option value="DevelopmentSeeder">Development</option>
                                 <option value="AllWilayahSeeder">All Wilayah</option>
@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="col-sm col-md-8">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">
                     <h4 class="text-center m-0">Console Output</h4>
                 </div>
