@@ -17,5 +17,6 @@ class ClientTokenHouseKeeping extends Command
         ClientToken::where('is_active', false)->delete();
         ClientToken::where('exp', '<', time())->delete();
         info('[token.SCHEDULE] house keeping finish, clear expired tokens and inactive tokens');
+        $this->info('Clearing expired and non-active tokens from database DONE');
     }
 }

@@ -116,6 +116,22 @@ class MigrationUtils
         }
     }
 
+    public static function attachMenuAccessDetail(int $menuAccessId, array $menuItems): void
+    {
+        foreach ($menuItems as $item) {
+            $dt = new MenuAccessDetail;
+            $dt->menu_access_id = $menuAccessId;
+            $dt->menu_item_id = $item;
+            $dt->enabled = true;
+            $dt->save();
+        }
+    }
+
+    public static function dettachMenuAccessDetail(int $menuAccessId, array $menuItems): void
+    {
+        MenuAccessDetail::where('menu_access_id', $menuAccessId)->whereIn('menu_item_id', $menuItems)->delete();
+    }
+
     public static function addMenuAccessDetailUser(int $menuAccessId, array $items): void
     {
         $menuParent = MenuParent::where('id', '!=', 1)->with('menuItem')->get();

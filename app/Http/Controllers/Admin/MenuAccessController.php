@@ -52,7 +52,7 @@ class MenuAccessController extends Controller
             }
         }
         $menuParent = MenuParent::all();
-
+        
         return view('page.admin.edit-menu-access', [
             'menuAccess' => $menuAccess,
             'menuParent' => $menuParent,

@@ -35,7 +35,7 @@ class SiteController extends Controller
     public function down()
     {
         if ($this->isSiteDown()) {
-            return redirect->route('page.admin.ste')->with('status', 'site alreaddy down');
+            return redirect()->route('page.admin.ste')->with('status', 'site alreaddy down');
         }
         $secret = Str::random(32);
         $this->artisanHelper->down($secret);
@@ -47,7 +47,7 @@ class SiteController extends Controller
     public function up()
     {
         if (! $this->isSiteDown()) {
-            return redirect->route('page.admin.ste')->with('status', 'site alreaddy up');
+            return redirect()->route('page.admin.ste')->with('status', 'site alreaddy up');
         }
         $this->artisanHelper->up();
         Log::info('[SITE] up site');

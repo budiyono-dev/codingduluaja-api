@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Admin | Menu Access">
     <div class="row justify-content-center mt-3">
         <div class="col">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">
                     <div class="m-0">
                         <h4 class="m-0">User Role Menu Access</h4>
@@ -69,7 +69,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header d-flex align-items-center">
                     <h4 class="m-0">Menu Access</h4>
                     <a class="btn btn-primary btn-sm mx-3 px-3" href="{{ route('admin.menuAccess.create') }}">Add</a>
@@ -120,7 +120,6 @@
     @push('script')
     <script>
         const formDelete = document.querySelectorAll('form[name="formDeleteMenuAccess"]');
-        console.log(formDelete);
         if (formDelete) {
             for (let f of formDelete) {
                 f.addEventListener('submit', (e) => {
