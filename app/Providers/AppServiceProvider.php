@@ -30,6 +30,8 @@ use App\Services\Impl\ResourceServiceImpl;
 use App\Services\MenuService;
 use App\Services\ResourceService;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Telescope\TelescopeApplicationServiceProvider;
+use Laravel\Telescope\TelescopeServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,8 +54,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(WilayahService::class, WilayahServiceImpl::class);
         $this->app->singleton(UserApiService::class, UserApiServiceImpl::class);
 
-        if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeApplicationServiceProvider::class)) {
-            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+        if ($this->app->environment('local') && class_exists(TelescopeApplicationServiceProvider::class)) {
+            $this->app->register(TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
     }

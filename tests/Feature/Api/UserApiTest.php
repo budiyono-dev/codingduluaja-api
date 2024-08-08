@@ -143,7 +143,7 @@ class UserApiTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => $this->token,
         ])->post('/api/user/image/'.$u->id, [
-            'file' => UploadedFile::fake()->create($filename, 100, 'image/png')
+            'file' => UploadedFile::fake()->create($filename, 100, 'image/png'),
         ]);
 
         $response->dump();
