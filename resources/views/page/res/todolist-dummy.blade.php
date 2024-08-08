@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Resource | Todolist">
     <div class="row">
         <div class="col-lg-6">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow">
                 <div class="card-header d-flex">
                     <h4 class="m-0">Create Dummy Todolist</h4>
                 </div>

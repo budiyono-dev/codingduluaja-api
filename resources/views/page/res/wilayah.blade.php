@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Resource | {{ $title }}">
     <div class="row justify-content-center">
         <div class="col">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header d-flex gap-3">
                     <h4 class="m-0">Resource {{ $title }}</h4>
                     <input type="text"  class="form-control form-control-sm" style="width: 200px" placeholder="keyword" id="txtFilterTable">

@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Application | Manager">
     <div class="row">
         <div class="col">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <h4 class="m-0">Application Manager</h4>

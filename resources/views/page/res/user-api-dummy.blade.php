@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Resource | User Api">
     <div class="row">
         <div class="col-lg-6">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow">
                 <div class="card-header">
                     <h4 class="m-0">Generate Random User</h4>
                 </div>

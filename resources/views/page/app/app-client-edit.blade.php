@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Application | Client">
     <div class="row">
         <div class="col-lg-6">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow">
                 <h2 class="fs-5 card-header">
                     Edit client
                 </h2>

@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Application | Resource">
     <div class="row">
         <div class="col-lg-6">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow">
                 <div class="card-header">
                     <h2 class="fs-5">Add New Resource</h2>
                 </div>
