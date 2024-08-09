@@ -1,11 +1,63 @@
 <x-layout.main-sidebar title="Documentation | Todolist">
-    <div class="d-flex f-w">
-
-        <div class="doc-main doc">
-            <h1 class="fs-2" id="apiName">Todolist Api</h3>
-            <p>Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu</p>
-            <h3 class="fs-4" id="listEndpoint">List Endpoint</h3>
-            <p>Berikut list endpoint yang disediakan untuk Api Todolist, pastikan menambahkan token kedalam <strong>Header</strong> untuk setiap request. <code>X-Authorization: Bearer @{{your_token}}</code></p>
+    <div class="row">
+        <div class="col-lg-2 border-end">
+            <ul>
+                <li><a class="link-dark" href="#apiName">Todolist Api</a></li>
+                <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
+                    <ul>
+                        <li><a class="link-dark" href="#getAll">Get All Todolist</a></li>
+                        <li><a class="link-dark" href="#getSingle">Get Single Todolist</a></li>
+                        <li><a class="link-dark" href="#create">Create Todolist</a></li>
+                        <li><a class="link-dark" href="#edit">Edit Todolist</a></li>
+                        <li><a class="link-dark" href="#delete">Delete Todolist</a></li>
+                    </ul>
+                </li>
+                <li><a class="link-dark" href="#listError">Error Example</a>
+                    <ul>
+                        <li><a class="link-dark" href="#unAuthorize">Unauthorized</a></li>
+                        <li><a class="link-dark" href="#notFound">Not Found</a></li>
+                        <li><a class="link-dark" href="#notValid">Not Valid</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col">
+            <!-- judul -->
+            <section>
+                <h1>Todolist Api</h1>
+                <p>Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu</p>
+            </section>
+            <!-- list endpoint-->
+            <section>
+                <h2>Endpoint</h2>
+                <div>
+                    <h3>Get All Todolist</h3>
+                    <table class="table table-sm table-responsive table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Properties</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Description</td>
+                                <td>Get All Todolist</td>
+                            </tr>
+                            <tr>
+                                <td>Method</td>
+                                <td>GET</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td><code>{{config('app.url')}}/api/todolist</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <!-- error-->
+            <div class="doc-main doc">
             
             <h3 class="fs-6 fw-bold" id="getAll">Get All Todolist</h3>
             <p>Mengambil semua data todolist, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/api/todolist</code>, contoh response :</p>
@@ -83,31 +135,8 @@
 
             <h3 class="fs-6 fw-bold" id="notValid">Not Valid</h3>
             <pre class="card" ><code class="language-json" id="resNotValid"></code></pre>
-            
-            
-            
         </div>
-        <nav id="TableOfContents" class="nav-doc border-end doc">
-            <ul>
-                <li><a class="link-dark" href="#apiName">Todolist Api</a></li>
-                <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
-                    <ul>
-                        <li><a class="link-dark" href="#getAll">Get All Todolist</a></li>
-                        <li><a class="link-dark" href="#getSingle">Get Single Todolist</a></li>
-                        <li><a class="link-dark" href="#create">Create Todolist</a></li>
-                        <li><a class="link-dark" href="#edit">Edit Todolist</a></li>
-                        <li><a class="link-dark" href="#delete">Delete Todolist</a></li>
-                    </ul>
-                </li>
-                <li><a class="link-dark" href="#listError">Error Example</a>
-                    <ul>
-                        <li><a class="link-dark" href="#unAuthorize">Unauthorized</a></li>
-                        <li><a class="link-dark" href="#notFound">Not Found</a></li>
-                        <li><a class="link-dark" href="#notValid">Not Valid</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+        </div>
     </div>
     @push('script')
         <script type="text/javascript">
