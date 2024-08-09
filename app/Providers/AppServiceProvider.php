@@ -15,8 +15,6 @@ use App\Services\Api\TodolistService;
 use App\Services\Api\TodolistServiceImpl;
 use App\Services\Api\UserApiService;
 use App\Services\Api\UserApiServiceImpl;
-use App\Services\Api\Wilayah;
-use App\Services\Api\WilayahImpl;
 use App\Services\Api\WilayahService;
 use App\Services\Api\WilayahServiceImpl;
 use App\Services\Application\AppClientService;
@@ -44,7 +42,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ArtisanHelper::class, ArtisanHelper::class);
         $this->app->singleton(AppClientService::class, AppClientServiceImpl::class);
         $this->app->singleton(AppResourceService::class, AppResourceServiceImpl::class);
-        $this->app->singleton(Wilayah::class, WilayahImpl::class);
         $this->app->singleton(ResourceService::class, ResourceServiceImpl::class);
         $this->app->singleton(MenuService::class, MenuServiceImpl::class);
         $this->app->singleton(AppManagerService::class, AppManagerServiceImpl::class);
