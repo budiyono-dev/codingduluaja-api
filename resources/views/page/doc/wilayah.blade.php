@@ -1,6 +1,5 @@
 <x-layout.main-sidebar title="Documentation | {{ $title }}">
     <div class="d-flex f-w">
-
         <div class="doc-main doc">
             <h1 class="fs-2" id="apiName">{{ $title }} Api</h3>
             <p>{{ $title }} Api merupakan api yang disediakan untuk menampilkan data infomasi wilayah berdasarkan data bps. <b>Disclaimer</b> : data wilayah bisa jadi tidak sesuai, silahkan cek di laman resmi bps</p>
