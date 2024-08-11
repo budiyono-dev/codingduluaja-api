@@ -1,4 +1,4 @@
-<x-layout.main-sidebar title="Documentation | Todolist">
+<x-layout.main-sidebar :title="$title">
     @push('styles')
     <script src="{{ asset('assets/hjs/highlight.min.js') }}"></script>
     <script src="{{ asset('assets/hjs/json.min.js') }}"></script>
