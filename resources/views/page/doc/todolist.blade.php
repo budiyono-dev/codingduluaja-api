@@ -1,5 +1,13 @@
 <x-layout.main-sidebar title="Documentation | Todolist">
-      <div class="row">
+    @push('styles')
+    <script src="{{ asset('assets/hjs/highlight.min.js') }}"></script>
+    <script src="{{ asset('assets/hjs/json.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/hjs/github-dark.min.css') }}">
+    <script>
+        hljs.highlightAll();
+    </script>
+    @endpush
+    <div class="row">
         <div class="col-3 border-end">
             <ul id="navbar-example3" style="list-style: none" class="mt-3">
                 <li><a class="link-body-emphasis d-block py-1 px-2" href="#item-2-1">Get All Todolist</a></li>
@@ -10,7 +18,20 @@
             </ul>
         </div>
         <div class="col-9">
-          <div style="height: 90vh; overflow-y: scroll;" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
+            @markdown
+            # Todolist Api
+            Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu
+            ## Endpoint
+            ### Get All Todolist
+            #### Spesification
+
+            | Syntax | Description |
+            | --- | --- |
+            | Description | Title |
+            | Paragraph | Text |
+
+            @endmarkdown
+            <div style="height: 90vh; overflow-y: scroll;" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
             <div id="item-1">
                 <h1>Todolist Api</h1>
                 <p>Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu</p>
@@ -213,28 +234,28 @@
                 </div>
             </div>
             <div id="item-2">
-              <h4>Item 2</h4>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
+                <h4>Item 2</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
             </div>
             <div id="item-3">
-              <h4>Item 3</h4>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
+                <h4>Item 3</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
             </div>
             <div id="item-3-1">
-              <h5>Item 3-1</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
+                <h5>Item 3-1</h5>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
             </div>
             <div id="item-3-2">
-              <h5>Item 3-2</h5>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
+                <h5>Item 3-2</h5>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque quibusdam nisi reiciendis, provident soluta, saepe fugit exercitationem nemo non veniam illo, inventore doloremque eligendi eos veritatis recusandae est maxime!</p>
             </div>
-          </div>
+            </div>
         </div>
-      </div>
+    </div>
     {{-- <div class="row">
         <div class="col-lg-2 border-end" >
             <ul id="navbar-example3">

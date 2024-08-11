@@ -8,9 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/example', function () {
-    return view('example');
-});
+// Route::get('/example', function () {
+//     return view('example');
+// });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
