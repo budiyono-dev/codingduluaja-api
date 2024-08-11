@@ -2,14 +2,14 @@
     @push('styles')
     <script src="{{ asset('assets/hjs/highlight.min.js') }}"></script>
     <script src="{{ asset('assets/hjs/json.min.js') }}"></script>
-    <script src="{{ asset('assets/js/doc.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/hjs/github-dark.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/doc.css') }}">
     <script>
         hljs.highlightAll();
     </script>
     @endpush
     <div class="row">
-        <div class="col-3 border-end">
+        <div class="col-2 border-end">
             <ul id="navbar-example3" style="list-style: none" class="mt-3">
                 <li><a class="link-body-emphasis d-block py-1 px-2" href="#item-2-1">Get All Todolist</a></li>
                 <li><a class="link-body-emphasis d-block py-1 px-2" href="#item-2-2">Get Single Todolist</a></li>
@@ -18,7 +18,7 @@
                 <li><a class="link-body-emphasis d-block py-1 px-2" href="#item-2-5">Delete Todolist</a></li>
             </ul>
         </div>
-        <div class="col-9">
+        <div class="col-10 ps-3">
             @markdown
             # Todolist Api
             Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu
@@ -32,6 +32,7 @@
             | Description | Get All Todolist |
             | Method | GET |
             | URL | `{{config('app.url')}}/api/todolist` |
+            | Security | Token |
             | Request | `application/json` |
             | Response | `application/json` |
             
@@ -41,133 +42,172 @@
             | --- | --- |
             | Authorization | `@{{token}}` |
             | Accept | `application/json` |
+            
+            #### Example Response
+            
+            ```json
+            {
+                "meta": {
+                    "request_id": "790feba7-c696-4e91-b4ee-e7d175e6b5ba",
+                    "success": true,
+                    "code": "CDA-S-001",
+                    "message": "Successfully Get Todolist"
+                },
+                "data": [
+                    {
+                        "id": "1",
+                        "date": "2024-08-15",
+                        "name": "Voluptatem dolorum in id.",
+                        "description": "Eum ad voluptatibus perferendis et possimus quidem dolor omnis iste et.",
+                        "created_at": "2024-08-09 16:06:24",
+                        "updated_at": "2024-08-09 16:06:24"
+                    },
+                    {
+                        "id": "2",
+                        "date": "2024-08-23",
+                        "name": "Tempora ut magni quia.",
+                        "description": "Voluptatem voluptas ab delectus sunt dolor dolores sed aut beatae ut dolor explicabo.",
+                        "created_at": "2024-08-09 16:06:24",
+                        "updated_at": "2024-08-09 16:06:24"
+                    },
+                    {
+                        "id": "3",
+                        "date": "2024-08-20",
+                        "name": "Sapiente doloremque praesentium.",
+                        "description": "Dolore amet et temporibus quisquam amet nesciunt qui.",
+                        "created_at": "2024-08-09 16:06:24",
+                        "updated_at": "2024-08-09 16:06:24"
+                    },
+                    {
+                        "id": "20",
+                        "date": "2024-08-15",
+                        "name": "Velit laudantium laudantium.",
+                        "description": "Neque eius maiores id perspiciatis quis aspernatur quam vel laborum ut.",
+                        "created_at": "2024-08-09 16:06:24",
+                        "updated_at": "2024-08-09 16:06:24"
+                    }
+                ]
+            }
+            ```
+            
+            ### Get Detail Todolist
+            
+            #### Spesification
+            
+            | Specification |  |
+            | --- | --- |
+            | Description | Get All Todolist |
+            | Method | GET |
+            | URL | `{{config('app.url')}}/api/todolist/{id}` |
+            | Security | Token |
+            | Request | `application/json` |
+            | Response | `application/json` |
+            
+            #### Request Header
 
+            | Name | Value |
+            | --- | --- |
+            | Authorization | `@{{token}}` |
+            | Accept | `application/json` |
+            
+            #### Parameter
+            
+            | Name | Value |
+            | --- | --- |
+            | id | id todolist |
+            
+            #### Example Response
+            
+            ```json
+            {
+                "meta": {
+                    "request_id": "6fa0dfd0-cb08-4184-ae33-376efa34c616",
+                    "success": true,
+                    "code": "CDA-S-001",
+                    "message": "Successfully Get Todolist"
+                },
+                "data": {
+                    "id": "1",
+                    "date": "2024-08-15",
+                    "name": "Voluptatem dolorum in id.",
+                    "description": "Eum ad voluptatibus perferendis et possimus quidem dolor omnis iste et.",
+                    "created_at": "2024-08-09 16:06:24",
+                    "updated_at": "2024-08-09 16:06:24"
+                }
+            }
+            ```
+            
+            
+            ### Create Todolist
+            
+            #### Spesification
+            
+            | Specification |  |
+            | --- | --- |
+            | Description | Get All Todolist |
+            | Method | POST |
+            | URL | `{{config('app.url')}}/api/todolist` |
+            | Security | Token |
+            | Request | `application/json` |
+            | Response | `application/json` |
+            
+            #### Request Header
+
+            | Name | Value |
+            | --- | --- |
+            | Authorization | `@{{token}}` |
+            | Accept | `application/json` |
+            
+            #### Request Body
+            
+            | Name | Value |
+            | --- | --- |
+            | date | date todolist |
+            | name | name todolist |
+            | description | description todolist |
+            
+            #### Example Request
+            ```json
+            {
+              "meta": {
+                "request_id": "42b8175c-5a34-45f4-b7f5-7d0f83cb4a53",
+                "success": true,
+                "code": "CDA-S-006",
+                "message": "Data Inserted Successfully",
+              }
+              "data": {
+                "id": "1",
+                "date": "2024-08-11 22:30:28",
+                "name": "watching football",
+                "description": "MU VS Liverpol",
+                "created_at": "2024-08-11 22:30:28",
+                "updated_at": "2024-08-11 22:30:28"
+              }
+            } 
+            ```
+            
+            #### Example Response
+            
+            ```json
+            {
+                "meta": {
+                    "request_id": "6fa0dfd0-cb08-4184-ae33-376efa34c616",
+                    "success": true,
+                    "code": "CDA-S-001",
+                    "message": "Successfully Get Todolist"
+                },
+                "data": {
+                    "id": "1",
+                    "date": "2024-08-15",
+                    "name": "Voluptatem dolorum in id.",
+                    "description": "Eum ad voluptatibus perferendis et possimus quidem dolor omnis iste et.",
+                    "created_at": "2024-08-09 16:06:24",
+                    "updated_at": "2024-08-09 16:06:24"
+                }
+            }
+            ```
             @endmarkdown
             <div style="height: 90vh; overflow-y: scroll;" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
-
-            <div id="item-2-1">
-                <h3 class="my-3">Get All Todolist</h3>
-                <table class="table table-sm table-responsive table-hover table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Spesification</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Description</td>
-                            <td>Get All Todolist</td>
-                        </tr>
-                        <tr>
-                            <td>Method</td>
-                            <td>GET</td>
-                        </tr>
-                        <tr>
-                            <td>URL</td>
-                            <td><code>{{config('app.url')}}/api/todolist</code></td>
-                        </tr>
-                        <tr>
-                            <td>Content-Type</td>
-                            <td>application/json</td>
-                        </tr>
-                        <tr>
-                            <td>Security</td>
-                            <td>header token</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-sm table-responsive table-hover table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Request Header</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Authorization</td>
-                            <td><code>@{{token}}</code></td>
-                        </tr>
-                        <tr>
-                            <td>Accept</td>
-                            <td>application/json</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="card">
-                    <div class="card-header">Example Response</div>
-                    <div class="card-body bg-body-secondary">
-                        <pre class="p-2"><code>{{__('doc/todo.getAll')}}</code></pre>
-                    </div>
-                </div>
-            </div>
-            <div id="item-2-1">
-                <h3 class="my-3">Get Detail Todolist</h3>
-                <table class="table table-sm table-responsive table-hover table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Spesification</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Description</td>
-                            <td>Get Detail Todolist</td>
-                        </tr>
-                        <tr>
-                            <td>Method</td>
-                            <td>GET</td>
-                        </tr>
-                        <tr>
-                            <td>URL</td>
-                            <td><code>{{config('app.url')}}/api/todolist/{id}</code></td>
-                        </tr>
-                        <tr>
-                            <td>Content-Type</td>
-                            <td>application/json</td>
-                        </tr>
-                        <tr>
-                            <td>Security</td>
-                            <td>header token</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-sm table-responsive table-hover table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Request Header</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Authorization</td>
-                            <td><code>@{{token}}</code></td>
-                        </tr>
-                        <tr>
-                            <td>Accept</td>
-                            <td>application/json</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-sm table-responsive table-hover table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Parameter</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>id</td>
-                            <td>id todolist</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="card">
-                    <div class="card-header">Example Response</div>
-                    <div class="card-body bg-body-secondary">
-                        <pre class="p-2"><code>{{__('doc/todo.detail')}}</code></pre>
-                    </div>
-                </div>
-            </div>
             <div id="item-2-1">
                 <h3 class="mt-5 mb-3"># Create Todolist</h3>
                 <h4 class="my-3">## Specification</h3>

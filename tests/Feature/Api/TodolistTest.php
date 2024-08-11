@@ -6,8 +6,10 @@ use App\Models\Api\Todolist;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
+#[Group('todolistTest')]
 class TodolistTest extends TestCase
 {
     use RefreshDatabase;
@@ -60,6 +62,7 @@ class TodolistTest extends TestCase
             'name' => 'watching football',
             'description' => 'MU VS Liverpol',
         ]);
+
         $response->assertOk();
         $response->assertJson(fn (AssertableJson $json) => $json
             ->has('meta')
