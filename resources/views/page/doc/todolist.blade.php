@@ -2,6 +2,7 @@
     @push('styles')
     <script src="{{ asset('assets/hjs/highlight.min.js') }}"></script>
     <script src="{{ asset('assets/hjs/json.min.js') }}"></script>
+    <script src="{{ asset('assets/js/doc.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/hjs/github-dark.min.css') }}">
     <script>
         hljs.highlightAll();
