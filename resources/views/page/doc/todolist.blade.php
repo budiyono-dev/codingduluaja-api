@@ -23,22 +23,27 @@
             Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu
             ## Endpoint
             ### Get All Todolist
+            
             #### Spesification
-
-            | Syntax | Description |
+            
+            | Specification |  |
             | --- | --- |
-            | Description | Title |
-            | Paragraph | Text |
+            | Description | Get All Todolist |
+            | Method | GET |
+            | URL | `{{config('app.url')}}/api/todolist` |
+            | Request | `application/json` |
+            | Response | `application/json` |
+            
+            #### Request Header
+
+            | Name | Value |
+            | --- | --- |
+            | Authorization | `@{{token}}` |
+            | Accept | `application/json` |
 
             @endmarkdown
             <div style="height: 90vh; overflow-y: scroll;" data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
-            <div id="item-1">
-                <h1>Todolist Api</h1>
-                <p>Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu</p>
-            </div>
-            <div id="item-2">
-                <h2 id="listEndpoint">Endpoint</h2>
-            </div>
+
             <div id="item-2-1">
                 <h3 class="my-3">Get All Todolist</h3>
                 <table class="table table-sm table-responsive table-hover table-bordered table-striped">
