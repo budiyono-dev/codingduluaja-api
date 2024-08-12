@@ -8,6 +8,12 @@
     --hover2: #98C1D9;
     --bg2: #003349;
     color-scheme: light;
+
+    --w1: #003349;
+    --w2: #246C7E;
+    --w3: #3594A5;
+    --w4: #84D0CA;
+    --w5: #FAFAEF;
 }
 
 .dark {
@@ -33,20 +39,20 @@ body {
 
 header {
     display: flex;
-    padding: 1rem 5% 1rem 5%;
+    padding: 0.5rem 5%;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 0.1rem solid var(--secondary);
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     width: 100%;
     box-sizing: border-box;
-    background-color: inherit;
-    height: 80px;
+    background-color: var(--w1);
+    color: var(--w5);
 
     &>.brand {
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: bold;
+        margin: 0.5rem 0;
     }
 
     & .nav {
@@ -64,7 +70,7 @@ header {
                 &>a {
                     padding: 0 1rem;
                     font-weight: bold;
-                    font-size: 1.1rem;
+                    font-size: 1rem;
                     color: inherit;
                     text-decoration: none;
 
@@ -113,6 +119,43 @@ header {
     }
 }
 
+#about {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 80px;
+
+    & h2 {
+        margin: 0;
+        font-size: 3rem;
+    }
+
+    & button {
+        font-size: 1rem;
+        padding: 0.8rem 1.3rem;
+        border-radius: 10px;
+        border: none;
+        color: var(--w5);
+        background-color: var(--w1);
+        margin: 0.3rem auto;
+
+        &:hover {
+            /* color: var(--w2); */
+            background-color: var(--w2);
+            cursor: pointer;
+        }
+    }
+}
+
+& .page {
+    /* min-height: 500px; */
+    height: 50dvh;
+    box-sizing: border-box;
+    /* padding-top: 80px; */
+}
+
 main {
     text-align: center;
     margin: 0 auto;
@@ -126,45 +169,9 @@ main {
         }
     }
 
-    & .page {
-        min-height: 500px;
-        height: 100dvh;
-        box-sizing: border-box;
-        padding-top: 80px;
-    }
-
-    #about {
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-
-        & h2 {
-            margin: 0;
-            font-size: 3rem;
-        }
-
-        & button {
-            font-size: 1.2rem;
-            padding: 0.7rem 1.2rem;
-            border-radius: 10px;
-            border: 1px solid var(--secondary);
-            color: var(--main);
-            background-color: var(--link);
-
-            &:hover {
-                color: var(--secondary);
-                background-color: var(--hover2);
-                cursor: pointer;
-            }
-        }
-    }
-
-
-
     #api {
         color: var(--main-permanent);
+
         &>.card {
             border-color: var(--main-permanent);
         }
@@ -172,12 +179,14 @@ main {
 
     #donate {
         color: var(--main-permanent);
+
         & .card {
             border-color: var(--main-permanent);
 
             & a {
                 color: var(--main-permanent);
                 text-decoration: none;
+
                 &:hover {
                     color: var(--link);
                 }
@@ -194,4 +203,52 @@ footer {
     margin: 0 auto;
     /* background-color: var(--bg2); */
     /* color: var(--main-permanent); */
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+}
+
+main {
+    display: flex;
+}
+
+.about {
+    border: solid #eaeaea 1px;
+    background-color: lightgoldenrodyellow;
+    box-sizing: border-box;
+    padding: 1rem;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 0.2rem;
+}
+
+button {
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 0.2rem;
+    border: none;
+    color: var(--w5);
+    background-color: var(--w1);
+    margin: 0.3rem auto;
+
+    &:hover {
+        /* color: var(--w2); */
+        background-color: var(--w2);
+        cursor: pointer;
+    }
+}
+
+html, body {
+    min-height: 100vdh;
+    height: 100vh;
+}
+
+header {
+    height: 10%;
+}
+
+main {
+    height: 90%;
 }
