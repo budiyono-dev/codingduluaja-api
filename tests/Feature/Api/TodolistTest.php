@@ -108,7 +108,7 @@ class TodolistTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => $this->token,
         ])->delete('/api/todolist/'.$s->id);
-dd(json_encode($response->original, JSON_PRETTY_PRINT));
+
         $response->assertOk();
         $response->assertJsonMissingPath('user_id');
         $response->assertJson(fn (AssertableJson $json) => $json
@@ -128,7 +128,7 @@ dd(json_encode($response->original, JSON_PRETTY_PRINT));
             'name' => 'Maraton One Piece',
             'description' => 'Maraton One Piece',
         ]);
-        
+
         $response->assertOk();
         $response->assertJsonMissingPath('user_id');
         $response->assertJson(fn (AssertableJson $json) => $json

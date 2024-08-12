@@ -9,10 +9,10 @@
     </script>
     @endpush
     <div class="row">
-        <div class="col-3 border-end">
+        <div class="col-3 border-end d-none d-md-block">
             <ul id="daftar-isi"></ul>
         </div>
-        <div class="col-9 ps-3 main-doc">
+        <div class="col col-md-9 ps-3 main-doc">
             {{ $slot }}
         </div>
     </div>

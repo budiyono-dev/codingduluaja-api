@@ -91,7 +91,7 @@ Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tangga
 | Authorization | `@{{token}}` |
 | Accept | `application/json` |
 
-#### Parameter
+#### Path Variable
 
 | Name | Value |
 | --- | --- |
@@ -154,7 +154,7 @@ Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tangga
     "date": "2024-08-11 22:30:28",
     "name": "watching football",
     "description": "MU VS Liverpol"
-} 
+}
 ```
 
 #### Example Response
@@ -169,13 +169,13 @@ Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tangga
     },
     "data": {
         "id": "1",
-        "date": "2024-08-11 22:34:51",
+        "date": "2024-08-11",
         "name": "watching football",
         "description": "MU VS Liverpol",
         "created_at": "2024-08-11 22:34:51",
         "updated_at": "2024-08-11 22:34:51"
     }
-} 
+}
 ```
 
 ### Edit Todolist
@@ -197,6 +197,12 @@ Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tangga
 | --- | --- |
 | Authorization | `@{{token}}` |
 | Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id todolist |
 
 #### Request Body
 
@@ -256,6 +262,12 @@ Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tangga
 | --- | --- |
 | Authorization | `@{{token}}` |
 | Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id todolist |
 
 #### Example Response
 
