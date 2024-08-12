@@ -1,29 +1,31 @@
 <x-layout.main-sidebar title="Tools | Base64">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col">
-                <div class="pt-4 pb-4 text-center">
-                    <h4>Tools Base64</h4>
-                </div>
-                <div class="form-floating shadow mb-3">
-                    <textarea class="form-control" id="txtInput" placeholder="Input Text Here" style="height: 100px"></textarea>
-                    <label for="txtInput">Input</label>
-                </div>
-                <div class="text-center mb-3">
-                    <x-button type="button" class="btn-sm btn-outline-primary px-3" id="btnEncode">
-                        Encode
-                    </x-button>
-                    <x-button type="button" class="btn-sm btn-outline-danger px-3" id="btnClear">
-                        Clear
-                    </x-button>
-                    <x-button type="button" class="btn-sm btn-outline-success px-3" id="btnDecode">
-                        Decode
-                    </x-button>
-                </div>
-                <div class="form-floating  shadow">
-                    <textarea class="form-control" placeholder="Output Text Here" id="txtOutput" style="height: 100px"></textarea>
-                    <label for="txtOutput">Output</label>
-                </div>
+    <div class="row justify-content-center">
+        <div class="m-3">
+            <h4 class="m-0">Tools Base64</h4>
+        </div>
+        <div class="col-md-5">
+            <div class="form-floating shadow mb-3">
+                <textarea class="form-control" id="txtInput" placeholder="Input Text Here" style="height: 300px"></textarea>
+                <label for="txtInput">Input</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="text-center mb-3 d-flex align-item-center gap-3 flex-column">
+                <x-button type="button" class="btn-sm btn-primary px-3" id="btnEncode">
+                    Encode
+                </x-button>
+                <x-button type="button" class="btn-sm btn-danger px-3" id="btnClear">
+                    Clear
+                </x-button>
+                <x-button type="button" class="btn-sm btn-success px-3" id="btnDecode">
+                    Decode
+                </x-button>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-floating  shadow">
+                <textarea class="form-control" placeholder="Output Text Here" id="txtOutput" style="height: 300px"></textarea>
+                <label for="txtOutput">Output</label>
             </div>
         </div>
     </div>
