@@ -1,138 +1,287 @@
-<x-layout.main-sidebar title="Documentation | Todolist">
-    <div class="d-flex f-w">
+<x-layout.main-doc title="Documentation | Todolist">
+@markdown
 
-        <div class="doc-main doc">
-            <h1 class="fs-2" id="apiName">Todolist Api</h3>
-            <p>Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu</p>
-            <h3 class="fs-4" id="listEndpoint">List Endpoint</h3>
-            <p>Berikut list endpoint yang disediakan untuk Api Todolist, pastikan menambahkan token kedalam <strong>Header</strong> untuk setiap request. <code>X-Authorization: Bearer @{{your_token}}</code></p>
-            
-            <h3 class="fs-6 fw-bold" id="getAll">Get All Todolist</h3>
-            <p>Mengambil semua data todolist, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/api/todolist</code>, contoh response :</p>
-            <pre class="card" ><code class="language-json" id="resGetAll"></code></pre>
-            
-            <h3 class="fs-6 fw-bold" id="getSingle">Get Single Todolist</h3>
-            <p>Mengambil data todolist berdasarkan id, method : <code>GET</code>, endpoint : <code>{{$endpoint}}/api/todolist/{id}</code>, contoh response :</p>
-            <pre class="card" ><code class="language-json" id="resGetSingle"></code></pre>
+# Todolist Api
+Api Todolist merupakan api yang disediakan untuk menyimpan task todo pada tanggal tertentu
+## Endpoint
+### Get All Todolist
 
-            <h3 class="fs-6 fw-bold" id="create">Create Todolist</h3>
-            <p>Mengambil data todolist berdasarkan id, method : <code>POST</code>, endpoint : <code>{{$endpoint}}/api/todolist</code></p>
-            <p>Request body :</p>
-            <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Field Name</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Length</th>
-                        <th scope="col">Mandatory</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="row">1</td>
-                        <td>date</td>
-                        <td>String</td>
-                        <td>-</td>
-                        <td>Y</td>
-                        <td>Format dd-mm-yyyy, more or equals than today</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">2</td>
-                        <td>name</td>
-                        <td>String</td>
-                        <td>50</td>
-                        <td>Y</td>
-                        <td>Letter and Space</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">3</td>
-                        <td>description</td>
-                        <td>String</td>
-                        <td>1000</td>
-                        <td>N</td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>Contoh request body:</p>
-            <pre class="card" ><code class="language-json" id="reqCreate"></code></pre>
-            <p>Response body :</p>
-            <pre class="card" ><code class="language-json" id="resCreate"></code></pre>
+#### Spesification
 
-            <h3 class="fs-6 fw-bold" id="edit">Edit Todolist</h3>
-            <p>Mengambil data todolist berdasarkan id, method : <code>POST</code>, endpoint : <code>{{$endpoint}}/api/todolist</code></p>
-            <p>Request body :</p>
-            <pre class="card" ><code class="language-json" id="reqEdit"></code></pre>
-            <p>Response body :</p>
-            <pre class="card" ><code class="language-json" id="resEdit"></code></pre>
+| Specification |  |
+| --- | --- |
+| Description | Get All Todolist |
+| Method | GET |
+| URL | `{{config('app.url')}}/api/todolist` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
 
-            <h3 class="fs-6 fw-bold" id="delete">Delete Todolist</h3>
-            <p>Mengambil data todolist berdasarkan id, method : <code>DELETE</code>, endpoint : <code>{{$endpoint}}/api/todolist/{id}</code>, contoh response :</p>
-            <pre class="card" ><code class="language-json" id="resDelete"></code></pre>
+#### Request Header
 
-            <h3 class="fs-4" id="listError">Error Example</h3>
-            <p>Berikut contoh error response :</p>
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
 
-            <h3 class="fs-6 fw-bold" id="unAuthorize">Unauthorized</h3>
-            <pre class="card" ><code class="language-json" id="resAnautorize"></code></pre>
+#### Example Response
 
-            <h3 class="fs-6 fw-bold" id="notFound">Not Found</h3>
-            <pre class="card" ><code class="language-json" id="resNotFound"></code></pre>
+```json
+{
+    "meta": {
+        "request_id": "790feba7-c696-4e91-b4ee-e7d175e6b5ba",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get Todolist"
+    },
+    "data": [
+        {
+            "id": "1",
+            "date": "2024-08-15",
+            "name": "Voluptatem dolorum in id.",
+            "description": "Eum ad voluptatibus perferendis et possimus quidem dolor omnis iste et.",
+            "created_at": "2024-08-09 16:06:24",
+            "updated_at": "2024-08-09 16:06:24"
+        },
+        {
+            "id": "2",
+            "date": "2024-08-23",
+            "name": "Tempora ut magni quia.",
+            "description": "Voluptatem voluptas ab delectus sunt dolor dolores sed aut beatae ut dolor explicabo.",
+            "created_at": "2024-08-09 16:06:24",
+            "updated_at": "2024-08-09 16:06:24"
+        },
+        {
+            "id": "3",
+            "date": "2024-08-20",
+            "name": "Sapiente doloremque praesentium.",
+            "description": "Dolore amet et temporibus quisquam amet nesciunt qui.",
+            "created_at": "2024-08-09 16:06:24",
+            "updated_at": "2024-08-09 16:06:24"
+        },
+        {
+            "id": "20",
+            "date": "2024-08-15",
+            "name": "Velit laudantium laudantium.",
+            "description": "Neque eius maiores id perspiciatis quis aspernatur quam vel laborum ut.",
+            "created_at": "2024-08-09 16:06:24",
+            "updated_at": "2024-08-09 16:06:24"
+        }
+    ]
+}
+```
 
-            <h3 class="fs-6 fw-bold" id="notValid">Not Valid</h3>
-            <pre class="card" ><code class="language-json" id="resNotValid"></code></pre>
-            
-            
-            
-        </div>
-        <nav id="TableOfContents" class="nav-doc border-end doc">
-            <ul>
-                <li><a class="link-dark" href="#apiName">Todolist Api</a></li>
-                <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
-                    <ul>
-                        <li><a class="link-dark" href="#getAll">Get All Todolist</a></li>
-                        <li><a class="link-dark" href="#getSingle">Get Single Todolist</a></li>
-                        <li><a class="link-dark" href="#create">Create Todolist</a></li>
-                        <li><a class="link-dark" href="#edit">Edit Todolist</a></li>
-                        <li><a class="link-dark" href="#delete">Delete Todolist</a></li>
-                    </ul>
-                </li>
-                <li><a class="link-dark" href="#listError">Error Example</a>
-                    <ul>
-                        <li><a class="link-dark" href="#unAuthorize">Unauthorized</a></li>
-                        <li><a class="link-dark" href="#notFound">Not Found</a></li>
-                        <li><a class="link-dark" href="#notValid">Not Valid</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    @push('script')
-        <script type="text/javascript">
-            let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
+### Get Detail Todolist
 
-            const resetActive = () => {
-                daftarIsi.forEach(el => el.classList.remove('active'));
-            }
-            const toggleActiveDaftarIsi = (el) => {
-                resetActive();
-                el.target.classList.add('active');
-            }
-            daftarIsi.forEach(el => {
-                el.addEventListener('click', toggleActiveDaftarIsi);
-            });
-            document.getElementById('resGetAll').innerHTML = JSON.stringify({!! __(__('res.todolist.resGetAll')) !!}, null, 4);;
-            document.getElementById('resGetSingle').innerHTML = JSON.stringify({!! __(__('res.todolist.resGetSingle')) !!}, null, 4);;
-            document.getElementById('resCreate').innerHTML = JSON.stringify({!! __(__('res.todolist.resCreate')) !!}, null, 4);;
-            document.getElementById('reqCreate').innerHTML = JSON.stringify({!! __(__('res.todolist.reqCreate')) !!}, null, 4);;
-            document.getElementById('resEdit').innerHTML = JSON.stringify({!! __(__('res.todolist.resEdit')) !!}, null, 4);;
-            document.getElementById('reqEdit').innerHTML = JSON.stringify({!! __(__('res.todolist.reqEdit')) !!}, null, 4);;
-            document.getElementById('resDelete').innerHTML = JSON.stringify({!! __(__('res.todolist.resDelete')) !!}, null, 4);;
-            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('res.error.unauthorized')) !!}, null, 4);;
-            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('res.error.notFound')) !!}, null, 4);;
-            document.getElementById('resNotValid').innerHTML = JSON.stringify({!! __(__('res.todolist.resNotValid')) !!}, null, 4);;
-        </script>
-    @endpush
-</x-layout.main-sidebar>
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Get Detail Todolist |
+| Method | GET |
+| URL | `{{config('app.url')}}/api/todolist/{id}` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id todolist |
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "6fa0dfd0-cb08-4184-ae33-376efa34c616",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get Todolist"
+    },
+    "data": {
+        "id": "1",
+        "date": "2024-08-15",
+        "name": "Voluptatem dolorum in id.",
+        "description": "Eum ad voluptatibus perferendis et possimus quidem dolor omnis iste et.",
+        "created_at": "2024-08-09 16:06:24",
+        "updated_at": "2024-08-09 16:06:24"
+    }
+}
+```
+
+
+### Create Todolist
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Create Todolist |
+| Method | POST |
+| URL | `{{config('app.url')}}/api/todolist` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Request Body
+
+| Name | Value |
+| --- | --- |
+| date | date todolist |
+| name | name todolist |
+| description | description todolist |
+
+#### Example Request
+
+```json
+{
+    "date": "2024-08-11 22:30:28",
+    "name": "watching football",
+    "description": "MU VS Liverpol"
+}
+```
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "ed9173c3-a58a-486f-b7ac-70ee92c7ca0a",
+        "success": true,
+        "code": "CDA-S-006",
+        "message": "Data Inserted Successfully"
+    },
+    "data": {
+        "id": "1",
+        "date": "2024-08-11",
+        "name": "watching football",
+        "description": "MU VS Liverpol",
+        "created_at": "2024-08-11 22:34:51",
+        "updated_at": "2024-08-11 22:34:51"
+    }
+}
+```
+
+### Edit Todolist
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Edit Todolist |
+| Method | PUT |
+| URL | `{{config('app.url')}}/api/todolist/{id}` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id todolist |
+
+#### Request Body
+
+| Name | Value |
+| --- | --- |
+| date | date todolist |
+| name | name todolist |
+| description | description todolist |
+
+#### Example Request
+
+```json
+{
+    "date": "2024-08-13",
+    "name": "Maraton One Piece",
+    "description": "Maraton One Piece From Episode 1"
+} 
+```
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "584b92e9-b495-4902-8863-2d5c1976fac3",
+        "success": true,
+        "code": "CDA-S-002",
+        "message": "Data Updated Successfully"
+    },
+    "data": {
+        "id": "1",
+        "date": "2024-08-13",
+        "name": "Maraton One Piece",
+        "description": "Maraton One Piece From Episode 1",
+        "created_at": "2024-08-11 23:00:11",
+        "updated_at": "2024-08-11 23:00:11"
+    }
+} 
+```
+
+### Delete Todolist
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Delete Todolist |
+| Method | DELETE |
+| URL | `{{config('app.url')}}/api/todolist/{id}` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id todolist |
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "1f33c902-cf1c-4f3d-8028-94633809bf30",
+        "success": true,
+        "code": "CDA-S-003",
+        "message": "Data Deleted Successfully"
+    },
+    "data": null
+}
+```
+
+@endmarkdown
+</x-layout.main-doc>

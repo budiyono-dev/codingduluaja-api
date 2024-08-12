@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Application | Client">
     <div class="row">
         <div class="col">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow">
                 <div class="d-flex align-items-center card-header">
                     <h4 class="m-0">Client Application</h4>
                     <a class="btn btn-sm btn-primary px-3 mx-3"

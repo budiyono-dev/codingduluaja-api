@@ -10,25 +10,17 @@ class DocController extends Controller
 
     public function todolist()
     {
-        return view('doc.todolist', ['endpoint' => config('app.url')]);
+        return view('page.doc.todolist');
     }
 
     public function wilayahBps()
     {
-        return view('page.doc.wilayah', [
-            'endpoint' => config('app.url').'/api'.ApiPath::WILAYAH_BPS,
-            'title' => 'Wilayah BPS',
-            'jres' => $this->getWilayahJsonResponse(true),
-        ]);
+        return view('page.doc.wilayah-bps');
     }
 
     public function wilayahDagri()
     {
-        return view('page.doc.wilayah', [
-            'endpoint' => config('app.url').'/api'.ApiPath::WILAYAH_DAGRI,
-            'title' => 'Wilayah Dagri',
-            'jres' => $this->getWilayahJsonResponse(false),
-        ]);
+        return view('page.doc.wilayah-dagri');
     }
 
     public function userApi()

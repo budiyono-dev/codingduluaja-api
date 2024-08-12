@@ -1,129 +1,457 @@
-<x-layout.main-sidebar title="Documentation | {{ $title }}">
-    <div class="d-flex f-w">
+<x-layout.main-doc title="Documentation | User">
+@markdown
 
-        <div class="doc-main doc">
-            <h1 class="fs-2" id="apiName">{{ $title }} Api</h3>
-                <p>{{ $title }} Api merupakan api yang disediakan untuk menampilkan data dummy user.</p>
-                <h3 class="fs-4" id="listEndpoint">List Endpoint</h3>
-                <p>Berikut list endpoint yang disediakan untuk {{ $title }} Api,
-                    pastikan menambahkan token kedalam <strong>Header</strong> untuk setiap request.
-                    <code>X-Authorization: Bearer @{{ your_token }}</code>
-                </p>
-                <x-doc.judul id="list" title="Get List User"/>
-                <x-doc.table :row="$tprop['userSearchParam']" :head="$tprop['head']"></x-doc.table>
+# User Api
+User Api merupakan api yang disediakan untuk menampilkan data dummy user.
 
-                <p>Menampilkan semua data user, method : <code>GET</code>, endpoint : <code>{{ $endpoint }}</code>,
-                    contoh response :
-                </p>
-                <x-doc.json id="resList"/>
+## Endpoint
+### Get All User
 
-                <x-doc.judul id="detail" title="Get Detail User"/>
-                <p>Menampilkan data user berdasarkan id, method : <code>GET</code>, endpoint :
-                    <code>{{ $endpoint }}/{id}</code>, contoh response :
-                </p>
-                <x-doc.json id="resDetail"/>
+#### Spesification
 
-                <x-doc.judul id="getImage" title="Get User Image"/>
-                <p>Menampilkan gambar dari user tertentu, method : <code>GET</code>, endpoint :
-                    <code>{{ $endpoint }}/image/{id}</code>, id disini merupakan user id.
-                    Response get user image merupakan sebuah gambar
-                </p>
-                
-                <x-doc.judul id="updateImage" title="Update User Image"/>
-                <p>Menyunting gambar dari user tertentu, method : <code>PUT</code>, endpoint :
-                    <code>{{ $endpoint }}/image/{id}</code>, id disini merupakan user id.
-                    Response get user image merupakan sebuah gambar
-                </p>
-                <p>Request parameter :</p>
-                <x-doc.table :row="$tprop['updateImage']" :head="$tprop['head']"></x-doc.table>
-                <p>contoh request :</p>
-                <x-doc.json id="resUpdateImage"/>
+| Specification |  |
+| --- | --- |
+| Description | Get All User |
+| Method | GET |
+| URL | `{{config('app.url')}}/api/user` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
 
-                <x-doc.judul id="delete" title="Delete User"/>
-                <p>Menghapus user berdasarkan id, method : <code>DELETE</code>, endpoint :
-                    <code>{{ $endpoint }}/{id}</code>, contoh response :
-                </p>
-                <x-doc.json id="resDelete"/>
+#### Request Header
 
-                <x-doc.judul id="create" title="Create User"/>
-                <p>Menambahkan Data User, method : <code>POST</code>, endpoint :
-                    <code>{{ $endpoint }}</code>
-                </p>
-                <p>Request parameter :</p>
-                <x-doc.table :row="$tprop['createUser']" :head="$tprop['head']"></x-doc.table>
-                <p>contoh request :</p>
-                <x-doc.json id="reqCreate"/>
-                <p>contoh response :</p>
-                <x-doc.json id="resCreate"/>
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
 
-                <x-doc.judul id="update" title="Update User"/>
-                <p>Menyunting Data User, method : <code>PUT</code>, endpoint :
-                    <code>{{ $endpoint }}/{id}</code>
-                </p>
-                <p>Request parameter :</p>
-                <x-doc.table :row="$tprop['createUser']" :head="$tprop['head']"></x-doc.table>
-                <p>contoh request :</p>
-                <x-doc.json id="reqUpdate"/>
-                <p>contoh response :</p>
-                <x-doc.json id="resUpdate"/>
+#### Request Param
 
-                <h3 class="fs-4" id="listError">Error Example</h3>
-                <p>Berikut contoh error response :</p>
+| Name | Mandatory | Value |
+| --- | --- | --- |
+| search | N | text to search|
+| order_by | N | ordering data by created_at (default), name or updated_at|
+| search_by | N | searching by name (default), nik, phone or email|
+| order_direction | N | ordering asc (ascending) or desc (descending)|
+| page_size | N | page size (3,5,10, or 20)|
 
-                <h3 class="fs-6 fw-bold" id="unAuthorize">Unauthorized</h3>
-                <pre class="card"><code class="language-json" id="resAnautorize"></code></pre>
+#### Example Response
 
-                <h3 class="fs-6 fw-bold" id="notFound">Not Found</h3>
-                <pre class="card"><code class="language-json" id="resNotFound"></code></pre>
-
-        </div>
-        <nav id="TableOfContents" class="nav-doc border-end doc">
-            <ul>
-                <li><a class="link-dark" href="#apiName">{{ $title }} Api</a></li>
-                <li><a class="link-dark" href="#listEndpoint">Endpoint List</a>
-                    <ul id="endpoints">
-                    </ul>
-                </li>
-                <li><a class="link-dark" href="#listError">Error Example</a>
-                    <ul>
-                        <li><a class="link-dark" href="#unAuthorize">Unauthorized</a></li>
-                        <li><a class="link-dark" href="#notFound">Not Found</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    @push('script')
-        <script type="text/javascript">
-            genLinkDoc();
-            const jres = {!! json_encode($jres) !!};
-            // console.log(jres);
-            let daftarIsi = document.querySelectorAll('#TableOfContents ul li a');
-
-            const resetActive = () => {
-                daftarIsi.forEach(el => el.classList.remove('active'));
+```json
+{
+    "meta": {
+        "request_id": "fa13f218-de57-4783-8d41-865c4963d7de",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get List User"
+    },
+    "data": {
+        "current_page": 1,
+        "data": [
+            {
+                "id": "a38fe0ec-f3bd-48a4-b7a5-aa70ecdea2b8",
+                "name": "Wakiman Wahyuni",
+                "nik": "7309592205209097",
+                "phone": "+40054706318",
+                "email": "waluyo11@example.com",
+                "created_at": "07-08-2024 16:02:54",
+                "updated_at": "07-08-2024 16:02:54"
+            },
+            {
+                "id": "d23505bb-3b64-4599-a0ce-3484dcd0ffd7",
+                "name": "Lurhur Usamah",
+                "nik": "3371494602037982",
+                "phone": "+96574408802",
+                "email": "zahra37@example.org",
+                "created_at": "07-08-2024 16:02:54",
+                "updated_at": "07-08-2024 16:02:54"
+            },
+            {
+                "id": "bef8e144-a323-4cd3-bf23-8b8f99f0fb84",
+                "name": "Dadi Padmasari",
+                "nik": "1701180708081459",
+                "phone": "+2631572010694",
+                "email": "panca50@example.org",
+                "created_at": "07-08-2024 16:02:54",
+                "updated_at": "07-08-2024 16:02:54"
+            },
+            {
+                "id": "9958f181-e5cb-4ad1-a518-bd5fc3a7f177",
+                "name": "Tomi Januar",
+                "nik": "6201840607102054",
+                "phone": "+26654092727",
+                "email": "harimurti43@example.org",
+                "created_at": "07-08-2024 16:02:54",
+                "updated_at": "07-08-2024 16:02:54"
+            },
+            {
+                "id": "5fd5a3a4-68f5-4935-8ff0-92a88dffb58a",
+                "name": "Alika Oktaviani",
+                "nik": "3601492712027751",
+                "phone": "+6737238507",
+                "email": "cnamaga@example.net",
+                "created_at": "07-08-2024 16:02:54",
+                "updated_at": "07-08-2024 16:02:54"
             }
-            const toggleActiveDaftarIsi = (el) => {
-                resetActive();
-                el.target.classList.add('active');
-            }
-            daftarIsi.forEach(el => {
-                el.addEventListener('click', toggleActiveDaftarIsi);
-            });
-            const formatJson = (stringJson) => {
-                return JSON.stringify(JSON.parse(stringJson), null, 4);
-            }
-            document.getElementById('resList').innerHTML = formatJson(jres.list);
-            document.getElementById('resDetail').innerHTML = formatJson(jres.detail);
-            document.getElementById('resDelete').innerHTML = formatJson(jres.delete);
-            document.getElementById('resCreate').innerHTML = formatJson(jres.create);
-            document.getElementById('reqCreate').innerHTML = formatJson(jres.reqCreate);
-            document.getElementById('resUpdate').innerHTML = formatJson(jres.update);
-            document.getElementById('reqUpdate').innerHTML = formatJson(jres.reqUpdate);
-            document.getElementById('resUpdateImage').innerHTML = formatJson(jres.updateImage);
+        ],
+        "first_page_url": "http://localhost:8000/api/user?page=1",
+        "from": 1,
+        "next_page_url": null,
+        "path": "http://localhost:8000/api/user",
+        "per_page": 5,
+        "prev_page_url": null,
+        "to": 5
+    }
+}
+```
 
-            document.getElementById('resAnautorize').innerHTML = JSON.stringify({!! __(__('res.error.unauthorized')) !!}, null, 4);
-            document.getElementById('resNotFound').innerHTML = JSON.stringify({!! __(__('res.error.notFound')) !!}, null, 4);
-        </script>
-    @endpush
+### Get Detail User
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Get Detail User |
+| Method | GET |
+| URL | `{{config('app.url')}}/api/user/{id}` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id user |
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "d1058b23-d3df-489a-b7a5-7fd49e9695b5",
+        "success": true,
+        "code": "CDA-S-001",
+        "message": "Successfully Get User"
+    },
+    "data": {
+        "id": "9958f181-e5cb-4ad1-a518-bd5fc3a7f177",
+        "name": "Tomi Januar",
+        "nik": "6201840607102054",
+        "phone": "+26654092727",
+        "email": "harimurti43@example.org",
+        "created_at": "2024-08-07 16:02:54",
+        "updated_at": "2024-08-07 16:02:54",
+        "address": {
+            "country": "Singapura",
+            "state": "Maluku",
+            "city": "Denpasar",
+            "postcode": "40520",
+            "detail": "Ds. Babadak No. 364, Padangsidempuan 46294, Kalteng"
+        },
+        "image": {
+            "filename": "09dcbe0ce86c4702b088765276bf19e7.png"
+        }
+    }
+}
+```
+
+### Create User
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Create User |
+| Method | POST |
+| URL | `{{config('app.url')}}/api/user` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Request Body
+
+| Name | Mandatory | Value |
+| --- | --- | --- |
+| name | Y | name|
+| nik | Y | 16 characters NIK|
+| phone | N | phone number|
+| email | Y | email address|
+| country | N | country name|
+| state | N | state name|
+| city | N | city name|
+| postcode | N | postal code|
+| detail | N | detail address|
+
+#### Example Request
+
+```json
+{
+    "name": "Latika Mardhi",
+    "nik": "1302910703153399",
+    "phone": "996539651440",
+    "email": "harsanto.wijaya@example.org",
+    "address": {
+        "country": "Indonesia",
+        "state": "Sumatera Barat",
+        "city": "Palopo",
+        "postcode": "13332",
+        "detail": "Kpg. Taman No. 393, Kendari 83824, Sumatra Barat",
+    }
+}
+```
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "e93e10e7-2136-40c3-96b0-310e51b6cedb",
+        "success": true,
+        "code": "CDA-S-006",
+        "message": "User created successfully"
+    },
+    "data": {
+        "id": "9cbf337b-3339-4931-a325-d3813e069dc9",
+        "name": "Latika Mardhi",
+        "nik": "1302910703153399",
+        "phone": "996539651440",
+        "email": "harsanto.wijaya@example.org",
+        "created_at": "2024-08-12 15:09:23",
+        "updated_at": "2024-08-12 15:09:23",
+        "address": {
+            "country": "Indonesia",
+            "state": "Sumatera Barat",
+            "city": "Palopo",
+            "postcode": "13332",
+            "detail": "Kpg. Taman No. 393, Kendari 83824, Sumatra Barat"
+        },
+        "image": {
+            "filename": "b1a1843090954c638875c2ba142f0d66.png"
+        }
+    }
+}
+```
+
+### Edit User
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Edit User |
+| Method | PUT |
+| URL | `{{config('app.url')}}/api/user/{id}` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id user |
+
+#### Request Body
+
+| Name | Value |
+| --- | --- |
+| name | name|
+| nik | 16 characters NIK|
+| phone | phone number|
+| email | email address|
+| country | country name|
+| state | state name|
+| city | city name|
+| postcode | postal code|
+| detail | detail address|
+
+#### Example Request
+
+```json
+{
+    "name": "Latika Mardhi",
+    "nik": "1302910703153399",
+    "phone": "996539651440",
+    "email": "harsanto.wijaya@example.org",
+    "address": {
+        "country": "Indonesia",
+        "state": "Sumatera Barat",
+        "city": "Palopo",
+        "postcode": "13332",
+        "detail": "Kpg. Taman No. 393, Kendari 83824, Sumatra Barat",
+    },
+}
+```
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "d4305c48-65be-4961-a00f-5cb99a4ba8e0",
+        "success": true,
+        "code": "CDA-S-002",
+        "message": "Data Updated Successfully"
+    },
+    "data": {
+        "id": "7fe09b48-4c98-4df6-9d39-10fc5e6f41a0",
+        "name": "Latika Mardhi",
+        "nik": "1302910703153399",
+        "phone": "996539651440",
+        "email": "harsanto.wijaya@example.org",
+        "created_at": "2024-08-12 15:11:09",
+        "updated_at": "2024-08-12 15:11:09",
+        "address": {
+            "country": "Indonesia",
+            "state": "Sumatera Barat",
+            "city": "Palopo",
+            "postcode": "13332",
+            "detail": "Kpg. Taman No. 393, Kendari 83824, Sumatra Barat"
+        },
+        "image": {
+            "filename": "516659cac3e7414c8f3eddc2af9de6cc.png"
+        }
+    }
+}
+```
+
+### Delete User
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Delete User |
+| Method | DELETE |
+| URL | `{{config('app.url')}}/api/user/{id}` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id user |
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "d3c34cb9-6adb-4ad6-9885-46c1f401b12a",
+        "success": true,
+        "code": "CDA-S-003",
+        "message": "Successfully Delete User"
+    },
+    "data": null
+}
+```
+
+### Get Image User
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Get Image User |
+| Method | GET |
+| URL | `{{config('app.url')}}/api/user/image/{id}` |
+| Security | Token |
+| Request | `application/json` |
+| Response | `image/png` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id user |
+
+#### Example Response
+
+```json
+will return user image
+```
+
+### Update Image User
+
+#### Spesification
+
+| Specification |  |
+| --- | --- |
+| Description | Update Image User |
+| Method | PUT |
+| URL | `{{config('app.url')}}/api/user/image/{id}` |
+| Security | Token |
+| Request | `multipart/form-data` |
+| Response | `application/json` |
+
+#### Request Header
+
+| Name | Value |
+| --- | --- |
+| Authorization | `@{{token}}` |
+| Accept | `application/json` |
+
+#### Path Variable
+
+| Name | Value |
+| --- | --- |
+| id | id user |
+
+#### Request (Multipart Form Data)
+
+| Name | Value |
+| --- | --- |
+| file | image user in png/jpg |
+
+#### Example Response
+
+```json
+{
+    "meta": {
+        "request_id": "38ccd2a3-5909-4c50-a948-ba58544501e0",
+        "success": true,
+        "code": "CDA-S-002",
+        "message": "Image Updated Successfully"
+    },
+    "data": null
+}
+```
+@endmarkdown
 </x-layout.main-sidebar>

@@ -119,7 +119,7 @@ class UserApiTest extends TestCase
         $u = UserApi::query()->first();
         $response = $this->withHeaders([
             'Authorization' => $this->token,
-        ])->get('/api/user/'.$u->id);
+        ])->delete('/api/user/'.$u->id);
 
         $response->assertOk();
     }
@@ -146,7 +146,6 @@ class UserApiTest extends TestCase
             'file' => UploadedFile::fake()->create($filename, 100, 'image/png'),
         ]);
 
-        $response->dump();
         $response->assertOk();
     }
 

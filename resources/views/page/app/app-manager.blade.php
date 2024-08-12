@@ -1,7 +1,7 @@
 <x-layout.main-sidebar title="Application | Manager">
     <div class="row">
         <div class="col">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <h4 class="m-0">Application Manager</h4>
@@ -27,7 +27,7 @@
                                 </a>
                                 <ul class="list-group collapse" id="{{ 'ca' . $ca->id.'ca'.$key }}">
                                     <li class="list-group-item list-group-item-primary">
-                                        <div class="row">
+                                        <div class="row g-2">
                                             <div class="col-auto">
                                                 <form action="{{route('app.manager.createToken')}}" method="POST">
                                                     @csrf
