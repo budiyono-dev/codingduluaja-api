@@ -7,7 +7,7 @@
                 </div>
                 <div class="card-body">
                     <form name="formGenerateUser" id="formGenerateUser" method="post"
-                        action="{{ route('res.userApi.dummy') }}" autocomplete="off">
+                        action="{{ route('res.userApi.dummy', absolute:false) }}" autocomplete="off">
                         @csrf
                         <select class="form-select mb-3" name="sel_qty" id="selSearchBy" required>
                             <option selected value="">-- Select Qty --</option>

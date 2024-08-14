@@ -6,7 +6,7 @@
                     <h2 class="fs-5">Add New Resource</h2>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('app.manager.doConnect') }}" method="POST">
+                    <form action="{{ route('app.manager.doConnect', absolute:false) }}" method="POST">
                         @csrf
                         <input type="hidden" value="{{$resourceId}}" name="txtResourceId">
                         <select class="form-select mb-3" name="application" required>

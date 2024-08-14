@@ -6,7 +6,7 @@
                     <h4 class="m-0">Create Dummy Todolist</h4>
                 </div>
                 <div class="card-body">
-                    <form name="genTodolist" id="genTodolist" action="{{ route('res.todolist.dummy') }}" method="POST" autocomplete="off">
+                    <form name="genTodolist" id="genTodolist" action="{{ route('res.todolist.dummy', absolute:false) }}" method="POST" autocomplete="off">
                             @csrf
                             <select class="form-select mb-3" name="sel_qty" id="selQty" required>
                                 <option selected value="">-- Select Qty --</option>

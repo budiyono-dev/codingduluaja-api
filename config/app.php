@@ -132,5 +132,6 @@ return [
     'page_size' => (int) env('PAGINATION_PAGE_SIZE', 5),
     'app_version' => (string) env('APP_VERSION', '2.0.2'),
     'default_password' => (string) env('DEFAULT_PASSWORD', 'Admin#2024'),
+    'how_to_codingduluaja' => (string) env('HOW_TO_CODINGDULUAJA', '/'),
 
 ];

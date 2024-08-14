@@ -6,7 +6,7 @@
                     <h4 class="text-center m-0">Action</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.optimize.optimize') }}" class="my-3 d-block" method="POST">
+                    <form action="{{ route('admin.optimize.optimize', absolute:false) }}" class="my-3 d-block" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="selOptimize" class="form-label">Command</label>

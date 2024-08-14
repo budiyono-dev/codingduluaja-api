@@ -6,7 +6,7 @@
                     Create new client
                 </h2>
                 <div class="card-body">
-                    <form action="{{ route('app.client.doCreate') }}" method="POST">
+                    <form action="{{ route('app.client.doCreate', absolute:false) }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="txtName" class="form-label">Application Name</label>

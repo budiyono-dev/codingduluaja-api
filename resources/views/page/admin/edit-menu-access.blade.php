@@ -2,7 +2,7 @@
     <div class="row mt-3 justify-content-center">
         <div class="col">
             <div class="card shadow">
-                <form action="{{ route('admin.menuAccess.doEdit') }}" method="POST">
+                <form action="{{ route('admin.menuAccess.doEdit', absolute:false) }}" method="POST">
                     <div class="card-header d-flex gap-3">
                         <h4>Edit Menu Access</h4>
                         <button class="btn btn-primary btn-sm px-3" type="submit">Save</button>
