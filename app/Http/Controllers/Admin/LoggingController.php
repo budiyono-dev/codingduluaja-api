@@ -15,9 +15,8 @@ class LoggingController extends Controller
     public function doDownloadLogs()
     {
         $dirUser = implode(DIRECTORY_SEPARATOR, ['logs', 'laravel.log']);
-        $path = Storage::disk('local')->path($dirUser);
-        $finalPath = str_replace(DIRECTORY_SEPARATOR.'app', '', $path);
-
-        return response()->download($finalPath);
+        $storagePath = storage_path($dirUser);
+        
+        return response()->download($storagePath);
     }
 }
