@@ -3,7 +3,7 @@
         <div class="col-lg-6">
             <div class="card mt-3 shadow">
                 <div class="card-header">
-                    <h2 class="fs-5">Add New Resource</h2>
+                    <h2 class="fs-5">Connect Client</h2>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('app.manager.doConnect', absolute:false) }}" method="POST">
