@@ -28,7 +28,7 @@
           <ol class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             @foreach ($m->menuItem as $item)
             <li>
-              <a href="{{ route($item->page) }}" class="nav-link w-100">
+              <a href="{{ route($item->page, absolute:false) }}" class="nav-link w-100">
                 {{ $item->sequence.'. '.__($item->name) }}
               </a>
             </li>

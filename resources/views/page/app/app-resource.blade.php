@@ -4,7 +4,7 @@
             <div class="card mt-3 shadow">
                 <div class="d-flex align-items-center card-header">
                     <h4 class="m-0">Resources Application</h4>
-                    <a class="btn btn-sm btn-primary px-3 mx-3" href="{{ route('app.resource.create') }}">
+                    <a class="btn btn-sm btn-primary px-3 mx-3" href="{{ route('app.resource.create', absolute:false) }}">
                         Add New Resource
                     </a>
                 </div>

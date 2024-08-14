@@ -5,7 +5,7 @@
                 <div class="card-header d-flex">
                     <h4 class="m-0">Resource User Api</h4>
                     <a class="btn btn-sm btn-primary px-3 mx-3"
-                       href="{{ route('res.userApi.pageDummy') }}">Add Dummy
+                       href="{{ route('res.userApi.pageDummy', absolute:false) }}">Add Dummy
                     </a>
                 </div>
                 <div class="card-body">
@@ -31,7 +31,7 @@
                                         <td class="text-start text-nowrap pe-3">{{ $u->nik }}</td>
                                         <td class="text-start text-nowrap pe-3">{{ $u->phone }}</td>
                                         <td class="text-start text-nowrap pe-3">{{ $u->email }}</td>
-                                        <td class="text-start text-nowrap pe-3"><a href="{{ route('res.userApi.detail', ['id'=> $u->id]) }}" class="btn btn-sm btn-primary">Detail</a></td>
+                                        <td class="text-start text-nowrap pe-3"><a href="{{ route('res.userApi.detail', ['id'=> $u->id], absolute:false) }}" class="btn btn-sm btn-primary">Detail</a></td>
                                     </tr>
                                 @empty
                                     <tr>

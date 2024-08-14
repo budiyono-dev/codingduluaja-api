@@ -17,8 +17,8 @@
     <div class="new-card">
         <span id="element"></span>
         <div class="option"> 
-            <a href="#" class="link">> Gabung Sini</a>
-            <a href="#" class="link">> How-to Codingduluaja</a>
+            <a href="{{route('login', absolute: false)}}" class="link">> Gabung Sini</a>
+            <a href="{{config('app.how_to_codingduluaja')}}" class="link">> How-to Codingduluaja</a>
         </div>
         <p class="footer">
         Codingduluaja API. Copyright &copy 2024. Version : {{ config('app.app_version') }}

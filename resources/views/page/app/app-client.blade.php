@@ -5,7 +5,7 @@
                 <div class="d-flex align-items-center card-header">
                     <h4 class="m-0">Client Application</h4>
                     <a class="btn btn-sm btn-primary px-3 mx-3"
-                        href="{{ route('app.client.create') }}">Create New App
+                        href="{{ route('app.client.create', absolute:false) }}">Create New App
                     </a>
                 </div>
                 <div class="card-body">
@@ -29,9 +29,9 @@
                                     <td class="text-start">{{ $appClient->created_at }}</td>
                                     <td class="text-center d-flex justify-content-evenly align-items-center">
                                         <a class="btn btn-primary btn-sm" type="button"
-                                            href="{{ route('app.client.edit', ['id' => $appClient->id]) }}">Edit</a>
+                                            href="{{ route('app.client.edit', ['id' => $appClient->id], absolute:false) }}">Edit</a>
                                         <form method="post"
-                                                action="{{ route('app.client.doDelete') }}" name="formDeleteAppClient">
+                                                action="{{ route('app.client.doDelete', absolute:false) }}" name="formDeleteAppClient">
                                             @csrf
                                             <input type="hidden" name="txtId" value="{{$appClient->id}}">
                                             <button class="btn btn-danger btn-sm" type="submit">Delete</button>
