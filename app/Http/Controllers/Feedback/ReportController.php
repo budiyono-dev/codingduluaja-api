@@ -14,9 +14,9 @@ class ReportController extends Controller
 
     public function post(Request $req)
     {
-        
 
         dd($req->all());
+
         return redirect()->route('feedback.report');
     }
 }

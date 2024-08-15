@@ -54,6 +54,8 @@ class TableName
 
     const PERSONAL_ACCESS_TOKENS = 'personal_access_tokens';
 
+    const REPORT = 'report';
+
     // User Api
     const USER_API = 'user_api';
 
