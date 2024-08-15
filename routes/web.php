@@ -45,3 +45,5 @@ require __DIR__.'/web/app.php';
 require __DIR__.'/web/doc.php';
 require __DIR__.'/web/res.php';
 require __DIR__.'/web/tools.php';
+require __DIR__.'/web/feedback.php';
+

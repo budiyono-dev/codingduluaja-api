@@ -7,6 +7,7 @@ return [
         'documentation' => 'Resource Documentation',
         'resourceManager' => 'Resource Manager',
         'tools' => 'Tools',
+        'feedback' => 'Feedback',
     ],
     'item' => [
         'admin_menu_access' => 'Menu Access',
@@ -32,6 +33,8 @@ return [
 
         'doc_user_api' => 'User API',
         'res_user_api' => 'User API',
+
+        'feedback_report' => 'Pengaduan dan Saran',
 
     ],
 ];
