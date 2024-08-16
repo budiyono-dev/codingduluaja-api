@@ -56,6 +56,8 @@ class TableName
 
     const REPORT = 'report';
 
+    const REPORT_IMAGE = 'report_image';
+
     // User Api
     const USER_API = 'user_api';
 
