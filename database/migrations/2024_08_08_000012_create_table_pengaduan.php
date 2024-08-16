@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->longText('payload');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on(TableName::USERS);
         });
 
         Schema::create(TableName::REPORT_IMAGE, function (Blueprint $table) {

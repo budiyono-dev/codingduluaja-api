@@ -13,4 +13,14 @@ class Report extends Model
     protected $table = TableName::REPORT;
 
     protected $fillable = ['user_id', 'category', 'title', 'payload'];
+
+    public function image()
+    {
+        return $this->hasMany(ReportImage::class, 'report_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

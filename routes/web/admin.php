@@ -5,11 +5,9 @@ use App\Http\Controllers\Admin\MenuAccessController;
 use App\Http\Controllers\Admin\MigrationController;
 use App\Http\Controllers\Admin\OptimizeController;
 use App\Http\Controllers\Admin\SiteController;
+use App\Http\Controllers\Feedback\ReportController;
 use Illuminate\Support\Facades\Route;
 
-/**
- * Admin Route
- */
 $middleware = ['auth', 'verified', 'isAdmin'];
 
 Route::group([
@@ -62,4 +60,13 @@ Route::group([
 ], function () {
     Route::get('', 'index')->name('admin.optimize');
     Route::post('/optimize', 'optimize')->name('admin.optimize.optimize');
+});
+
+Route::group([
+    'middleware' => $middleware,
+    'controller' => ReportController::class,
+    'prefix' => '/admin/report',
+], function () {
+    Route::get('', 'indexAdmin')->name('admin.feedback');
+    Route::get('/{id}', 'pageDetail')->name('admin.feedback.detail');
 });
