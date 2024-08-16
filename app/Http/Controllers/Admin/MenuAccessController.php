@@ -66,21 +66,76 @@ class MenuAccessController extends Controller
         $editedId = $req['id'];
         $cbItems = collect($req['cbItems'] ?? collect([]));
 
-        $menuAccess = MenuAccess::findOrFail($editedId);
-        $menuAccess->description = $req['txtDescription'];
-        $menuAccess->save();
+        if ($cbItems->isEmpty()) {
+            $this->nonActiveAllMenu($editedId);
 
-        $detail = $menuAccess->details;
-        foreach ($detail as $d) {
-            if ($d->menuItem->menu_parent_id === 1) {
-                continue;
-            }
-            $d->enabled = $cbItems->contains($d->menu_item_id);
-            $d->save();
+            return redirect()->route('admin.menuAccess');
         }
+
+        $adminItem = MenuItem::query()
+            ->select('id')
+            ->where('menu_parent_id', 1)
+            ->get();
+
+        $nonAdminItem = MenuItem::query()
+            ->select('id')
+            ->where('menu_parent_id', '!=', 1)
+            ->get()
+            ->pluck('id');
+
+        // new menu
+        $registeredDetail = MenuAccessDetail::query()
+            ->select('menu_item_id')
+            ->where('menu_access_id', $editedId)
+            ->whereNotIn('menu_item_id', $adminItem)
+            ->get()
+            ->pluck('menu_item_id');
+
+        $newActivtedItem = $nonAdminItem->diff($registeredDetail);
+
+        foreach ($newActivtedItem as $mitem) {
+            $detail = new MenuAccessDetail;
+            $detail->menu_access_id = $editedId;
+            $detail->menu_item_id = $mitem;
+            $detail->enabled = true;
+            $detail->save();
+        }
+
+        DB::transaction(function () use ($editedId, $cbItems, $adminItem) {
+            // activate menu in cbItems
+            MenuAccessDetail::query()
+                ->where('menu_access_id', $editedId)
+                ->whereIn('menu_item_id', $cbItems)
+                ->whereNotIn('menu_item_id', $adminItem)
+                ->update(['enabled' => true]);
+
+            // nonactive menu for non cb item
+            MenuAccessDetail::query()
+                ->where('menu_access_id', $editedId)
+                ->whereNotIn('menu_item_id', $cbItems)
+                ->whereNotIn('menu_item_id', $adminItem)
+                ->update(['enabled' => false]);
+
+        });
         Session::forget('LIST_MENU'.auth()->user()->id);
 
         return redirect()->route('admin.menuAccess');
+    }
+
+    private function nonActiveAllMenu(int $menuAccessId)
+    {
+        $items = MenuItem::query()
+            ->select('id')
+            ->where('menu_parent_id', '!=', 1)
+            ->get();
+
+        DB::transaction(function () use ($items, $menuAccessId) {
+            MenuAccessDetail::query()
+                ->where('menu_access_id', $menuAccessId)
+                ->whereIn('menu_item_id', $items)
+                ->update(['enabled' => false]);
+        });
+
     }
 
     public function doCreate(CreateMenuAccessRequest $request)

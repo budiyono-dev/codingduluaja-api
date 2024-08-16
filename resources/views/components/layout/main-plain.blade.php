@@ -75,6 +75,7 @@
                     b.classList.add('link-dark');
                 });
             }
+            console.log('set theme to localstorage', theme);
             localStorage.setItem("theme", theme);
 
         }
