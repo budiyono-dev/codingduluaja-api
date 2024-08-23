@@ -17,6 +17,28 @@ class ReportController extends Controller
         return view('page.fb.saran');
     }
 
+    public function indexAdmin()
+    {
+        $report = Report::query()
+            ->with('image', 'user')
+            ->select('id', 'user_id', 'category', 'title', 'created_at', 'updated_at')
+            ->get();
+
+        return view('page.admin.fb', [
+            'report' => $report,
+        ]);
+    }
+    public function pageDetail(int $id)
+    {
+        $report = Report::query()
+            ->with('image', 'user')
+            ->findOrFail($id);
+        // dd($report);
+        return view('page.admin.fb-detail', [
+            'report' => $report,
+        ]);
+    }
+
     public function post(CreateSaranRequest $request)
     {
 
