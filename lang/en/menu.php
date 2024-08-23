@@ -16,6 +16,7 @@ return [
         'admin_site' => 'Site',
         'admin_optimize' => 'Optimize',
         'admin_feedback' => 'Feedback',
+        'admin_user' => 'User',
 
         'app_resource' => 'App Resource',
         'app_client' => 'App Client',

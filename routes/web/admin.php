@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\MenuAccessController;
 use App\Http\Controllers\Admin\MigrationController;
 use App\Http\Controllers\Admin\OptimizeController;
 use App\Http\Controllers\Admin\SiteController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Feedback\ReportController;
 use Illuminate\Support\Facades\Route;
 
@@ -69,4 +70,12 @@ Route::group([
 ], function () {
     Route::get('', 'indexAdmin')->name('admin.feedback');
     Route::get('/{id}', 'pageDetail')->name('admin.feedback.detail');
+});
+
+Route::group([
+    'middleware' => $middleware,
+    'controller' => UserManagementController::class,
+    'prefix' => '/admin/user',
+], function () {
+    Route::get('', 'index')->name('admin.user');
 });
