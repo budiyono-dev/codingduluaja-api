@@ -78,4 +78,6 @@ Route::group([
     'prefix' => '/admin/user',
 ], function () {
     Route::get('', 'index')->name('admin.user');
+    Route::post('/reset', 'reset')->name('admin.user.reset');
+    Route::post('/verify', 'verify')->name('admin.user.verify');
 });
