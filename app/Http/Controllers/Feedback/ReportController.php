@@ -28,11 +28,13 @@ class ReportController extends Controller
             'report' => $report,
         ]);
     }
+
     public function pageDetail(int $id)
     {
         $report = Report::query()
             ->with('image', 'user')
             ->findOrFail($id);
+
         // dd($report);
         return view('page.admin.fb-detail', [
             'report' => $report,

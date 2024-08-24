@@ -1,5 +1,5 @@
 <x-layout.main-sidebar title="Resource | {{ $title }}">
-    <div class="row justify-content-center">
+    <div class="row mt-3 justify-content-center">
         <div class="col">
             <div class="card shadow">
                 <div class="card-header d-flex gap-3">

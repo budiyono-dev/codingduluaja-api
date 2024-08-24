@@ -21,10 +21,10 @@
       <button class="btn btn-toggle align-items-center collapsed btn-sm w-100"
         data-bs-toggle="collapse"
         data-bs-target="{{ '#' . $m->sequence }}"
-        aria-expanded="false"
+        aria-expanded="{{ auth()->user()->role_code === 'ADMIN'? 'true' : 'false'}}"
         type="button"> {{ __($m->name) }}</button>
 
-        <div class="collapse" id="{{ $m->sequence }}">
+        <div class="collapse {{ auth()->user()->role_code === 'ADMIN'? 'show' : ''}}" id="{{ $m->sequence }}">
           <ol class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             @foreach ($m->menuItem as $item)
             <li>
