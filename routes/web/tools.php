@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ToolsController;
+use App\Http\Controllers\Admin\ToolsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([

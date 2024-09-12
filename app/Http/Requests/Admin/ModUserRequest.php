@@ -14,14 +14,14 @@ class ModUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|not_in:1,2|exists:users,id'
+            'user_id' => 'required|not_in:1,2|exists:users,id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'user_id.not_in' => 'User is locked'
+            'user_id.not_in' => 'User is locked',
         ];
     }
 }

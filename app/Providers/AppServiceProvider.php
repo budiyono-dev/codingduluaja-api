@@ -6,11 +6,9 @@ use App\Helper\ArtisanHelper;
 use App\Repository\Impl\MenuRepositoryImpl;
 use App\Repository\Impl\ResourceRepositoryImpl;
 use App\Repository\Impl\TokenRepositoryImpl;
-use App\Repository\Impl\UserRepositoryImpl;
 use App\Repository\MenuRepository;
 use App\Repository\ResourceRepository;
 use App\Repository\TokenRepository;
-use App\Repository\UserRepository;
 use App\Services\Api\TodolistService;
 use App\Services\Api\TodolistServiceImpl;
 use App\Services\Api\UserApiService;
@@ -36,7 +34,6 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(ResourceRepository::class, ResourceRepositoryImpl::class);
-        $this->app->singleton(UserRepository::class, UserRepositoryImpl::class);
         $this->app->singleton(MenuRepository::class, MenuRepositoryImpl::class);
         $this->app->singleton(TokenRepository::class, TokenRepositoryImpl::class);
         $this->app->singleton(ArtisanHelper::class, ArtisanHelper::class);

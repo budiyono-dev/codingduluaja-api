@@ -4,8 +4,8 @@ namespace App\Services\Impl;
 
 use App\Dto\MenuItemDto;
 use App\Dto\MenuParentDto;
+use App\Models\User;
 use App\Repository\MenuRepository;
-use App\Repository\UserRepository;
 use App\Services\MenuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -16,15 +16,14 @@ use Illuminate\Support\Str;
 
 class MenuServiceImpl implements MenuService
 {
-    public function __construct(
-        protected MenuRepository $menuRepository,
-        protected UserRepository $userRepository
-    ) {}
+    public function __construct(protected MenuRepository $menuRepository) {}
 
     public function getEligibleMenu()
     {
+
         $userId = Auth::user()->id;
-        $user = $this->userRepository->findById($userId);
+
+        $user = User::find($userId);
         $role = $user->role;
         $code = $role->code;
         $menus = $this->menuRepository->getEligibleMenuByRoldeCode($code);

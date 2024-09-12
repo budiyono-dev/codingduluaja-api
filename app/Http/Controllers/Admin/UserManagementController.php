@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Admin\ModUserRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserManagementController extends Controller
 {
@@ -18,10 +17,11 @@ class UserManagementController extends Controller
         return view('page.admin.user', ['users' => $users]);
     }
 
-    public function reset(ModUserRequest $request){
+    public function reset(ModUserRequest $request)
+    {
         $req = $request->validated();
 
-        $pwd = Str::password(8); 
+        $pwd = Str::password(8);
         $u = User::find($req['user_id']);
         $u->password = Hash::make($pwd);
         $u->save();
@@ -29,7 +29,8 @@ class UserManagementController extends Controller
         return redirect()->route('admin.user')->with('pwd', $pwd);
     }
 
-    public function verify(ModUserRequest $request){
+    public function verify(ModUserRequest $request)
+    {
         $req = $request->validated();
 
         $u = User::find($req['user_id']);
