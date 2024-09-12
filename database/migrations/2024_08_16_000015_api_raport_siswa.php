@@ -10,46 +10,159 @@ return new class extends Migration
     {
         Schema::create('r_siswa', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->index();
+            $table->string('nama');
             $table->string('nis');
             $table->string('nisn');
-            $table->unsignedTinyInteger('attempts');
-            $table->unsignedInteger('reserved_at')->nullable();
-            $table->unsignedInteger('available_at');
-            $table->unsignedInteger('created_at');
+            $table->timestamps();
         });
 
         Schema::create('r_guru', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
             $table->string('nip');
-            $table->integer('pending_jobs');
-            $table->integer('failed_jobs');
-            $table->longText('failed_job_ids');
-            $table->mediumText('options')->nullable();
-            $table->integer('cancelled_at')->nullable();
-            $table->integer('created_at');
-            $table->integer('finished_at')->nullable();
+            $table->timestamps();
         });
 
-        Schema::create('failed_jobs', function (Blueprint $table) {
+        Schema::create('r_mapel', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid')->unique();
-            $table->text('connection');
-            $table->text('queue');
-            $table->longText('payload');
-            $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent();
+            $table->string('nama');
+            $table->string('deskripsi');
+            $table->timestamps();
+        });
+
+        Schema::create('r_pengampuh', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_guru');
+            $table->unsignedBigInteger('id_mapel');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_kelas', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->string('deskripsi');
+            $table->timestamps();
+        });
+
+        Schema::create('r_kelas_siswa', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_siswa');
+            $table->unsignedBigInteger('id_kelas');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_nilai_uts', function (Blueprint $table) {
+            $table->id();
+            $table->string('mapel');
+            $table->integer('nilai');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_nilai_uas', function (Blueprint $table) {
+            $table->id();
+            $table->string('mapel');
+            $table->string('deskripsi');
+            $table->integer('nilai');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_nilai_tugas', function (Blueprint $table) {
+            $table->id();
+            $table->string('mapel');
+            $table->string('deskripsi');
+            $table->string('nilai');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_nilai_praktikum', function (Blueprint $table) {
+            $table->id();
+            $table->string('mapel');
+            $table->string('deskripsi');
+            $table->integer('nilai');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_ulangan', function (Blueprint $table) {
+            $table->id();
+            $table->string('mapel');
+            $table->string('deskripsi');
+            $table->integer('nilai');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_raport_report', function (Blueprint $table) {
+            $table->id();
+            $table->string('mapel');
+            $table->integer('nilai');
+            $table->integer('semester');
+            $table->boolean('is_remidial');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_nilai_remidial', function (Blueprint $table) {
+            $table->id();
+            $table->string('mapel');
+            $table->integer('nilai');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_kkm', function (Blueprint $table) {
+            $table->id();
+            $table->string('mapel');
+            $table->integer('kkm');
+            $table->integer('semester');
+            $table->string('tahun_pelajaran');
+            $table->timestamps();
+        });
+
+        Schema::create('r_perhitungan_akhir', function (Blueprint $table) {
+            $table->id();
+            $table->integer('persentase_tugas');
+            $table->integer('jumlah_tugas');
+            $table->integer('persentase_ulangan');
+            $table->integer('jumlah_ulangan');
+            $table->integer('persentase_paktikum');
+            $table->integer('jumlah_praktikum');
+            $table->integer('persentase_uas');
+            $table->integer('persentase_uts');
+            $table->integer('semester');
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
-        Schema::dropIfExists('job_batches');
-        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('r_perhitungan_akhir');
+        Schema::dropIfExists('r_kkm');
+        Schema::dropIfExists('r_nilai_remidial');
+        Schema::dropIfExists('r_raport_report');
+        Schema::dropIfExists('r_ulangan');
+        Schema::dropIfExists('r_nilai_praktikum');
+        Schema::dropIfExists('r_nilai_tugas');
+        Schema::dropIfExists('r_nilai_uas');
+        Schema::dropIfExists('r_nilai_uts');
+        Schema::dropIfExists('r_kelas_siswa');
+        Schema::dropIfExists('r_kelas');
+        Schema::dropIfExists('r_pengampuh');
+        Schema::dropIfExists('r_mapel');
+        Schema::dropIfExists('r_guru');
+        Schema::dropIfExists('r_siswa');
     }
 };
