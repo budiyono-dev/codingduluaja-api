@@ -23,10 +23,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-/**
- * Public Route
- */
-Route::view('/', 'page.landing-page')->name('page.langind-page');
 // breeze
 require __DIR__.'/auth.php';
 
@@ -36,3 +32,15 @@ require __DIR__.'/web/doc.php';
 require __DIR__.'/web/res.php';
 require __DIR__.'/web/tools.php';
 require __DIR__.'/web/feedback.php';
+
+Route::group([
+    'controller' => App\Http\Controllers\Api\Raport\SiswaController::class,
+    'prefix' => '/raport',
+], function () {
+    Route::get('', 'indexWeb');
+});
+
+/**
+ * Public Route
+ */
+Route::view('/', 'page.landing-page')->name('page.langind-page');
