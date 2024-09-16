@@ -2,7 +2,7 @@
 
 namespace App\Domain\Raport\Controllers;
 
-class SiswaController
+class SiswaController extends BaseController
 {
     /**
      * Create a new class instance.
@@ -10,5 +10,10 @@ class SiswaController
     public function __construct()
     {
         //
+    }
+
+    public function indexWeb()
+    {
+        return view('domain.raport.main');
     }
 }
