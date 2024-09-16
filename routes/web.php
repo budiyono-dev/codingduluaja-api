@@ -32,13 +32,7 @@ require __DIR__.'/web/doc.php';
 require __DIR__.'/web/res.php';
 require __DIR__.'/web/tools.php';
 require __DIR__.'/web/feedback.php';
-
-Route::group([
-    'controller' => App\Http\Controllers\Api\Raport\SiswaController::class,
-    'prefix' => '/raport',
-], function () {
-    Route::get('', 'indexWeb');
-});
+require_once __DIR__.'/../app/Domain/Raport/Routes/web.php';
 
 /**
  * Public Route
