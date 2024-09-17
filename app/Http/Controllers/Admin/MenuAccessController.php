@@ -51,7 +51,7 @@ class MenuAccessController extends Controller
                 $activatedMenu[] = $detail->menu_item_id;
             }
         }
-        $menuParent = MenuParent::all();
+        $menuParent = MenuParent::with('menuItem')->get();
 
         return view('page.admin.edit-menu-access', [
             'menuAccess' => $menuAccess,

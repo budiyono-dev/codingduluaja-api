@@ -38,5 +38,8 @@ return [
 
         'feedback_report' => 'Pengaduan dan Saran',
 
+        'doc_raport_api' => 'Raport API',
+        'res_raport_api' => 'Raport API',
+
     ],
 ];
