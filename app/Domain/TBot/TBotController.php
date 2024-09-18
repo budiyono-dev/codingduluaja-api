@@ -23,15 +23,31 @@ class TBotController
         ]);
     }
 
-    public function webhook(Request $request, String $token)
+    public function webhook(Request $request, string $token)
     {
         info('hoook telegram hited '.$token);
-        info('data ', ['request'=>$request->all()]);
-        $enableHandler = Telegram::commandsHandler(true);
-        info('enable comand handler for telegram webhook ', ['data'=> $enableHandler]);
+        if ($token !== env('TELEGRAM_BOT_TOKEN')) {
+            info('telegram token not match');
+
+            return 'error';
+        }
+        $req = $request->all();
+        $text = $req['message']['text'] ?? null;
+
+        if (! is_null($text) && str_starts_with($text, '/')) {
+            $this->processChat($req);
+        }
+        $this->processCommand();
 
         return 'ok';
     }
+
+    private function processCommand()
+    {
+        Telegram::commandsHandler(true);
+    }
+
+    private function processChat() {}
 
     public function registerWebHook(Request $request)
     {
