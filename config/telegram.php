@@ -41,7 +41,8 @@ return [
             'allowed_updates' => null,
             'commands' => [
                 //Acme\Project\Commands\MyTelegramBot\BotCommand::class
-                App\Http\Commands\TComand::class
+                // App\Domain\TBot\TComand::class,
+                // App\Domain\TBot\HelpCommand::class,
             ],
         ],
 
@@ -132,6 +133,11 @@ return [
     */
     'commands' => [
         HelpCommand::class,
+        App\Domain\TBot\TComand::class,
+        App\Domain\TBot\TComand1::class,
+        App\Domain\TBot\TComand2::class,
+        App\Domain\TBot\TComand3::class,
+        // App\Domain\TBot\HelpCommand::class,
     ],
 
     /*

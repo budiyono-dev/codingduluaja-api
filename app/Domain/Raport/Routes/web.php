@@ -8,4 +8,3 @@ Route::group([
 ], function () {
     Route::get('', 'indexWeb');
 });
-

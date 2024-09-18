@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Commands;
+namespace App\Domain\TBot;
 
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
-class TComand extends Command
+class TComand2 extends Command
 {
-    protected string $name = 'start';
+    protected string $name = 'command2';
 
     protected string $description = 'Start Command to get you started';
 
