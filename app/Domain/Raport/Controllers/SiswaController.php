@@ -14,6 +14,6 @@ class SiswaController extends BaseController
 
     public function indexWeb()
     {
-        return view('domain.raport.main');
+        return view('domain.raport.main-backup');
     }
 }

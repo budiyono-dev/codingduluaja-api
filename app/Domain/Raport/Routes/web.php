@@ -8,3 +8,10 @@ Route::group([
 ], function () {
     Route::get('', 'indexWeb');
 });
+
+Route::group([
+    'controller' => App\Domain\Raport\Controllers\AdminController::class,
+    'prefix' => '/raport/admin',
+], function () {
+    Route::get('', 'index');
+});
