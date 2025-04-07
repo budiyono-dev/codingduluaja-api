@@ -27,6 +27,9 @@ use App\Services\Impl\MenuServiceImpl;
 use App\Services\Impl\ResourceServiceImpl;
 use App\Services\MenuService;
 use App\Services\ResourceService;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 use Laravel\Telescope\TelescopeServiceProvider;
@@ -58,6 +61,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // not implement anything yet
+        DB::prohibitDestructiveCommands($this->app->isProduction());
+        Model::shouldBeStrict();
+        Model::unguard();
+        // URL::forceScheme('https');
     }
 }
