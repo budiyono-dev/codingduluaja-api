@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book Collection - Libri{% endblock %}
+
+{% block body %}
+<div class="glass-panel">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+        <div>
+            <h1>Book Collection</h1>
+            <p class="subtitle" style="margin-bottom: 0;">Manage and organize your library of books</p>
+        </div>
+        <a href="{{ path('app_book_new') }}" class="btn-submit" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+            <span>+</span> Add New Book
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Published Date</th>
+                    <th>Description</th>
+                    <th style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                <tr>
+                    <td style="font-weight: 600; color: #FFF;">{{ book.title }}</td>
+                    <td style="color: var(--text-muted);">{{ book.author }}</td>
+                    <td><code>{{ book.isbn ?: 'N/A' }}</code></td>
+                    <td>{{ book.publishedAt ? book.publishedAt|date('Y-m-d') : '-' }}</td>
+                    <td style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted);">
+                        {{ book.description ?: '-' }}
+                    </td>
+                    <td style="text-align: right;">
+                        <div class="action-group" style="justify-content: flex-end;">
+                            <a href="{{ path('app_book_show', {'id': book.id}) }}" class="btn-action btn-action-show">Show</a>
+                            <a href="{{ path('app_book_edit', {'id': book.id}) }}" class="btn-action btn-action-edit">Edit</a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <div class="empty-icon">📚</div>
+                            <h3>No books in your library yet</h3>
+                            <p class="subtitle" style="margin-top: 0.5rem; margin-bottom: 1.5rem;">Start building your catalog by adding your first book.</p>
+                            <a href="{{ path('app_book_new') }}" class="btn-secondary-nav" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">+ Add Book</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

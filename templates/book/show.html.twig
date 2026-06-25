@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book Details - Libri{% endblock %}
+
+{% block body %}
+<div style="max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem;">
+    <div class="glass-panel">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 1.5rem; margin-bottom: 2rem;">
+            <div>
+                <span style="font-size: 0.85rem; text-transform: uppercase; color: var(--primary); font-weight: 700; letter-spacing: 1px;">Book Details</span>
+                <h1 style="font-size: 2.5rem; margin-bottom: 0.25rem;">{{ book.title }}</h1>
+                <p style="font-size: 1.1rem; color: var(--text-muted);">by <strong style="color: #FFF;">{{ book.author }}</strong></p>
+            </div>
+            
+            <div class="action-group">
+                <a href="{{ path('app_book_index') }}" class="btn-cancel" style="padding: 0.6rem 1.25rem; font-size: 0.9rem; text-decoration: none;">&larr; Back to List</a>
+                <a href="{{ path('app_book_edit', {'id': book.id}) }}" class="btn-primary-nav" style="padding: 0.6rem 1.25rem; font-size: 0.9rem; text-decoration: none;">Edit Details</a>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="detail-label">ISBN Reference</div>
+                <div class="detail-value"><code>{{ book.isbn ?: 'Not set' }}</code></div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Published Date</div>
+                <div class="detail-value">{{ book.publishedAt ? book.publishedAt|date('Y-m-d') : 'Unknown' }}</div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Database ID</div>
+                <div class="detail-value" style="font-size: 0.95rem; color: var(--text-muted);">#{{ book.id }}</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+            <div class="detail-label">Synopsis / Description</div>
+            <div class="glass-panel" style="background: rgba(17, 24, 39, 0.4); padding: 1.5rem; border-radius: var(--radius-sm); margin-top: 0.5rem; line-height: 1.8; color: var(--text-muted); font-size: 1.05rem;">
+                {{ book.description|nl2br ?: 'No description has been provided for this book.' }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Account - Libri{% endblock %}
+
+{% block body %}
+<div class="auth-panel">
+    <div class="glass-panel">
+        <div class="auth-header">
+            <h1 class="auth-title">Create Account</h1>
+            <p class="subtitle">Join Libri to organize your books</p>
+        </div>
+
+        {% if not registrationForm.vars.valid %}
+            <div class="alert-container">
+                <div class="alert-message alert-error">
+                    <span>⚠️</span> Please fix the errors below.
+                </div>
+            </div>
+        {% endif %}
+
+        {{ form_start(registrationForm) }}
+            <div class="form-group">
+                {{ form_label(registrationForm.email, 'Email Address', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'name@domain.com'}}) }}
+                {{ form_errors(registrationForm.email, {'attr': {'class': 'form-error-list'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Minimum 6 characters'}}) }}
+                {{ form_errors(registrationForm.plainPassword, {'attr': {'class': 'form-error-list'}}) }}
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                {{ form_widget(registrationForm.agreeTerms, {'attr': {'style': 'width: 1.2rem; height: 1.2rem; cursor: pointer;'}}) }}
+                {{ form_label(registrationForm.agreeTerms, 'I agree to the terms and conditions', {'label_attr': {'class': 'form-label', 'style': 'margin-bottom: 0; cursor: pointer;'}}) }}
+            </div>
+            {% if form_errors(registrationForm.agreeTerms) %}
+                <div style="margin-top: -1rem; margin-bottom: 1.5rem;">
+                    {{ form_errors(registrationForm.agreeTerms, {'attr': {'class': 'form-error-list'}}) }}
+                </div>
+            {% endif %}
+
+            <div class="form-group" style="margin-top: 2rem; margin-bottom: 0;">
+                <button type="submit" class="btn-submit" style="width: 100%;">
+                    Create Account
+                </button>
+            </div>
+        {{ form_end(registrationForm) }}
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ path('app_login') }}">Sign in</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

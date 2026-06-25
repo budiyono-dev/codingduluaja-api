@@ -1,0 +1,36 @@
+{{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.title, 'Book Title', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder': 'e.g. The Great Gatsby'}}) }}
+        {{ form_errors(form.title, {'attr': {'class': 'form-error-list'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.author, 'Author', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.author, {'attr': {'class': 'form-control', 'placeholder': 'e.g. F. Scott Fitzgerald'}}) }}
+        {{ form_errors(form.author, {'attr': {'class': 'form-error-list'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.isbn, 'ISBN', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.isbn, {'attr': {'class': 'form-control', 'placeholder': 'e.g. 978-3-16-148410-0'}}) }}
+        {{ form_errors(form.isbn, {'attr': {'class': 'form-error-list'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.publishedAt, 'Published Date', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.publishedAt, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.publishedAt, {'attr': {'class': 'form-error-list'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.description, 'Description / Summary', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '4', 'placeholder': 'Write a brief description of the book...'}}) }}
+        {{ form_errors(form.description, {'attr': {'class': 'form-error-list'}}) }}
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button class="btn-submit">{{ button_label|default('Save Book') }}</button>
+        <a href="{{ path('app_book_index') }}" class="btn-cancel" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">Cancel</a>
+    </div>
+{{ form_end(form) }}

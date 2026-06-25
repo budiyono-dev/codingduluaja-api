@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add New Book - Libri{% endblock %}
+
+{% block body %}
+<div style="max-width: 700px; margin: 0 auto;">
+    <div class="glass-panel">
+        <h1 style="font-size: 2.25rem;">Add New Book</h1>
+        <p class="subtitle">Enter the book details to catalog it in your library</p>
+
+        {{ include('book/_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}
